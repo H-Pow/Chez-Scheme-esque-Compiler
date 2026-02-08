@@ -33,8 +33,8 @@
                 ; normalize-bind
                 ; select-instructions
                 ; uncover-locals
-                undead-analysis
-                conflict-analysis
+                ; undead-analysis
+                ; conflict-analysis
                 assign-registers
                 ; replace-locations
                 assign-homes-opt
@@ -53,8 +53,8 @@
    ;  values
    ;  values
    ;  values
-   values
-   values
+   ; values
+   ; values
    values
    ;  values
    values

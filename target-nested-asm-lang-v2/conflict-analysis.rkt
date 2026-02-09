@@ -66,6 +66,7 @@
                     new-vertex
                     (set-remove vertices new-vertex)))
     
+    #;
     (define (set-remove-triv ust triv)
         (if (aloc? triv)
             (set-remove ust triv)
@@ -81,10 +82,10 @@
                          [ust ust])
                 (analyze-tree-effect ust effect graph))]
             [`(set! ,aloc (,binop ,aloc ,triv)) 
-              (update-graph graph-init aloc (set-remove-triv ust triv))
+              (update-graph graph-init aloc ust)
             ]
             [`(set! ,aloc ,triv)
-              (update-graph graph-init aloc (set-remove-triv ust triv))]))
+              (update-graph graph-init aloc ust)]))
 
     ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
     (define (analyze-tree-tail ust tail graph-init)
@@ -109,6 +110,8 @@
             ,tail)]))
 
 
+
+;; NOTES
  #;       
 ((p.1 (z.5 t.6 y.4 x.3 w.2))
  (t.6 (p.1 z.5))
@@ -147,6 +150,7 @@
                 (set! x.1 42)   
                 (halt x.1))))
 
+; works
 ; (check-equal?
 ;     (conflict-analysis
 ;             '(module 
@@ -184,6 +188,7 @@
                     (set! y.1 y.1) 
                     (set! y.1 y.1)
                     (halt y.1))))
+; works
 ; (check-equal? 
 ;     (conflict-analysis
 ;         '(module ((locals (v.1 w.2 x.3 y.4 z.5 t.6 p.1))
@@ -247,38 +252,37 @@
 
 #;
 (begin
-     (set! a.1 1)
-     (set! c.3 2)
-     (set! b.2 a.1)
-     (set! b.2 (+ b.2 c.3))
-     (set! d.4 a.1)
-     (set! d.4 (* d.4 c.3))
-     (halt d.4))
+     (set! x.6 2)
+     (set! x.6 (+ x.6 3))
+     (set! x.7 x.6)
+     (set! x.7 (+ x.7 x.6))
+     (set! y.2 5)
+     (halt x.6))
 
 #;
 (
- (a.1) 
- (a.1 c.3) 
- (b.2 a.1 c.3) 
- (a.1 c.3) 
- (c.3 d.4) 
- (d.4) 
+ (x.6) 
+ (x.6) 
+ (x.7 x.6) 
+ (x.6) 
+ (x.6) 
  ())
 
 ;; Actual
+
 #;
-((d.4 ()) 
- (c.3 (a.1)) 
- (b.2 (a.1)) 
- (a.1 (b.2 c.3)))
+((y.2 (x.6)) 
+ (x.7 ()) 
+ (x.6 (y.2)))
+
 ;; Expected
+
 #;
-((d.4 (c.3)) 
- (c.3 (d.4 b.2 a.1)) 
- (b.2 (a.1 c.3)) 
- (a.1 (b.2 c.3)))
+((y.2 (x.6)) 
+ (x.7 (x.6)) 
+ (x.6 (y.2 x.7)))
 
-
+#; ;;works
 (check-equal?
 (conflict-analysis '(module
   ((locals (a.1 b.2 c.3 d.4))
@@ -303,4 +307,26 @@
     (set! d.4 a.1)
     (set! d.4 (* d.4 c.3))
     (halt d.4))))
+
+ (check-equal?
+ (conflict-analysis '(module 
+                      ((locals (x.6 x.7 y.2))
+                       (undead-out ((x.6) (x.6) (x.7 x.6) (x.6) (x.6) ())))
+                      (begin (set! x.6 2) 
+                             (set! x.6 (+ x.6 3)) 
+                             (set! x.7 x.6) 
+                             (set! x.7 (+ x.7 x.6)) 
+                             (set! y.2 5) 
+                             (halt x.6))))
+`(module
+  ((locals (x.6 x.7 y.2))
+   (conflicts ((y.2 (x.6)) (x.7 (x.6)) (x.6 (y.2 x.7)))))
+  (begin
+    (set! x.6 2)
+    (set! x.6 (+ x.6 3))
+    (set! x.7 x.6)
+    (set! x.7 (+ x.7 x.6))
+    (set! y.2 5)
+    (halt x.6)))
+ )
 )

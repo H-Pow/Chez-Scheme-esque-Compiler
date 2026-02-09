@@ -71,14 +71,12 @@
 (require "sequentialize-let.rkt")
 (require "normalize-bind.rkt")
 (require "select-instructions.rkt")
-(require "target-nested-asm-lang-v2.rkt")
+(require "target-nested-asm-lang-v2/all-exports.rkt")
 (require "flatten-begins.rkt")
 (require "patch-instructions.rkt")
 (require "implement-fvars.rkt")
 (require "generate-x64.rkt")
-(require "target-nested-asm-lang-v2/undead-analysis.rkt")
-(require "target-nested-asm-lang-v2/conflict-analysis.rkt")
-(require "target-nested-asm-lang-v2/assign-registers.rkt")
+
 (define paren-x64-fvars-v2->asm
   (compose generate-x64 implement-fvars))
 (define para-asm-lang-v2->asm
@@ -123,14 +121,11 @@
   (require (submod "sequentialize-let.rkt" test))
   (require (submod "normalize-bind.rkt" test))
   (require (submod "select-instructions.rkt" test))
-  (require (submod "target-nested-asm-lang-v2.rkt" test))
   (require (submod "flatten-begins.rkt" test))
   (require (submod "patch-instructions.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "generate-x64.rkt" test))
-  (require (submod "target-nested-asm-lang-v2/undead-analysis.rkt" test))
-  (require (submod "target-nested-asm-lang-v2/conflict-analysis.rkt" test))
-  (require (submod "target-nested-asm-lang-v2/assign-registers.rkt" test))
+  (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
 
 
   (define values-lang-progs

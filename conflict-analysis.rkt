@@ -56,7 +56,9 @@
  conflict-analysis)
 
 
-;; 
+;; (Asm-lang-v2/undead p) -> (Asm-lang-v2/conflicts p)
+;; Decorates a program with its conflict graph, replacing the undead-out set in the info
+;; field
 (define (conflict-analysis p)
 
     (define (in-graph? graph vertex)
@@ -77,7 +79,6 @@
     )
 
     ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
-    ;;
     (define (analyze-tree-effect ust effect graph-init)
         (match effect
             [`(begin ,effects ...)
@@ -190,6 +191,17 @@
                     (set! y.1 y.1) 
                     (set! y.1 y.1)
                     (halt y.1))))
+
+
+(check-equal? (conflict-analysis '(module
+  ((locals (x.1)) (undead-out (((x.1)) ())))
+  (begin (begin (set! x.1 1)) (halt x.1))))
+  
+  `(module
+  ((locals (x.1)) (conflicts ((x.1 ()))))
+  (begin (begin (set! x.1 1)) (halt x.1))))
+
+
 (check-equal? 
     (conflict-analysis
         '(module ((locals (v.1 w.2 x.3 y.4 z.5 t.6 p.1))

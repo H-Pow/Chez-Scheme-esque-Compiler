@@ -66,14 +66,17 @@
     (match effect
         [`(begin ,effects ... ,effect)
           (let-values ([(undead-out updated-ust) (analyze-program-effect undead-out effect)])
-            (for/foldr ([undead-out undead-out]
-                        [ust updated-ust])
-                       ([effect effects])
-            (let-values ([(undead-in new-ust)
-                            (analyze-program-effect undead-out effect)])
-                (values 
-                undead-in
-                (cons new-ust ust)))))]
+            (let-values ([(pre-wrap-undead-out pre-wrap-updated-ust) 
+              (for/foldr ([undead-out undead-out]
+                          [ust updated-ust])
+                         ([effect effects])
+                (let-values ([(undead-in new-ust)
+                                (analyze-program-effect undead-out effect)])
+                    (values 
+                    undead-in
+                    (cons new-ust ust))))])
+                    
+              (values pre-wrap-undead-out `(,pre-wrap-updated-ust))))]
         [`(set! ,aloc_1 (,binop ,aloc_1 ,triv))
           (let ([undead-in (set-add (set-add-triv undead-out triv) aloc_1)])
             (values undead-in undead-out))]
@@ -153,6 +156,18 @@
           (set! x.1 42) 
           (halt x.1)))
         )
+
+  (check-equal? (undead-analysis '(module ((locals (x.1))) (begin (begin (set! x.1 1)) (halt x.1))))
+  `(module
+  ((locals (x.1)) (undead-out (((x.1)) ())))
+  (begin (begin (set! x.1 1)) (halt x.1)))
+  )
+
+  (check-equal? (undead-analysis 
+    '(module ((locals (x.1))) (begin (begin (begin (set! x.1 1))) (halt x.1))))
+  `(module
+  ((locals (x.1)) (undead-out ((((x.1))) ())))
+  (begin (begin (begin (set! x.1 1))) (halt x.1))))
   
   (check-match
     (undead-analysis

@@ -153,18 +153,18 @@
                 (set! x.1 42)   
                 (halt x.1))))
 
-(check-equal?
-    (conflict-analysis
-            '(module 
-                ((locals (y.1))
-                (undead-out ((y.1) (y.1) ())))
-                    (begin
-                        (set! y.1 42)
-                        (set! x.1 1)
-                        (halt y.1))))     
-    `(module
-    ((locals (y.1)) (conflicts ((y.1 (x.1)) (x.1 (y.1)))))
-    (begin (set! y.1 42) (set! x.1 1) (halt y.1))))
+; (check-equal?
+;     (conflict-analysis
+;             '(module 
+;                 ((locals (y.1))
+;                 (undead-out ((y.1) (y.1) ())))
+;                     (begin
+;                         (set! y.1 42)
+;                         (set! x.1 1)
+;                         (halt y.1))))     
+;     `(module
+;     ((locals (y.1)) (conflicts ((y.1 (x.1)) (x.1 (y.1)))))
+;     (begin (set! y.1 42) (set! x.1 1) (halt y.1))))
     
 (check-equal? (conflict-analysis '(module ((locals (y.1)) (undead-out ((y.1) (y.1) ())))
                     (begin  

@@ -60,18 +60,12 @@
 ;; Decorates a program with its conflict graph, replacing the undead-out set in the info
 ;; field
 (define (conflict-analysis p)
-
-    (define (in-graph? graph vertex)
-        (not (empty? (get-neighbors graph vertex))))
     
     (define (update-graph graph-init new-vertex vertices)
-        (add-edges (if (in-graph? graph-init new-vertex) 
-                        graph-init
-                        (add-vertex graph-init new-vertex))
+        (add-edges graph-init
                     new-vertex
                     (set-remove vertices new-vertex)))
-        
-
+    
     (define (set-remove-triv ust triv)
         (if (aloc? triv)
             (set-remove ust triv)
@@ -89,11 +83,8 @@
             [`(set! ,aloc (,binop ,aloc ,triv)) 
               (update-graph graph-init aloc (set-remove-triv ust triv))
             ]
-            [`(set! ,aloc1 ,aloc2)
-            #:when (aloc? aloc2)
-                graph-init]
             [`(set! ,aloc ,triv)
-              (update-graph graph-init aloc ust)]))
+              (update-graph graph-init aloc (set-remove-triv ust triv))]))
 
     ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
     (define (analyze-tree-tail ust tail graph-init)
@@ -112,7 +103,9 @@
     (match p
         [`(module ,info ,tail)
          `(module ((locals ,(info-ref info 'locals))
-                   (conflicts ,(analyze-tree-tail (info-ref info 'undead-out) tail (new-graph))))
+                   (conflicts ,(analyze-tree-tail (info-ref info 'undead-out) 
+                                tail 
+                                (new-graph (info-ref info 'locals)))))
             ,tail)]))
 
 
@@ -252,5 +245,62 @@
 ;             (set! z.5 (+ z.5 t.6))
 ;             (halt z.5))))
 
+#;
+(begin
+     (set! a.1 1)
+     (set! c.3 2)
+     (set! b.2 a.1)
+     (set! b.2 (+ b.2 c.3))
+     (set! d.4 a.1)
+     (set! d.4 (* d.4 c.3))
+     (halt d.4))
 
+#;
+(
+ (a.1) 
+ (a.1 c.3) 
+ (b.2 a.1 c.3) 
+ (a.1 c.3) 
+ (c.3 d.4) 
+ (d.4) 
+ ())
+
+;; Actual
+#;
+((d.4 ()) 
+ (c.3 (a.1)) 
+ (b.2 (a.1)) 
+ (a.1 (b.2 c.3)))
+;; Expected
+#;
+((d.4 (c.3)) 
+ (c.3 (d.4 b.2 a.1)) 
+ (b.2 (a.1 c.3)) 
+ (a.1 (b.2 c.3)))
+
+
+(check-equal?
+(conflict-analysis '(module
+  ((locals (a.1 b.2 c.3 d.4))
+   (undead-out ((a.1) (a.1 c.3) (b.2 a.1 c.3) (a.1 c.3) (c.3 d.4) (d.4) ())))
+  (begin
+    (set! a.1 1)
+    (set! c.3 2)
+    (set! b.2 a.1)
+    (set! b.2 (+ b.2 c.3))
+    (set! d.4 a.1)
+    (set! d.4 (* d.4 c.3))
+    (halt d.4))))
+`(module
+  ((locals (a.1 b.2 c.3 d.4))
+   (conflicts
+    ((d.4 (c.3)) (c.3 (d.4 b.2 a.1)) (b.2 (a.1 c.3)) (a.1 (b.2 c.3)))))
+  (begin
+    (set! a.1 1)
+    (set! c.3 2)
+    (set! b.2 a.1)
+    (set! b.2 (+ b.2 c.3))
+    (set! d.4 a.1)
+    (set! d.4 (* d.4 c.3))
+    (halt d.4))))
 )

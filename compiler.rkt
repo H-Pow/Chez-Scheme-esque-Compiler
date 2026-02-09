@@ -21,7 +21,6 @@
  patch-instructions
  implement-fvars
  generate-x64
-
  compile-m2
  compile-m3)
 
@@ -37,15 +36,15 @@
                 ; conflict-analysis
                 ; assign-registers
                 ; replace-locations
-                assign-homes-opt
+                ; assign-homes-opt
                 ; assign-homes
                 ; flatten-begins
                 ; patch-instructions
                 ; implement-fvars
                 ; generate-x64
-
-                compile-m2
-                compile-m3)
+                ;compile-m2
+                ;compile-m3
+                )
   (values
    values
    ;  values

@@ -66,7 +66,7 @@
                     new-vertex
                     (set-remove vertices new-vertex)))
     
-    #;
+    
     (define (set-remove-triv ust triv)
         (if (aloc? triv)
             (set-remove ust triv)
@@ -85,7 +85,7 @@
               (update-graph graph-init aloc ust)
             ]
             [`(set! ,aloc ,triv)
-              (update-graph graph-init aloc ust)]))
+              (update-graph graph-init aloc (set-remove-triv ust triv))]))
 
     ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
     (define (analyze-tree-tail ust tail graph-init)
@@ -329,4 +329,33 @@
     (set! y.2 5)
     (halt x.6)))
  )
+
+#; ;;works
+ (check-equal?
+ (conflict-analysis `(module ((locals (y.2 x.1 B.3)) 
+                              (undead-out (
+                                           (
+                                            (y.2) 
+                                            (x.1 y.2) 
+                                            (x.1 y.2)) 
+                                           (
+                                            (x.1 y.2) 
+                                            (y.2)) 
+                                            ()))) 
+                                (begin 
+                                 (begin 
+                                  (set! y.2 1) 
+                                  (set! x.1 1) 
+                                  (set! B.3 x.1)) 
+                                 (begin 
+                                  (set! x.1 (+ x.1 1)) 
+                                  (set! y.2 (+ y.2 x.1))) 
+                                 (halt y.2))))
+ `(module
+  ((locals (y.2 x.1 B.3))
+   (conflicts ((B.3 (y.2)) (x.1 (y.2)) (y.2 (x.1 B.3)))))
+  (begin
+    (begin (set! y.2 1) (set! x.1 1) (set! B.3 x.1))
+    (begin (set! x.1 (+ x.1 1)) (set! y.2 (+ y.2 x.1)))
+    (halt y.2))))
 )

@@ -106,6 +106,38 @@
 (define run/x64
   (compose nasm-run/print-number wrap-x64-boilerplate wrap-x64-run-time))
 
+;; (values-lang v3) -> (x64)
+;; Compiles values-lang-v3 into x64, represented as a string, stores everything on stack
+(define (compile-m2 p)
+    (parameterize ([current-pass-list
+                    (list uniquify 
+                    sequentialize-let 
+                    normalize-bind 
+                    select-instructions 
+                    assign-homes
+                    flatten-begins 
+                    patch-instructions 
+                    implement-fvars 
+                    generate-x64)])
+    (compile p)
+    )
+    )
+
+;; (values-lang v3) -> (x64)
+;; Compiles values-lang-v3 into x64, represented as a string, tries to use registers 
+(define (compile-m3 p)
+    (parameterize ([current-pass-list
+                    (list uniquify 
+                    sequentialize-let 
+                    normalize-bind 
+                    select-instructions 
+                    assign-homes-opt
+                    flatten-begins 
+                    patch-instructions 
+                    implement-fvars 
+                    generate-x64)])
+    (compile p)))
+
 ;; TODO: Fill in.
 ;; You'll want to merge milestone-2 code in
 

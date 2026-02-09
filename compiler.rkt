@@ -76,8 +76,8 @@
 (require "patch-instructions.rkt")
 (require "implement-fvars.rkt")
 (require "generate-x64.rkt")
-(require "undead-analysis.rkt")
-(require "conflict-analysis.rkt")
+(require "target-nested-asm-lang-v2/undead-analysis.rkt")
+(require "target-nested-asm-lang-v2/conflict-analysis.rkt")
 (require "target-nested-asm-lang-v2/assign-registers.rkt")
 (define paren-x64-fvars-v2->asm
   (compose generate-x64 implement-fvars))
@@ -128,8 +128,8 @@
   (require (submod "patch-instructions.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "generate-x64.rkt" test))
-  (require (submod "undead-analysis.rkt" test))
-  (require (submod "conflict-analysis.rkt" test))
+  (require (submod "target-nested-asm-lang-v2/undead-analysis.rkt" test))
+  (require (submod "target-nested-asm-lang-v2/conflict-analysis.rkt" test))
   (require (submod "target-nested-asm-lang-v2/assign-registers.rkt" test))
 
 

@@ -31,7 +31,7 @@
 ;   int64	 	::=	 	int64?
 ;   fvar	 	::=	 	fvar?
 (define (interp-nested-asm-lang p)
-    (define env '())
+    (define env (make-hasheq))
     (define (register? r) (memq r '(rsp rbp rax rbx rcx rds rsi rdi r8 r9 r12 r13 r14 r15)))
     (define (binop? bo) (memq bo '(+ *)))
     (define (binop->fun bo)

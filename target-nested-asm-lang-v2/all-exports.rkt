@@ -80,6 +80,6 @@
 
   ;check evaluation result equivalence of assign-homes and assign-homes-opt
   (for-each check-equal? (map (compose interp-nested-asm-lang assign-homes-opt) asm-lang-progs)
-            (map (compose interp-nested-asm-lang assign-homes)))
+            (map (compose interp-nested-asm-lang assign-homes) asm-lang-progs))
 
   )

@@ -35,7 +35,7 @@
                 ; uncover-locals
                 ; undead-analysis
                 ; conflict-analysis
-                assign-registers
+                ; assign-registers
                 ; replace-locations
                 assign-homes-opt
                 ; assign-homes
@@ -53,9 +53,9 @@
    ;  values
    ;  values
    ;  values
+   ;  values
    ; values
    ; values
-   values
    ;  values
    values
    ;  values
@@ -76,6 +76,7 @@
 (require "patch-instructions.rkt")
 (require "implement-fvars.rkt")
 (require "generate-x64.rkt")
+(require "target-nested-asm-lang-v2/assign-registers.rkt")
 (define paren-x64-fvars-v2->asm
   (compose generate-x64 implement-fvars))
 (define para-asm-lang-v2->asm
@@ -125,6 +126,7 @@
   (require (submod "patch-instructions.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "generate-x64.rkt" test))
+  (require (submod "target-nested-asm-lang-v2/assign-registers.rkt" test))
 
 
   (define values-lang-progs

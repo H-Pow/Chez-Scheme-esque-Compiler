@@ -8,7 +8,9 @@
          replace-locations
          undead-analysis
          conflict-analysis
-         assign-registers)
+         assign-registers
+         interp-nested-asm-lang
+         asm-lang-progs)
 
 (require "assign-fvars.rkt"
          "replace-locations.rkt"
@@ -16,11 +18,37 @@
          "undead-analysis.rkt"
          "conflict-analysis.rkt"
          "assign-registers.rkt"
+         "interp-nested-asm-lang.rkt"
          )
 
+(define asm-lang-progs
+  '((module () (halt 1))
+    (module () (begin (halt 1)))
+    (module () (begin (begin (set! x.1 1))(halt x.1)))
+    (module () (begin (begin (set! x.1 1) (set! x.1 (+ x.1 1)))(halt x.1)))
+    (module () (begin (begin (set! x.1 1)
+                              (set! x.1 (+ x.1 1)))
+                       (set! x.1 1)
+                       (halt x.1)))
+    (module () (begin (set! x.1 1)
+                       (set! x.2 2)
+                       (set! x.3 3)
+                       (halt x.3)))
+    ))
 
+(define (peek datum)
+        (displayln datum)
+        datum)
+;; asm-lang-v2 -> nested-asm-lang-v2
+;; Compiles Asm-lang v2 to Nested-asm-lang v2,
+;;     replacing each abstract location with a physical location.
 (define assign-homes (compose replace-locations assign-fvars uncover-locals))
-(define assign-homes-opt (compose replace-locations assign-registers conflict-analysis undead-analysis uncover-locals))
+;; asm-lang-v2 -> nested-asm-lang-v2
+;; Compiles Asm-lang v2 to Nested-asm-lang v2,
+;;     replacing each abstract location with a physical location.
+;;     This version performs graph-colouring register allocation.
+(define assign-homes-opt (compose replace-locations assign-registers conflict-analysis
+                                undead-analysis uncover-locals))
 (module+ test
   (require rackunit)
   (require (submod "assign-fvars.rkt" test)
@@ -47,7 +75,9 @@
                        (halt ,rax))
                (andmap (or/c register? fvar?) `(,rsp ,rax ,rbx)))
 
-  ; TODO: check evaluation result equivalence of assign-homes and assign-homes-opt
-
+  ;check evaluation result equivalence of assign-homes and assign-homes-opt
+  (for-each check-equal? (map (compose interp-nested-asm-lang assign-homes-opt) asm-lang-progs)
+            (map (compose interp-nested-asm-lang assign-homes))
+            (map pretty-format asm-lang-progs))
 
   )

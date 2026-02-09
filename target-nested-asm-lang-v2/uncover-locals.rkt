@@ -7,7 +7,7 @@
   ; (displayln "running uncover-locals")
   (define locals '())
   (define (uncover-aloc aloc)
-    (set! locals (cons aloc locals))
+    (set! locals (set-union locals `(,aloc)))
     aloc)
   (define (uncover-triv triv)
     (match triv
@@ -34,7 +34,7 @@
     (match p
       [`(module ,info ,tail)
        (define utail (uncover-tail tail))
-       `(module ,(cons `(locals ,(reverse (set->list (list->set locals)))) info)
+       `(module ,(info-set info 'locals locals)
           ,utail)]))
   (uncover-p al2)
   )
@@ -54,6 +54,8 @@
                                     (set! y.1 x.1)
                                     (set! y.1 (+ y.1 x.1))
                                     (halt y.1))))
-               '(module
-                    ((locals (x.1 y.1)))
-                  (begin (set! x.1 0) (set! y.1 x.1) (set! y.1 (+ y.1 x.1)) (halt y.1)))))
+               `(module
+                    ((locals ,locals))
+                  (begin (set! x.1 0) (set! y.1 x.1) (set! y.1 (+ y.1 x.1)) (halt y.1)))
+               (equal? (list->seteq locals) (seteq 'x.1 'y.1)))
+  )

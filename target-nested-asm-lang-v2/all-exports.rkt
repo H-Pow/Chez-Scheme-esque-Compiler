@@ -36,6 +36,9 @@
                        (halt x.3)))
     ))
 
+#;
+;; X -> X
+;; debug function, displays X and returns X
 (define (peek datum)
         (displayln datum)
         datum)
@@ -77,7 +80,6 @@
 
   ;check evaluation result equivalence of assign-homes and assign-homes-opt
   (for-each check-equal? (map (compose interp-nested-asm-lang assign-homes-opt) asm-lang-progs)
-            (map (compose interp-nested-asm-lang assign-homes))
-            (map pretty-format asm-lang-progs))
+            (map (compose interp-nested-asm-lang assign-homes)))
 
   )

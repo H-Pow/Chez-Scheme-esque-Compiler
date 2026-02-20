@@ -146,5 +146,38 @@
                                  (if (> rax 2)
                                      (jump L.start.2)
                                      (jump L.start.1)))))
+  (check-by-interp `(module
+                        (define L.start.1
+                          (begin
+                            (set! rax 1)
+                            (set! rdi 5)
+                            (jump L.fact.1)))
+                      (define L.fact.1
+                        (begin
+                          (set! rax (* rax rdi))
+                          (set! rdi (+ rdi -1))
+                          (if (> rdi 0)
+                              (jump L.fact.1)
+                              (jump L.end.1))))
+                      (define L.end.1
+                        (halt rax))))
+  (check-by-interp `(module
+                        (define L.start.1
+                          (begin (if (true)
+                                     (jump L.end.1)
+                                     (jump L.end.2))))
+                      (define L.end.1
+                        (halt 0))
+                      (define L.end.2
+                        (halt 1))))
 
+  (check-by-interp `(module
+                        (define L.start.1
+                          (begin (if (not (true))
+                                     (jump L.end.1)
+                                     (jump L.end.2))))
+                      (define L.end.1
+                        (halt 0))
+                      (define L.end.2
+                        (halt 1))))
   )

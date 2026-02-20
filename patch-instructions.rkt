@@ -74,6 +74,8 @@
   (define first-reg (first (aux-reg)))
   (define second-reg (second (aux-reg)))
 
+  ;; (para-asm-lang-v4 s)-> (paren-x64-fvars-v4 s)
+  ;; patches set! instructions where the id is a register
   (define (patch-set-reg s)
     (match s
       [`(set! ,reg1 (,binop ,reg1 ,triv))
@@ -81,6 +83,8 @@
        `((set! ,first-reg ,triv) (set! ,reg1 (,binop ,reg1 ,first-reg)))]
       [_ `(,s)]))
 
+  ;; (para-asm-lang-v4 s)-> (paren-x64-fvars-v4 s)
+  ;; patches set! instructions where the id is a register
   (define (patch-set-fvar s)
     (match s
       [`(set! ,fvar1 (,binop ,fvar1 ,triv))

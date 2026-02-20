@@ -123,6 +123,8 @@
 
 (module+ test
   (require rackunit)
+  (define-syntax-rule (check-by-interp p)
+    (check-equal? (interp-para-asm-lang-v4 p) (interp-paren-x64-fvars-v4 (patch-instructions p))))
   ;example outputs for patch-instructions
   (check-equal? (patch-instructions '(begin
                                        (set! rbx 42)
@@ -196,144 +198,72 @@
                    (set! fv0 r10)
                    (set! rax fv0)
                    (jump done)))
-  (check-eq? (interp-para-asm-lang-v4 '(begin
-                                         (set! rbx 42)
-                                         (halt rbx)))
-             (interp-paren-x64-fvars-v4 (patch-instructions '(begin
-                                                               (set! rbx 42)
-                                                               (halt rbx)))))
-  (check-eq? (interp-para-asm-lang-v4 '(begin
-                                         (set! fv0 0)
-                                         (set! fv1 42)
-                                         (set! fv0 fv1)
-                                         (halt fv0)))
-             (interp-paren-x64-fvars-v4 (patch-instructions '(begin
-                                                               (set! fv0 0)
-                                                               (set! fv1 42)
-                                                               (set! fv0 fv1)
-                                                               (halt fv0)))))
-  (check-eq? (interp-para-asm-lang-v4 '(begin
-                                         (set! rbx 0)
-                                         (set! rcx 0)
-                                         (set! r9 42)
-                                         (set! rbx rcx)
-                                         (set! rbx (+ rbx r9))
-                                         (halt rbx)))
-             (interp-paren-x64-fvars-v4 (patch-instructions '(begin
-                                                               (set! rbx 0)
-                                                               (set! rcx 0)
-                                                               (set! r9 42)
-                                                               (set! rbx rcx)
-                                                               (set! rbx (+ rbx r9))
-                                                               (halt rbx)))))
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rbx 1)
-                                         (set! rcx 0)
-                                         (set! fv0 ,(max-int 64))
-                                         (set! rbx rcx)
-                                         (set! rbx (+ rbx fv0))
-                                         (halt rbx)))
-             (interp-paren-x64-fvars-v4 (patch-instructions `(begin
-                                                               (set! rbx 1)
-                                                               (set! rcx 0)
-                                                               (set! fv0 ,(max-int 64))
-                                                               (set! rbx rcx)
-                                                               (set! rbx (+ rbx fv0))
-                                                               (halt rbx)))))
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rbx 0)
-                                         (set! rcx 0)
-                                         (set! fv0 ,(max-int 64))
-                                         (set! rbx rcx)
-                                         (set! rbx (+ rbx rbx))
-                                         (halt rbx)))
-             (interp-paren-x64-fvars-v4 (patch-instructions `(begin
-                                                               (set! rbx 0)
-                                                               (set! rcx 0)
-                                                               (set! fv0 ,(max-int 64))
-                                                               (set! rbx rcx)
-                                                               (set! rbx (+ rbx rbx))
-                                                               (halt rbx)))))
+  (check-by-interp '(begin
+                      (set! rbx 42)
+                      (halt rbx)))
+  (check-by-interp '(begin
+                      (set! fv0 0)
+                      (set! fv1 42)
+                      (set! fv0 fv1)
+                      (halt fv0)))
+  (check-by-interp '(begin
+                      (set! rbx 0)
+                      (set! rcx 0)
+                      (set! r9 42)
+                      (set! rbx rcx)
+                      (set! rbx (+ rbx r9))
+                      (halt rbx)))
+  (check-by-interp `(begin
+                      (set! rbx 1)
+                      (set! rcx 0)
+                      (set! fv0 ,(max-int 64))
+                      (set! rbx rcx)
+                      (set! rbx (+ rbx fv0))
+                      (halt rbx)))
+  (check-by-interp `(begin
+                      (set! rbx 0)
+                      (set! rcx 0)
+                      (set! fv0 ,(max-int 64))
+                      (set! rbx rcx)
+                      (set! rbx (+ rbx rbx))
+                      (halt rbx)))
+  (check-by-interp `(begin
+                      (set! rbx 0)
+                      (set! rbx (+ rbx ,(max-int 64)))
+                      (halt rbx)))
+  (check-by-interp `(begin
+                      (set! fv0 0)
+                      (set! fv0 (+ fv0 ,(max-int 64)))
+                      (halt fv0)))
+  (check-by-interp `(begin
+                      (set! fv0 42)
+                      (halt fv0)))
+  (check-by-interp `(begin
+                      (set! rbx 0)
+                      (with-label L.tmp.1 (halt rbx))))
+  (check-by-interp `(begin
+                      (set! rcx -1)
+                      (with-label L.tmp.1 (set! rcx -2))
+                      (with-label L.tmp.2 (set! rcx (+ rcx 2)))
+                      (with-label L.tmp.3 (compare rcx 0))
+                      (with-label L.tmp.4 (jump-if = L.tmp.2))
 
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rbx 0)
-                                         (set! rbx (+ rbx ,(max-int 64)))
-                                         (halt rbx)))
-             (interp-paren-x64-fvars-v4 (patch-instructions `(begin
-                                                               (set! rbx 0)
-                                                               (set! rbx (+ rbx ,(max-int 64)))
-                                                               (halt rbx)))))
-
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! fv0 0)
-                                         (set! fv0 (+ fv0 ,(max-int 64)))
-                                         (halt fv0)))
-             (interp-paren-x64-fvars-v4 (patch-instructions `(begin
-                                                               (set! fv0 0)
-                                                               (set! fv0 (+ fv0 ,(max-int 64)))
-                                                               (halt fv0)))))
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! fv0 42)
-                                         (halt fv0)))
-             (interp-paren-x64-fvars-v4 `(begin
-                                           (set! fv0 42)
-                                           (halt fv0))))
-
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rbx 0)
-                                         (with-label L.tmp.1 (halt rbx))))
-             (interp-paren-x64-fvars-v4 (patch-instructions `(begin
-                                                               (set! rbx 0)
-                                                               (with-label L.tmp.1 (halt rbx))))))
-
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rcx -1)
-                                         (with-label L.tmp.1 (set! rcx -2))
-                                         (with-label L.tmp.2 (set! rcx (+ rcx 2)))
-                                         (with-label L.tmp.3 (compare rcx 0))
-                                         (with-label L.tmp.4 (jump-if = L.tmp.2))
-
-                                         (halt rcx)))
-             (interp-paren-x64-fvars-v4 `(begin
-                                           (set! rcx -1)
-                                           (with-label L.tmp.1 (set! rcx -2))
-                                           (with-label L.tmp.2 (set! rcx (+ rcx 2)))
-                                           (with-label L.tmp.3 (compare rcx 0))
-                                           (with-label L.tmp.4 (jump-if = L.tmp.2))
-                                           (halt rcx))))
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rdx -5)
-                                         (set! rbx 0)
-                                         (with-label L.tmp.5 (set! rdx rdx))
-                                         (set! rdx (+ rdx 1))
-                                         (set! rbx (+ rbx 1))
-                                         (compare rdx -4)
-                                         (jump-if < L.tmp.5)
-                                         (halt rbx)))
-             (interp-paren-x64-fvars-v4 `(begin
-                                           (set! rdx -5)
-                                           (set! rbx 0)
-                                           (with-label L.tmp.5 (set! rdx rdx))
-                                           (set! rdx (+ rdx 1))
-                                           (set! rbx (+ rbx 1))
-                                           (compare rdx -4)
-                                           (jump-if < L.tmp.5)
-                                           (halt rbx))))
-  (check-eq? (interp-para-asm-lang-v4 `(begin
-                                         (set! rax 0)
-                                         (set! rbx 1)
-                                         (with-label L.tmp.5 (set! rax -1))
-                                         (set! rax (* rax -2))
-                                         (set! ,(current-return-value-register) rax)
-                                         (compare rax rbx)
-                                         (jump-if > done)
-                                         (halt 5)))
-             (interp-paren-x64-fvars-v4 `(begin
-                                           (set! rax 0)
-                                           (set! rbx 1)
-                                           (with-label L.tmp.5 (set! rax -1))
-                                           (set! rax (* rax -2))
-                                           (set! ,(current-return-value-register) rax)
-                                           (compare rax rbx)
-                                           (jump-if > done)
-                                           (halt 5)))))
+                      (halt rcx)))
+  (check-by-interp `(begin
+                      (set! rdx -5)
+                      (set! rbx 0)
+                      (with-label L.tmp.5 (set! rdx rdx))
+                      (set! rdx (+ rdx 1))
+                      (set! rbx (+ rbx 1))
+                      (compare rdx -4)
+                      (jump-if < L.tmp.5)
+                      (halt rbx)))
+  (check-by-interp `(begin
+                      (set! rax 0)
+                      (set! rbx 1)
+                      (with-label L.tmp.5 (set! rax -1))
+                      (set! rax (* rax -2))
+                      (set! ,(current-return-value-register) rax)
+                      (compare rax rbx)
+                      (jump-if > done)
+                      (halt 5))))

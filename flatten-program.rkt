@@ -127,10 +127,15 @@
        `(begin ,@(foldr append '() (map flatten-b b*)) ,@(flatten-b b))]))
   (flatten-p bal4))
 (module+ test
-  (require rackunit)
+  (require rackunit
+           cpsc411/langs/v4)
   (define-syntax-rule (check-flatten-program bal4 pal4)
     (check-equal? (flatten-program bal4)
                   pal4))
+  (define-syntax-rule (check-by-interp bal4)
+    (check-equal? (interp-block-asm-lang-v4 bal4)
+                  (interp-para-asm-lang-v4 (flatten-program bal4))))
+
   (check-flatten-program `(module (define L.start.1 (halt 4)))
                          `(begin (with-label L.start.1 (halt 4))))
 
@@ -181,4 +186,23 @@
                                  (jump-if > L.fact.1)
                                  (jump L.end.1)
                                  (with-label L.end.1 (halt rax))))
+  (check-by-interp `(module (define L.start.1
+                              (begin
+                                (set! rdi 5)
+                                (set! rax 1)
+                                (jump L.fact.1)))
+                      (define L.fact.1
+                        (begin (set! rax (* rax rdi))
+                               (set! rdi (+ rdi -1))
+                               (if (> rdi 0)
+                                   (jump L.fact.1)
+                                   (jump L.end.1))))
+                      (define L.end.1 (halt rax))))
+  (check-by-interp `(module (define L.start.1
+                              (begin (set! rax 5)
+                                     (if (< rax 2)
+                                         (jump L.start.1)
+                                         (jump L.end.1))))
+                      (define L.end.1 (halt 5))))
+  (check-by-interp `(module (define L.end.1 (halt 5))))
   )

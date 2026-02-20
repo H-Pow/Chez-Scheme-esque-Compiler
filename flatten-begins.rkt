@@ -11,10 +11,10 @@
   (define (flatten-tail tail)
     (match tail
       [`(halt ,_) (list tail)]
-      [`(begin ,fxs ... ,tail)
-       (append (foldr append '()
-                      (map flatten/fx->fxs fxs))
-               (flatten-tail tail))]))
+      [`(begin
+          ,fxs ...
+          ,tail)
+       (append (foldr append '() (map flatten/fx->fxs fxs)) (flatten-tail tail))]))
 
   ;   effect	 	::=	 	(set! loc triv)
   ;  	 	|	 	(set! loc_1 (binop loc_1 triv))
@@ -22,24 +22,56 @@
   (define (flatten/fx->fxs fx)
     (match fx
       [`(set! ,_ ,_) (list fx)]
-      [`(begin ,fxs ... ,fx2)
-       (append (foldr append '() (map flatten/fx->fxs fxs))
-               (flatten/fx->fxs fx2))]))
+      [`(begin
+          ,fxs ...
+          ,fx2)
+       (append (foldr append '() (map flatten/fx->fxs fxs)) (flatten/fx->fxs fx2))]))
   (append '(begin) (flatten-tail nal2)))
 
 (module+ test
   (require rackunit)
   ; example outputs for uniquify
 
-  (check-equal? (flatten-begins '(begin (set! x.1 1) (set! x.2 1) (set! x.3 1) (halt x.1)))
-                '(begin (set! x.1 1) (set! x.2 1) (set! x.3 1) (halt x.1)))
-  (check-equal? (flatten-begins '(begin (begin (set! x.1 1) (set! x.2 1)) (halt x.1)))
-                '(begin (set! x.1 1) (set! x.2 1) (halt x.1)))
-  (check-equal? (flatten-begins '(begin (begin (set! x.1 1) (set! x.2 1) (set! x.3 1)) (halt x.1)))
-                '(begin (set! x.1 1) (set! x.2 1) (set! x.3 1) (halt x.1)))
+  (check-equal? (flatten-begins '(begin
+                                   (set! x.1 1)
+                                   (set! x.2 1)
+                                   (set! x.3 1)
+                                   (halt x.1)))
+                '(begin
+                   (set! x.1 1)
+                   (set! x.2 1)
+                   (set! x.3 1)
+                   (halt x.1)))
+  (check-equal? (flatten-begins '(begin
+                                   (begin
+                                     (set! x.1 1)
+                                     (set! x.2 1))
+                                   (halt x.1)))
+                '(begin
+                   (set! x.1 1)
+                   (set! x.2 1)
+                   (halt x.1)))
+  (check-equal? (flatten-begins '(begin
+                                   (begin
+                                     (set! x.1 1)
+                                     (set! x.2 1)
+                                     (set! x.3 1))
+                                   (halt x.1)))
+                '(begin
+                   (set! x.1 1)
+                   (set! x.2 1)
+                   (set! x.3 1)
+                   (halt x.1)))
 
-
-  (check-equal? (flatten-begins '(begin (begin (set! x.1 1)
-                                               (begin (set! x.2 1) (set! x.3 1))) (halt x.1)))
-                '(begin (set! x.1 1) (set! x.2 1) (set! x.3 1) (halt x.1)))
-  )
+  (check-equal? (flatten-begins '(begin
+                                   (begin
+                                     (set! x.1 1)
+                                     (begin
+                                       (set! x.2 1)
+                                       (set! x.3 1)))
+                                   (halt x.1)))
+                '(begin
+                   (set! x.1 1)
+                   (set! x.2 1)
+                   (set! x.3 1)
+                   (halt x.1))))

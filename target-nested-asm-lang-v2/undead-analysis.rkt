@@ -83,8 +83,51 @@
         [`(set! ,aloc ,triv)
           (let ([undead-in (set-add-triv (set-remove undead-out aloc) triv)])
             (values undead-in undead-out))]
-    )
-  )
+        [`(if ,pred ,effect1 ,effect2)
+          (let*-values ([(undead-out-effect2 ust-effect2) (analyze-program-effect undead-out effect2)]
+                        [(undead-out-effect1 ust-effect1) (analyze-program-effect undead-out effect1)]
+                        [(undead-out-pred ust-pred) (analyze-program-pred (set-union undead-out-effect1 undead-out-effect2) pred)])
+            (values undead-out-pred
+                    `(,ust-pred ,ust-effect1 ,ust-effect2)))]))
+
+  (define (analyze-program-pred undead-out pred)
+    (match pred
+      [`(,relop ,aloc ,triv)
+        #:when (memq relop '(< <= = >= > !=))
+        (let ([undead-in (set-add-triv (set-add undead-out aloc) triv)])
+              (values undead-in 
+                      undead-out))]
+      [`(true)
+        (values undead-out 
+                undead-out)]
+      [`(false)
+        (values undead-out
+                undead-out)]
+      [`(not ,pred)
+        (let-values ([(undead-out-pred updated-ust) (analyze-program-pred undead-out pred)])
+          (values undead-out-pred
+                  updated-ust))]
+      [`(begin ,effects ... ,pred)
+          (let-values ([(undead-out updated-ust) (analyze-program-pred undead-out pred)])
+            (let-values ([(pre-wrap-undead-out pre-wrap-updated-ust) 
+              (for/foldr ([undead-out undead-out]
+                          [ust updated-ust])
+                         ([effect effects])
+                (let-values ([(undead-in new-ust)
+                                (analyze-program-effect undead-out effect)])
+                    (values 
+                    undead-in
+                    (cons new-ust ust))))])
+                    
+              (values pre-wrap-undead-out `(,pre-wrap-updated-ust))))]
+      [`(if ,pred1 ,pred2 ,pred3)
+          (let*-values ([(undead-out-pred3 ust-pred3) (analyze-program-pred undead-out pred3)]
+                        [(undead-out-pred2 ust-pred2) (analyze-program-pred undead-out pred2)]
+                        [(undead-out-pred1 ust-pred1) (analyze-program-pred (set-union undead-out-pred3 undead-out-pred2) pred1)])
+            (values undead-out-pred1
+                    `(,ust-pred1 ,ust-pred2 ,ust-pred3)))]
+    
+    ))
 
   ; undead-set (asm-lang-v2/locals triv) -> undead-set
   ; TAKEN FROM LECTURE
@@ -102,25 +145,32 @@
     (match tail
         [`(begin ,effects ... ,tail)
           (let-values ([(undead-out updated-ust) (analyze-program-tail undead-out tail)])
-            (for/foldr ([undead-out undead-out]
-                        [ust updated-ust])
-                        ([effect effects])
-            (let-values ([(undead-in new-ust)
-                          (analyze-program-effect undead-out effect)])
-                (values 
-                undead-in
-                (cons new-ust ust)))))]
+            (let-values ([(pre-wrap-undead-out pre-wrap-updated-ust) 
+              (for/foldr ([undead-out undead-out]
+                          [ust updated-ust])
+                         ([effect effects])
+                (let-values ([(undead-in new-ust)
+                                (analyze-program-effect undead-out effect)])
+                    (values 
+                    undead-in
+                    (cons new-ust ust))))])
+                    
+              (values pre-wrap-undead-out `(,pre-wrap-updated-ust))))]
         [`(halt ,triv)
           (let ([undead-in (set-add-triv undead-out triv)])
             (values undead-in 
                     (cons undead-out '())))]
-        )
-  )
+        [`(if ,pred ,tail1 ,tail2)
+          (let*-values ([(undead-out-tail2 ust-tail2) (analyze-program-tail undead-out tail2)]
+                        [(undead-out-tail1 ust-tail1) (analyze-program-tail undead-out tail1)]
+                        [(undead-out-pred ust-pred) (analyze-program-pred (set-union undead-out-tail1 undead-out-tail2) pred)])
+            (values undead-out-pred
+                    `((,ust-pred ,(first ust-tail1) ,(first ust-tail2)))))]))
 
 
   (define (get-ust tail)
     (let-values ([(_ ust) (analyze-program-tail `() tail)]) 
-      ust))
+      (first ust)))
   
   (define (insert-undead-analysis ust info)
     (match info
@@ -222,4 +272,128 @@
      (set! t.6 (* t.6 p.1))
      (set! z.5 (+ z.5 t.6))
      (halt z.5))))
+  
+  (check-equal?
+  (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
+                        (begin
+                          (set! x.1 5)
+                          (set! y.2 x.1)
+                          (begin
+                            (set! b.3 x.1)
+                            (set! b.3 (+ b.3 y.2))
+                            (set! c.4 b.3)
+                            (if (= c.4 b.3)
+                                (halt c.4)
+                                (begin
+                                  (set! x.1 c.4)
+                                  (halt c.4)))))))
+  `(module
+  ((locals (x.1 y.2 b.3 c.4))
+   (undead-out
+    ((x.1) 
+     (x.1 y.2) 
+     (
+      (y.2 b.3) 
+      (b.3) 
+      (b.3 c.4) 
+      ((c.4) 
+       () 
+       (
+        (c.4) 
+        ()))))))
+  (begin
+    (set! x.1 5)
+    (set! y.2 x.1)
+    (begin
+      (set! b.3 x.1)
+      (set! b.3 (+ b.3 y.2))
+      (set! c.4 b.3)
+      (if (= c.4 b.3) (halt c.4) (begin (set! x.1 c.4) (halt c.4)))))))
+  
+  (check-equal?
+  (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
+                        (begin
+                          (set! x.1 5)
+                          (set! y.2 x.1)
+                          (begin
+                            (set! b.3 x.1)
+                            (set! b.3 (+ b.3 y.2))
+                            (set! c.4 b.3)
+                            (if (= c.4 b.3)
+                                (halt c.4)
+                                (begin
+                                  (set! x.1 c.4)
+                                  (set! x.1 y.2)
+                                  (halt c.4)))))))
+  `(module
+  ((locals (x.1 y.2 b.3 c.4))
+   (undead-out
+    ((x.1)
+     (x.1 y.2)
+     ((b.3 y.2) 
+      (b.3 y.2) 
+      (b.3 y.2 c.4) 
+      ((y.2 c.4) 
+       () 
+       (
+        (y.2 c.4) 
+        (c.4) 
+        ()))))))
+  (begin
+    (set! x.1 5)
+    (set! y.2 x.1)
+    (begin
+      (set! b.3 x.1)
+      (set! b.3 (+ b.3 y.2))
+      (set! c.4 b.3)
+      (if (= c.4 b.3)
+          (halt c.4)
+          (begin 
+            (set! x.1 c.4) 
+            (set! x.1 y.2) 
+            (halt c.4)))))))
+
+(check-equal?
+(undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
+                        (begin
+                          (set! x.1 5)
+                          (set! y.2 x.1)
+                          (begin
+                            (set! b.3 x.1)
+                            (set! b.3 (+ b.3 y.2))
+                            (set! c.4 b.3)
+                            (if (if (true)
+                                    (false)
+                                    (not (false)))
+                                (halt c.4)
+                                (begin
+                                  (set! x.1 c.4)
+                                  (set! x.1 y.2)
+                                  (halt c.4)))))))
+`(module
+  ((locals (x.1 y.2 b.3 c.4))
+   (undead-out
+    ((x.1)
+     (x.1 y.2)
+     ((b.3 y.2)
+      (b.3 y.2)
+      (y.2 c.4)
+      (((y.2 c.4) 
+        (y.2 c.4) 
+        (y.2 c.4))
+       () 
+       (
+        (y.2 c.4) 
+        (c.4) 
+        ()))))))
+  (begin
+    (set! x.1 5)
+    (set! y.2 x.1)
+    (begin
+      (set! b.3 x.1)
+      (set! b.3 (+ b.3 y.2))
+      (set! c.4 b.3)
+      (if (if (true) (false) (not (false)))
+        (halt c.4)
+        (begin (set! x.1 c.4) (set! x.1 y.2) (halt c.4)))))))
 )

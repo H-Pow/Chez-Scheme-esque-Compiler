@@ -47,7 +47,7 @@
                 expose-basic-blocks
                 resolve-predicates
                 flatten-program
-                ; patch-instructions  ;TODO: rewrite
+                patch-instructions
                 ; implement-fvars     ;TODO: rewrite
                 ; generate-x64        ;TODO: rewrite
                 )

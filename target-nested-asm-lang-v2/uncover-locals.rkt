@@ -17,45 +17,53 @@
     (match effect
       [`(set! ,aloc (,binop ,aloc ,triv))
        `(set! ,(uncover-aloc aloc) (,binop ,aloc ,(uncover-triv triv)))]
-      [`(set! ,aloc ,triv)
-       `(set! ,(uncover-aloc aloc) ,(uncover-triv triv))]
-      [`(begin ,fxs ... ,fx)
-       (append '(begin)
-               (map uncover-effect fxs)
-               (list (uncover-effect fx)))]))
+      [`(set! ,aloc ,triv) `(set! ,(uncover-aloc aloc) ,(uncover-triv triv))]
+      [`(begin
+          ,fxs ...
+          ,fx)
+       (append '(begin) (map uncover-effect fxs) (list (uncover-effect fx)))]))
   (define (uncover-tail tail)
     (match tail
-      [`(begin ,fxs ... ,tail)
-       (append '(begin)
-               (map uncover-effect fxs)
-               (list (uncover-tail tail)))]
+      [`(begin
+          ,fxs ...
+          ,tail)
+       (append '(begin) (map uncover-effect fxs) (list (uncover-tail tail)))]
       [`(halt ,triv) `(halt ,(uncover-triv triv))]))
   (define (uncover-p p)
     (match p
-      [`(module ,info ,tail)
+      [`(module ,info ,tail
+          )
        (define utail (uncover-tail tail))
-       `(module ,(info-set info 'locals locals)
-          ,utail)]))
-  (uncover-p al2)
-  )
+       `(module ,(info-set info 'locals locals) ,utail
+          )]))
+  (uncover-p al2))
 
 (module+ test
   (require rackunit)
   ; example output for uncover-locals
 
   (check-match (uncover-locals '(module ()
-                                  (begin
-                                    (set! x.1 0)
-                                    (halt x.1))))
-               '(module ((locals (x.1))) (begin (set! x.1 0) (halt x.1))))
+                                        (begin
+                                          (set! x.1 0)
+                                          (halt x.1))
+                                  ))
+               '(module ((locals (x.1)))
+                        (begin
+                          (set! x.1 0)
+                          (halt x.1))
+                  ))
   (check-match (uncover-locals '(module ()
-                                  (begin
-                                    (set! x.1 0)
-                                    (set! y.1 x.1)
-                                    (set! y.1 (+ y.1 x.1))
-                                    (halt y.1))))
-               `(module
-                    ((locals ,locals))
-                  (begin (set! x.1 0) (set! y.1 x.1) (set! y.1 (+ y.1 x.1)) (halt y.1)))
-               (equal? (list->seteq locals) (seteq 'x.1 'y.1)))
-  )
+                                        (begin
+                                          (set! x.1 0)
+                                          (set! y.1 x.1)
+                                          (set! y.1 (+ y.1 x.1))
+                                          (halt y.1))
+                                  ))
+               `(module ((locals ,locals))
+                        (begin
+                          (set! x.1 0)
+                          (set! y.1 x.1)
+                          (set! y.1 (+ y.1 x.1))
+                          (halt y.1))
+                  )
+               (equal? (list->seteq locals) (seteq 'x.1 'y.1))))

@@ -169,7 +169,7 @@
            cpsc411/langs/v4)
 
   (define (peek x)
-    (pretty-display x)
+    ; (pretty-display x)
     x)
   (define-syntax-rule (check-by-interp nal4)
     (check-eq? (interp-nested-asm-lang-v4 nal4)

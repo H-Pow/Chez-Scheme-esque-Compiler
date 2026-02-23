@@ -86,7 +86,7 @@
 
 ; int64	 	::=	 	int64?
 
-; imp-mf-lang-v3 -> imp-cmf-lang-v3
+; imp-mf-lang-v4 -> imp-cmf-lang-v4
 ;; converts all `(set! aloc (begin ... val)) to `(begin ... (set! aloc val))
 (define (normalize-bind mf)
   (define (normalize-triv triv) triv)
@@ -102,16 +102,38 @@
       [`(,binop ,triv1 ,triv2)
        (k `(,binop ,(normalize-triv triv1)
                    ,(normalize-triv triv2)))]
+      [`(if ,pred ,value1 ,value2)
+        (normalize-value value1 
+          (λ (nvalue1)
+            (normalize-value value2 
+              (λ (nvalue2)
+                `(if ,(normalize-pred pred) 
+                     ,(k nvalue1) 
+                     ,(k nvalue2))))))]
       [triv (k (normalize-triv triv))]))
+  (define (normalize-pred pred)
+    (match pred
+      [`(not ,pred) `(not ,(normalize-pred pred))]
+      [`(begin ,fxs ... ,pred)
+       `(begin
+                     ,@(map normalize-effect fxs)
+                     ,(normalize-pred pred))]
+      [`(if ,pred1 ,pred2 ,pred3)
+       `(if ,(normalize-pred pred1)
+            ,(normalize-pred pred2)
+            ,(normalize-pred pred3))]
+      [_ pred]))
   (define (normalize-effect effect)
     (match effect
       [`(set! ,aloc ,value)
        ; need to convert value to triv or (binop triv triv) with begin isolated out
        (normalize-value value (λ (nvalue) `(set! ,aloc ,nvalue)))]
       [`(begin ,effects ... ,effect2)
-       (append `(begin
+       `(begin
                   ,@(map normalize-effect effects)
-                  ,(normalize-effect effect2)))]))
+                  ,(normalize-effect effect2))]
+      [`(if ,pred ,effect1 ,effect2)
+        `(if ,(normalize-pred pred) ,(normalize-effect effect1) ,(normalize-effect effect2))]))
   ;; NOTE: tail = value in imp-mf-lang-v3
   (define (normalize-tail tail)
     (match tail
@@ -121,6 +143,8 @@
       [`(,binop ,triv1 ,triv2)
        `(,binop ,(normalize-triv triv1)
                 ,(normalize-triv triv2))]
+      [`(if ,pred ,tail1 ,tail2)
+        `(if ,(normalize-pred pred) ,(normalize-tail tail1) ,(normalize-tail tail2))]
       [triv (normalize-triv triv)]))
   (define (normalize-p p)
     (match p
@@ -146,5 +170,16 @@
                  `(module (begin (set! x.1 (begin (set! x.2 (begin (set! x.3 3) x.3)) x.2)) x.1)))
                 `(module (begin (begin (begin (set! x.3 3)
                                               (set! x.2 x.3))
-                                       (set! x.1 x.2)) x.1))))
+                                       (set! x.1 x.2)) x.1)))
+  (check-equal? (normalize-bind `(module (begin (set! x.1 (if (true) 1 3)) x.1)))
+                `(module (begin (if (true) (set! x.1 1) (set! x.1 3)) x.1)))
+  (check-equal? (normalize-bind 
+  `(module (begin (set! x.1 (if (begin (set! x.2 (begin (set! x.4 1) 5)) (true)) 1 3)) x.1)))
+  `(module
+  (begin
+    (if (begin (begin (set! x.4 1) (set! x.2 5)) (true))
+      (set! x.1 1)
+      (set! x.1 3))
+    x.1)))
+  )
 

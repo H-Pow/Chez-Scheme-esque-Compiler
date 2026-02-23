@@ -47,8 +47,8 @@
                 ; assign-homes-opt    ;TODO: rewrite
                 optimize-predicates
                 ; expose-basic-blocks
-                resolve-predicates
-                flatten-program
+                ; resolve-predicates
+                ; flatten-program
                 ; patch-instructions  ;TODO: rewrite
                 ; implement-fvars     ;TODO: rewrite
                 ; generate-x64        ;TODO: rewrite
@@ -67,8 +67,8 @@
           ; values
           values
           ; values
-          values
-          values
+          ; values
+          ; values
           ; values
           ; values
           ; values
@@ -82,8 +82,11 @@
 (require "flatten-begins.rkt")
 (require "patch-instructions.rkt")
 (require "implement-fvars.rkt")
+(require "resolve-predicates.rkt")
 (require "generate-x64.rkt")
 (require "expose-basic-blocks.rkt")
+(require "flatten-program.rkt")
+
 
 (define paren-x64-fvars-v2->asm
   (compose generate-x64 implement-fvars))
@@ -211,7 +214,9 @@
   (require (submod "normalize-bind.rkt" test))
   (require (submod "select-instructions.rkt" test))
   (require (submod "flatten-begins.rkt" test))
+  (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
+  (require (submod "resolve-predicates.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "generate-x64.rkt" test))
   (require (submod "expose-basic-blocks.rkt" test))

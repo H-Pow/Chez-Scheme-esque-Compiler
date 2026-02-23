@@ -11,12 +11,12 @@
          "conflict-analysis.rkt"
          "assign-registers.rkt")
 
-;; asm-lang-v2 -> nested-asm-lang-v2
-;; Compiles Asm-lang v2 to Nested-asm-lang v2,
+;; asm-lang-v4 -> nested-asm-lang-v4
+;; Compiles Asm-lang v4 to Nested-asm-lang v4,
 ;;     replacing each abstract location with a physical location.
 (define assign-homes (compose replace-locations assign-fvars uncover-locals))
-;; asm-lang-v2 -> nested-asm-lang-v2
-;; Compiles Asm-lang v2 to Nested-asm-lang v2,
+;; asm-lang-v4 -> nested-asm-lang-v4
+;; Compiles Asm-lang v4 to Nested-asm-lang v4,
 ;;     replacing each abstract location with a physical location.
 ;;     This version performs graph-colouring register allocation.
 (define assign-homes-opt

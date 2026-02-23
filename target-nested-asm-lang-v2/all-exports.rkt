@@ -82,12 +82,12 @@
                                         (set! tmp.2 (+ tmp.2 x.2))
                                         (halt tmp.2))
                                 ))
-               `(begin
+               `(module (begin
                   (set! ,rsp 2)
                   (set! ,rbx 2)
                   (set! ,rax ,rsp)
                   (set! ,rax (+ ,rax ,rbx))
-                  (halt ,rax))
+                  (halt ,rax)))
                (andmap (or/c register? fvar?) `(,rsp ,rax ,rbx)))
   (check-match (assign-homes-opt '(module ()
                                           (begin
@@ -97,12 +97,12 @@
                                             (set! tmp.2 (+ tmp.2 x.2))
                                             (halt tmp.2))
                                     ))
-               `(begin
+               `(module (begin
                   (set! ,rsp 2)
                   (set! ,rbx 2)
                   (set! ,rax ,rsp)
                   (set! ,rax (+ ,rax ,rbx))
-                  (halt ,rax))
+                  (halt ,rax)))
                (andmap (or/c register? fvar?) `(,rsp ,rax ,rbx)))
 
   ;check evaluation result equivalence of assign-homes and assign-homes-opt

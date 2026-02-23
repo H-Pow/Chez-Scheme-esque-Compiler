@@ -83,6 +83,22 @@
           [univals (map (λ (val) (uniquify-value val env)) vals)])
       (list (map list unialocs univals)
             (foldl (λ (x aloc env) (dict-set env x aloc)) env xs unialocs))))
+  
+  (define (uniquify-pred pred env)
+    (match pred
+      [`(,relop ,triv ,triv)
+        #:when (memq relop '(< <= = >= > !=))
+        `(,relop ,(uniquify-triv triv env) ,(uniquify-triv triv env))]
+      [`(true) pred]
+      [`(false) pred]
+      [`(not ,pred) `(not ,(uniquify-pred pred env))]
+      [`(let ([,xs ,vals] ...) ,pred1) #:when((listof name?) xs)
+        (match-let ([`(,pairs ,env2) (uniquify-pairs xs vals env)])
+                                    `(let ,pairs ,(uniquify-pred pred1 env2)))]
+      [`(if ,pred1 ,pred2 ,pred3)
+       `(if ,(uniquify-pred pred1 env)
+            ,(uniquify-pred pred2 env)
+            ,(uniquify-pred pred3 env))]))
 
   ; values-lang-v3-value env -> values-unique-lang-v3-value
   (define (uniquify-value value env)
@@ -94,6 +110,10 @@
       [`(,binop ,triv1 ,triv2)
        #:when (and (binop? binop) (triv? triv1) (triv? triv2))
        `(,binop ,(uniquify-triv triv1 env) ,(uniquify-triv triv2 env))]
+      [`(if ,pred1 ,pred2 ,pred3)
+       `(if ,(uniquify-pred pred1 env)
+            ,(uniquify-value pred2 env)
+            ,(uniquify-value pred3 env))]
       [(? triv?) (uniquify-triv value env)]))
   ; tail = value, no need for a separate function
   ; values-lang-v3-p env -> values-unique-lang-v3-p
@@ -153,3 +173,12 @@
                                     (let ([x (+ x x)]
                                           [x 3])
                                       (+ x x))))))))
+             (λ() (uniquify '(module (let ([t (let ([x 1]) x)] [x x]) (let ([x (+ x x)] [x 3]) (+ x x)))))))
+  (check-match (uniquify '(module (let ([y 2] [x 3]) 
+        (if (true)
+            (let ([z 3]) z)
+            (let ([z 3]) z)))))
+    `(module
+  (let ((,y.2 2) (,x.1 3)) (if (true) (let ((,z.3 3)) ,z.3) (let ((,z.4 3)) ,z.4))))
+  (andmap aloc? `(,x.1 ,y.2 ,z.3 ,z.4)))
+  )

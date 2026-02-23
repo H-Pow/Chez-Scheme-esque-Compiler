@@ -45,7 +45,8 @@
       [`(with-label ,label ,s) `(with-label ,label ,(implement-s s))]
       [`(jump ,trg) `(jump ,trg)]
       [`(compare ,reg ,opand) `(compare ,reg ,opand)]
-      [`(jump-if ,relop ,label) `(jump-if ,relop ,label)]))
+      [`(jump-if ,relop ,label) `(jump-if ,relop ,label)]
+      [_ s]))
 
   (define (implement-loc loc)
     (match loc
@@ -56,6 +57,7 @@
   (define (implement-fvar fvar)
     `(,(current-frame-base-pointer-register) - ,(* 8 (fvar->index fvar))))
   (implement-p pxf2))
+
 (module+ test
   (require rackunit)
   ; tests for implement-fvars

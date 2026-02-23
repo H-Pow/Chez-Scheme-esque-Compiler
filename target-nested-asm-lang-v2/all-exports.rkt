@@ -13,7 +13,8 @@
          asm-lang-progs
          optimize-predicates)
 
-(require "assign-fvars.rkt"
+(require "assign-homes.rkt"
+         "assign-fvars.rkt"
          "replace-locations.rkt"
          "uncover-locals.rkt"
          "undead-analysis.rkt"

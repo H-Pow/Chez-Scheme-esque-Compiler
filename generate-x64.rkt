@@ -520,7 +520,7 @@ EOS
               (check-equal? (execute code nasm-run/print-number)
                             (interp-paren-x64 code)
                             (format "Checking ~a" code)))
-            (list success-check-case1 success-check-case2 v2-1)))
+            (list success-check-case1 success-check-case2 v2-1))
 ; milestone 4: paren v4
 
 (check-equal? (generate-x64 `(begin

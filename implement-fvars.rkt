@@ -41,7 +41,7 @@
        `(set! ,reg ,triv)]
       [`(set! ,reg ,loc)
        #:when (and (register? reg) (loc? loc))
-       `(set! ,reg ,(implement-loc loc))]))
+       `(set! ,reg ,(implement-loc loc))]
       [`(with-label ,label ,s)
         `(with-label ,label ,(implement-s s))]
       [`(jump ,trg)

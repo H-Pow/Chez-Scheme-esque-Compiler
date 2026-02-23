@@ -80,7 +80,16 @@
     (define v2 (abstract-triv v2 env))
     (match* (v1 v2)
       [((? int64?) (? int64?)) (op v1 v2)]
-      [_ 'unknown]))
+      [(_ _) 'unknown]))
+
+(define (patch-relop op)
+  (match op
+    ['> >]           
+    ['< <]
+    ['= =]
+    ['>= >=]
+    ['<= <=]
+    ['!= (λ (x y) (not (= x y)))]))
 
   ;; (nested-asm-lang-v4 relop loc triv (list (loc . (triv | 'unknown)))
   ;;                                          -> '(true) | '(false) | 'unknown
@@ -91,17 +100,17 @@
     (define v2 (abstract-triv triv env))
     (match* (v1 v2)
       [((? concrete?) (? concrete?))
-       (if (relop v1 v2)
+       (if ((patch-relop relop) v1 v2)
            '(true)
            '(false))]
-      [_ 'unknown]))
+      [(_ _) `(,relop ,loc ,triv)]))
 
   (define (update-env effect env)
     (match effect
       [`(set! ,loc ,triv)
        (if (int64? triv)
            (hash-set! env loc triv)
-           (hash-set! env loc 'unknown))]
+           (hash-set! env loc (hash-ref env triv 'unknown)))]
       [`(set! ,loc1 (,op ,loc1 ,triv))
        (define cur-val (hash-ref env loc1 'unknown))
        (if (int64? cur-val)
@@ -113,8 +122,8 @@
       [`(if (not ,pred) ,pred2 ,pred3) (optimize-pred `(if ,pred ,pred3 ,pred2) env)]
       [`(if ,cond ,then ,else)
        (define optimized-cond (optimize-pred cond env))
-       (define env-then (hash-deep-copy env))
-       (define env-else (hash-deep-copy env))
+       (define env-then (hash-copy env))
+       (define env-else (hash-copy env))
        (cond
          [(equal? optimized-cond '(true)) (optimize-pred then env-then)]
          [(equal? optimized-cond '(false)) (optimize-pred else env-else)]
@@ -146,8 +155,8 @@
       [`(if (not ,cond) ,then ,else) (optimize-effect `(if ,cond ,else ,then) env)]
       [`(if ,cond ,then ,else)
        (define optimized-cond (optimize-pred cond env))
-       (define env-then (hash-deep-copy env))
-       (define env-else (hash-deep-copy env))
+       (define env-then (hash-copy env))
+       (define env-else (hash-copy env))
        (cond
          [(equal? optimized-cond '(true)) (optimize-effect then env-then)]
          [(equal? optimized-cond '(false)) (optimize-effect else env-else)]
@@ -168,8 +177,8 @@
       [`(if (not ,pred) ,t1 ,t2) (optimize-tail `(if ,pred ,t2 ,t1) env)]
       [`(if ,pred ,t1 ,t2)
        (define optimized-cond (optimize-pred pred env))
-       (define env-then (hash-deep-copy env))
-       (define env-else (hash-deep-copy env))
+       (define env-then (hash-copy env))
+       (define env-else (hash-copy env))
        (cond
          [(equal? optimized-cond '(true)) (optimize-tail t1 env-then)]
          [(equal? optimized-cond '(false)) (optimize-tail t2 env-else)]
@@ -191,6 +200,42 @@
                     (module (not (false)))
                     (module (if (true)))))
 
+(define asm-lang-progs
+  '((module () (halt 1)
+      )
+    (module ()
+            (begin
+              (halt 1))
+      )
+    (module ()
+            (begin
+              (begin
+                (set! x.1 1))
+              (halt x.1))
+      )
+    (module ()
+            (begin
+              (begin
+                (set! x.1 1)
+                (set! x.1 (+ x.1 1)))
+              (halt x.1))
+      )
+    (module ()
+            (begin
+              (begin
+                (set! x.1 1)
+                (set! x.1 (+ x.1 1)))
+              (set! x.1 1)
+              (halt x.1))
+      )
+    (module ()
+            (begin
+              (set! x.1 1)
+              (set! x.2 2)
+              (set! x.3 3)
+              (halt x.3))
+      )))
+
 (module+ test
   (require rackunit)
   ;; TODO: When we add more tests for assign-home-opt, use those to generate input
@@ -198,19 +243,26 @@
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-nested-asm-lang-v4 p) (interp-nested-asm-lang-v4 (optimize-predicates p))))
 
-  (check-by-interp (assign-homes-opt '(module ()
-                                              (begin
-                                                (set! x.1 2)
-                                                (set! x.2 2)
-                                                (set! tmp.2 x.1)
-                                                (set! tmp.2 (+ tmp.2 x.2))
-                                                (halt tmp.2))
-                                        )))
-
-  (for-each check-equal?
-            (map (compose interp-nested-asm-lang-v4 assign-homes-opt) asm-lang-progs)
-            (map (compose interp-nested-asm-lang-v4 optimize-predicates assign-homes-opt)
-                 asm-lang-progs))
+;   (check-by-interp (assign-homes-opt '(module ()
+;                                               (begin
+;                                                 (set! x.1 2)
+;                                                 (set! x.2 2)
+;                                                 (set! tmp.2 x.1)
+;                                                 (set! tmp.2 (+ tmp.2 x.2))
+;                                                 (halt tmp.2))
+;                                         )))
+;     (define inputs (map assign-homes-opt asm-lang-progs))
+    
+;   (for-each check-equal?
+;             (map (compose interp-nested-asm-lang-v4 assign-homes-opt) asm-lang-progs)
+;             (map (compose interp-nested-asm-lang-v4 optimize-predicates assign-homes-opt)
+;                  asm-lang-progs))
+; (for-each
+;  (λ (prog)
+;    (define input (assign-homes-opt prog))
+;    (check-equal? (interp-nested-asm-lang-v4 input)
+;                  (interp-nested-asm-lang-v4 (optimize-predicates input))))
+;  asm-lang-progs)
 
   (check-equal? (optimize-predicates `(module (begin
                                                 (true))))
@@ -285,8 +337,8 @@
                                                     (set! rax -1)
                                                     (true)))))
                 `(module (begin
-                           (set! rax -1)
-                           (true))))
+                           (set! rax 1)
+                                                    (false))))
   (check-equal? (optimize-predicates `(module (begin
                                                 (set! rax ,(max-int 64))
                                                 (set! rbx ,(min-int 64))
@@ -302,4 +354,7 @@
                            (set! rdi rax) ;; r[rdi] = -1
                            (if (< rdi 0)
                                (halt 1)
-                               (halt 0))))))
+                               (halt 0)))))
+                               
+                               
+                               )

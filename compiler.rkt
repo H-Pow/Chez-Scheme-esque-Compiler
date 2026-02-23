@@ -1,7 +1,8 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/2c-run-time)
+         cpsc411/2c-run-time
+         cpsc411/langs/v4)
 
 (provide link-paren-x64
          interp-paren-x64
@@ -156,7 +157,7 @@
         (dict-ref env 'rax)
         (eval-statement env pc los (list-ref los pc))))
 
-  (TODO "Redesign and implement interp-paren-x64 for Exercise 3."))
+  (interp-paren-x64-v4 p))
 
 (module+ test
   (require rackunit

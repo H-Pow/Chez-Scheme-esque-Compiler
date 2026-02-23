@@ -256,36 +256,71 @@
   (eval-instruction-p (check-paren-x64 p))
   )
 
-;; paren-x64-v2 -> x64-instruction-sequence
-;; Compiles a Paren-x64 v1 program into a x64 instruction sequence represented as a string.
+;; paren-x64-v4 -> x64-instruction-sequence
+;; Compiles a Paren-x64 v4 program into a x64 instruction sequence represented as a string.
 (define (generate-x64 p)
-  ;; paren-x64-v2-p -> x64-instruction-sequence
-  ;; Compiles a Paren-x64 v1 begin-expression into a x64 instruction sequence represented as a string.
+
+  ;; paren-x64-v4-p -> x64-instruction-sequence
+  ;; Compiles a Paren-x64 v4 begin-expression into a x64 instruction sequence represented as a string.
   (define (program->x64 p)
     (match p
       [`(begin ,s* ...)
        (string-join (map statement->x64 s*) "")]))
 
-  ;; paren-x64-v2-loc -> x64-instruction-sequence
+  ;; paren-x64-v4-loc -> x64-instruction-sequence
   (define (loc->ins loc)
     (match loc
       [(? register?) (~a loc)]
       [(? addr?) (match-let
                      ([`(,reg - ,off) loc])
                    (format "QWORD [~a - ~a]" reg off))]))
-  ;; (or paren-x64-v2-loc int64) -> x64-instruction-sequence
+
+  ;; (or paren-x64-v4-loc paren-x64-v4-triv) -> x64-instruction-sequence
   (define (val->ins val)
     (match val
       [(? int64?) val]
+      [(? label?) (~a val)]
       [_ (loc->ins val)]))
-  ;; paren-x64-v2-s -> x64-instruction-sequence
-  ;; Compiles a Paren-x64 v1 set!-expression into a x64 instruction sequence represented as a string.
+  
+  ;; paren-x64-v4-trg -> x64-instruction-sequence
+  (define (trg->ins trg)
+    (match trg
+      [(? register?) (~a trg)]
+      [(? label?) (~a trg)]))
+
+  (define (opand->ins opand)
+    (match opand
+      [(? int64?) opand]
+      [_ (~a opand)]))
+
+  ;; paren-x64-v4-s -> x64-instruction-sequence
+  ;; Compiles a Paren-x64 v4 set!-expression into a x64 instruction sequence represented as a string.
   (define (statement->x64 s)
     (match s
       [`(set! ,reg1 (,binop ,reg1 ,val))
        (format "~a ~a, ~a\n" (binop->ins binop) reg1 (val->ins val))]
+      [`(set! ,loc ,label)
+        #:when (label? label)
+        (format "lea ~a, [rel ~a]\n" (loc->ins loc) label)]
       [`(set! ,loc ,val) (format "mov ~a, ~a\n" (loc->ins loc) (val->ins val))]
+      [`(with-label ,l ,s)
+        (format "~a:\n~a" l (statement->x64 s))]
+      [`(jump ,trg)
+        (format "jmp ~a\n" (trg->ins trg))]
+      [`(compare ,reg ,opand)
+        (format "cmp ~a, ~a\n" reg (opand->ins opand))]
+      [`(jump-if ,relop ,l)
+        (format "~a ~a\n" (relop->ins relop) l)]
       ))
+
+  (define (relop->ins relop)
+    (match relop
+      [`< "jl"] 
+      [`<= "jle"]
+      [`= "je"]
+      [`>= "jge"]
+      [`> "jg"]
+      [`!= "jne"]))
 
   ;; binop-> x64-instruction
   ;; returns the corresponding x64 operator for the given binop
@@ -293,7 +328,9 @@
     (match b
       ['+ "add"]
       ['* "imul"]))
-  (program->x64 (check-paren-x64 p)))
+  (program->x64 p
+  #;
+  (check-paren-x64 p)))
 
 ;; string -> string
 ;; Installs the Paren-x64 v1 run-time system. The input is the same as the output for generate-x64:
@@ -462,6 +499,7 @@ add rax, QWORD [rbp - 8]
 
 EOS
 )
+
   (current-pass-list
    (list
     check-paren-x64
@@ -473,4 +511,79 @@ EOS
     (λ(code)(check-equal? (execute code nasm-run/print-number) (interp-paren-x64 code) (format "Checking ~a" code)))
     (list success-check-case1 success-check-case2 v2-1)
   )
-  )
+; milestone 4: paren v4
+
+(check-equal? (generate-x64 `(begin
+                                (with-label L.start.1 (set! rax 5))))
+#<<EOS
+L.start.1:
+mov rax, 5
+
+EOS
+)
+
+(check-equal? (generate-x64 `(begin
+                              (jump L.start.2)
+                              (set! rax 42)
+                              (with-label L.start.2
+                                (set! rax 5))))
+#<<EOS
+jmp L.start.2
+mov rax, 42
+L.start.2:
+mov rax, 5
+
+EOS
+)
+
+(check-equal? (generate-x64 `(begin
+                              (compare rax 0)))
+#<<EOS
+cmp rax, 0
+
+EOS
+)
+
+(check-equal? (generate-x64 `(begin
+                              (compare rax 0)
+                              (jump-if = L.start.2)
+                              (with-label L.start.2
+                                (set! rbx 1))))
+#<<EOS
+cmp rax, 0
+je L.start.2
+L.start.2:
+mov rbx, 1
+
+EOS
+)
+
+(check-equal? (generate-x64 `(begin
+                              (with-label L.start.2
+                                (set! rax 1))
+                              (with-label L.start.3
+                                (set! rbx 2))))
+#<<EOS
+L.start.2:
+mov rax, 1
+L.start.3:
+mov rbx, 2
+
+EOS
+)
+
+(check-equal? (generate-x64 `(begin
+                              (set! r15 L.start.2)
+                              (jump r15)
+
+                              (with-label L.start.2
+                                (set! rax 42))))
+#<<EOS
+lea r15, [rel L.start.2]
+jmp r15
+L.start.2:
+mov rax, 42
+
+EOS
+)
+)

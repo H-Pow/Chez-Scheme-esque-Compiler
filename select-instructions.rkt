@@ -61,12 +61,7 @@
       [`(if ,pred1 ,pred2 ,pred3)
        `(if ,(select-pred pred1)
             ,(select-pred pred2)
-            ,(select-pred pred3))]
-    
-    
-    )
-  
-  )
+            ,(select-pred pred3))]))
 
   ; (imp-cmf-lang-v4 tail) [bool] -> (Asm-pred-lang-v4 tail)
   (define (select-tail e [begun #f])
@@ -87,16 +82,15 @@
   (define (select-value e)
     (match e
       [`(,binop ,triv1 ,triv2)
-       (match-let
-           ([`(,fxs ,aloc) (assign-tmp e)]) (list fxs `(halt ,aloc)))]
+       (match-let ([`(,fxs ,aloc) (assign-tmp e)])
+         (list fxs `(halt ,aloc)))]
       [triv `(() (halt ,triv))]))
 
   ; (Imp-cmf-lang-v4 value) -> (listof (Asm-pred-lang-v4 effect))
   (define (value->effect* e prev-aloc)
     (match e
       [`(,binop ,triv1 ,triv2)
-       `((set! ,prev-aloc ,triv1)
-         (set! ,prev-aloc (,binop ,prev-aloc ,triv2)))]
+       `((set! ,prev-aloc ,triv1) (set! ,prev-aloc (,binop ,prev-aloc ,triv2)))]
       [_ `((set! ,prev-aloc ,e))]))
 
   ; (Imp-cmf-lang-v4 effect) -> (listof (Asm-pred-lang-v4 effect))
@@ -104,18 +98,17 @@
     (match e
       ;special case
       [`(set! ,aloc (,binop ,aloc ,triv)) `(,e)]
-      [`(set! ,aloc ,value)
-       (value->effect* value aloc)]
-      [`(begin ,fxs ... ,fx)
-       (list (append `(begin)
-                     (foldr append '() (map select-effect fxs))
-                     (select-effect fx)))
+      [`(set! ,aloc ,value) (value->effect* value aloc)]
+      [`(begin
+          ,fxs ...
+          ,fx)
+       (list (append `(begin) (foldr append '() (map select-effect fxs)) (select-effect fx)))
        ;  (append (foldr append '() (map select-effect fxs))
        ;          (select-effect fx))
        ]
       [`(if ,pred ,effect1 ,effect2)
-        `((if ,(select-pred pred) ,(select-effect effect1) ,(select-effect effect2)))]
-      ))
+        `((if ,(select-pred pred) ,(select-effect effect1) ,(select-effect effect2)))]))
+      
   (match p
     [`(module ,tail)
      `(module () ,(select-tail tail)
@@ -123,35 +116,58 @@
 
 (module+ test
   (require rackunit)
-    ; adapted example outputs for select-instuctions
+  ; adapted example outputs for select-instuctions
   (check-match (select-instructions '(module (+ 2 2)))
-               `(module () (begin (set! ,tmp.1 2) (set! ,tmp.1 (+ ,tmp.1 2)) (halt ,tmp.1)))
+               `(module ()
+                        (begin
+                          (set! ,tmp.1 2)
+                          (set! ,tmp.1 (+ ,tmp.1 2))
+                          (halt ,tmp.1))
+                  )
                (aloc? tmp.1))
-  (check-equal? (select-instructions '(module (begin (set! x.1 5) x.1)))
-                '(module () (begin (set! x.1 5) (halt x.1))))
-  (check-equal? (select-instructions '(module
-                                          (begin
-                                            (set! x.1 (+ 2 2))
-                                            x.1)))
-                '(module () (begin (set! x.1 2) (set! x.1 (+ x.1 2)) (halt x.1))))
-  (check-match (select-instructions '(module
-                                         (begin
-                                           (set! x.1 2) (set! x.2 2)
-                                           (+ x.1 x.2))))
-               `(module () (begin (set! x.1 2) (set! x.2 2) (set! ,tmp.2 x.1)
-                                  (set! ,tmp.2 (+ ,tmp.2 x.2)) (halt ,tmp.2)))
+  (check-equal? (select-instructions '(module (begin
+                                                (set! x.1 5)
+                                                x.1)))
+                '(module ()
+                         (begin
+                           (set! x.1 5)
+                           (halt x.1))
+                   ))
+  (check-equal? (select-instructions '(module (begin
+                                                (set! x.1 (+ 2 2))
+                                                x.1)))
+                '(module ()
+                         (begin
+                           (set! x.1 2)
+                           (set! x.1 (+ x.1 2))
+                           (halt x.1))
+                   ))
+  (check-match (select-instructions '(module (begin
+                                               (set! x.1 2)
+                                               (set! x.2 2)
+                                               (+ x.1 x.2))))
+               `(module ()
+                        (begin
+                          (set! x.1 2)
+                          (set! x.2 2)
+                          (set! ,tmp.2 x.1)
+                          (set! ,tmp.2 (+ ,tmp.2 x.2))
+                          (halt ,tmp.2))
+                  )
                (aloc? tmp.2))
   ; custom select-instructions test
   ; This test carries on to the v4 tests
   ;; Begins are not flattened like in the interrogator, we have a seperate pass to flatten.
   (check-equal? (select-instructions '(module 5))
-                '(module () (begin (halt 5))))
-  (check-match (select-instructions
-                '(module (begin
-                           (set! x.1 1)
-                           (set! x.2 2)
-                           (set! x.3 3)
-                           x.1)))
+                '(module ()
+                         (begin
+                           (halt 5))
+                   ))
+  (check-match (select-instructions '(module (begin
+                                               (set! x.1 1)
+                                               (set! x.2 2)
+                                               (set! x.3 3)
+                                               x.1)))
                '(module () (begin (set! x.1 1)
                                   (set! x.2 2)
                                   (set! x.3 3)

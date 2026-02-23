@@ -5,14 +5,13 @@
 (provide normalize-bind
          interp-imp-mf-lang)
 
-(define (binop? op) (or (equal? op '+)
-                        (equal? op '*)))
+(define (binop? op)
+  (or (equal? op '+) (equal? op '*)))
 
 (define (binop->fun op)
   (match op
     ['+ x64-add]
-    ['* x64-mul]
-    ))
+    ['* x64-mul]))
 (define triv? (or/c aloc? int64?))
 
 ; imp-mf-lang-v3
@@ -45,21 +44,31 @@
       [(? aloc?) (hash-ref env triv)]))
   (define (interp-effect fx)
     (match fx
-      [`(set! ,a ,val) #:when(aloc? a)
-                       (hash-set! env a (interp-value val))]
-      [`(begin ,fxs ... ,fx) (for-each interp-effect fxs)
-                             (interp-effect fx)]))
+      [`(set! ,a ,val)
+       #:when (aloc? a)
+       (hash-set! env a (interp-value val))]
+      [`(begin
+          ,fxs ...
+          ,fx)
+       (for-each interp-effect fxs)
+       (interp-effect fx)]))
   (define (interp-value val)
     (match val
-      [`(begin ,fxs ... ,val) (for-each interp-effect fxs)
-                              (interp-value val)]
+      [`(begin
+          ,fxs ...
+          ,val)
+       (for-each interp-effect fxs)
+       (interp-value val)]
       [`(,(? binop? binop) ,(? triv? triv) ,(? triv? triv2))
        ((binop->fun binop) (interp-triv triv) (interp-triv triv2))]
       [(? triv?) (interp-triv val)]))
   (define (interp-tail tail)
     (match tail
-      [`(begin ,fxs ... ,tail) (for-each interp-effect fxs)
-                               (interp-tail tail)]
+      [`(begin
+          ,fxs ...
+          ,tail)
+       (for-each interp-effect fxs)
+       (interp-tail tail)]
       [_ (interp-value tail)]))
   (match iml
     [`(module ,tail) (interp-tail tail)]))
@@ -89,11 +98,14 @@
 ; imp-mf-lang-v4 -> imp-cmf-lang-v4
 ;; converts all `(set! aloc (begin ... val)) to `(begin ... (set! aloc val))
 (define (normalize-bind mf)
-  (define (normalize-triv triv) triv)
+  (define (normalize-triv triv)
+    triv)
 
   (define (normalize-value value [k identity])
     (match value
-      [`(begin ,effects ... ,value2)
+      [`(begin
+          ,effects ...
+          ,value2)
        (normalize-value value2
                         (λ (nvalue)
                           `(begin
@@ -129,9 +141,8 @@
        ; need to convert value to triv or (binop triv triv) with begin isolated out
        (normalize-value value (λ (nvalue) `(set! ,aloc ,nvalue)))]
       [`(begin ,effects ... ,effect2)
-       `(begin
-                  ,@(map normalize-effect effects)
-                  ,(normalize-effect effect2))]
+       `(begin ,@(map normalize-effect effects)
+               ,(normalize-effect effect2))]
       [`(if ,pred ,effect1 ,effect2)
         `(if ,(normalize-pred pred) ,(normalize-effect effect1) ,(normalize-effect effect2))]))
   ;; NOTE: tail = value in imp-mf-lang-v3
@@ -155,10 +166,17 @@
 (module+ test
   (require rackunit)
   ; adapted example outputs for normalize-bind
-  (check-equal? (normalize-bind
-                 `(module (begin (set! x.1 (begin (set! x.2 2) x.2)) x.1)))
-                `(module (begin (begin (set! x.2 2)
-                                       (set! x.1 x.2)) x.1)))
+  (check-equal? (normalize-bind `(module (begin
+                                           (set! x.1
+                                                 (begin
+                                                   (set! x.2 2)
+                                                   x.2))
+                                           x.1)))
+                `(module (begin
+                           (begin
+                             (set! x.2 2)
+                             (set! x.1 x.2))
+                           x.1)))
   ; a few normalize-bind test for sanity
   (check-equal? (normalize-bind
                  `(module (begin (set! x.1 0) (+ 1 1))))
@@ -182,4 +200,3 @@
       (set! x.1 3))
     x.1)))
   )
-

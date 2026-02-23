@@ -1,5 +1,6 @@
 #lang racket
 (require cpsc411/compiler-lib)
+(require cpsc411/langs/v4)
 (provide interp-nested-asm-lang)
 
 ;  p	 	::=	 	tail
@@ -64,4 +65,6 @@
           ,tail)
        (for-each interp-effect fxs)
        (interp-tail tail)]))
-  (interp-tail p))
+  #;
+  (interp-tail p)
+  (interp-nested-asm-lang-v4 p))

@@ -46,10 +46,9 @@
                 ; replace-locations   ;TODO: rewrite
                 ; assign-homes-opt    ;TODO: rewrite
                 optimize-predicates
-                expose-basic-blocks
+                ; expose-basic-blocks
                 ; resolve-predicates
                 ; flatten-program
-
                 ; patch-instructions  ;TODO: rewrite
                 ; implement-fvars     ;TODO: rewrite
                 ; generate-x64        ;TODO: rewrite
@@ -67,7 +66,7 @@
           ; values
           ; values
           values
-          values
+          ; values
           ; values
           ; values
           ; values
@@ -85,7 +84,9 @@
 (require "implement-fvars.rkt")
 (require "resolve-predicates.rkt")
 (require "generate-x64.rkt")
+(require "expose-basic-blocks.rkt")
 (require "flatten-program.rkt")
+
 
 (define paren-x64-fvars-v2->asm
   (compose generate-x64 implement-fvars))
@@ -117,33 +118,33 @@
 ;; (values-lang v3) -> (x64)
 ;; Compiles values-lang-v3 into x64, represented as a string, stores everything on stack
 (define (compile-m2 p)
-    (parameterize ([current-pass-list
-                    (list uniquify 
-                    sequentialize-let 
-                    normalize-bind 
-                    select-instructions 
-                    assign-homes
-                    flatten-begins 
-                    patch-instructions 
-                    implement-fvars 
-                    generate-x64)])
+  (parameterize ([current-pass-list
+                  (list uniquify
+                        sequentialize-let
+                        normalize-bind
+                        select-instructions
+                        assign-homes
+                        flatten-begins
+                        patch-instructions
+                        implement-fvars
+                        generate-x64)])
     (compile p)
     )
-    )
+  )
 
 ;; (values-lang v3) -> (x64)
-;; Compiles values-lang-v3 into x64, represented as a string, tries to use registers 
+;; Compiles values-lang-v3 into x64, represented as a string, tries to use registers
 (define (compile-m3 p)
-    (parameterize ([current-pass-list
-                    (list uniquify 
-                    sequentialize-let 
-                    normalize-bind 
-                    select-instructions 
-                    assign-homes-opt
-                    flatten-begins 
-                    patch-instructions 
-                    implement-fvars 
-                    generate-x64)])
+  (parameterize ([current-pass-list
+                  (list uniquify
+                        sequentialize-let
+                        normalize-bind
+                        select-instructions
+                        assign-homes-opt
+                        flatten-begins
+                        patch-instructions
+                        implement-fvars
+                        generate-x64)])
     (compile p)))
 
 
@@ -177,11 +178,11 @@
 
 (module+ test
   (require
-   rackunit
-   rackunit/text-ui
-   cpsc411/langs/v4
-   cpsc411/test-suite/public/v4
-   racket/engine)
+    rackunit
+    rackunit/text-ui
+    cpsc411/langs/v4
+    cpsc411/test-suite/public/v4
+    racket/engine)
 
   ;; Milliseconds (any/c -> any_1) (() -> any_2) -> any_1 or any_2
   ;; Runs proc in an engine, returning its result, or calling the failure
@@ -203,9 +204,9 @@
 
   (check-timeout?
    (lambda (_)
-    (interp-paren-x64
-     '(begin
-        (with-label L.f.10 (jump L.f.10)))))
+     (interp-paren-x64
+      '(begin
+         (with-label L.f.10 (jump L.f.10)))))
    2000)
 
   (require (submod "uniquify.rkt" test))
@@ -218,6 +219,7 @@
   (require (submod "resolve-predicates.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "generate-x64.rkt" test))
+  (require (submod "expose-basic-blocks.rkt" test))
   (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
 
 

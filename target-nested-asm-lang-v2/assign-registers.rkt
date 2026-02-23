@@ -9,6 +9,8 @@
 ; p	 	::=	 	(module info tail)
 ;  info	 	::=	 	(#:from-contract (info/c (locals (aloc ...)) (assignment ((aloc loc) ...))))
 
+
+;; same as v4
 (provide
  assign-registers)
 
@@ -40,7 +42,7 @@
 ;;     if given Y does not exists in the list of Y, do nothing
 (define (remove-from-loy pair val)
   (list (car pair) (remove val (cadr pair))))
-;; asm-lang-v2/conflicts -> asm-lang-v2/assignments
+;; asm-lang-v4/conflicts -> asm-lang-v4/assignments
 ;; Performs graph-colouring register allocation. The pass attempts to fit each of
 ;;     the abstract location declared in the locals set into a register,
 ;;     and if one cannot be found, assigns it a frame variable instead.
@@ -48,12 +50,12 @@
   (define assignables (current-assignable-registers))
   (define num-fvars 0)
 
-  ;let cinfo represent asm-lang-v2/conflicts-info
-  ;let clocals represent asm-lang-v2/conflicts-info-locals
-  ;let conflicts represent asm-lang-v2/conflicts-info-conflicts
-  ;let ainfo represent asm-lang-v2/assignments-info
-  ;let alocals represent asm-lang-v2/assignments-info-locals
-  ;let assignments represent asm-lang-v2/assignment-info-assignments
+  ;let cinfo represent asm-lang-v4/conflicts-info
+  ;let clocals represent asm-lang-v4/conflicts-info-locals
+  ;let conflicts represent asm-lang-v4/conflicts-info-conflicts
+  ;let ainfo represent asm-lang-v4/assignments-info
+  ;let alocals represent asm-lang-v4/assignments-info-locals
+  ;let assignments represent asm-lang-v4/assignment-info-assignments
 
   ;; (listof aloc) assignments -> (register or fvar)
   ;; produce a register that is not assigned by any aloc in the 'self-conflicts' list

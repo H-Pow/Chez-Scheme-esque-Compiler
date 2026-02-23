@@ -49,7 +49,7 @@
 
 (provide conflict-analysis)
 
-;; (Asm-lang-v2/undead p) -> (Asm-lang-v2/conflicts p)
+;; (Asm-lang-v4/undead p) -> (Asm-lang-v4/conflicts p)
 ;; Decorates a program with its conflict graph, replacing the undead-out set in the info
 ;; field
 (define (conflict-analysis p)
@@ -61,6 +61,41 @@
     (if (aloc? triv)
         (set-remove ust triv)
         ust))
+
+    ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
+    (define (analyze-tree-effect ust effect graph-init)
+        (match* (effect ust)
+            [(`(begin ,effects ...) _)
+              (for/fold ([graph graph-init])
+                        ([effect effects]
+                         [ust ust])
+                (analyze-tree-effect ust effect graph))]
+            [(`(set! ,aloc (,binop ,aloc ,triv)) _)
+              (update-graph graph-init aloc ust)]
+            [(`(set! ,aloc ,triv) _)
+              (update-graph graph-init aloc (set-remove-triv ust triv))]
+            [(`(if ,pred ,effect1 ,effect2)
+              `(,ust1 ,ust2 ,ust3))
+              (analyze-tree-effect ust3 effect2 (analyze-tree-effect ust2 effect1 graph-init))]))
+
+    ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
+    (define (analyze-tree-tail ust tail graph-init)
+        (match* (tail ust)
+          [(`(begin ,effects ... ,tail)
+            `(,usts ... ,ust))
+            (analyze-tree-tail ust tail 
+              (for/fold ([graph graph-init])
+                        ([effect effects]
+                        [ust usts])
+              (analyze-tree-effect ust effect graph)))]
+          [(`(halt ,triv)
+            ust)
+            graph-init]
+          ;; pred doesn't need to be checked for conflicts, 
+          ;; as it is impossible to define new variables in pred.
+          [(`(if ,pred ,tail1 ,tail2)
+            `(,ust1 ,ust2 ,ust3))
+            (analyze-tree-tail ust3 tail2 (analyze-tree-tail ust2 tail1 graph-init))]))
 
   ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
   (define (analyze-tree-effect ust effect graph-init)
@@ -296,6 +331,7 @@
                            (halt x.6))
                    ))
 
+
   #;
   ;;works
   (check-equal?
@@ -322,3 +358,78 @@
                 (set! y.2 (+ y.2 x.1)))
               (halt y.2))
       )))
+
+#; ;;works
+ (check-equal?
+ (conflict-analysis `(module ((locals (y.2 x.1 B.3)) 
+                              (undead-out (
+                                           (
+                                            (y.2) 
+                                            (x.1 y.2) 
+                                            (x.1 y.2)) 
+                                           (
+                                            (x.1 y.2) 
+                                            (y.2)) 
+                                            ()))) 
+                                (begin 
+                                 (begin 
+                                  (set! y.2 1) 
+                                  (set! x.1 1) 
+                                  (set! B.3 x.1)) 
+                                 (begin 
+                                  (set! x.1 (+ x.1 1)) 
+                                  (set! y.2 (+ y.2 x.1))) 
+                                 (halt y.2))))
+ `(module
+  ((locals (y.2 x.1 B.3))
+   (conflicts ((B.3 (y.2)) (x.1 (y.2)) (y.2 (x.1 B.3)))))
+  (begin
+    (begin (set! y.2 1) (set! x.1 1) (set! B.3 x.1))
+    (begin (set! x.1 (+ x.1 1)) (set! y.2 (+ y.2 x.1)))
+    (halt y.2))))
+
+  ;; milestone 4
+
+  (check-equal?
+  (conflict-analysis `(module ((locals (x.1 y.2 b.3 c.4))
+                               (undead-out (
+                                            (x.1) 
+                                            (x.1 y.2) 
+                                            (
+                                              (y.2 b.3) 
+                                              (b.3) 
+                                              (b.3 c.4) 
+                                              ((c.4) 
+                                               () 
+                                               (
+                                                (c.4) 
+                                                ()))))))
+                        (begin
+                          (set! x.1 5)
+                          (set! y.2 x.1)
+                          (begin
+                            (set! b.3 x.1)
+                            (set! b.3 (+ b.3 y.2))
+                            (set! c.4 b.3)
+                            (if (= c.4 b.3)
+                                (halt c.4)
+                                (begin
+                                  (set! x.1 c.4)
+                                  (halt c.4)))))))
+`(module
+  ((locals (x.1 y.2 b.3 c.4))
+   (conflicts ((c.4 ()) (b.3 (y.2)) (y.2 (b.3)) (x.1 ()))))
+  (begin
+    (set! x.1 5)
+    (set! y.2 x.1)
+    (begin
+      (set! b.3 x.1)
+      (set! b.3 (+ b.3 y.2))
+      (set! c.4 b.3)
+      (if (= c.4 b.3) 
+          (halt c.4) 
+          (begin 
+            (set! x.1 c.4) 
+            (halt c.4)))))))
+
+)

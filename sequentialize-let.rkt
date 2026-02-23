@@ -62,10 +62,17 @@
 ; aloc	 	::=	 	aloc?
 ; int64	 	::=	 	int64?
 
-; values-unique-lang-v3 -> imp-mf-lang-v3
+; values-unique-lang-v4 -> imp-mf-lang-v4
 (define (sequentialize-let vulv3)
-  ;; let assignment be (list values-unique-lang-v3-aloc values-unique-lang-v3-value)
-  ;; let k be continuation (imp-mf-lang-v3-effect ... imp-mf-lang-v3-tail) -> imp-mf-lang-v3-tail)
+
+  (define (wrap-begin tail*)
+  (if (= 1 (length tail*))
+      (first tail*)
+      `(begin ,@tail*)))
+
+
+  ;; let assignment be (list values-unique-lang-v4-aloc values-unique-lang-v4-value)
+  ;; let k be continuation (imp-mf-lang-v4-effect ... imp-mf-lang-v4-tail) -> imp-mf-lang-v4-tail)
   (define (seq-let-assignment* a* k)
     (if (empty? a*)
         (k '())
@@ -75,16 +82,54 @@
 
   (define (seq-let-assignment a k)
     (match a
-      [`(,aloc ,val)
-       (seq-let-tail val
-                     (λ (tail*)
-                       (k (append (remove (last tail*) tail*) `((set! ,aloc ,(last tail*)))))))]))
+      [`(,aloc ,val) (seq-let-tail val
+                                   (λ(tail*)
+                                     (k (append (remove (last tail*) tail*)
+                                                `((set! ,aloc ,(last tail*)))))))]))
+  (define (seq-let-pred pred k)
+  (match pred
+    [`(not ,p)
+     (seq-let-pred p
+       (λ (p*)
+         (k (append (remove (last p*) p*)
+                    (list `(not ,(last p*)))))))]
+    [`(if ,p1 ,p2 ,p3)
+     (seq-let-pred p1
+      (λ (p1-effects)
+         (seq-let-pred p2
+           (λ (p2-effects)
+              (seq-let-pred p3
+                (λ (p3-effects)
+                  (k (list `(if ,(wrap-begin p1-effects)
+                                ,(wrap-begin p2-effects)
+                                ,(wrap-begin p3-effects))))))))))]
+    [`(let (,as ...) ,p)
+     (seq-let-assignment* as
+       (λ (a*)
+         (seq-let-pred p
+           (λ (p*)
+             (k (append a* p*))))))]
+    [_ (k (list pred))]))
+    
   (define (seq-let-tail tail k)
     (match tail
       [`(let (,assignments ...) ,tail2)
-       (seq-let-assignment* assignments
-                            (λ (tail*) (seq-let-tail tail2 (λ (tail*2) (k (append tail* tail*2))))))]
+       (seq-let-assignment*
+        assignments (λ (tail*)
+                      (seq-let-tail tail2
+                                    (λ(tail*2)
+                                      (k (append tail*
+                                                 tail*2))))))]
+      [`(if ,p ,t1 ,t2)
+        (seq-let-pred p
+          (λ (pred-effects)
+            (seq-let-tail t1 (λ (t1-effects)
+              (seq-let-tail t2 (λ (t2-effects)
+                (k (list `(if ,(wrap-begin pred-effects)
+                              ,(wrap-begin t1-effects)
+                              ,(wrap-begin t2-effects))))))))))]
       [_ (k (list tail))]))
+
   (define (seq-let-p p)
     (match p
       [`(module ,tail)
@@ -114,19 +159,23 @@
                            (set! x.1 5)
                            (+ x.1 y.2))))
   ; custom seq-let tests
-  (check-equal? (sequentialize-let `(module 5)) `(module 5))
-  (check-equal? (sequentialize-let `(module (let ([x.1 1]
-                                                  [y.1 2])
-                                              x.1)))
-                `(module (begin
-                           (set! x.1 1)
-                           (set! y.1 2)
-                           x.1)))
-  (check-equal? (sequentialize-let `(module (let ([x.1 1]
-                                                  [y.1 2])
-                                              (let ([x.2 x.1]) x.2))))
-                `(module (begin
-                           (set! x.1 1)
-                           (set! y.1 2)
-                           (set! x.2 x.1)
-                           x.2))))
+  (check-equal? (sequentialize-let `(module 5))
+                `(module 5))
+  (check-equal? (sequentialize-let `(module (let [(x.1 1) (y.1 2)] x.1)))
+                `(module (begin (set! x.1 1)
+                                (set! y.1 2)
+                                x.1)))
+  (check-equal? (sequentialize-let `(module (let [(x.1 1) (y.1 2)]
+                                              (let [(x.2 x.1)] x.2))))
+                `(module (begin (set! x.1 1)
+                                (set! y.1 2)
+                                (set! x.2 x.1)
+                                x.2)))
+  (check-equal? (sequentialize-let `(module (if (let ([x.1 1] [y.1 2])
+                                     (let ([x.2 x.1]) (true)))
+                                (let ([x.1 2]) x.1)
+                                (let ([x.1 1]) x.1))))
+                `(module (if (begin (set! x.1 1) (set! y.1 2) (set! x.2 x.1) (true))
+                          (begin (set! x.1 2) x.1)
+                          (begin (set! x.1 1) x.1))))
+  )

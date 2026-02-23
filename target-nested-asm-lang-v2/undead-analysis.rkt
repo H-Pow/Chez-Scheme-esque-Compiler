@@ -2,58 +2,54 @@
 
 (require cpsc411/compiler-lib)
 
-
 ;; Asm-lang v2/locals
 ; p	 	    ::=	 	(module info tail)
-;	 	 	 	 
+;
 ; info	 	::=	 	(#:from-contract (info/c (locals (aloc ...))))
-; 	 	 	 	 
+;
 ; tail	 	::=	 	(halt triv)
 ;	 	       |	 	(begin effect ... tail)
-;	 	 	 	  
+;
 ; effect	 ::=	(set! aloc triv)
 ;	 	         |	 	(set! aloc_1 (binop aloc_1 triv))
 ;	 	         |	 	(begin effect ... effect)
-;	 	 	 	 
+;
 ; triv	 	::=	 	int64
 ;	 	       |	 	aloc
-;	 	 	 	 
+;
 ; binop	 	::=	 	*
 ;	 	       |	 	+
-;	 	 	 	 
+;
 ; aloc	 	::=	 	aloc?
-;	 	 	 	 
+;
 ; int64	 	::=	 	int64?
-
 
 ;; Asm-lang v2/undead
 ; p	 	    ::=	 	(module info tail)
- 	 	 	 	 
+
 ; info	 	::=	 	(#:from-contract (info/c (locals (aloc ...)) (undead-out undead-set-tree?)))
- 	 	 	 	 
+
 ; tail	 	::=	 	(halt triv)
 ;	 	       |	 	(begin effect ... tail)
-;	 	 	 	 
+;
 ; effect	 ::=	  (set! aloc triv)
 ;	 	         |	 	(set! aloc_1 (binop aloc_1 triv))
 ;	 	         |	 	(begin effect ... effect)
-;	 	 	 	 
+;
 ; triv	 	::=	 	int64
 ;	 	       |	 	aloc
-;	 	 	 	 
+;
 ; binop	 	::=	 	*
 ;	 	        |	 	+
-;	 	 	 	   
+;
 ; aloc	 	::=	 	aloc?
-;	 	 	 	 
+;
 ; int64	 	::=	 	int64?
 
-(provide 
- undead-analysis)
-
+(provide undead-analysis)
 
 ;; (asm-lang-v2/locals p) -> (asm-lang-v2/undead p)
-;; Performs undeadness analysis, decorating the program with undead-set tree. 
+;; Performs undeadness analysis, decorating the program with undead-set tree.
 ;; Only the info field of the program is modified.
 (define (undead-analysis p)
 
@@ -174,19 +170,16 @@
   
   (define (insert-undead-analysis ust info)
     (match info
-      [`(,locals)
-        `(,locals (undead-out ,ust))]))
+      [`(,locals) `(,locals (undead-out ,ust))]))
 
   (match p
-    [`(module ,info ,tail)
-      `(module ,(insert-undead-analysis (get-ust tail) info) ,tail)]))
-
-
-
+    [`(module ,info ,tail
+        )
+     `(module ,(insert-undead-analysis (get-ust tail) info) ,tail
+        )]))
 
 (module+ test
   (require rackunit)
-
     (define (set-list=? a b)
     (set=? (list->set a)
            (list->set b)))

@@ -43,7 +43,7 @@
                 ; assign-registers    ;TODO: rewrite
                 ; replace-locations   ;TODO: rewrite
                 ; assign-homes-opt    ;TODO: rewrite
-                optimize-predicates
+                ; optimize-predicates
                 ; expose-basic-blocks
                 ; resolve-predicates
                 ; flatten-program
@@ -63,7 +63,7 @@
           ; values
           ; values
           ; values
-          values
+          ; values
           ; values
           ; values
           ; values

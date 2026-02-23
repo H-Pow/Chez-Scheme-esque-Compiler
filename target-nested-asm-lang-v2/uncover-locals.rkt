@@ -57,22 +57,27 @@
             ,(uncover-tail tail2))]))
   (define (uncover-p p)
     (match p
-      [`(module ,info ,tail)
+      [`(module ,info ,tail
+          )
        (define utail (uncover-tail tail))
-       `(module ,(info-set info 'locals locals)
-          ,utail)]))
-  (uncover-p al2)
-  )
+       `(module ,(info-set info 'locals locals) ,utail
+          )]))
+  (uncover-p al2))
 
 (module+ test
   (require rackunit)
   ; example output for uncover-locals
 
   (check-match (uncover-locals '(module ()
-                                  (begin
-                                    (set! x.1 0)
-                                    (halt x.1))))
-               '(module ((locals (x.1))) (begin (set! x.1 0) (halt x.1))))
+                                        (begin
+                                          (set! x.1 0)
+                                          (halt x.1))
+                                  ))
+               '(module ((locals (x.1)))
+                        (begin
+                          (set! x.1 0)
+                          (halt x.1))
+                  ))
   (check-match (uncover-locals '(module ()
                                   (begin
                                     (set! x.1 0)

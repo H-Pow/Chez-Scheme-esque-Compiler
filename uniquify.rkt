@@ -86,9 +86,9 @@
 
   (define (uniquify-pred pred env)
     (match pred
-      [`(,relop ,triv ,triv)
+      [`(,relop ,triv1 ,triv2)
        #:when (memq relop '(< <= = >= > !=))
-       `(,relop ,(uniquify-triv triv env) ,(uniquify-triv triv env))]
+       `(,relop ,(uniquify-triv triv1 env) ,(uniquify-triv triv2 env))]
       [`(true) pred]
       [`(false) pred]
       [`(not ,pred) `(not ,(uniquify-pred pred env))]

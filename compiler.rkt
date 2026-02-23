@@ -31,25 +31,25 @@
 
 ;; Stubs; remove or replace with your definitions.
 (define-values (check-values-lang
-                ; interp-values-lang  ;TODO: rewrite
+                ; interp-values-lang
 
-                ; uniquify            ;TODO: rewrite
-                ; sequentialize-let   ;TODO: rewrite
-                ; normalize-bind      ;TODO: rewrite
-                ; select-instructions ;TODO: rewrite
-                ; uncover-locals      ;TODO: rewrite
-                ; undead-analysis     ;TODO: rewrite
-                ; conflict-analysis   ;TODO: rewrite
-                ; assign-registers    ;TODO: rewrite
-                ; replace-locations   ;TODO: rewrite
-                ; assign-homes-opt    ;TODO: rewrite
+                ; uniquify            
+                ; sequentialize-let   
+                ; normalize-bind      
+                ; select-instructions 
+                ; uncover-locals      
+                ; undead-analysis     
+                ; conflict-analysis   
+                ; assign-registers    
+                ; replace-locations   
+                ; assign-homes-opt    
                 ; optimize-predicates
                 ; expose-basic-blocks
                 ; resolve-predicates
                 ; flatten-program
-                ; patch-instructions  ;TODO: rewrite
-                ; implement-fvars     ;TODO: rewrite
-                ; generate-x64        ;TODO: rewrite
+                ; patch-instructions  
+                ; implement-fvars     
+                ; generate-x64        
                 )
   (values values
           ; values

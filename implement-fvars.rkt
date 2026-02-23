@@ -19,9 +19,9 @@
   ; |	 	(set! reg_1 (binop reg_1 int32))
   ; |	 	(set! reg_1 (binop reg_1 loc))
   ; |	  (with-label label s)
- 	; |	 	(jump trg)
- 	;	|	 	(compare reg opand)
- 	; |	 	(jump-if relop label)
+  ; |	 	(jump trg)
+  ;	|	 	(compare reg opand)
+  ; |	 	(jump-if relop label)
   (define (implement-s s)
     (match s
       [`(set! ,fvar ,i32)
@@ -42,15 +42,10 @@
       [`(set! ,reg ,loc)
        #:when (and (register? reg) (loc? loc))
        `(set! ,reg ,(implement-loc loc))]
-      [`(with-label ,label ,s)
-        `(with-label ,label ,(implement-s s))]
-      [`(jump ,trg)
-        `(jump ,trg)]
-      [`(compare ,reg ,opand)
-        `(compare ,reg ,opand)]
-      [`(jump-if ,relop ,label)
-        `(jump-if ,relop ,label)]
-      ))
+      [`(with-label ,label ,s) `(with-label ,label ,(implement-s s))]
+      [`(jump ,trg) `(jump ,trg)]
+      [`(compare ,reg ,opand) `(compare ,reg ,opand)]
+      [`(jump-if ,relop ,label) `(jump-if ,relop ,label)]))
 
   (define (implement-loc loc)
     (match loc
@@ -76,17 +71,14 @@
                    (set! r10 (rbp - 8))
                    (set! (rbp - 0) r10)
                    (set! rax (rbp - 0))))
-                   
-                   
-                   
-  (check-equal? (implement-fvars `(begin 
+
+  (check-equal? (implement-fvars `(begin
                                     (set! fv0 0)
                                     (with-label L.start.1 (set! fv1 5))
                                     (compare r15 0)
-                                    (jump-if = L.start.1)
-                                    ))
+                                    (jump-if = L.start.1)))
                 `(begin
-                  (set! (rbp - 0) 0)
-                  (with-label L.start.1 (set! (rbp - 8) 5))
-                  (compare r15 0)
-                  (jump-if = L.start.1))))
+                   (set! (rbp - 0) 0)
+                   (with-label L.start.1 (set! (rbp - 8) 5))
+                   (compare r15 0)
+                   (jump-if = L.start.1))))

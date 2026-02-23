@@ -10,8 +10,7 @@
 ;  info	 	::=	 	(#:from-contract (info/c (locals (aloc ...)) (assignment ((aloc loc) ...))))
 
 ;; same as v4
-(provide
- assign-registers)
+(provide assign-registers)
 
 ;; (Listof X) (X -> Number) (X -> Y) -> Y
 ;; returns the (k x) with x as the least value item of the list given the evaluation function

@@ -3,7 +3,6 @@
 (require cpsc411/compiler-lib)
 (provide resolve-predicates)
 
-
 ;;
 ;   p	 	::=	 	(module b ... b)
 
@@ -32,9 +31,10 @@
 ;; if statements to resolve branches.
 (define (resolve-predicates p)
   (match p
-    [`(module ,b* ... ,b)
-     `(module ,@(map resolve-b b*) ,(resolve-b b))])
-  )
+    [`(module ,b* ...
+        ,b)
+     `(module ,@(map resolve-b b*) ,(resolve-b b)
+        )]))
 (define (resolve-pred pred truecase falsecase)
   (match pred
     [`(,_ ,_ ,_) `(if ,pred ,truecase ,falsecase)]
@@ -45,17 +45,20 @@
   (match tail
     [`(halt ,_) tail]
     [`(jump ,_) tail]
-    [`(begin ,fx* ... ,tail)
-     `(begin ,@fx* ,(resolve-tail tail))]
+    [`(begin
+        ,fx* ...
+        ,tail)
+     `(begin
+        ,@fx*
+        ,(resolve-tail tail))]
     [`(if ,pred
           (jump ,trg1)
           (jump ,trg2))
-     (resolve-pred pred
-                   `(jump ,trg1)
-                   `(jump ,trg2))] ))
+     (resolve-pred pred `(jump ,trg1) `(jump ,trg2))]))
 (define (resolve-b b)
   (match b
-    [`(define ,(? label? label) ,tail)
+    [`(define ,(? label? label)
+        ,tail)
      `(define ,label ,(resolve-tail tail))]))
 
 (module+ test
@@ -69,115 +72,79 @@
     (check-equal? (interp-block-pred-lang-v4 bpl4)
                   (interp-block-asm-lang-v4 (resolve-predicates bpl4))))
 
-  (check-resolve-predicates `(module (define L.start.1
-                                       (halt 5)))
-                            `(module (define L.start.1
-                                       (halt 5))))
+  (check-resolve-predicates `(module (define L.start.1 (halt 5)))
+                            `(module (define L.start.1 (halt 5))))
 
-  (check-resolve-predicates `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1)))
-                            `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))))
+  (check-resolve-predicates `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
+                               )
+                            `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
+                               ))
 
-  (check-resolve-predicates `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))
+  (check-resolve-predicates `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
                                (define L.start.3
                                  (if (not (true))
                                      (jump L.start.2)
                                      (jump L.start.1))))
-                            `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))
-                               (define L.start.3
-                                 (jump L.start.1))))
-  (check-resolve-predicates `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))
+                            `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
+                               (define L.start.3 (jump L.start.1))))
+  (check-resolve-predicates `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
                                (define L.start.3
                                  (if (true)
                                      (jump L.start.2)
                                      (jump L.start.1))))
-                            `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))
-                               (define L.start.3
-                                 (jump L.start.2))))
-  (check-resolve-predicates `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))
+                            `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
+                               (define L.start.3 (jump L.start.2))))
+  (check-resolve-predicates `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
                                (define L.start.3
                                  (if (false)
                                      (jump L.start.2)
                                      (jump L.start.1))))
-                            `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (jump L.start.1))
-                               (define L.start.3
-                                 (jump L.start.1))))
+                            `(module (define L.start.1 (halt 5)) (define L.start.2 (jump L.start.1))
+                               (define L.start.3 (jump L.start.1))))
 
-  (check-resolve-predicates `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (begin
-                                   (set! rax 5)
-                                   (jump L.start.1)))
+  (check-resolve-predicates `(module (define L.start.1 (halt 5))
+                                     (define L.start.2
+                                       (begin
+                                         (set! rax 5)
+                                         (jump L.start.1)))
                                (define L.start.3
                                  (if (> rax 2)
                                      (jump L.start.2)
                                      (jump L.start.1))))
-                            `(module (define L.start.1
-                                       (halt 5))
-                               (define L.start.2
-                                 (begin
-                                   (set! rax 5)
-                                   (jump L.start.1)))
+                            `(module (define L.start.1 (halt 5))
+                                     (define L.start.2
+                                       (begin
+                                         (set! rax 5)
+                                         (jump L.start.1)))
                                (define L.start.3
                                  (if (> rax 2)
                                      (jump L.start.2)
                                      (jump L.start.1)))))
-  (check-by-interp `(module
-                        (define L.start.1
-                          (begin
-                            (set! rax 1)
-                            (set! rdi 5)
-                            (jump L.fact.1)))
-                      (define L.fact.1
-                        (begin
-                          (set! rax (* rax rdi))
-                          (set! rdi (+ rdi -1))
-                          (if (> rdi 0)
-                              (jump L.fact.1)
-                              (jump L.end.1))))
-                      (define L.end.1
-                        (halt rax))))
-  (check-by-interp `(module
-                        (define L.start.1
-                          (begin (if (true)
-                                     (jump L.end.1)
-                                     (jump L.end.2))))
-                      (define L.end.1
-                        (halt 0))
-                      (define L.end.2
-                        (halt 1))))
+  (check-by-interp `(module (define L.start.1
+                              (begin
+                                (set! rax 1)
+                                (set! rdi 5)
+                                (jump L.fact.1)))
+                            (define L.fact.1
+                              (begin
+                                (set! rax (* rax rdi))
+                                (set! rdi (+ rdi -1))
+                                (if (> rdi 0)
+                                    (jump L.fact.1)
+                                    (jump L.end.1))))
+                      (define L.end.1 (halt rax))))
+  (check-by-interp `(module (define L.start.1
+                              (begin
+                                (if (true)
+                                    (jump L.end.1)
+                                    (jump L.end.2))))
+                            (define L.end.1 (halt 0))
+                      (define L.end.2 (halt 1))))
 
-  (check-by-interp `(module
-                        (define L.start.1
-                          (begin (if (not (true))
-                                     (jump L.end.1)
-                                     (jump L.end.2))))
-                      (define L.end.1
-                        (halt 0))
-                      (define L.end.2
-                        (halt 1))))
-  )
+  (check-by-interp `(module (define L.start.1
+                              (begin
+                                (if (not (true))
+                                    (jump L.end.1)
+                                    (jump L.end.2))))
+                            (define L.end.1 (halt 0))
+                      (define L.end.2 (halt 1)))))

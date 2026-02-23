@@ -82,14 +82,14 @@
       [((? int64?) (? int64?)) (op v1 v2)]
       [(_ _) 'unknown]))
 
-(define (patch-relop op)
-  (match op
-    ['> >]           
-    ['< <]
-    ['= =]
-    ['>= >=]
-    ['<= <=]
-    ['!= (λ (x y) (not (= x y)))]))
+  (define (patch-relop op)
+    (match op
+      ['> >]
+      ['< <]
+      ['= =]
+      ['>= >=]
+      ['<= <=]
+      ['!= (λ (x y) (not (= x y)))]))
 
   ;; (nested-asm-lang-v4 relop loc triv (list (loc . (triv | 'unknown)))
   ;;                                          -> '(true) | '(false) | 'unknown
@@ -243,26 +243,26 @@
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-nested-asm-lang-v4 p) (interp-nested-asm-lang-v4 (optimize-predicates p))))
 
-;   (check-by-interp (assign-homes-opt '(module ()
-;                                               (begin
-;                                                 (set! x.1 2)
-;                                                 (set! x.2 2)
-;                                                 (set! tmp.2 x.1)
-;                                                 (set! tmp.2 (+ tmp.2 x.2))
-;                                                 (halt tmp.2))
-;                                         )))
-;     (define inputs (map assign-homes-opt asm-lang-progs))
-    
-;   (for-each check-equal?
-;             (map (compose interp-nested-asm-lang-v4 assign-homes-opt) asm-lang-progs)
-;             (map (compose interp-nested-asm-lang-v4 optimize-predicates assign-homes-opt)
-;                  asm-lang-progs))
-; (for-each
-;  (λ (prog)
-;    (define input (assign-homes-opt prog))
-;    (check-equal? (interp-nested-asm-lang-v4 input)
-;                  (interp-nested-asm-lang-v4 (optimize-predicates input))))
-;  asm-lang-progs)
+  ;   (check-by-interp (assign-homes-opt '(module ()
+  ;                                               (begin
+  ;                                                 (set! x.1 2)
+  ;                                                 (set! x.2 2)
+  ;                                                 (set! tmp.2 x.1)
+  ;                                                 (set! tmp.2 (+ tmp.2 x.2))
+  ;                                                 (halt tmp.2))
+  ;                                         )))
+  ;     (define inputs (map assign-homes-opt asm-lang-progs))
+
+  ;   (for-each check-equal?
+  ;             (map (compose interp-nested-asm-lang-v4 assign-homes-opt) asm-lang-progs)
+  ;             (map (compose interp-nested-asm-lang-v4 optimize-predicates assign-homes-opt)
+  ;                  asm-lang-progs))
+  ; (for-each
+  ;  (λ (prog)
+  ;    (define input (assign-homes-opt prog))
+  ;    (check-equal? (interp-nested-asm-lang-v4 input)
+  ;                  (interp-nested-asm-lang-v4 (optimize-predicates input))))
+  ;  asm-lang-progs)
 
   (check-equal? (optimize-predicates `(module (begin
                                                 (true))))
@@ -338,7 +338,7 @@
                                                     (true)))))
                 `(module (begin
                            (set! rax 1)
-                                                    (false))))
+                           (false))))
   (check-equal? (optimize-predicates `(module (begin
                                                 (set! rax ,(max-int 64))
                                                 (set! rbx ,(min-int 64))
@@ -354,7 +354,4 @@
                            (set! rdi rax) ;; r[rdi] = -1
                            (if (< rdi 0)
                                (halt 1)
-                               (halt 0)))))
-                               
-                               
-                               )
+                               (halt 0))))))

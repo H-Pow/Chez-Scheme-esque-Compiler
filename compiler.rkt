@@ -33,23 +33,23 @@
 (define-values (check-values-lang
                 ; interp-values-lang
 
-                ; uniquify            
-                ; sequentialize-let   
-                ; normalize-bind      
-                ; select-instructions 
-                ; uncover-locals      
-                ; undead-analysis     
-                ; conflict-analysis   
-                ; assign-registers    
-                ; replace-locations   
-                ; assign-homes-opt    
+                ; uniquify
+                ; sequentialize-let
+                ; normalize-bind
+                ; select-instructions
+                ; uncover-locals
+                ; undead-analysis
+                ; conflict-analysis
+                ; assign-registers
+                ; replace-locations
+                ; assign-homes-opt
                 ; optimize-predicates
                 ; expose-basic-blocks
                 ; resolve-predicates
                 ; flatten-program
-                ; patch-instructions  
-                ; implement-fvars     
-                ; generate-x64        
+                ; patch-instructions
+                ; implement-fvars
+                ; generate-x64
                 )
   (values values
           ; values
@@ -85,7 +85,6 @@
 (require "expose-basic-blocks.rkt")
 (require "flatten-program.rkt")
 
-
 (define paren-x64-fvars-v2->asm (compose generate-x64 implement-fvars))
 (define para-asm-lang-v2->asm (compose paren-x64-fvars-v2->asm patch-instructions))
 (define nested-asm-lang-v2->asm (compose para-asm-lang-v2->asm flatten-begins))
@@ -107,16 +106,15 @@
 ;; (values-lang v3) -> (x64)
 ;; Compiles values-lang-v3 into x64, represented as a string, stores everything on stack
 (define (compile-m2 p)
-  (parameterize ([current-pass-list
-                  (list uniquify
-                        sequentialize-let
-                        normalize-bind
-                        select-instructions
-                        assign-homes
-                        flatten-begins
-                        patch-instructions
-                        implement-fvars
-                        generate-x64)])
+  (parameterize ([current-pass-list (list uniquify
+                                          sequentialize-let
+                                          normalize-bind
+                                          select-instructions
+                                          assign-homes
+                                          flatten-begins
+                                          patch-instructions
+                                          implement-fvars
+                                          generate-x64)])
     (compile p)))
 
 ;; (values-lang v3) -> (x64)
@@ -161,12 +159,11 @@
   (TODO "Redesign and implement interp-paren-x64 for Exercise 3."))
 
 (module+ test
-  (require
-    rackunit
-    rackunit/text-ui
-    cpsc411/langs/v4
-    cpsc411/test-suite/public/v4
-    racket/engine)
+  (require rackunit
+           rackunit/text-ui
+           cpsc411/langs/v4
+           cpsc411/test-suite/public/v4
+           racket/engine)
 
   ;; Milliseconds (any/c -> any_1) (() -> any_2) -> any_1 or any_2
   ;; Runs proc in an engine, returning its result, or calling the failure
@@ -185,12 +182,10 @@
     (when (run-with-timeout ms th (lambda () #t))
       (fail-check)))
 
-  (check-timeout?
-   (lambda (_)
-     (interp-paren-x64
-      '(begin
-         (with-label L.f.10 (jump L.f.10)))))
-   2000)
+  (check-timeout? (lambda (_)
+                    (interp-paren-x64 '(begin
+                                         (with-label L.f.10 (jump L.f.10)))))
+                  2000)
 
   (require (submod "uniquify.rkt" test))
   (require (submod "sequentialize-let.rkt" test))

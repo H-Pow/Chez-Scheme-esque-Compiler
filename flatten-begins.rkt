@@ -26,7 +26,8 @@
           ,fxs ...
           ,fx2)
        (append (foldr append '() (map flatten/fx->fxs fxs)) (flatten/fx->fxs fx2))]))
-  (append '(begin) (flatten-tail nal2)))
+  (match nal2 
+    [`(module ,nal2) (append '(begin) (flatten-tail nal2))]))
 
 (module+ test
   (require rackunit)

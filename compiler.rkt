@@ -4,7 +4,9 @@
          cpsc411/2c-run-time
          cpsc411/langs/v4)
 
-(provide link-paren-x64
+(provide 
+        ;values-lang-v3->asm
+         link-paren-x64
          interp-paren-x64
          interp-values-lang
          check-values-lang

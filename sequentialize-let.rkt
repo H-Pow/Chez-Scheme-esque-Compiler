@@ -13,18 +13,25 @@
     ['* x64-mul]))
 (define triv? (or/c aloc? int64?))
 ; values-unique lang-v3
-; p	 	::=	 	(module tail)
+; p	 	::=	 	(module (define label (lambda (aloc ...) tail)) ... tail)
+;   pred	 	::=	 	(relop opand opand)
+;  	 	|	 	(true) | (false) | (not pred)
+;  	 	|	 	(let ([aloc value] ...) pred)
+;  	 	|	 	(if pred pred pred)
 ;   tail	 	::=	 	value
 ;  	 	|	 	(let ([aloc value] ...) tail)
-;   value	 	::=	 	triv
-;  	 	|	 	(binop triv triv)
-;  	 	|	 	(let ([aloc value] ...) value)
-;   triv	 	::=	 	int64
-;  	 	|	 	aloc
-;   binop	 	::=	 	*
-;  	 	|	 	+
-;   aloc	 	::=	  aloc?
+;  	 	|	 	(if pred tail tail)
+;  	 	|	 	(call triv opand ...)
+;   value	 	::=	 	triv | (binop opand opand) | (let ([aloc value] ...) value)
+;  	 	|	 	(if pred value value)
+;   opand	 	::=	 	int64 |	aloc
+;   triv	 	::=	 	opand |	 label
+;   binop	 	::=	 	* |	 +
+;   relop	 	::=	 	< | <= | = | >= | > | !=
+;   aloc	 	::=	 	aloc?
+;   label	 	::=	 	label?
 ;   int64	 	::=	 	int64?
+
 (define (interp-values-unique-lang vlu)
   (define (interp-triv triv env)
     (match triv
@@ -46,24 +53,25 @@
     (match p
       [`(module ,tail) (interp-tail tail env)])))
 ;-----------------------------
-; imp-mf-lang-v3
-; p	 	::=	 	(module tail)
-; tail	 	::=	 	value
-;  	|	 	(begin effect ... tail)
-; value	 	::=	 	triv
-;  	|	 	(binop triv triv)
-;  	|	 	(begin effect ... value)
-; effect	 	::=	 	(set! aloc value)
-;  	|	 	(begin effect ... effect)
-; triv	 	::=	 	int64
-;  	|	 	aloc
-; binop	 	::=	 	*
-;  	|	 	+
-; aloc	 	::=	 	aloc?
-; int64	 	::=	 	int64?
+; imp-mf-lang-v5
+; p	 	::=
+; (module (define label (lambda (aloc ...) tail)) ...
+;         tail)
+;   pred	 	::=	 	(relop opand opand) | (true) | (false) | (not pred) | (begin effect ... pred)
+;  	 	|	 	(if pred pred pred)
+;   tail	 	::=	 	value  | (call triv opand ...) | (begin effect ... tail) | (if pred tail tail)
+;   value	 	::=	 	triv | (binop opand opand) | (begin effect ... value) |	(if pred value value)
+;   effect	 	::=	 	(set! aloc value) | (begin effect ... effect) | (if pred effect effect)
+;   opand	 	::=	 	int64 | aloc
+;   triv	 	::=	 	opand | label
+;   binop	 	::=	 	* | +
+;   relop	 	::=	 	< | <= | = | >= | > | !=
+;   aloc	 	::=	 	aloc?
+;   label	 	::=	 	label?
+;   int64	 	::=	 	int64?
 
-; values-unique-lang-v4 -> imp-mf-lang-v4
-(define (sequentialize-let vulv3)
+; values-unique-lang-v5 -> imp-mf-lang-v5
+(define (sequentialize-let vulv5)
 
   (define (wrap-begin tail*)
     (if (= 1 (length tail*))
@@ -71,8 +79,8 @@
         `(begin
            ,@tail*)))
 
-  ;; let assignment be (list values-unique-lang-v4-aloc values-unique-lang-v4-value)
-  ;; let k be continuation (imp-mf-lang-v4-effect ... imp-mf-lang-v4-tail) -> imp-mf-lang-v4-tail)
+  ;; let assignment be (list values-unique-lang-v5-aloc values-unique-lang-v5-value)
+  ;; let k be continuation (imp-mf-lang-v5-effect ... imp-mf-lang-v5-tail) -> imp-mf-lang-v5-tail)
   (define (seq-let-assignment* a* k)
     (if (empty? a*)
         (k '())
@@ -132,7 +140,7 @@
                                       tail*
                                       (list `(begin
                                                ,@tail*))))))]))
-  (seq-let-p vulv3))
+  (seq-let-p vulv5))
 
 (module+ test
   (require rackunit)

@@ -153,5 +153,43 @@
                           (jump L.a.0 rbp r9)))
                 )
     )
-    
+  (parameterize ([current-parameter-registers '()])
+    (check/full `(module (define L.a.0 (lambda (x.1) x.1)) (call L.a.0 1))
+                `(module (define L.a.0 (begin (set! x.1 fv0) x.1))
+                   (begin (set! fv0 1)
+                          (jump L.a.0 rbp fv0)))
+                )
+    )
+
+  (parameterize ([current-parameter-registers '(rdi rsi rdx)])
+    (check/full `(module (define L.fact.0
+                           (lambda (x.1 acc.1)
+                             (if (> acc.1 0)
+                                 (begin
+                                   (set! acc.1 (* acc.1 x.1))
+                                   (set! x.1 (+ x.1 -1))
+                                   (call L.fact.0
+                                         x.1
+                                         acc.1))
+                                 acc.1)))
+                   (call L.fact.0 5 1))
+                `(module (define L.fact.0
+                           (begin (set! x.1 rdi)
+                                  (set! acc.1 rsi )
+                                  (if (> acc.1 0)
+                                      (begin
+                                        (set! acc.1 (* acc.1 x.1))
+                                        (set! x.1 (+ x.1 -1))
+                                        (begin (set! rdi x.1)
+                                               (set! rsi acc.1)
+                                               (jump L.fact.0
+                                                     rbp
+                                                     rdi
+                                                     rsi)))
+                                      acc.1)))
+                   (begin (set! rdi 5)
+                          (set! rsi 1)
+                          (jump L.fact.0 rbp rdi rsi)))
+                )
+    )
   )

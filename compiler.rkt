@@ -39,6 +39,7 @@
 (require "generate-x64.rkt")
 (require "expose-basic-blocks.rkt")
 (require "flatten-program.rkt")
+(require "impose-calling-conventions.rkt")
 
 (define paren-x64-fvars-v2->asm (compose generate-x64 implement-fvars))
 (define para-asm-lang-v2->asm (compose paren-x64-fvars-v2->asm patch-instructions))
@@ -149,6 +150,7 @@
   (require (submod "generate-x64.rkt" test))
   (require (submod "expose-basic-blocks.rkt" test))
   (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
+  (require (submod "impose-calling-conventions.rkt" test))
 
   (define values-lang-progs
     (list '(module 1)

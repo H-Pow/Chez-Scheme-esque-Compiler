@@ -88,20 +88,20 @@
 ;;     by imposing calling conventions on all calls and procedure definitions.
 ;;     The parameter registers are defined by the list current-parameter-registers.
 (define (impose-calling-conventions picl5)
-  ; (listof aloc) -> (listof rloc)
+  ; (listof opand) -> (listof rloc)
   ;  generates a list of rlocs to for each aloc, following the calling convention
   (define (generate-param-list aloc*)
     (define num-param-reg (length (current-parameter-registers)))
     (define (get-reg-or-fvar idx)
       (if (< idx num-param-reg)
-          (list-ref current-assignable-registers idx)
+          (list-ref (current-parameter-registers) idx)
           (make-fvar (- idx num-param-reg))))
     (map get-reg-or-fvar (range (length aloc*))))
 
   ; (listof X) (listof Y) -> (listof `(set ,X ,Y))
   ;  generates a list of set! expressions given X and Y
   (define (generate-sets X* Y*)
-    (map (λ(x y) `(set! ,x ,y) X* Y*)))
+    (map (λ(x y) `(set! ,x ,y)) X* Y*))
 
   (define (impose-define label aloc* tail)
     `(define ,label
@@ -115,7 +115,7 @@
        (define loc* (generate-param-list opand*))
        `(begin
           ,@(generate-sets loc* opand*)
-          (jmp ,triv ,@loc*))]
+          (jump ,triv rbp ,@loc*))]
       [`(begin ,fx* ... ,tail)
        `(begin ,@fx* ,(impose-tail tail))]
       [`(if ,pred ,tail1 ,tail2)
@@ -137,21 +137,21 @@
   (require rackunit
            cpsc411/langs/v5)
   (define-syntax-rule (check picl5 icl5)
-    (check-eq? (impose-calling-conventions picl5) icl5))
+    (check-equal? (impose-calling-conventions picl5) icl5))
   (define-syntax-rule (check/interp picl5)
     (check-eq? (interp-proc-imp-cmf-lang-v5 picl5)
                (interp-imp-cmf-lang-v5 (impose-calling-conventions picl5))))
   (define-syntax-rule (check/full picl5 icl5)
     (begin
       (check picl5 icl5)
-      (check/interp picl5))
-    )
-  
+      (check/interp picl5)))
+
   (parameterize ([current-parameter-registers '(r9)])
-    (check/full `(module (define L.a.0 (lambda (x.1) (x.1))) (call L.a.0 1))
-           `(module (define L.a.0 (begin (set! x.1 r9) x.1))
-              (begin (set! r9 1)
-                     (jump L.1.0 r9)))
-           )
+    (check/full `(module (define L.a.0 (lambda (x.1) x.1)) (call L.a.0 1))
+                `(module (define L.a.0 (begin (set! x.1 r9) x.1))
+                   (begin (set! r9 1)
+                          (jump L.a.0 rbp r9)))
+                )
     )
+    
   )

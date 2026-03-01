@@ -159,25 +159,39 @@
        (foldr expose-effect! (expose-effect! fx next) fx*)]
       [`(if ,pred ,fx1 ,fx2)
        (expose-pred! pred (expose-effect! fx1 next) (expose-effect! fx2 next))]))
-  ;; nested-tail -> label
-  ;; effect: creates a block
-  (define (expose-tail! tail)
-    (define label (fresh-label 'tail))
+  ;; nested-tail (block-tail -> X) -> X
+  (define (nested-tail->block-tail& tail [k identity])
     (match tail
-      [`(halt ,_) (create-block! label tail)]
-      [`(jump ,_) (create-block! label tail)]
+      [`(halt ,_) (k tail)]
+      [`(jump ,_) (k tail)]
       [`(begin
           ,fx* ...
           ,tail)
-       (foldr expose-effect! (expose-tail! tail) fx*)]
-      [`(if ,pred ,tail1 ,tail2) (expose-pred! pred (expose-tail! tail1) (expose-tail! tail2))]
+       (k `(jump ,(foldr expose-effect! (expose-tail! tail) fx*)))]
+      [`(if ,pred ,tail1 ,tail2)
+       (k `(jump ,(expose-pred! pred (expose-tail! tail1) (expose-tail! tail2))))]
       ))
+
+  ;; nested-tail -> label
+  ;; effect: creates a block
+  (define (expose-tail! tail)
+    ;;block-tail -> label
+    (define (expose-block-label! tail)
+      (define label (fresh-label 'tail))
+      (match tail
+        [`(jump ,trg) trg]
+        [_ (create-block! label tail)]))
+    (nested-tail->block-tail& tail expose-block-label!))
   (match p
     [`(module (define ,label* ,tail*) ... ,tail)
      (begin
        (for-each create-block! label*
                  (map (λ(tail) `(jump ,(expose-tail! tail))) tail*))
-       (expose-tail! tail)
+       (nested-tail->block-tail& tail
+                                 (λ (bt)
+                                   (create-block!
+                                    (fresh-label 'start)
+                                    bt)))
        `(module ,@blocks))]))
 
 (module+ test

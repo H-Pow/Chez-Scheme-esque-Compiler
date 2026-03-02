@@ -98,6 +98,12 @@
 ; imp-mf-lang-v4 -> imp-cmf-lang-v4
 ;; converts all `(set! aloc (begin ... val)) to `(begin ... (set! aloc val))
 (define (normalize-bind mf)
+
+  (define (normalize-definitions definition)
+    (match definition
+      [`(define ,label (lambda ,alocs ,tail))
+       `(define ,label (lambda ,alocs ,(normalize-tail tail)))]))
+
   (define (normalize-triv triv)
     triv)
 
@@ -163,10 +169,14 @@
        `(if ,(normalize-pred pred)
             ,(normalize-tail tail1)
             ,(normalize-tail tail2))]
+      ;; nothing special happens
+      [`(call ,triv ,opand ...) tail]
       [triv (normalize-triv triv)]))
   (define (normalize-p p)
     (match p
-      [`(module ,tail) `(module ,(normalize-tail tail))]))
+      [`(module ,definitions ... ,tail) (append `(module) 
+                                                 (map normalize-definitions definitions)
+                                                 (list (normalize-tail tail)))]))
 
   (normalize-p mf))
 
@@ -240,4 +250,37 @@
                                  (true))
                                (set! x.1 1)
                                (set! x.1 3))
-                           x.1))))
+                           x.1)))
+
+  (check-equal? (normalize-bind `(module (define L.label.1 (lambda (x.1 x.2) 3))
+                                         (begin
+                                           (set! y.1 5)
+                                           (set! y.2 6)
+                                           (call L.label.1 y.1 y.2))
+                                   ))
+                `(module (define L.label.1 (lambda (x.1 x.2) 3))
+                         (begin
+                           (set! y.1 5)
+                           (set! y.2 6)
+                           (call L.label.1 y.1 y.2))
+                   ))
+
+  (check-equal? (normalize-bind `(module (define L.label.2
+                                           (lambda ()
+                                             (begin
+                                               (set! x.1
+                                                     (begin
+                                                       (set! x.2 2)
+                                                       x.2))
+                                               x.1)))
+                                         (call L.label.2)
+                                   ))
+                `(module (define L.label.2
+                           (lambda ()
+                             (begin
+                               (begin
+                                 (set! x.2 2)
+                                 (set! x.1 x.2))
+                               x.1)))
+                           (call L.label.2)
+                   )))

@@ -6,7 +6,6 @@
 (require rackunit)
 
 (provide check-paren-x64
-         interp-paren-x64
          generate-x64)
 
 (define-syntax-rule (TODO . stx)
@@ -52,10 +51,8 @@
 (define assoc/binops->fun (list (list '+ x64-add) (list '* x64-mul)))
 (define binops (map car assoc/binops->fun))
 
-;; symbol -> bool
-;; returns true if r is a register, false otherwise
-(define (register? r)
-  (memq r registers))
+(define (relop? rl)
+  (memq rl '(< <= = >= > !=)))
 
 ;; symbol -> boolean
 ;; returns true if bo is a binop, false otherwise
@@ -141,7 +138,7 @@
   p)
 
 ;; Optional; if you choose not to complete, implement a stub that returns the input
-;; any -> paren-x64-v2
+;; any -> paren-x64-v4
 ;; Takes an arbitrary value and either returns it, if it is valid Paren-x64 v1 syntax,
 ;;     or raises an error with a descriptive error message.
 (define (check-paren-x64-syntax p)
@@ -188,7 +185,11 @@
        (check-paren-x64-syntax-op2 op2 loc)]
       [`(set! ,op1 ,_)
        (error (format "unknown oprand ~a, expected a location(symbol in '~a)" op1 registers))]
-      [x (error (format "unexpected symbol ~a, expected a set! expression" x))]))
+      [`(with-label ,(? label?) ,s) (check-paren-x64-syntax-s s)]
+      [`(jump ,(? (or/c register? label?))) (void)]
+      [`(compare ,(? register?) ,(? (or/c register? int64?))) (void)]
+      [`(jump-if ,(? relop?) ,(? label?)) (void)]
+      [x (error (format "unexpected symbol ~a, expected a paren-x64-s expression" x))]))
   ;; any -> void
   ;; raises an error if p is not valid syntax for begin-expression.
   (define (check-paren-x64-syntax-p p)
@@ -204,55 +205,6 @@
 (define (check-paren-x64 p)
   (check-paren-x64-init (check-paren-x64-syntax p)))
 
-;; Optional; if you choose not to complete, implement a stub that returns a valid exit code
-;; paren-x64-v2 -> int64
-;; Interprets the Paren-x64 v3 program, returning the final value as an exit code
-;;     (no longer in the range 0–255.)
-(define (interp-paren-x64 p)
-  ;; env is hashtable that maps location to its value
-  (define env (make-hash))
-  (define (env-set! reg val)
-    (hash-set! env reg val))
-
-  ;; location -> int64
-  (define (env-get reg)
-    (hash-ref env reg))
-
-  ;; (cddr paren-x64-v2-s) -> int64
-  ;; evaluates the given second parameter of a set!-expression
-  (define (eval-instruction-singular-op2 op2)
-    (match op2
-      [(? int64? i64) i64]
-      [(? loc?) (env-get op2)]
-      [`(,bin-op ,reg ,i32)
-       #:when (int32? i32)
-       ((cadr (assoc bin-op assoc/binops->fun)) (env-get reg) i32)]
-      [`(,bin-op ,reg ,loc) ((cadr (assoc bin-op assoc/binops->fun)) (env-get reg) (env-get loc))]))
-  ;; paren-x64-v2-s -> void
-  ;; evaluates the given set!-expression and updates the related register in env
-  (define (eval-instruction-singular-s expr)
-    (match expr
-      [`(set! ,loc ,op2) (env-set! loc (eval-instruction-singular-op2 op2))]))
-  ;; (listof paren-x64-v2-s) -> int64
-  ;; evaluates the given set!-expressions, updates the related register in env, returns rax mod 256 as
-  ;;     exit code
-  (define (eval-instruction-sequence s)
-    (for-each eval-instruction-singular-s s)
-    ; If no more instructions, return exit code modulo 256 (since operating
-    ; systems return exit code modulo 256).
-    (let* ([env-rax (env-get 'rax)]
-           [result (if (void? env-rax)
-                       (error "unexpected behavior: rax is not set")
-                       env-rax)])
-      result))
-  ;; paren-x64-v2-p -> int64
-  ;; evaluates the given begin-expression and returns the return code
-  (define (eval-instruction-p p)
-    (match p
-      [`(begin
-          ,s ...)
-       (eval-instruction-sequence s)]))
-  (eval-instruction-p (check-paren-x64 p)))
 
 ;; paren-x64-v4 -> x64-instruction-sequence
 ;; Compiles a Paren-x64 v4 program into a x64 instruction sequence represented as a string.
@@ -471,15 +423,7 @@ mov rbx, 8991
 
 EOS
                 )
-  (define sample-code
-    '(begin
-       (set! rax 170679)
-       (set! rdi rax)
-       (set! rdi (+ rdi rdi))
-       (set! rsp rdi)
-       (set! rsp (* rsp rsp))
-       (set! rbx 8991)))
-  (check-equal? (interp-paren-x64 sample-code) 170679)
+
   ; milestone 2: interp-paren-x64-v2 output
   (check-equal? (generate-x64 '(begin
                                  (set! rax 42)))
@@ -508,12 +452,7 @@ add rax, QWORD [rbp - 8]
 EOS
                 )
   (current-pass-list (list check-paren-x64 generate-x64 wrap-x64-run-time wrap-x64-boilerplate))
-  (check-equal? (execute sample-code nasm-run/print-number) (interp-paren-x64 sample-code))
-  (for-each (λ (code)
-              (check-equal? (execute code nasm-run/print-number)
-                            (interp-paren-x64 code)
-                            (format "Checking ~a" code)))
-            (list success-check-case1 success-check-case2 v2-1))
+  
   ; milestone 4: paren v4
 
   (check-equal? (generate-x64 `(begin

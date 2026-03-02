@@ -104,7 +104,7 @@
                 assign-registers
                 replace-locations
                 optimize-predicates
-                expose-basic-blocks
+                ; expose-basic-blocks
                 resolve-predicates
                 flatten-program
                 patch-instructions
@@ -124,7 +124,7 @@
           values
           values
           values
-          values
+        ;   values
           values
           values
           values

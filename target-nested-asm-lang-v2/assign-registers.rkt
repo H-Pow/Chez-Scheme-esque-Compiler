@@ -47,6 +47,15 @@
   (define assignables (current-assignable-registers))
   (define num-fvars 0)
 
+  (define (assign-definition def)
+    (match def
+      [`(define ,label
+          ,info
+          ,tail)
+       `(define ,label
+          ,(assign-registers/info info)
+          ,tail)]))
+
   ;let cinfo represent asm-lang-v4/conflicts-info
   ;let clocals represent asm-lang-v4/conflicts-info-locals
   ;let conflicts represent asm-lang-v4/conflicts-info-conflicts
@@ -82,10 +91,11 @@
                     (k (info-set assignments reg (get-assignment! reg-conflicts assignments)))))))))
 
   (match p
-    [`(module ,info ,tail
-        )
-     `(module ,(assign-registers/info info) ,tail
-        )]))
+    [`(module ,info ,definitions
+        ...
+        ,tail)
+     `(module ,(assign-registers/info info) ,@(map assign-definition definitions)
+        ,tail)]))
 
 (module+ test
   ; oooooooh boy

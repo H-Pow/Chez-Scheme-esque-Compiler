@@ -156,7 +156,7 @@
                                          (first tail*)
                                          `(begin
                                             ,@tail*))))))]))
-  (seq-let-p vulv3))
+  (seq-let-p vulv5))
 
 (module+ test
   (require rackunit)

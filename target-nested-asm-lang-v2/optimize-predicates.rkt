@@ -7,30 +7,30 @@
 (provide optimize-predicates
          nested-asm-lang-progs)
 
-;  p	 	::=	 	(module tail)
-
-;   pred	 	::=	 	(relop loc triv)
+;; nested-asm-lang-v5
+;   p	 	::=	 	(module (define label tail) ... tail)
+;   pred	 	::=	 	(relop loc opand)
 ;  	 	|	 	(true)
 ;  	 	|	 	(false)
 ;  	 	|	 	(not pred)
 ;  	 	|	 	(begin effect ... pred)
 ;  	 	|	 	(if pred pred pred)
-
-;   tail	 	::=	 	(halt triv)
+;   tail	 	::=	 	(halt opand)
+;  	 	|	 	(jump trg)
 ;  	 	|	 	(begin effect ... tail)
 ;  	 	|	 	(if pred tail tail)
-
 ;   effect	 	::=	 	(set! loc triv)
-;  	 	|	 	(set! loc_1 (binop loc_1 triv))
+;  	 	|	 	(set! loc_1 (binop loc_1 opand))
 ;  	 	|	 	(begin effect ... effect)
 ;  	 	|	 	(if pred effect effect)
-
-;   triv	 	::=	 	int64
+;   triv	 	::=	 	opand
+;  	 	|	 	label
+;   opand	 	::=	 	int64
 ;  	 	|	 	loc
-
 ;   loc	 	::=	 	reg
 ;  	 	|	 	fvar
-
+;   trg	 	::=	 	label
+;  	 	|	 	loc
 ;   reg	 	::=	 	rsp
 ;  	 	|	 	rbp
 ;  	 	|	 	rax
@@ -55,33 +55,39 @@
 ;  	 	|	 	>=
 ;  	 	|	 	>
 ;  	 	|	 	!=
-
 ;   fvar	 	::=	 	fvar?
-
+;   label	 	::=	 	label?
 ;   int64	 	::=	 	int64?
 
-;; (nested-asm-lang-v4 p) -> (nested-asm-lang-v4 p)
+;; (nested-asm-lang-v5 p) -> (nested-asm-lang-v5 p)
 ;; Optimizes Nested-asm-lang-v4 programs by analyzing and simplifying predicates
 (define (optimize-predicates p)
 
-  ;; (nested-asm-lang-v4?) -> boolean
+  ;; (nested-asm-lang-v5?) -> boolean
   ;; wrapper for int64?, may change implementation if optimize-predicates implementation changes
   ;; to statically evaluate a wider array of expressions.
   (define (concrete? val)
     (int64? val))
 
-  (define (abstract-triv triv env)
-    (if (int64? triv)
-        triv
-        (hash-ref env triv 'unknown)))
+  ;; ((nested-asm-lang-v5 opand) (list (loc . (triv | 'unknown)))) ->
+  ;;                                                              (nested-asm-lang-v5 triv) | 'unknown
+  ;; Tries to make opand concrete using env, returns 'unknown if this is not possible
+  (define (abstract-opand opand env)
+    (if (int64? opand)
+        opand
+        (hash-ref env opand 'unknown)))
 
+  ;; ((nested-asm-lang-v5 binop opand opand) (list (loc . (triv | 'unknown))))
+  ;;      -> 'unknown | int64
   (define (abstract-binop op v1 v2 env)
-    (define v1 (abstract-triv v1 env))
-    (define v2 (abstract-triv v2 env))
+    (define v1 (abstract-opand v1 env))
+    (define v2 (abstract-opand v2 env))
     (match* (v1 v2)
       [((? int64?) (? int64?)) (op v1 v2)]
       [(_ _) 'unknown]))
 
+  ;; ('relop) -> (nested-asm-lang-v5 relop)
+  ;; Returns the function which op symbolizes.
   (define (patch-relop op)
     (match op
       ['> >]
@@ -91,30 +97,31 @@
       ['<= <=]
       ['!= (λ (x y) (not (= x y)))]))
 
-  ;; (nested-asm-lang-v4 relop loc triv (list (loc . (triv | 'unknown)))
+  ;; (nested-asm-lang-v5 relop loc opand (list (loc . (triv | 'unknown)))
   ;;                                          -> '(true) | '(false) | 'unknown
   ;; Attempts to resolve (relop v1 v2), using static information stored in env. Returns 'unknown
   ;; if there is not enough static information available.
-  (define (abstract-relop relop loc triv env)
-    (define v1 (abstract-triv loc env))
-    (define v2 (abstract-triv triv env))
+  (define (abstract-relop relop loc opand env)
+    (define v1 (abstract-opand loc env))
+    (define v2 (abstract-opand opand env))
     (match* (v1 v2)
       [((? concrete?) (? concrete?))
        (if ((patch-relop relop) v1 v2)
            '(true)
            '(false))]
-      [(_ _) `(,relop ,loc ,triv)]))
+      [(_ _) `(,relop ,loc ,opand)]))
 
+  ;; ((nested-asm-lang-v5 effect) ((and/c hash? (not/c immutable?)))) -> ('unknown | triv)
   (define (update-env effect env)
     (match effect
       [`(set! ,loc ,triv)
        (if (int64? triv)
            (hash-set! env loc triv)
            (hash-set! env loc (hash-ref env triv 'unknown)))]
-      [`(set! ,loc1 (,op ,loc1 ,triv))
+      [`(set! ,loc1 (,op ,loc1 ,opand))
        (define cur-val (hash-ref env loc1 'unknown))
        (if (int64? cur-val)
-           (hash-set! env loc1 (abstract-binop op cur-val triv env))
+           (hash-set! env loc1 (abstract-binop op cur-val opand env))
            (hash-set! env loc1 'unknown))]))
 
   (define (optimize-pred pred env)
@@ -138,7 +145,7 @@
           ,@(for/list ([e effects])
               (optimize-effect e env))
           ,(optimize-pred pred env))]
-      [`(,relop ,loc ,triv) (abstract-relop relop loc triv env)]
+      [`(,relop ,loc ,opand) (abstract-relop relop loc opand env)]
       [_ pred]))
 
   (define (optimize-effect effect env)
@@ -188,9 +195,19 @@
                ,(optimize-tail t2 env-else))])]
       [_ tail]))
 
+  ;; (nested-asm-lang-v5) -> (nested-asm-lang-v5)
+  ;; Optimizes an individual nested-asm-lang-v5 procedure definition
+  (define (optimize-def def)
+    (match def
+      [`(define ,label ,tail) `(define ,label ,(optimize-tail tail (make-hash)))]))
+
+  ;; (nested-asm-lang-v5 p) -> (nested-asm-lang-v5 p)
   (define (optimize-p p)
     (match p
-      [`(module ,tail) `(module ,(optimize-tail tail (make-hash)))]))
+      [`(module ,defs ...
+          ,tail)
+       `(module ,@(map optimize-def defs) ,(optimize-tail tail (make-hash))
+          )]))
 
   (optimize-p p))
 

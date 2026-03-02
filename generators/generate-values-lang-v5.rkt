@@ -178,7 +178,6 @@
 
   (generate-program))
 
-; (for ([i (in-range 5000)])
-;   (printf "Program ~a:\n" i)
-;   (pretty-display (generate-values-lang-v5))
-;   (newline))
+(for ([i (in-range 100)])
+  (pretty-display (format "(check-by-interp '~a)" (generate-values-lang-v5)))
+  (newline))

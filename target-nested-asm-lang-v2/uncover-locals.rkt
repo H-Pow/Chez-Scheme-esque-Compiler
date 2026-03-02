@@ -86,12 +86,18 @@
     (match triv
       [(? int64?) (set)]
       [(? aloc?) (set triv)]))
+  
+  (define (uncover-loc loc)
+    (match loc
+      [(? aloc?) (set loc)]
+      [_ (set)])
+  )
 
   (define (uncover-pred pred)
     (match pred
-      [`(,relop ,aloc ,triv)
+      [`(,relop ,loc ,triv)
        #:when (memq relop '(< <= = >= > !=))
-       (set-union (set aloc) (uncover-triv triv))]
+       (set-union (uncover-loc loc) (uncover-triv triv))]
       [`(true) (set)]
       [`(false) (set)]
       [`(not ,p) (uncover-pred p)]
@@ -103,8 +109,8 @@
 
   (define (uncover-effect effect)
     (match effect
-      [`(set! ,aloc (,binop ,aloc ,triv)) (set-union (set aloc) (uncover-triv triv))]
-      [`(set! ,aloc ,triv) (set-union (set aloc) (uncover-triv triv))]
+      [`(set! ,loc (,binop ,loc ,triv)) (set-union (uncover-loc loc) (uncover-triv triv))]
+      [`(set! ,loc ,triv) (set-union (uncover-loc loc) (uncover-triv triv))]
       [`(begin
           ,fxs ...
           ,fx)
@@ -122,7 +128,11 @@
           ,t)
        (set-union (uncover-effects fxs) (uncover-tail t))]
       [`(halt ,triv) (uncover-triv triv)]
-      [`(if ,pred ,t1 ,t2) (set-union (uncover-pred pred) (uncover-tail t1) (uncover-tail t2))]))
+      [`(if ,pred ,t1 ,t2) (set-union (uncover-pred pred) (uncover-tail t1) (uncover-tail t2))]
+      [`(jump ,trg ,loc ...)
+        (foldr (lambda (cur acc) (set-union (uncover-loc cur) acc)) 
+               (set) 
+               loc)]))
 
   (define (uncover-p p)
     (match p

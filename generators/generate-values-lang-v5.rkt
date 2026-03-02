@@ -70,7 +70,7 @@
     ;; set the number of arguments ahead of time, to enable calls to procedures that are defined
     ;; after the calling procedure
     (for ([name names])
-      (hash-set! proc-arities name (random 3)))
+      (hash-set! proc-arities name (random 8)))
     names)
 
   ;; () -> int64
@@ -161,8 +161,8 @@
   (define (generate-define depth)
     (let* ([proc (assign-proc-name)]
            [num-params (hash-ref proc-arities proc)]
-           [params (for/list ([i (in-range num-params)])
-                     (get-random-triv-name))])
+           ;; take first num-params from shuffled copy of triv-names
+           [params (take (shuffle triv-names) num-params)])
       `(define ,proc (lambda ,params ,(generate-tail depth params)))))
 
   (define (generate-program)
@@ -178,6 +178,6 @@
 
   (generate-program))
 
-(for ([i (in-range 100)])
+(for ([i (in-range 10)])
   (pretty-display (format "(check-by-interp '~a)" (generate-values-lang-v5)))
   (newline))

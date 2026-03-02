@@ -199,7 +199,7 @@
            cpsc411/langs/v5)
 
   (define (peek x)
-    (pretty-display x)
+    ;(pretty-display x)
     x)
   (define-syntax-rule (check-by-interp nal5)
     (check-eq? (interp-nested-asm-lang-v5 nal5)

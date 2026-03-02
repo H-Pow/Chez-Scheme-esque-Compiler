@@ -53,6 +53,18 @@
 ;; Only the info field of the program is modified.
 (define (undead-analysis p)
 
+  (define (analyze-defintiions def)
+    (match def
+      [`(define ,label
+          ,info
+          ,tail)
+       `(define ,label
+          ,(info-set info
+                     'undead-out
+                     (let-values ([(_ ust) (analyze-program-tail `() tail)])
+                       (first ust)))
+          ,tail)]))
+
   ;; undead-set (asm-lang-v2/locals effect) -> (values undead-set ust)
   ;; SLIGHTLY MODIFIED CODE FROM LECTURE
   ;; takes in the undead-out set for the current instruction
@@ -148,21 +160,19 @@
                      [(undead-out-tail1 ust-tail1) (analyze-program-tail undead-out tail1)]
                      [(undead-out-pred ust-pred)
                       (analyze-program-pred (set-union undead-out-tail1 undead-out-tail2) pred)])
-         (values undead-out-pred `((,ust-pred ,(first ust-tail1) ,(first ust-tail2)))))]))
-
-  (define (get-ust tail)
-    (let-values ([(_ ust) (analyze-program-tail `() tail)])
-      (first ust)))
-
-  (define (insert-undead-analysis ust info)
-    (match info
-      [`(,locals) `(,locals (undead-out ,ust))]))
+         (values undead-out-pred `((,ust-pred ,(first ust-tail1) ,(first ust-tail2)))))]
+      [`(jump ,label ,locs ...) (values locs (cons locs undead-out))]))
 
   (match p
-    [`(module ,info ,tail
-        )
-     `(module ,(insert-undead-analysis (get-ust tail) info) ,tail
-        )]))
+    [`(module ,info ,definitions
+        ...
+        ,tail)
+     `(module ,(info-set info
+                         'undead-out
+                         (let-values ([(_ ust) (analyze-program-tail `() tail)])
+                           (first ust)))
+              ,@(map analyze-defintiions definitions)
+        ,tail)]))
 
 (module+ test
   (require rackunit)
@@ -365,5 +375,55 @@
                     (begin
                       (set! x.1 c.4)
                       (set! x.1 y.2)
-                      (halt c.4)))))))
-)
+                      (halt c.4)))))
+      ))
+  (check-equal? (undead-analysis `(module ((locals (x.3 y.4 z.4)))
+                                          (begin
+                                            (begin
+                                              (begin
+                                                (set! z.4 4)
+                                                (set! z.4 (+ z.4 5))
+                                                (set! y.4 z.4))
+                                              (set! x.3 y.4))
+                                            (halt x.3))
+                                    ))
+                `(module ((locals (x.3 y.4 z.4)) (undead-out ((((((z.4) (z.4) y.4)) x.3)) ())))
+                         (begin
+                           (begin
+                             (begin
+                               (set! z.4 4)
+                               (set! z.4 (+ z.4 5))
+                               (set! y.4 z.4))
+                             (set! x.3 y.4))
+                           (halt x.3))
+                   ))
+  (check-equal? (undead-analysis '(module ((locals (x.1)))
+                                          (define L.test.1
+                                            ((locals (x.1 x.3 y.4 z.4)))
+                                            (begin
+                                              (begin
+                                                (begin
+                                                  (set! z.4 x.1)
+                                                  (set! z.4 (+ z.4 5))
+                                                  (set! y.4 z.4))
+                                                (set! x.3 y.4))
+                                              (halt x.3)))
+                                    (begin
+                                      (begin
+                                        (set! x.1 1))
+                                      (jump L.test.1 x.1))))
+                `(module ((locals (x.1)) (undead-out (((x.1)) (x.1))))
+                         (define L.test.1
+                           ((locals (x.1 x.3 y.4 z.4)) (undead-out ((((((z.4) (z.4) y.4)) x.3)) ())))
+                           (begin
+                             (begin
+                               (begin
+                                 (set! z.4 x.1)
+                                 (set! z.4 (+ z.4 5))
+                                 (set! y.4 z.4))
+                               (set! x.3 y.4))
+                             (halt x.3)))
+                   (begin
+                     (begin
+                       (set! x.1 1))
+                     (jump L.test.1 x.1)))))

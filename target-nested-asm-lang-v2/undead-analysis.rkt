@@ -176,6 +176,7 @@
 
 (module+ test
   (require rackunit)
+  (require cpsc411/langs/v4)
   (define (set-list=? a b)
     (set=? (list->set a) (list->set b)))
 

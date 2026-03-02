@@ -169,8 +169,7 @@
           ,tail)
        (k `(jump ,(foldr expose-effect! (expose-tail! tail) fx*)))]
       [`(if ,pred ,tail1 ,tail2)
-       (k `(jump ,(expose-pred! pred (expose-tail! tail1) (expose-tail! tail2))))]
-      ))
+       (k `(jump ,(expose-pred! pred (expose-tail! tail1) (expose-tail! tail2))))]))
 
   ;; nested-tail -> label
   ;; effect: creates a block
@@ -183,15 +182,11 @@
         [_ (create-block! label tail)]))
     (nested-tail->block-tail& tail expose-block-label!))
   (match p
-    [`(module (define ,label* ,tail*) ... ,tail)
+    [`(module (define ,label* ,tail*) ...
+        ,tail)
      (begin
-       (for-each create-block! label*
-                 (map (λ(tail) `(jump ,(expose-tail! tail))) tail*))
-       (nested-tail->block-tail& tail
-                                 (λ (bt)
-                                   (create-block!
-                                    (fresh-label 'start)
-                                    bt)))
+       (for-each create-block! label* (map (λ (tail) `(jump ,(expose-tail! tail))) tail*))
+       (nested-tail->block-tail& tail (λ (bt) (create-block! (fresh-label 'start) bt)))
        `(module ,@blocks))]))
 
 (module+ test
@@ -205,30 +200,791 @@
     (check-eq? (interp-nested-asm-lang-v5 nal5)
                (interp-block-pred-lang-v5 (peek (expose-basic-blocks nal5)))))
 
+  ;; !!! Added by Trevor on March 2nd 2026
+
+  (check-by-interp '(module (define L.L.func.0.1.4 (halt 0))
+                            (define L.L.tmp.1.2.5
+                              (begin
+                                (set! r15 rdi)
+                                (jump L.L.func.0.1.4)))
+                      (define L.L.func.2.3.6
+                        (begin
+                          (begin
+                            (set! r15 1)
+                            (set! r15 r15))
+                          (if (begin
+                                (set! r14 1)
+                                (true))
+                              (set! r15 156890122)
+                              (set! r15 r15))
+                          (halt 0)))
+                      (begin
+                        (set! rdi -1860620182)
+                        (jump L.L.tmp.1.2.5))))
+  (check-by-interp '(module (define L.L.tmp.0.1.4
+                              (if (begin
+                                    (set! r15 9223372036854775807)
+                                    (true))
+                                  (jump L.L.x.2.3.6)
+                                  (begin
+                                    (set! r15 1)
+                                    (set! r15 (* r15 0))
+                                    (set! r15 r15)
+                                    (halt 0))))
+                            (define L.L.func.1.2.5
+                              (begin
+                                (set! r14 -9223372036854775808)
+                                (if (not (begin
+                                           (set! r15 9223372036854775807)
+                                           (true)))
+                                    (halt 1309557052)
+                                    (halt -9223372036854775808))))
+                      (define L.L.x.2.3.6
+                        (if (not (begin
+                                   (set! r15 0)
+                                   (false)))
+                            (if (begin
+                                  (set! r15 0)
+                                  (false))
+                                (if (begin
+                                      (set! r15 9223372036854775807)
+                                      (false))
+                                    (halt 9223372036854775807)
+                                    (halt -260353756))
+                                (begin
+                                  (set! r15 0)
+                                  (halt 0)))
+                            (begin
+                              (if (begin
+                                    (set! r15 -302047143)
+                                    (true))
+                                  (set! r15 9223372036854775807)
+                                  (set! r15 102036653))
+                              (if (begin
+                                    (set! r14 0)
+                                    (= r14 r15))
+                                  (halt r15)
+                                  (halt -362331747)))))
+                      (begin
+                        (set! r15 -9223372036854775808)
+                        (set! r15 (* r15 -9223372036854775808))
+                        (set! r15 r15)
+                        (set! r15 r15)
+                        (set! r15 (+ r15 0))
+                        (set! r15 r15)
+                        (halt 0))))
+  (check-by-interp '(module (define L.L.proc.0.1.4
+                              (begin
+                                (set! r15 rdi)
+                                (jump L.L.func.1.2.5)))
+                            (define L.L.func.1.2.5
+                              (begin
+                                (set! r15 1)
+                                (set! r15 (* r15 0))
+                                (set! r15 r15)
+                                (halt 0)))
+                      (define L.L.fn.2.3.6
+                        (begin
+                          (set! r15 rdi)
+                          (begin
+                            (if (begin
+                                  (set! r15 -2033705372)
+                                  (true))
+                                (set! r15 -1853172774)
+                                (set! r15 1133506028))
+                            (set! r15 1)
+                            (halt 1236904416))))
+                      (begin
+                        (set! rdi 1)
+                        (jump L.L.proc.0.1.4))))
+  (check-by-interp '(module (define L.fn.0.1
+                              (begin
+                                (begin
+                                  (set! r15 1)
+                                  (set! r15 1))
+                                (if (if (begin
+                                          (set! r14 9223372036854775807)
+                                          (true))
+                                        (begin
+                                          (set! r14 -248968641)
+                                          (false))
+                                        (true))
+                                    (begin
+                                      (set! r15 r15)
+                                      (halt 1622965009))
+                                    (begin
+                                      (set! r15 r15)
+                                      (halt 1)))))
+                            (jump L.fn.0.1)
+                      ))
+  (check-by-interp '(module (begin
+                              (set! r15 -9223372036854775808)
+                              (set! r15 (+ r15 -1465538260))
+                              (set! r15 r15)
+                              (halt 9223372035389237548))))
+  (check-by-interp '(module (define L.fn.0.1
+                              (begin
+                                (set! r15 1)
+                                (set! r15 (+ r15 9223372036854775807))
+                                (set! r15 r15)
+                                (set! r15 r15)
+                                (set! r14 r15)
+                                (halt -9223372036854775808)))
+                            (define L.func.1.2
+                              (begin
+                                (if (begin
+                                      (set! r15 1)
+                                      (begin
+                                        (set! r14 1)
+                                        (false)))
+                                    (begin
+                                      (set! r15 406779451)
+                                      (set! r15 1200977699))
+                                    (begin
+                                      (set! r15 0)
+                                      (set! r15 r15)))
+                                (set! r15 r15)
+                                (set! r15 (* r15 r15))
+                                (set! r15 r15)
+                                (halt r15)))
+                      (begin
+                        (set! r15 1)
+                        (set! r14 0)
+                        (halt 1))))
+  (check-by-interp '(module (define L.x.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (jump L.tmp.1.2)))
+                            (define L.tmp.1.2
+                              (if (if (if (begin
+                                            (set! r15 -765445006)
+                                            (true))
+                                          (begin
+                                            (set! r15 0)
+                                            (true))
+                                          (begin
+                                            (set! r15 9223372036854775807)
+                                            (false)))
+                                      (false)
+                                      (true))
+                                  (begin
+                                    (set! r15 -9223372036854775808)
+                                    (set! r15 r15)
+                                    (halt -9223372036854775808))
+                                  (begin
+                                    (if (begin
+                                          (set! r15 1)
+                                          (true))
+                                        (set! r15 -9223372036854775808)
+                                        (set! r15 -9223372036854775808))
+                                    (if (begin
+                                          (set! r14 0)
+                                          (false))
+                                        (halt 0)
+                                        (halt 9223372036854775807)))))
+                      (define L.func.2.3
+                        (begin
+                          (set! r15 rdi)
+                          (set! r15 rsi)
+                          (jump L.tmp.1.2)))
+                      (if (begin
+                            (set! r15 0)
+                            (true))
+                          (halt -1271132888)
+                          (halt 2101306416))))
+  (check-by-interp '(module (define L.proc.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (begin
+                                  (set! r14 -818241658)
+                                  (set! r14 r14))
+                                (set! r13 -1769976594)
+                                (set! r13 (* r13 r14))
+                                (set! r14 r13)
+                                (if (!= r15 r15)
+                                    (halt 1)
+                                    (halt r15))))
+                            (if (begin
+                                  (set! r15 0)
+                                  (true))
+                                (halt 1764584349)
+                                (halt -9223372036854775808))
+                      ))
+  (check-by-interp '(module (define L.proc.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (jump L.x.1.2)))
+                            (define L.x.1.2 (halt 1))
+                      (begin
+                        (set! r15 453798193)
+                        (set! r14 r15)
+                        (if (begin
+                              (set! r15 9223372036854775807)
+                              (true))
+                            (halt 0)
+                            (halt -1617493587)))))
+  (check-by-interp '(module (define L.func.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (if (begin
+                                      (begin
+                                        (set! r14 9223372036854775807)
+                                        (set! r14 (* r14 r15))
+                                        (set! r14 r14))
+                                      (true))
+                                    (if (< r15 -9223372036854775808)
+                                        (halt r15)
+                                        (halt r15))
+                                    (jump L.proc.1.2))))
+                            (define L.proc.1.2
+                              (begin
+                                (set! rdi 954069433)
+                                (jump L.func.0.1)))
+                      (jump L.proc.1.2)))
+  (check-by-interp '(module (if (not (begin
+                                       (set! r15 1)
+                                       (false)))
+                                (if (begin
+                                      (set! r15 1)
+                                      (false))
+                                    (halt 9223372036854775807)
+                                    (halt 1))
+                                (halt 1))))
+  (check-by-interp '(module (define L.func.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r15 rdx)
+                                (set! r15 rcx)
+                                (set! r15 r8)
+                                (halt -1458025903)))
+                            (begin
+                              (set! r8 0)
+                              (set! rcx -9223372036854775808)
+                              (set! rdx -808937821)
+                              (set! rsi 1)
+                              (set! rdi -9223372036854775808)
+                              (jump L.func.0.1))
+                      ))
+  (check-by-interp '(module (define L.tmp.0.1
+                              (begin
+                                (set! r14 rdi)
+                                (set! r15 rsi)
+                                (set! r13 rdx)
+                                (set! r13 rcx)
+                                (set! r14 r14)
+                                (if (if (begin
+                                          (set! r13 -9223372036854775808)
+                                          (<= r13 r15))
+                                        (begin
+                                          (set! r13 -9223372036854775808)
+                                          (>= r13 r14))
+                                        (>= r15 2025307007))
+                                    (begin
+                                      (set! r15 r14)
+                                      (set! r15 (+ r15 9223372036854775807))
+                                      (set! r15 r15)
+                                      (halt r15))
+                                    (if (<= r15 -9223372036854775808)
+                                        (halt 9223372036854775807)
+                                        (halt 0)))))
+                            (begin
+                              (set! r15 0)
+                              (halt 0))
+                      ))
+  (check-by-interp '(module (define L.func.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r14 rsi)
+                                (if (begin
+                                      (set! r13 0)
+                                      (= r13 r14))
+                                    (begin
+                                      (set! r15 -9223372036854775808)
+                                      (set! r15 (+ r15 -9223372036854775808))
+                                      (set! r15 r15)
+                                      (halt 0))
+                                    (if (if (< r15 r15)
+                                            (<= r14 r14)
+                                            (= r14 r15))
+                                        (begin
+                                          (set! r15 r14)
+                                          (set! r15 (+ r15 r14))
+                                          (set! r15 r15)
+                                          (halt r15))
+                                        (if (begin
+                                              (set! r13 1)
+                                              (= r13 r14))
+                                            (halt r15)
+                                            (halt r14))))))
+                            (define L.x.1.2
+                              (begin
+                                (set! r15 rdi)
+                                (set! r14 1757280127)
+                                (set! r14 r14)
+                                (set! r14 1)
+                                (set! r14 -1128483887)
+                                (if (begin
+                                      (set! r15 r15)
+                                      (> r15 r15))
+                                    (halt -1128483887)
+                                    (begin
+                                      (set! r14 r14)
+                                      (set! r14 (+ r14 r15))
+                                      (set! r15 r14)
+                                      (halt r15)))))
+                      (define L.fn.2.3
+                        (if (begin
+                              (begin
+                                (set! r15 -9223372036854775808)
+                                (set! r15 (+ r15 -1421853645))
+                                (set! r15 r15))
+                              (not (begin
+                                     (set! r15 0)
+                                     (true))))
+                            (begin
+                              (set! r15 -167927521)
+                              (set! r15 (+ r15 1))
+                              (set! r15 r15)
+                              (halt -167927520))
+                            (begin
+                              (set! r15 1041085683)
+                              (set! r15 (* r15 9223372036854775807))
+                              (set! r15 r15)
+                              (set! r15 r15)
+                              (halt 770292232))))
+                      (begin
+                        (set! rdi 1840464414)
+                        (jump L.x.1.2))))
+  (check-by-interp '(module (define L.proc.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r14 rdx)
+                                (set! rdx r15)
+                                (set! rsi r14)
+                                (set! rdi 9223372036854775807)
+                                (jump L.proc.0.1)))
+                            (define L.func.1.2
+                              (begin
+                                (set! r15 rdi)
+                                (set! r14 rsi)
+                                (set! r14 rdx)
+                                (set! r13 rcx)
+                                (set! r13 r8)
+                                (set! r13 r9)
+                                (set! r14 r14)
+                                (set! r15 r15)
+                                (set! r15 -9223372036854775808)
+                                (set! rdx r15)
+                                (set! rsi -780648786)
+                                (set! rdi r15)
+                                (jump L.proc.0.1)))
+                      (begin
+                        (set! r15 -579691794)
+                        (halt 953357957))))
+  (check-by-interp '(module (begin
+                              (set! r15 9223372036854775807)
+                              (set! r15 -546026276)
+                              (halt 9223372036854775807))))
+  (check-by-interp '(module (define L.func.0.1
+                              (begin
+                                (set! r14 rdi)
+                                (set! r15 rsi)
+                                (if (not (begin
+                                           (set! r14 r14)
+                                           (= r14 0)))
+                                    (begin
+                                      (set! r15 r14)
+                                      (set! r15 (+ r15 0))
+                                      (set! r15 r15)
+                                      (set! r15 0)
+                                      (set! r15 (* r15 9223372036854775807))
+                                      (set! r15 r15)
+                                      (halt 0))
+                                    (begin
+                                      (set! r14 0)
+                                      (set! r14 (* r14 r15))
+                                      (set! r14 r14)
+                                      (halt r15)))))
+                            (if (begin
+                                  (set! r15 9223372036854775807)
+                                  (false))
+                                (halt 1)
+                                (halt -9223372036854775808))
+                      ))
+  (check-by-interp '(module (define L.fn.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r14 1)
+                                (set! r14 (* r14 9223372036854775807))
+                                (set! r14 r14)
+                                (set! r13 -9223372036854775808)
+                                (set! r13 (+ r13 r14))
+                                (set! r14 r13)
+                                (set! r13 9223372036854775807)
+                                (if (begin
+                                      (set! r13 1)
+                                      (true))
+                                    (halt 9223372036854775807)
+                                    (halt r15))))
+                            (define L.x.1.2
+                              (begin
+                                (set! r15 rdi)
+                                (set! r14 -1410706204)
+                                (set! r14 (+ r14 r15))
+                                (set! r15 r14)
+                                (set! r15 1)
+                                (set! r15 -9223372036854775808)
+                                (set! r15 -152436426)
+                                (set! r15 (* r15 0))
+                                (set! r15 r15)
+                                (halt 0)))
+                      (define L.proc.2.3
+                        (begin
+                          (set! r15 rdi)
+                          (set! r14 rsi)
+                          (set! r14 rdx)
+                          (set! r14 rcx)
+                          (set! r15 r15)
+                          (set! r15 956544411)
+                          (set! r15 (+ r15 1))
+                          (set! r15 r15)
+                          (halt 956544412)))
+                      (begin
+                        (set! r15 979460199)
+                        (set! r15 (+ r15 -1697959716))
+                        (set! r15 r15)
+                        (halt -718499517))))
+  (check-by-interp '(module (define L.proc.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r15 rdx)
+                                (set! r13 rcx)
+                                (set! r14 r8)
+                                (set! r9 r9)
+                                (if (begin
+                                      (set! r8 -669410514)
+                                      (< r14 r14))
+                                    (begin
+                                      (set! r9 r9)
+                                      (set! r9 (+ r9 r13))
+                                      (set! r9 r9))
+                                    (set! r9 r15))
+                                (set! r13 r13)
+                                (set! r13 1)
+                                (if (<= r15 1)
+                                    (halt 9223372036854775807)
+                                    (halt r14))))
+                            (begin
+                              (set! r9 9223372036854775807)
+                              (set! r8 -1891086346)
+                              (set! rcx -1371550930)
+                              (set! rdx 0)
+                              (set! rsi 9223372036854775807)
+                              (set! rdi 0)
+                              (jump L.proc.0.1))
+                      ))
+  (check-by-interp '(module (define L.x.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r14 rdx)
+                                (set! r13 rcx)
+                                (set! r8 r8)
+                                (set! r9 r9)
+                                (set! rdi fv0)
+                                (if (not (if (begin
+                                               (set! rdi 388494724)
+                                               (>= rdi r15))
+                                             (> r13 -9223372036854775808)
+                                             (< r14 r13)))
+                                    (if (<= r8 r9)
+                                        (halt 0)
+                                        (begin
+                                          (set! r15 r13)
+                                          (halt 1887946265)))
+                                    (halt r14))))
+                            (define L.tmp.1.2
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r15 rdx)
+                                (set! r14 rcx)
+                                (set! r13 r8)
+                                (set! r9 r9)
+                                (begin
+                                  (set! r15 r14)
+                                  (set! r15 (* r15 9223372036854775807))
+                                  (set! r15 r15)
+                                  (halt r15))))
+                      (define L.tmp.2.3
+                        (begin
+                          (set! r15 rdi)
+                          (set! r15 rsi)
+                          (set! r14 rdx)
+                          (set! r13 rcx)
+                          (set! r8 r8)
+                          (set! r13 r9)
+                          (if (begin
+                                (set! r13 258314756)
+                                (!= r8 0))
+                              (set! r13 r8)
+                              (begin
+                                (set! r13 -1809848824)
+                                (set! r13 9223372036854775807)))
+                          (if (begin
+                                (set! r9 1525021420)
+                                (false))
+                              (begin
+                                (set! r9 1067478227)
+                                (set! r8 -768559462)
+                                (set! rcx r14)
+                                (set! rdx -1256996529)
+                                (set! rsi 1)
+                                (set! rdi r13)
+                                (jump L.tmp.1.2))
+                              (if (begin
+                                    (set! r14 389818959)
+                                    (false))
+                                  (halt r8)
+                                  (halt r15)))))
+                      (begin
+                        (set! r15 1)
+                        (halt 1))))
+  (check-by-interp '(module (define L.tmp.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r15 rdx)
+                                (set! r15 rcx)
+                                (set! r14 r8)
+                                (set! r14 r9)
+                                (set! r13 fv0)
+                                (set! r15 r15)
+                                (set! r15 (* r15 r14))
+                                (set! r15 r15)
+                                (halt r15)))
+                            (define L.func.1.2
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r15 rdx)
+                                (set! r15 rcx)
+                                (set! r15 r8)
+                                (set! r15 1)
+                                (halt 9223372036854775807)))
+                      (define L.fn.2.3
+                        (begin
+                          (set! r13 rdi)
+                          (set! r15 rsi)
+                          (if (>= r13 1)
+                              (if (= r13 r13)
+                                  (set! r14 r15)
+                                  (set! r14 214741259))
+                              (begin
+                                (set! r14 1683358713)
+                                (set! r14 (+ r14 r15))
+                                (set! r14 r14)))
+                          (set! fv0 -2043460455)
+                          (set! r9 r13)
+                          (set! r8 9223372036854775807)
+                          (set! rcx r13)
+                          (set! rdx 0)
+                          (set! rsi r15)
+                          (set! rdi r14)
+                          (jump L.tmp.0.1)))
+                      (begin
+                        (set! fv0 -9223372036854775808)
+                        (set! r9 1)
+                        (set! r8 -9223372036854775808)
+                        (set! rcx 9223372036854775807)
+                        (set! rdx -9223372036854775808)
+                        (set! rsi -9223372036854775808)
+                        (set! rdi -9223372036854775808)
+                        (jump L.tmp.0.1))))
+  (check-by-interp '(module (begin
+                              (set! r15 1)
+                              (set! r15 (+ r15 -9223372036854775808))
+                              (set! r15 r15)
+                              (halt -9223372036854775807))))
+  (check-by-interp '(module (define L.x.0.1
+                              (begin
+                                (set! r15 rdi)
+                                (set! r15 rsi)
+                                (set! r15 rdx)
+                                (set! r15 rcx)
+                                (set! r15 r8)
+                                (set! r15 r9)
+                                (set! r15 fv0)
+                                (set! rdi 1)
+                                (jump L.x.4.5)))
+                            (define L.func.1.2
+                              (begin
+                                (set! r14 9223372036854775807)
+                                (set! r14 r14)
+                                (if (begin
+                                      (set! r15 -577997854)
+                                      (false))
+                                    (halt -9223372036854775808)
+                                    (halt 9223372036854775807))))
+                      (define L.fn.2.3
+                        (begin
+                          (set! r15 1)
+                          (set! r15 (+ r15 1))
+                          (set! r15 r15)
+                          (begin
+                            (set! r15 r15)
+                            (halt 1969054361))))
+                      (define L.x.3.4
+                        (begin
+                          (set! r15 rdi)
+                          (set! r14 rsi)
+                          (set! r14 rdx)
+                          (set! r14 rcx)
+                          (set! r14 r8)
+                          (set! r14 r9)
+                          (set! r14 fv0)
+                          (set! fv0 -9223372036854775808)
+                          (set! r9 r15)
+                          (set! r8 9223372036854775807)
+                          (set! rcx 25911444)
+                          (set! rdx 9223372036854775807)
+                          (set! rsi -9223372036854775808)
+                          (set! rdi 0)
+                          (jump L.func.6.7)))
+                      (define L.x.4.5
+                        (begin
+                          (set! r15 rdi)
+                          (set! fv0 r15)
+                          (set! r9 r15)
+                          (set! r8 r15)
+                          (set! rcx 1)
+                          (set! rdx r15)
+                          (set! rsi r15)
+                          (set! rdi 0)
+                          (jump L.x.3.4)))
+                      (define L.x.5.6
+                        (begin
+                          (set! r15 rdi)
+                          (set! r14 rsi)
+                          (set! r13 rdx)
+                          (set! rdi rcx)
+                          (set! r8 r8)
+                          (set! r9 r9)
+                          (set! r9 rdi)
+                          (set! r14 r14)
+                          (set! r9 r9)
+                          (if (begin
+                                (set! r8 rdi)
+                                (> r14 r15))
+                              (begin
+                                (set! fv0 -1819248150)
+                                (set! r9 r9)
+                                (set! r8 r14)
+                                (set! rcx r9)
+                                (set! rdx r13)
+                                (set! rsi 9223372036854775807)
+                                (set! rdi -1863740769)
+                                (jump L.x.0.1))
+                              (halt 1))))
+                      (define L.func.6.7
+                        (begin
+                          (set! r15 rdi)
+                          (set! r14 rsi)
+                          (set! r14 rdx)
+                          (set! r14 rcx)
+                          (set! r14 r8)
+                          (set! r14 r9)
+                          (set! r14 fv0)
+                          (if (begin
+                                (set! r15 r15)
+                                (begin
+                                  (set! r14 -1497437069)
+                                  (true)))
+                              (begin
+                                (set! r15 r15)
+                                (set! r15 (+ r15 r15))
+                                (set! r15 r15)
+                                (set! r15 0)
+                                (halt 0))
+                              (halt 1))))
+                      (define L.fn.7.8
+                        (if (not (begin
+                                   (set! r15 0)
+                                   (false)))
+                            (begin
+                              (set! r9 -1579752260)
+                              (set! r8 0)
+                              (set! rcx -1248542300)
+                              (set! rdx 0)
+                              (set! rsi 16140507)
+                              (set! rdi -9223372036854775808)
+                              (jump L.x.5.6))
+                            (if (begin
+                                  (set! r15 -9223372036854775808)
+                                  (false))
+                                (halt 1)
+                                (halt 0))))
+                      (if (begin
+                            (if (begin
+                                  (set! r15 -9223372036854775808)
+                                  (true))
+                                (begin
+                                  (if (begin
+                                        (set! r15 9223372036854775807)
+                                        (true))
+                                      (set! r15 -1444900091)
+                                      (set! r15 -9223372036854775808))
+                                  (set! r15 r15))
+                                (begin
+                                  (set! r15 9223372036854775807)
+                                  (set! r15 r15)))
+                            (begin
+                              (set! r15 0)
+                              (true)))
+                          (halt 1)
+                          (if (begin
+                                (set! r15 1)
+                                (false))
+                              (jump L.fn.2.3)
+                              (jump L.fn.2.3)))))
+  ;; !!!
+
   (check-by-interp `(module (halt 1)))
-  (check-by-interp `(module (define L.a.0 (halt 1))
-                      (define L.b.0 (halt 2))
+  (check-by-interp `(module (define L.a.0 (halt 1)) (define L.b.0 (halt 2))
                       (jump L.a.0)))
   (check-by-interp `(module (begin
                               (halt 1))))
 
-  (check-by-interp `(module (define L.a.0 (begin (halt 1)))
-                      (define L.b.0 (begin (jump L.a.0)))
+  (check-by-interp `(module (define L.a.0
+                              (begin
+                                (halt 1)))
+                            (define L.b.0
+                              (begin
+                                (jump L.a.0)))
                       (jump L.b.0)))
   (check-by-interp `(module (begin
                               (begin
                                 (halt 1)))))
 
-
-  (check-by-interp `(module (define L.end.0 (begin (halt rax)))
-                      (define L.fact.0 (if (> rdi 0)
-                                           (begin (set! rax (* rax rdi))
-                                                  (set! rdi (+ rdi -1))
-                                                  (jump L.fact.0))
-                                           (jump L.end.0)))
-                      (begin (set! rax 1)
-                             (set! rdi 5)
-                             (jump L.fact.0))))
+  (check-by-interp `(module (define L.end.0
+                              (begin
+                                (halt rax)))
+                            (define L.fact.0
+                              (if (> rdi 0)
+                                  (begin
+                                    (set! rax (* rax rdi))
+                                    (set! rdi (+ rdi -1))
+                                    (jump L.fact.0))
+                                  (jump L.end.0)))
+                      (begin
+                        (set! rax 1)
+                        (set! rdi 5)
+                        (jump L.fact.0))))
 
   (check-by-interp `(module (begin
                               (set! rax 1)

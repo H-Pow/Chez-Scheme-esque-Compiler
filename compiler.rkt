@@ -42,8 +42,7 @@
 (require "impose-calling-conventions.rkt")
 
 ;; Stubs; remove or replace with your definitions.
-(define-values (check-values-lang)
-  (values values))
+(define-values (check-values-lang) (values values))
 
 (module+ test
   (require rackunit

@@ -54,6 +54,18 @@
 ;; field
 (define (conflict-analysis p)
 
+  (define (analyze-defintiions def)
+    (match def
+      [`(define ,label
+          ,info
+          ,tail)
+       `(define ,label
+          ((locals ,(info-ref info 'locals))
+           (conflicts ,(analyze-tree-tail (info-ref info 'undead-out)
+                                          tail
+                                          (new-graph (info-ref info 'locals)))))
+          ,tail)]))
+
   (define (update-graph graph-init new-vertex vertices)
     (add-edges graph-init new-vertex (set-remove vertices new-vertex)))
 
@@ -91,20 +103,22 @@
                                      [ust usts])
                             (analyze-tree-effect ust effect graph)))]
       [(`(halt ,triv) ust) graph-init]
+      [(`(jump ,trg ,loc ...) ust) graph-init]
       ;; pred doesn't need to be checked for conflicts,
       ;; as it is impossible to define new variables in pred.
       [(`(if ,pred ,tail1 ,tail2) `(,ust1 ,ust2 ,ust3))
        (analyze-tree-tail ust3 tail2 (analyze-tree-tail ust2 tail1 graph-init))]))
 
   (match p
-    [`(module ,info ,tail
-        )
+    [`(module ,info ,definitions
+        ...
+        ,tail)
      `(module ((locals ,(info-ref info 'locals))
                (conflicts ,(analyze-tree-tail (info-ref info 'undead-out)
                                               tail
                                               (new-graph (info-ref info 'locals)))))
-              ,tail
-        )]))
+              ,@(map analyze-defintiions definitions)
+        ,tail)]))
 
 ;; NOTES
 #;((p.1 (z.5 t.6 y.4 x.3 w.2)) (t.6 (p.1 z.5))
@@ -362,4 +376,52 @@
                     (begin
                       (set! x.1 c.4)
                       (halt c.4)))))
-      )))
+      ))
+
+  (check-equal?
+   (conflict-analysis
+    `(module ((locals (x.1 y.2 b.3 c.4))
+              (undead-out ((x.1) (x.1 y.2) ((y.2 b.3) (b.3) (b.3 c.4) ((c.4) () ((c.4) ()))))))
+             (define L.test.1
+               ((locals (x.1 x.7 y.2)) (undead-out ((x.1) (x.1) (x.7 x.1) (x.1) (x.1) ())))
+               (begin
+                 (set! x.1 2)
+                 (set! x.1 (+ x.1 3))
+                 (set! x.7 x.1)
+                 (set! x.7 (+ x.7 x.1))
+                 (set! y.2 5)
+                 (halt x.1)))
+       (begin
+         (set! x.1 5)
+         (set! y.2 x.1)
+         (begin
+           (set! b.3 x.1)
+           (set! b.3 (+ b.3 y.2))
+           (set! c.4 b.3)
+           (if (= c.4 b.3)
+               (halt c.4)
+               (begin
+                 (set! x.1 c.4)
+                 (jump L.test.1 x.1)))))))
+   `(module ((locals (x.1 y.2 b.3 c.4)) (conflicts ((c.4 ()) (b.3 (y.2)) (y.2 (b.3)) (x.1 ()))))
+            (define L.test.1
+              ((locals (x.1 x.7 y.2)) (conflicts ((y.2 (x.1)) (x.7 (x.1)) (x.1 (y.2 x.7)))))
+              (begin
+                (set! x.1 2)
+                (set! x.1 (+ x.1 3))
+                (set! x.7 x.1)
+                (set! x.7 (+ x.7 x.1))
+                (set! y.2 5)
+                (halt x.1)))
+      (begin
+        (set! x.1 5)
+        (set! y.2 x.1)
+        (begin
+          (set! b.3 x.1)
+          (set! b.3 (+ b.3 y.2))
+          (set! c.4 b.3)
+          (if (= c.4 b.3)
+              (halt c.4)
+              (begin
+                (set! x.1 c.4)
+                (jump L.test.1 x.1))))))))

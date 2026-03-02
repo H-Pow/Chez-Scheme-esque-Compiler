@@ -26,7 +26,7 @@
           ,fxs ...
           ,fx2)
        (append (foldr append '() (map flatten/fx->fxs fxs)) (flatten/fx->fxs fx2))]))
-  (match nal2 
+  (match nal2
     [`(module ,nal2) (append `(begin) (flatten-tail nal2))]))
 
 (module+ test
@@ -34,30 +34,30 @@
   ; example outputs for uniquify
 
   (check-equal? (flatten-begins '(module (begin
-                                   (set! x.1 1)
-                                   (set! x.2 1)
-                                   (set! x.3 1)
-                                   (halt x.1))))
+                                           (set! x.1 1)
+                                           (set! x.2 1)
+                                           (set! x.3 1)
+                                           (halt x.1))))
                 '(begin
                    (set! x.1 1)
                    (set! x.2 1)
                    (set! x.3 1)
                    (halt x.1)))
   (check-equal? (flatten-begins '(module (begin
-                                   (begin
-                                     (set! x.1 1)
-                                     (set! x.2 1))
-                                   (halt x.1))))
+                                           (begin
+                                             (set! x.1 1)
+                                             (set! x.2 1))
+                                           (halt x.1))))
                 '(begin
                    (set! x.1 1)
                    (set! x.2 1)
                    (halt x.1)))
   (check-equal? (flatten-begins '(module (begin
-                                   (begin
-                                     (set! x.1 1)
-                                     (set! x.2 1)
-                                     (set! x.3 1))
-                                   (halt x.1))))
+                                           (begin
+                                             (set! x.1 1)
+                                             (set! x.2 1)
+                                             (set! x.3 1))
+                                           (halt x.1))))
                 '(begin
                    (set! x.1 1)
                    (set! x.2 1)
@@ -65,12 +65,12 @@
                    (halt x.1)))
 
   (check-equal? (flatten-begins '(module (begin
-                                   (begin
-                                     (set! x.1 1)
-                                     (begin
-                                       (set! x.2 1)
-                                       (set! x.3 1)))
-                                   (halt x.1))))
+                                           (begin
+                                             (set! x.1 1)
+                                             (begin
+                                               (set! x.2 1)
+                                               (set! x.3 1)))
+                                           (halt x.1))))
                 '(begin
                    (set! x.1 1)
                    (set! x.2 1)

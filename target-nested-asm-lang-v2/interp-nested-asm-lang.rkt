@@ -65,6 +65,5 @@
           ,tail)
        (for-each interp-effect fxs)
        (interp-tail tail)]))
-  #;
-  (interp-tail p)
+  #;(interp-tail p)
   (interp-nested-asm-lang-v4 p))

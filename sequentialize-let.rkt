@@ -71,6 +71,19 @@
         `(begin
            ,@tail*)))
 
+  ;; I dont know how to use the info-ref lmao
+  (define (seq-let-definitions definition)
+    (match definition
+      [`(define ,label (lambda ,alocs ,tail))
+       (seq-let-tail tail
+                     (λ (tail*)
+                       `(define ,label
+                          (lambda ,alocs
+                            ,@(if (= 1 (length tail*))
+                                  tail*
+                                  (list `(begin
+                                           ,@tail*)))))))]))
+
   ;; let assignment be (list values-unique-lang-v4-aloc values-unique-lang-v4-value)
   ;; let k be continuation (imp-mf-lang-v4-effect ... imp-mf-lang-v4-tail) -> imp-mf-lang-v4-tail)
   (define (seq-let-assignment* a* k)
@@ -125,13 +138,16 @@
 
   (define (seq-let-p p)
     (match p
-      [`(module ,tail)
+      [`(module ,definitions ...
+          ,tail)
        (seq-let-tail tail
                      (λ (tail*)
-                       `(module ,@(if (= 1 (length tail*))
-                                      tail*
-                                      (list `(begin
-                                               ,@tail*))))))]))
+                       (append `(module)
+                               (map seq-let-definitions definitions)
+                               (list (if (= 1 (length tail*))
+                                         (first tail*)
+                                         `(begin
+                                            ,@tail*))))))]))
   (seq-let-p vulv3))
 
 (module+ test
@@ -183,4 +199,33 @@
                                x.1)
                              (begin
                                (set! x.1 1)
-                               x.1)))))
+                               x.1))))
+
+  (check-equal? (sequentialize-let `(module (define L.label.1 (lambda (x.1 x.2) 3))
+                                            (let ([y.1 5]
+                                                  [y.2 6])
+                                              (call L.label.1 y.1 y.2))
+                                      ))
+                `(module (define L.label.1 (lambda (x.1 x.2) 3))
+                         (begin
+                           (set! y.1 5)
+                           (set! y.2 6)
+                           (call L.label.1 y.1 y.2))
+                   ))
+
+  (check-equal? (sequentialize-let `(module (define L.label.1
+                                              (lambda (x.1 x.2) (let ([x.3 x.1]) x.3)))
+                                            (let ([y.1 5]
+                                                  [y.2 6])
+                                              (call L.label.1 y.1 y.2))
+                                      ))
+                `(module (define L.label.1
+                           (lambda (x.1 x.2)
+                             (begin
+                               (set! x.3 x.1)
+                               x.3)))
+                         (begin
+                           (set! y.1 5)
+                           (set! y.2 6)
+                           (call L.label.1 y.1 y.2))
+                   )))

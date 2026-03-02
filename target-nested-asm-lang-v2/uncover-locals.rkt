@@ -86,12 +86,11 @@
     (match triv
       [(? int64?) (set)]
       [(? aloc?) (set triv)]))
-  
+
   (define (uncover-loc loc)
     (match loc
       [(? aloc?) (set loc)]
-      [_ (set)])
-  )
+      [_ (set)]))
 
   (define (uncover-pred pred)
     (match pred
@@ -129,10 +128,7 @@
        (set-union (uncover-effects fxs) (uncover-tail t))]
       [`(halt ,triv) (uncover-triv triv)]
       [`(if ,pred ,t1 ,t2) (set-union (uncover-pred pred) (uncover-tail t1) (uncover-tail t2))]
-      [`(jump ,trg ,loc ...)
-        (foldr (lambda (cur acc) (set-union (uncover-loc cur) acc)) 
-               (set) 
-               loc)]))
+      [`(jump ,trg ,loc ...) (foldr (lambda (cur acc) (set-union (uncover-loc cur) acc)) (set) loc)]))
 
   (define (uncover-p p)
     (match p

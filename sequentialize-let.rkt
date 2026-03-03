@@ -314,10 +314,10 @@
                       1))
   (check-by-interp '(module (if (> -9223372036854775808 9223372036854775807) 0 -171588084)))
 
-  (check-by-interp (module (if (< -9223372036854775808 1)
+  (check-by-interp '(module (if (< -9223372036854775808 1)
                                (let ([ball.0.1 -1183539798]) ball.0.1)
                                (let ([foobar.6.2 -1081284475]) foobar.6.2))))
-  (check-by-interp (module (define L.func.0.1
+  (check-by-interp '(module (define L.func.0.1
                              (lambda (bar.6.1)
                                (if (false)
                                    bar.6.1
@@ -327,7 +327,7 @@
                                (if (<= 1 530802046) 0 -9223372036854775808))
                      ))
   (check-by-interp
-   (module (define L.x.0.1 (lambda (bat.2.2 bar.0.1) (call L.x.0.1 1 203659231)))
+   '(module (define L.x.0.1 (lambda (bat.2.2 bar.0.1) (call L.x.0.1 1 203659231)))
            (define L.tmp.1.2
              (lambda ()
                (let ([foo.3.3 (let ([bat.2.4 (if (= -9223372036854775808 1) 9223372036854775807 0)])
@@ -338,13 +338,13 @@
      (let ([foo.6.5 (if (<= -1418225656 0) -750331240 1598097510)])
        (let ([foo.3.6 1]) 9223372036854775807))))
 
-  (check-by-interp (module (define L.tmp.0.1
+  (check-by-interp '(module (define L.tmp.0.1
                              (lambda (bat.7.2 ball.5.1)
                                (let ([bat.8.3 -1468616918]) (* bat.8.3 bat.8.3))))
                            (define L.func.1.2 (lambda (ball.9.5 bar.1.4) 0))
                      (if (<= 1 -9223372036854775808) 0 -1806756174)))
-  (check-by-interp (module (let ([ball.3.1 0]) ball.3.1)))
-  (check-by-interp (module (define L.func.0.1 (lambda () 0))
+  (check-by-interp '(module (let ([ball.3.1 0]) ball.3.1)))
+  (check-by-interp '(module (define L.func.0.1 (lambda () 0))
                            (define L.tmp.1.2 (lambda (foo.2.1) (call L.func.0.1)))
                      (define L.func.2.3
                        (lambda ()

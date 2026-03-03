@@ -146,7 +146,7 @@
   (define-syntax-rule (check picl5 icl5)
     (check-equal? (impose-calling-conventions picl5) icl5))
   (define-syntax-rule (check-by-interp picl5)
-    (check-eq? (interp-proc-imp-cmf-lang-v5 picl5)
+    (check-equal? (interp-proc-imp-cmf-lang-v5 picl5)
                (interp-imp-cmf-lang-v5 (impose-calling-conventions picl5))))
   (define-syntax-rule (check/full picl5 icl5)
     (begin

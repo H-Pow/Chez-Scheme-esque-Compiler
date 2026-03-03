@@ -84,12 +84,12 @@
       [(4) (random (max-int 32))]
       [(5) (- 0 (random (sub1 (max-int 32))))]))
 
-  ;; () -> (values-lang-v5 relop)
+  ;; () -> (values-lang relop)
   ;; randomly selects a relop
   (define (generate-relop)
     (choose-from-list '(< <= = >= > !=)))
 
-  ;; () -> (values-lang-v5 binop)
+  ;; () -> (values-lang binop)
   ;; randomly selects a binop
   (define (generate-binop)
     (choose-from-list '(+ *)))
@@ -153,7 +153,7 @@
           [(3)
            ;; check if any procedure is defined, return value if there is no procedure
            (if (null? proc-names)
-               (generate-value depth env)
+               (generate-tail depth env)
                (let* ([fname (get-random-proc-name)]
                       [arity (hash-ref proc-arities fname)])
                  `(call ,fname ,@(generate-trivs arity env))))])))

@@ -89,10 +89,10 @@
   (define (generate-relop)
     (choose-from-list '(< <= = >= > !=)))
 
-  ;; () -> (values-lang binop)
+  ;; () -> (values-lang-v6 binop)
   ;; randomly selects a binop
   (define (generate-binop)
-    (choose-from-list '(+ *)))
+    (choose-from-list '(+ * -)))
 
   ;; (listof symbol) -> symbol | int64
   (define (generate-triv env)

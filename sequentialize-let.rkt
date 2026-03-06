@@ -10,7 +10,8 @@
 (define (binop->fun op)
   (match op
     ['+ x64-add]
-    ['* x64-mul]))
+    ['* x64-mul]
+    ['- x64-sub]))
 (define triv? (or/c aloc? int64?))
 ; values-unique lang-v3
 ; p	 	::=	 	(module (define label (lambda (aloc ...) tail)) ... tail)

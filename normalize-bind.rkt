@@ -11,7 +11,8 @@
 (define (binop->fun op)
   (match op
     ['+ x64-add]
-    ['* x64-mul]))
+    ['* x64-mul]
+    ['- x64-sub]))
 (define triv? (or/c aloc? int64?))
 
 ; imp-mf-lang-v3

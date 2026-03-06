@@ -12,7 +12,8 @@
 (define (binop->fun op)
   (match op
     ['+ x64-add]
-    ['* x64-mul]))
+    ['* x64-mul]
+    ['- x64-sub]))
 (define triv? (or/c name? int64?))
 
 ; values-lang-v5

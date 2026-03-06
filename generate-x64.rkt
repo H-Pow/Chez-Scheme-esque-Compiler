@@ -48,7 +48,7 @@
 ;   dispoffset	 	::=	 	dispoffset?
 
 (define registers `(rax rbx rcx rdx rsi rdi r8 r9 r10 r11 r12 r13 r14 r15 rsp rbp))
-(define assoc/binops->fun (list (list '+ x64-add) (list '* x64-mul)))
+(define assoc/binops->fun (list (list '+ x64-add) (list '* x64-mul) (list '- x64-sub)))
 (define binops (map car assoc/binops->fun))
 
 (define (relop? rl)

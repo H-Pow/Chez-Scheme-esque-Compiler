@@ -271,7 +271,8 @@
   (define (binop->ins b)
     (match b
       ['+ "add"]
-      ['* "imul"]))
+      ['* "imul"]
+      ['- "sub"]))
   (program->x64 p #;(check-paren-x64 p)))
 
 ;; string -> string

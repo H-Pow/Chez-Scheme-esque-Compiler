@@ -1,7 +1,7 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/langs/v5)
+         cpsc411/langs/v6)
 
 (provide uniquify
          interp-values-lang)
@@ -16,8 +16,8 @@
     ['- x64-sub]))
 (define triv? (or/c name? int64?))
 
-; values-lang-v5
-;   p	 	::=	 	(module (define x (lambda (x ...) tail)) ... tail)
+; values-lang-v6
+;  p	 	::=	 	(module (define x (lambda (x ...) tail)) ... tail)
 
 ;   pred	 	::=	 	(relop triv triv)
 ;  	 	|	 	(true)
@@ -35,6 +35,7 @@
 ;  	 	|	 	(binop triv triv)
 ;  	 	|	 	(let ([x value] ...) value)
 ;  	 	|	 	(if pred value value)
+;  	 	|	 	(call x triv ...)
 
 ;   triv	 	::=	 	int64
 ;  	 	|	 	x
@@ -43,6 +44,7 @@
 
 ;   binop	 	::=	 	*
 ;  	 	|	 	+
+;  	 	|	 	-
 
 ;   relop	 	::=	 	<
 ;  	 	|	 	<=
@@ -73,34 +75,51 @@
       [`(module ,tail) (interp-tail tail env)])))
 
 ;---------------------
-; values-unique-lang-v5
-;  p	 	::=	 	(module (define label (lambda (aloc ...) tail)) ... tail)
+; values-unique-lang-v6
+;    p	 	::=	 	(module (define label (lambda (aloc ...) tail)) ... tail)
 ;   pred	 	::=	 	(relop opand opand)
 ;  	 	|	 	(true)
 ;  	 	|	 	(false)
 ;  	 	|	 	(not pred)
 ;  	 	|	 	(let ([aloc value] ...) pred)
 ;  	 	|	 	(if pred pred pred)
+
 ;   tail	 	::=	 	value
 ;  	 	|	 	(let ([aloc value] ...) tail)
 ;  	 	|	 	(if pred tail tail)
 ;  	 	|	 	(call triv opand ...)
+
 ;   value	 	::=	 	triv
 ;  	 	|	 	(binop opand opand)
 ;  	 	|	 	(let ([aloc value] ...) value)
 ;  	 	|	 	(if pred value value)
+;  	 	|	 	(call triv opand ...)
+
 ;   opand	 	::=	 	int64
 ;  	 	|	 	aloc
+
 ;   triv	 	::=	 	opand
 ;  	 	|	 	label
-;   binop	 	::=	 	* | +
-;   relop	 	::=	 	< | <= | = >= | > | !=
+
+;   binop	 	::=	 	*
+;  	 	|	 	+
+;  	 	|	 	-
+
+;   relop	 	::=	 	<
+;  	 	|	 	<=
+;  	 	|	 	=
+;  	 	|	 	>=
+;  	 	|	 	>
+;  	 	|	 	!=
+
 ;   aloc	 	::=	 	aloc?
+
 ;   label	 	::=	 	label?
+
 ;   int64	 	::=	 	int64?
 
-; values-lang-v5 -> values-unique-lang-v5
-(define (uniquify vlv5)
+; values-lang-v6 -> values-unique-lang-v6
+(define (uniquify vlv6)
   (define proc-env (make-hash))
 
   ; let env be a dict which maps (procedure-name : label)
@@ -115,20 +134,20 @@
 
   ;; Takes triv in argument position and assigns aloc if triv is a name, otherwise returns
   ;; triv if triv is int64.
-  ;; (values-lang-v5 triv?) -> (values-lang-v5 triv | int64)
+  ;; (values-lang-v6 triv?) -> (values-lang-v6 triv | int64)
   (define (triv->arg arg arg-env)
     (if (int64? arg)
         arg
         (name->aloc arg arg-env)))
 
-  ; values-lang-v5-triv env -> values-unique-lang-v5-triv
+  ; values-lang-v6-triv env -> values-unique-lang-v6-triv
   (define (uniquify-triv triv env)
     (match triv
       [(? int64?) triv]
       [(? name?) (hash-ref env triv (λ () (error (format "undefined: ~a" triv))))]))
 
-  ; (listof values-lang-v5-name) (listof value-lang-v5-value) env ->
-  ;     (list (listof (list values-unique-lang-v5-name values-unique-lang-v5-value)) env)
+  ; (listof values-lang-v6-name) (listof value-lang-v6-value) env ->
+  ;     (list (listof (list values-unique-lang-v6-name values-unique-lang-v6-value)) env)
   (define (uniquify-pairs xs vals arg-env)
     (when (not (equal? (set-count (list->set xs)) (length xs)))
       (error (format "duplicate declaration in the same let: ~a" xs)))
@@ -157,7 +176,7 @@
             ,(uniquify-pred pred3 env))]
       [_ pred]))
 
-  ; values-lang-v5-value env -> values-unique-lang-v5-value
+  ; values-lang-v6-value env -> values-unique-lang-v6-value
   (define (uniquify-value value env)
     (match value
       [`(let ([,xs ,vals] ...) ,value)
@@ -167,12 +186,12 @@
        `(if ,(uniquify-pred pred1 env)
             ,(uniquify-value pred2 env)
             ,(uniquify-value pred3 env))]
-      ;; reordered to disambiguate with (if) instead
-
       [`(,binop ,triv1 ,triv2)
        #:when (and (binop? binop) (triv? triv1) (triv? triv2))
        `(,binop ,(uniquify-triv triv1 env) ,(uniquify-triv triv2 env))]
-      [(? triv?) (uniquify-triv value env)])) ;;
+      [(? triv?) (uniquify-triv value env)]
+      [`(call ,x ,trivs ...)
+       `(call ,(proc-name->label x) ,@(map (λ (arg) (triv->arg arg arg-env)) trivs))]))
 
   (define (uniquify-tail tail arg-env)
     (match tail
@@ -201,7 +220,7 @@
        `(define ,(proc-name->label proc-name)
           (lambda ,alocs ,(uniquify-tail tail arg-env)))]))
 
-  ; (values-lang-v5-p env) -> (values-unique-lang-v5 p)
+  ; (values-lang-v6-p env) -> (values-unique-lang-v6 p)
   (define (uniquify-p p)
     (match p
       [`(module ,defs ...
@@ -209,13 +228,13 @@
        `(module ,@(map (λ (def) (uniquify-definitions def)) defs) ,(uniquify-tail tail (hash))
           )]))
 
-  (uniquify-p vlv5))
+  (uniquify-p vlv6))
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v5)
-  (define-syntax-rule (check-by-interp vlv5)
-    (check-equal? (interp-values-lang-v5 vlv5) (interp-values-unique-lang-v5 (uniquify vlv5))))
+           cpsc411/langs/v6)
+  (define-syntax-rule (check-by-interp vlv6)
+    (check-equal? (interp-values-lang-v6 vlv6) (interp-values-unique-lang-v6 (uniquify vlv6))))
 
   (check-by-interp '(module (define proc.0 (lambda (ball.3) (call proc.0 9223372036854775807)))
                             (define x.1

@@ -1,0 +1,1282 @@
+#lang racket
+
+(require cpsc411/compiler-lib
+         cpsc411/2c-run-time)
+
+(require rackunit)
+
+(provide check-paren-x64
+         generate-x64)
+
+(define-syntax-rule (TODO . stx)
+  (error "Unfinished skeleton"))
+
+; Paren-x64 v2:
+; p	 	::=	 	(begin s ...)
+;   s	 	::=	 	(set! addr int32)
+;  	 	|	 	(set! addr reg)
+;  	 	|	 	(set! reg loc)
+;  	 	|	 	(set! reg triv)
+;  	 	|	 	(set! reg_1 (binop reg_1 int32))
+;  	 	|	 	(set! reg_1 (binop reg_1 loc))
+;   triv	 	::=	 	reg
+;  	 	|	 	int64
+;   loc	 	::=	 	reg
+;  	 	|	 	addr
+;   reg	 	::=	 	rsp
+;  	 	|	 	rbp
+;  	 	|	 	rax
+;  	 	|	 	rbx
+;  	 	|	 	rcx
+;  	 	|	 	rdx
+;  	 	|	 	rsi
+;  	 	|	 	rdi
+;  	 	|	 	r8
+;  	 	|	 	r9
+;  	 	|	 	r10
+;  	 	|	 	r11
+;  	 	|	 	r12
+;  	 	|	 	r13
+;  	 	|	 	r14
+;  	 	|	 	r15
+;   addr	 	::=	 	(fbp - dispoffset)
+;   fbp	 	::=	 	frame-base-pointer-register?
+;   binop	 	::=	 	*
+;  	 	|	 	+
+;   int64	 	::=	 	int64?
+;   int32	 	::=	 	int32?
+;   dispoffset	 	::=	 	dispoffset?
+
+(define registers `(rax rbx rcx rdx rsi rdi r8 r9 r10 r11 r12 r13 r14 r15 rsp rbp))
+(define assoc/binops->fun (list (list '+ x64-add) (list '* x64-mul)))
+(define binops (map car assoc/binops->fun))
+
+(define (relop? rl)
+  (memq rl '(< <= = >= > !=)))
+
+;; symbol -> boolean
+;; returns true if bo is a binop, false otherwise
+(define (binop? bo)
+  (memq bo binops))
+
+;; symbol -> boolean
+;; reutrns true if addr is an address, false otherwise
+(define (addr? addr)
+  (match addr
+    [`(,(? frame-base-pointer-register?) - ,(? dispoffset?)) #t]
+    [_ #f]))
+
+;; symbol -> boolean
+;; returns true if provided symbol is a loc(reg or addr), false otherwise
+(define loc? (or/c register? addr?))
+
+;; imperative, do nothing on success
+(define check-success (void))
+
+;; Optional; if you choose not to complete, implement a stub that returns the input
+;; paren-x64-v2 -> paren-x64-v2
+;; Takes valid Paren-x64 v1 syntax, and returns a valid Paren-x64 v1 program
+;;     or raises an error with a descriptive error message.
+(define (check-paren-x64-init p)
+  ;; env is hashtable that maps location to its value
+  (define env (make-hash))
+  (define (env-set! reg val)
+    (hash-set! env reg val))
+
+  ;; location -> int64 or void
+  (define (env-get reg)
+    (hash-ref env reg (void)))
+
+  ; set is 0, represent that the register is set
+  (define set 0)
+  ;; any -> boolean
+  ;; returns true if val is set, false otherwise
+  (define (set? val)
+    (equal? val 0))
+
+  ;; loc -> void
+  ;; raises error if location is not set
+  (define (check-loc-defined loc)
+    (if (set? (env-get loc))
+        check-success
+        (error "location ~a not set" loc)))
+  ;; int64 or loc or bin-op -> void
+  ;; raises error if op2 is not an int64, a set register, or valid binop expression
+  (define (check-paren-x64-init-op2 op2)
+    (match op2
+      [(? int64? _) check-success]
+      [r
+       #:when (loc? r)
+       (check-loc-defined r)]
+      [`(,bin-op ,reg1 ,i32)
+       #:when (and (binop? bin-op) (register? reg1) (int32? i32))
+       (check-loc-defined reg1)]
+      [`(,bin-op ,reg1 ,loc)
+       #:when (and (binop? bin-op) (register? reg1) (loc? loc))
+       (check-loc-defined reg1)
+       (check-loc-defined loc)]))
+
+  ;; paren-x64-v2-s -> void
+  ;; raises error if s is not valid paren-x64-v2 set!-expression
+  (define (check-paren-x64-init-s s)
+    (match s
+      [`(set! ,reg ,op2)
+       #:when (loc? reg)
+       (check-paren-x64-init-op2 op2)
+       ; define register on successful validation
+       (env-set! reg set)]))
+
+  ;; paren-x64-v2-p -> void
+  ;; raises error if p is not valid paren-x64-v2 begin-expression
+  (define (check-paren-x64-init-p p)
+    (match p
+      [`(begin
+          ,s ...)
+       (for-each check-paren-x64-init-s s)]))
+
+  (check-paren-x64-init-p p)
+  p)
+
+;; Optional; if you choose not to complete, implement a stub that returns the input
+;; any -> paren-x64-v4
+;; Takes an arbitrary value and either returns it, if it is valid Paren-x64 v1 syntax,
+;;     or raises an error with a descriptive error message.
+(define (check-paren-x64-syntax p)
+  ;; any addr -> void
+  ;; raises error if op2 is not valid second op for set! given that op1 is an addr
+  (define (check-paren-x64-syntax-op2/addr op2 addr)
+    (match op2
+      [(? int32?) check-success]
+      [(? int64?) (error "address assignment only allow int32, given int64: ~a" op2)]
+      [(? register?) check-success]
+      [`(,(? binop?) ,_ ,_) (error "binop not allowed for memory address")]
+      [_ (error (format "invalid operation: ~a for address: ~a" op2 addr))]))
+  ;; any register -> void
+  ;; raises error if op2 is not valid syntax for second parameter of a set!-expression
+  (define (check-paren-x64-syntax-op2/reg op2 reg)
+    (match op2
+      [(? int64?) check-success]
+      [(? loc?) check-success]
+      [`(,bin-op ,reg1 ,i32)
+       #:when (and (binop? bin-op) (register? reg1) (equal? reg reg1) (int32? i32))
+       check-success]
+      [`(,bin-op ,reg1 ,loc)
+       #:when (and (binop? bin-op) (equal? reg reg1) (register? reg1) (loc? loc))
+       check-success]
+      [`(,bin-op ,op1 ,_)
+       #:when (binop? bin-op)
+       (error (format "unknown oprand ~a, expected ~a" op1 reg))]
+      [x
+       (error (format "unexpected symbol ~a, expected a int64, register or a bin-op expression" x))]))
+  ;; any loc -> void
+  ;; raises error if op2 is not valid syntax for the second paramter of a set!
+  ;;    given location
+  (define (check-paren-x64-syntax-op2 op2 loc)
+    (match loc
+      [(? addr?) (check-paren-x64-syntax-op2/addr op2 loc)]
+      [(? register?) (check-paren-x64-syntax-op2/reg op2 loc)]))
+  ;; any -> void
+  ;; raises error if s is not a valid syntax for a set!-expression
+  ;; uses match to progressively check for violations for "descriptive" error message
+  (define (check-paren-x64-syntax-s s)
+    (match s
+      [`(set! ,loc ,op2)
+       #:when (loc? loc)
+       (check-paren-x64-syntax-op2 op2 loc)]
+      [`(set! ,op1 ,_)
+       (error (format "unknown oprand ~a, expected a location(symbol in '~a)" op1 registers))]
+      [`(with-label ,(? label?) ,s) (check-paren-x64-syntax-s s)]
+      [`(jump ,(? (or/c register? label?))) (void)]
+      [`(compare ,(? register?) ,(? (or/c register? int64?))) (void)]
+      [`(jump-if ,(? relop?) ,(? label?)) (void)]
+      [x (error (format "unexpected symbol ~a, expected a paren-x64-s expression" x))]))
+  ;; any -> void
+  ;; raises an error if p is not valid syntax for begin-expression.
+  (define (check-paren-x64-syntax-p p)
+    (match p
+      [`(begin
+          ,s ...)
+       (for-each check-paren-x64-syntax-s s)]
+      [x (error "no begin expression: ~a" x)]))
+
+  (check-paren-x64-syntax-p p)
+  p)
+
+(define (check-paren-x64 p)
+  (check-paren-x64-init (check-paren-x64-syntax p)))
+
+;; paren-x64-v4 -> x64-instruction-sequence
+;; Compiles a Paren-x64 v4 program into a x64 instruction sequence represented as a string.
+(define (generate-x64 p)
+
+  ;; paren-x64-v4-p -> x64-instruction-sequence
+  ;; Compiles a Paren-x64 v4 begin-expression into a x64 instruction sequence represented as a string.
+  (define (program->x64 p)
+    (match p
+      [`(begin
+          ,s* ...)
+       (string-join (map statement->x64 s*) "")]))
+
+  ;; paren-x64-v4-loc -> x64-instruction-sequence
+  (define (loc->ins loc)
+    (match loc
+      [(? register?) (~a loc)]
+      [(? addr?)
+       (match-let ([`(,reg - ,off) loc])
+         (format "QWORD [~a - ~a]" reg off))]))
+  ;; (or paren-x64-v2-loc int64) -> x64-instruction-sequence
+  (define (val->ins val)
+    (match val
+      [(? int64?) val]
+      [(? label?) (~a val)]
+      [_ (loc->ins val)]))
+
+  ;; paren-x64-v4-trg -> x64-instruction-sequence
+  (define (trg->ins trg)
+    (match trg
+      [(? register?) (~a trg)]
+      [(? label?) (~a trg)]))
+
+  (define (opand->ins opand)
+    (match opand
+      [(? int64?) opand]
+      [_ (~a opand)]))
+
+  ;; paren-x64-v4-s -> x64-instruction-sequence
+  ;; Compiles a Paren-x64 v4 set!-expression into a x64 instruction sequence represented as a string.
+  (define (statement->x64 s)
+    (match s
+      [`(set! ,reg1 (,binop ,reg1 ,val))
+       (format "~a ~a, ~a\n" (binop->ins binop) reg1 (val->ins val))]
+      [`(set! ,loc ,label)
+       #:when (label? label)
+       (format "lea ~a, [rel ~a]\n" (loc->ins loc) label)]
+      [`(set! ,loc ,val) (format "mov ~a, ~a\n" (loc->ins loc) (val->ins val))]
+      [`(with-label ,l ,s) (format "~a:\n~a" l (statement->x64 s))]
+      [`(jump ,trg) (format "jmp ~a\n" (trg->ins trg))]
+      [`(compare ,reg ,opand) (format "cmp ~a, ~a\n" reg (opand->ins opand))]
+      [`(jump-if ,relop ,l) (format "~a ~a\n" (relop->ins relop) l)]))
+
+  (define (relop->ins relop)
+    (match relop
+      [`< "jl"]
+      [`<= "jle"]
+      [`= "je"]
+      [`>= "jge"]
+      [`> "jg"]
+      [`!= "jne"]))
+
+  ;; binop-> x64-instruction
+  ;; returns the corresponding x64 operator for the given binop
+  (define (binop->ins b)
+    (match b
+      ['+ "add"]
+      ['* "imul"]))
+  (program->x64 p #;(check-paren-x64 p)))
+
+;; string -> string
+;; Installs the Paren-x64 v1 run-time system. The input is the same as the output for generate-x64:
+;;     a string representing an x64 instruction sequence. The run-time system is composed with the
+;;     input as a second instruction sequence.
+; (define (wrap-x64-run-time str)
+;   (define runtime-sys
+;     #<<EOS
+;   mov rdi, rax
+; EOS
+;     )
+;   (~a str runtime-sys #:separator "\n"))
+
+;; x64-instruction-sequence -> string
+;; Takes an x64 instruction sequence and wraps it with the necessary boilerplate to
+;;     return a complete x64 program in Intel syntax.
+; (define (wrap-x64-boilerplate str)
+;   (define start
+;     #<<EOS
+; global start
+
+; section .text
+; start:
+; mov rbx, .data
+
+; EOS
+;     )
+
+;   (define exit
+;     #<<EOS
+; exit:
+;   mov rax, 60
+;   ;mov rax, 0x200001
+;   syscall
+
+; section .data
+; dummy:   db 0
+; EOS
+;     )
+;   (~a start str exit #:separator "\n"))
+
+(module+ test
+  (require rackunit
+           rackunit/text-ui
+           cpsc411/test-suite/public/v1
+           ;; NB: Workaround typo in shipped version of cpsc411-lib
+           cpsc411/langs/v1)
+
+  (require rackunit
+           cpsc411/langs/v4
+           cpsc411/langs/v5)
+
+  (define-syntax-rule (check-by-interp p)
+    (check-equal? (interp-paren-x64-v4 p) (execute (generate-x64 p))))
+
+  (define (test-success fun case)
+    (check-equal? (fun case) case))
+  (define (test-fail fun case)
+    (check-exn exn:fail? (λ () (fun case))))
+  (define success-check-case1
+    '(begin
+       (set! rax 5)))
+
+  (define success-check-case2
+    '(begin
+       (set! rax 1)
+       (set! rcx 1)
+       (set! rax (+ rax rcx))))
+
+  (define good-syn-bad-init
+    '(begin
+       (set! rcx 1)
+       (set! rax (+ rax rcx))))
+
+  (define no-begin '(set! rax 1))
+
+  (define v2-1
+    '(begin
+       (set! (rbp - 0) 0)
+       (set! (rbp - 8) 42)
+       (set! rax (rbp - 0))
+       (set! rax (+ rax (rbp - 8)))))
+  ;; !!! Added by Trevor on March 2nd 2026
+  (check-by-interp '(begin
+                      (with-label L.__main.7 (set! rdi -1860620182))
+                      (jump L.L.tmp.1.2.5)
+                      (with-label L.L.func.0.1.4 (set! rax 0))
+                      (jump done)
+                      (with-label L.L.tmp.1.2.5 (set! r15 rdi))
+                      (jump L.L.func.0.1.4)
+                      (with-label L.L.func.2.3.6 (set! r15 1))
+                      (set! r15 r15)
+                      (set! r14 1)
+                      (jump L.tmp.8)
+                      (with-label L.tmp.8 (set! r15 156890122))
+                      (jump L.tmp.10)
+                      (with-label L.tmp.9 (set! r15 r15))
+                      (jump L.tmp.10)
+                      (with-label L.tmp.10 (set! rax 0))
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.7 (set! r15 -9223372036854775808))
+                      (set! r11 -9223372036854775808)
+                      (set! r15 (* r15 r11))
+                      (set! r15 r15)
+                      (set! r15 r15)
+                      (set! r15 (+ r15 0))
+                      (set! r15 r15)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.L.tmp.0.1.4 (set! r15 9223372036854775807))
+                      (jump L.__nested.8)
+                      (with-label L.__nested.8 (jump L.L.x.2.3.6))
+                      (with-label L.__nested.9 (set! r15 1))
+                      (set! r15 (* r15 0))
+                      (set! r15 r15)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.L.func.1.2.5 (set! r14 -9223372036854775808))
+                      (set! r15 9223372036854775807)
+                      (jump L.__nested.11)
+                      (with-label L.__nested.10 (set! rax 1309557052))
+                      (jump done)
+                      (with-label L.__nested.11 (set! rax -9223372036854775808))
+                      (jump done)
+                      (with-label L.L.x.2.3.6 (set! r15 0))
+                      (jump L.__nested.12)
+                      (with-label L.__nested.16 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.__nested.17 (set! rax -260353756))
+                      (jump done)
+                      (with-label L.__nested.14 (set! r15 9223372036854775807))
+                      (jump L.__nested.17)
+                      (with-label L.__nested.15 (set! r15 0))
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.__nested.18 (set! rax r15))
+                      (jump done)
+                      (with-label L.__nested.19 (set! rax -362331747))
+                      (jump done)
+                      (with-label L.tmp.20 (set! r15 9223372036854775807))
+                      (jump L.tmp.22)
+                      (with-label L.tmp.21 (set! r15 102036653))
+                      (jump L.tmp.22)
+                      (with-label L.tmp.22 (set! r14 0))
+                      (compare r14 r15)
+                      (jump-if = L.__nested.18)
+                      (jump L.__nested.19)
+                      (with-label L.__nested.12 (set! r15 0))
+                      (jump L.__nested.15)
+                      (with-label L.__nested.13 (set! r15 -302047143))
+                      (jump L.tmp.20)))
+  (check-by-interp '(begin
+                      (with-label L.__main.7 (set! rdi 1))
+                      (jump L.L.proc.0.1.4)
+                      (with-label L.L.proc.0.1.4 (set! r15 rdi))
+                      (jump L.L.func.1.2.5)
+                      (with-label L.L.func.1.2.5 (set! r15 1))
+                      (set! r15 (* r15 0))
+                      (set! r15 r15)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.L.fn.2.3.6 (set! r15 rdi))
+                      (set! r15 -2033705372)
+                      (jump L.tmp.8)
+                      (with-label L.tmp.8 (set! r15 -1853172774))
+                      (jump L.tmp.10)
+                      (with-label L.tmp.9 (set! r15 1133506028))
+                      (jump L.tmp.10)
+                      (with-label L.tmp.10 (set! r15 1))
+                      (set! rax 1236904416)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.2 (jump L.fn.0.1))
+                      (with-label L.fn.0.1 (set! r15 1))
+                      (set! r15 1)
+                      (set! r14 9223372036854775807)
+                      (jump L.tmp.5)
+                      (with-label L.tmp.5 (set! r14 -248968641))
+                      (jump L.__nested.4)
+                      (with-label L.tmp.6 (jump L.__nested.3))
+                      (with-label L.__nested.3 (set! r15 r15))
+                      (set! rax 1622965009)
+                      (jump done)
+                      (with-label L.__nested.4 (set! r15 r15))
+                      (set! rax 1)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.1 (set! r15 -9223372036854775808))
+                      (set! r15 (+ r15 -1465538260))
+                      (set! r15 r15)
+                      (set! rax 9223372035389237548)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.3 (set! r15 1))
+                      (set! r14 0)
+                      (set! rax 1)
+                      (jump done)
+                      (with-label L.fn.0.1 (set! r15 1))
+                      (set! r11 9223372036854775807)
+                      (set! r15 (+ r15 r11))
+                      (set! r15 r15)
+                      (set! r15 r15)
+                      (set! r14 r15)
+                      (set! rax -9223372036854775808)
+                      (jump done)
+                      (with-label L.func.1.2 (set! r15 1))
+                      (set! r14 1)
+                      (jump L.tmp.5)
+                      (with-label L.tmp.4 (set! r15 406779451))
+                      (set! r15 1200977699)
+                      (jump L.tmp.6)
+                      (with-label L.tmp.5 (set! r15 0))
+                      (set! r15 r15)
+                      (jump L.tmp.6)
+                      (with-label L.tmp.6 (set! r15 r15))
+                      (set! r15 (* r15 r15))
+                      (set! r15 r15)
+                      (set! rax r15)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.6 (set! r15 0))
+                      (jump L.__nested.4)
+                      (with-label L.x.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (jump L.tmp.1.2)
+                      (with-label L.tmp.1.2 (set! r15 -765445006))
+                      (jump L.tmp.16)
+                      (with-label L.tmp.16 (set! r15 0))
+                      (jump L.tmp.14)
+                      (with-label L.tmp.17 (set! r15 9223372036854775807))
+                      (jump L.tmp.15)
+                      (with-label L.tmp.14 (jump L.__nested.8))
+                      (with-label L.tmp.15 (jump L.__nested.7))
+                      (with-label L.__nested.9 (set! rax 0))
+                      (jump done)
+                      (with-label L.__nested.10 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.tmp.11 (set! r15 -9223372036854775808))
+                      (jump L.tmp.13)
+                      (with-label L.tmp.12 (set! r15 -9223372036854775808))
+                      (jump L.tmp.13)
+                      (with-label L.tmp.13 (set! r14 0))
+                      (jump L.__nested.10)
+                      (with-label L.__nested.7 (set! r15 -9223372036854775808))
+                      (set! r15 r15)
+                      (set! rax -9223372036854775808)
+                      (jump done)
+                      (with-label L.__nested.8 (set! r15 1))
+                      (jump L.tmp.11)
+                      (with-label L.func.2.3 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (jump L.tmp.1.2)
+                      (with-label L.__nested.4 (set! rax -1271132888))
+                      (jump done)
+                      (with-label L.__nested.5 (set! rax 2101306416))
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.4 (set! r15 0))
+                      (jump L.__nested.2)
+                      (with-label L.proc.0.1 (set! r15 rdi))
+                      (set! r14 -818241658)
+                      (set! r14 r14)
+                      (set! r13 -1769976594)
+                      (set! r13 (* r13 r14))
+                      (set! r14 r13)
+                      (compare r15 r15)
+                      (jump-if != L.__nested.5)
+                      (jump L.__nested.6)
+                      (with-label L.__nested.5 (set! rax 1))
+                      (jump done)
+                      (with-label L.__nested.6 (set! rax r15))
+                      (jump done)
+                      (with-label L.__nested.2 (set! rax 1764584349))
+                      (jump done)
+                      (with-label L.__nested.3 (set! rax -9223372036854775808))
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.5 (set! r15 453798193))
+                      (set! r14 r15)
+                      (set! r15 9223372036854775807)
+                      (jump L.__nested.3)
+                      (with-label L.proc.0.1 (set! r15 rdi))
+                      (jump L.x.1.2)
+                      (with-label L.x.1.2 (set! rax 1))
+                      (jump done)
+                      (with-label L.__nested.3 (set! rax 0))
+                      (jump done)
+                      (with-label L.__nested.4 (set! rax -1617493587))
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.3 (jump L.proc.1.2))
+                      (with-label L.func.0.1 (set! r15 rdi))
+                      (set! r14 9223372036854775807)
+                      (set! r14 (* r14 r15))
+                      (set! r14 r14)
+                      (jump L.__nested.4)
+                      (with-label L.__nested.6 (set! rax r15))
+                      (jump done)
+                      (with-label L.__nested.7 (set! rax r15))
+                      (jump done)
+                      (with-label L.__nested.4 (set! r10 -9223372036854775808))
+                      (compare r15 r10)
+                      (jump-if < L.__nested.6)
+                      (jump L.__nested.7)
+                      (with-label L.__nested.5 (jump L.proc.1.2))
+                      (with-label L.proc.1.2 (set! rdi 954069433))
+                      (jump L.func.0.1)))
+  (check-by-interp '(begin
+                      (with-label L.__main.5 (set! r15 1))
+                      (jump L.__nested.1)
+                      (with-label L.__nested.3 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.__nested.4 (set! rax 1))
+                      (jump done)
+                      (with-label L.__nested.1 (set! r15 1))
+                      (jump L.__nested.4)
+                      (with-label L.__nested.2 (set! rax 1))
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.2 (set! r8 0))
+                      (set! rcx -9223372036854775808)
+                      (set! rdx -808937821)
+                      (set! rsi 1)
+                      (set! rdi -9223372036854775808)
+                      (jump L.func.0.1)
+                      (with-label L.func.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r15 rdx)
+                      (set! r15 rcx)
+                      (set! r15 r8)
+                      (set! rax -1458025903)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.2 (set! r15 0))
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.tmp.0.1 (set! r14 rdi))
+                      (set! r15 rsi)
+                      (set! r13 rdx)
+                      (set! r13 rcx)
+                      (set! r14 r14)
+                      (set! r13 -9223372036854775808)
+                      (compare r13 r15)
+                      (jump-if <= L.tmp.7)
+                      (jump L.tmp.8)
+                      (with-label L.tmp.7 (set! r13 -9223372036854775808))
+                      (compare r13 r14)
+                      (jump-if >= L.__nested.3)
+                      (jump L.__nested.4)
+                      (with-label L.tmp.8 (compare r15 2025307007))
+                      (jump-if >= L.__nested.3)
+                      (jump L.__nested.4)
+                      (with-label L.__nested.5 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.__nested.6 (set! rax 0))
+                      (jump done)
+                      (with-label L.__nested.3 (set! r15 r14))
+                      (set! r11 9223372036854775807)
+                      (set! r15 (+ r15 r11))
+                      (set! r15 r15)
+                      (set! rax r15)
+                      (jump done)
+                      (with-label L.__nested.4 (set! r10 -9223372036854775808))
+                      (compare r15 r10)
+                      (jump-if <= L.__nested.5)
+                      (jump L.__nested.6)))
+  (check-by-interp '(begin
+                      (with-label L.__main.4 (set! rdi 1840464414))
+                      (jump L.x.1.2)
+                      (with-label L.func.0.1 (set! r15 rdi))
+                      (set! r14 rsi)
+                      (set! r13 0)
+                      (compare r13 r14)
+                      (jump-if = L.__nested.5)
+                      (jump L.__nested.6)
+                      (with-label L.tmp.11 (compare r14 r14))
+                      (jump-if <= L.__nested.7)
+                      (jump L.__nested.8)
+                      (with-label L.tmp.12 (compare r14 r15))
+                      (jump-if = L.__nested.7)
+                      (jump L.__nested.8)
+                      (with-label L.__nested.9 (set! rax r15))
+                      (jump done)
+                      (with-label L.__nested.10 (set! rax r14))
+                      (jump done)
+                      (with-label L.__nested.7 (set! r15 r14))
+                      (set! r15 (+ r15 r14))
+                      (set! r15 r15)
+                      (set! rax r15)
+                      (jump done)
+                      (with-label L.__nested.8 (set! r13 1))
+                      (compare r13 r14)
+                      (jump-if = L.__nested.9)
+                      (jump L.__nested.10)
+                      (with-label L.__nested.5 (set! r15 -9223372036854775808))
+                      (set! r11 -9223372036854775808)
+                      (set! r15 (+ r15 r11))
+                      (set! r15 r15)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.__nested.6 (compare r15 r15))
+                      (jump-if < L.tmp.11)
+                      (jump L.tmp.12)
+                      (with-label L.x.1.2 (set! r15 rdi))
+                      (set! r14 1757280127)
+                      (set! r14 r14)
+                      (set! r14 1)
+                      (set! r14 -1128483887)
+                      (set! r15 r15)
+                      (compare r15 r15)
+                      (jump-if > L.__nested.13)
+                      (jump L.__nested.14)
+                      (with-label L.__nested.13 (set! rax -1128483887))
+                      (jump done)
+                      (with-label L.__nested.14 (set! r14 r14))
+                      (set! r14 (+ r14 r15))
+                      (set! r15 r14)
+                      (set! rax r15)
+                      (jump done)
+                      (with-label L.fn.2.3 (set! r15 -9223372036854775808))
+                      (set! r15 (+ r15 -1421853645))
+                      (set! r15 r15)
+                      (set! r15 0)
+                      (jump L.__nested.16)
+                      (with-label L.__nested.15 (set! r15 -167927521))
+                      (set! r15 (+ r15 1))
+                      (set! r15 r15)
+                      (set! rax -167927520)
+                      (jump done)
+                      (with-label L.__nested.16 (set! r15 1041085683))
+                      (set! r11 9223372036854775807)
+                      (set! r15 (* r15 r11))
+                      (set! r15 r15)
+                      (set! r15 r15)
+                      (set! rax 770292232)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.3 (set! r15 -579691794))
+                      (set! rax 953357957)
+                      (jump done)
+                      (with-label L.proc.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r14 rdx)
+                      (set! rdx r15)
+                      (set! rsi r14)
+                      (set! rdi 9223372036854775807)
+                      (jump L.proc.0.1)
+                      (with-label L.func.1.2 (set! r15 rdi))
+                      (set! r14 rsi)
+                      (set! r14 rdx)
+                      (set! r13 rcx)
+                      (set! r13 r8)
+                      (set! r13 r9)
+                      (set! r14 r14)
+                      (set! r15 r15)
+                      (set! r15 -9223372036854775808)
+                      (set! rdx r15)
+                      (set! rsi -780648786)
+                      (set! rdi r15)
+                      (jump L.proc.0.1)))
+  (check-by-interp '(begin
+                      (with-label L.__main.1 (set! r15 9223372036854775807))
+                      (set! r15 -546026276)
+                      (set! rax 9223372036854775807)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.4 (set! r15 9223372036854775807))
+                      (jump L.__nested.3)
+                      (with-label L.func.0.1 (set! r14 rdi))
+                      (set! r15 rsi)
+                      (set! r14 r14)
+                      (compare r14 0)
+                      (jump-if = L.__nested.6)
+                      (jump L.__nested.5)
+                      (with-label L.__nested.5 (set! r15 r14))
+                      (set! r15 (+ r15 0))
+                      (set! r15 r15)
+                      (set! r15 0)
+                      (set! r11 9223372036854775807)
+                      (set! r15 (* r15 r11))
+                      (set! r15 r15)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.__nested.6 (set! r14 0))
+                      (set! r14 (* r14 r15))
+                      (set! r14 r14)
+                      (set! rax r15)
+                      (jump done)
+                      (with-label L.__nested.2 (set! rax 1))
+                      (jump done)
+                      (with-label L.__nested.3 (set! rax -9223372036854775808))
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.4 (set! r15 979460199))
+                      (set! r15 (+ r15 -1697959716))
+                      (set! r15 r15)
+                      (set! rax -718499517)
+                      (jump done)
+                      (with-label L.fn.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r14 1)
+                      (set! r11 9223372036854775807)
+                      (set! r14 (* r14 r11))
+                      (set! r14 r14)
+                      (set! r13 -9223372036854775808)
+                      (set! r13 (+ r13 r14))
+                      (set! r14 r13)
+                      (set! r13 9223372036854775807)
+                      (set! r13 1)
+                      (jump L.__nested.5)
+                      (with-label L.__nested.5 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.__nested.6 (set! rax r15))
+                      (jump done)
+                      (with-label L.x.1.2 (set! r15 rdi))
+                      (set! r14 -1410706204)
+                      (set! r14 (+ r14 r15))
+                      (set! r15 r14)
+                      (set! r15 1)
+                      (set! r15 -9223372036854775808)
+                      (set! r15 -152436426)
+                      (set! r15 (* r15 0))
+                      (set! r15 r15)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.proc.2.3 (set! r15 rdi))
+                      (set! r14 rsi)
+                      (set! r14 rdx)
+                      (set! r14 rcx)
+                      (set! r15 r15)
+                      (set! r15 956544411)
+                      (set! r15 (+ r15 1))
+                      (set! r15 r15)
+                      (set! rax 956544412)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.2 (set! r9 9223372036854775807))
+                      (set! r8 -1891086346)
+                      (set! rcx -1371550930)
+                      (set! rdx 0)
+                      (set! rsi 9223372036854775807)
+                      (set! rdi 0)
+                      (jump L.proc.0.1)
+                      (with-label L.proc.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r15 rdx)
+                      (set! r13 rcx)
+                      (set! r14 r8)
+                      (set! r9 r9)
+                      (set! r8 -669410514)
+                      (compare r14 r14)
+                      (jump-if < L.tmp.5)
+                      (jump L.tmp.6)
+                      (with-label L.__nested.3 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.__nested.4 (set! rax r14))
+                      (jump done)
+                      (with-label L.tmp.5 (set! r9 r9))
+                      (set! r9 (+ r9 r13))
+                      (set! r9 r9)
+                      (jump L.tmp.7)
+                      (with-label L.tmp.6 (set! r9 r15))
+                      (jump L.tmp.7)
+                      (with-label L.tmp.7 (set! r13 r13))
+                      (set! r13 1)
+                      (compare r15 1)
+                      (jump-if <= L.__nested.3)
+                      (jump L.__nested.4)))
+  (check-by-interp '(begin
+                      (with-label L.__main.4 (set! r15 1))
+                      (set! rax 1)
+                      (jump done)
+                      (with-label L.x.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r14 rdx)
+                      (set! r13 rcx)
+                      (set! r8 r8)
+                      (set! r9 r9)
+                      (set! rdi (rbp - 0))
+                      (set! rdi 388494724)
+                      (compare rdi r15)
+                      (jump-if >= L.tmp.9)
+                      (jump L.tmp.10)
+                      (with-label L.tmp.9 (set! r10 -9223372036854775808))
+                      (compare r13 r10)
+                      (jump-if > L.__nested.6)
+                      (jump L.__nested.5)
+                      (with-label L.tmp.10 (compare r14 r13))
+                      (jump-if < L.__nested.6)
+                      (jump L.__nested.5)
+                      (with-label L.__nested.7 (set! rax 0))
+                      (jump done)
+                      (with-label L.__nested.8 (set! r15 r13))
+                      (set! rax 1887946265)
+                      (jump done)
+                      (with-label L.__nested.5 (compare r8 r9))
+                      (jump-if <= L.__nested.7)
+                      (jump L.__nested.8)
+                      (with-label L.__nested.6 (set! rax r14))
+                      (jump done)
+                      (with-label L.tmp.1.2 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r15 rdx)
+                      (set! r14 rcx)
+                      (set! r13 r8)
+                      (set! r9 r9)
+                      (set! r15 r14)
+                      (set! r11 9223372036854775807)
+                      (set! r15 (* r15 r11))
+                      (set! r15 r15)
+                      (set! rax r15)
+                      (jump done)
+                      (with-label L.tmp.2.3 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r14 rdx)
+                      (set! r13 rcx)
+                      (set! r8 r8)
+                      (set! r13 r9)
+                      (set! r13 258314756)
+                      (compare r8 0)
+                      (jump-if != L.tmp.15)
+                      (jump L.tmp.16)
+                      (with-label L.__nested.13 (set! rax r8))
+                      (jump done)
+                      (with-label L.__nested.14 (set! rax r15))
+                      (jump done)
+                      (with-label L.__nested.11 (set! r9 1067478227))
+                      (set! r8 -768559462)
+                      (set! rcx r14)
+                      (set! rdx -1256996529)
+                      (set! rsi 1)
+                      (set! rdi r13)
+                      (jump L.tmp.1.2)
+                      (with-label L.__nested.12 (set! r14 389818959))
+                      (jump L.__nested.14)
+                      (with-label L.tmp.15 (set! r13 r8))
+                      (jump L.tmp.17)
+                      (with-label L.tmp.16 (set! r13 -1809848824))
+                      (set! r13 9223372036854775807)
+                      (jump L.tmp.17)
+                      (with-label L.tmp.17 (set! r9 1525021420))
+                      (jump L.__nested.12)))
+  (check-by-interp '(begin
+                      (with-label L.__main.4 (set! r10 -9223372036854775808))
+                      (set! (rbp - 0) r10)
+                      (set! r9 1)
+                      (set! r8 -9223372036854775808)
+                      (set! rcx 9223372036854775807)
+                      (set! rdx -9223372036854775808)
+                      (set! rsi -9223372036854775808)
+                      (set! rdi -9223372036854775808)
+                      (jump L.tmp.0.1)
+                      (with-label L.tmp.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r15 rdx)
+                      (set! r15 rcx)
+                      (set! r14 r8)
+                      (set! r14 r9)
+                      (set! r13 (rbp - 0))
+                      (set! r15 r15)
+                      (set! r15 (* r15 r14))
+                      (set! r15 r15)
+                      (set! rax r15)
+                      (jump done)
+                      (with-label L.func.1.2 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r15 rdx)
+                      (set! r15 rcx)
+                      (set! r15 r8)
+                      (set! r15 1)
+                      (set! rax 9223372036854775807)
+                      (jump done)
+                      (with-label L.fn.2.3 (set! r13 rdi))
+                      (set! r15 rsi)
+                      (compare r13 1)
+                      (jump-if >= L.tmp.5)
+                      (jump L.tmp.6)
+                      (with-label L.tmp.8 (set! r14 r15))
+                      (jump L.tmp.10)
+                      (with-label L.tmp.9 (set! r14 214741259))
+                      (jump L.tmp.10)
+                      (with-label L.tmp.10 (jump L.tmp.7))
+                      (with-label L.tmp.5 (compare r13 r13))
+                      (jump-if = L.tmp.8)
+                      (jump L.tmp.9)
+                      (with-label L.tmp.6 (set! r14 1683358713))
+                      (set! r14 (+ r14 r15))
+                      (set! r14 r14)
+                      (jump L.tmp.7)
+                      (with-label L.tmp.7 (set! (rbp - 0) -2043460455))
+                      (set! r9 r13)
+                      (set! r8 9223372036854775807)
+                      (set! rcx r13)
+                      (set! rdx 0)
+                      (set! rsi r15)
+                      (set! rdi r14)
+                      (jump L.tmp.0.1)))
+  (check-by-interp '(begin
+                      (with-label L.__main.1 (set! r15 1))
+                      (set! r11 -9223372036854775808)
+                      (set! r15 (+ r15 r11))
+                      (set! r15 r15)
+                      (set! rax -9223372036854775807)
+                      (jump done)))
+  (check-by-interp '(begin
+                      (with-label L.__main.19 (set! r15 -9223372036854775808))
+                      (jump L.tmp.13)
+                      (with-label L.x.0.1 (set! r15 rdi))
+                      (set! r15 rsi)
+                      (set! r15 rdx)
+                      (set! r15 rcx)
+                      (set! r15 r8)
+                      (set! r15 r9)
+                      (set! r15 (rbp - 0))
+                      (set! rdi 1)
+                      (jump L.x.4.5)
+                      (with-label L.func.1.2 (set! r14 9223372036854775807))
+                      (set! r14 r14)
+                      (set! r15 -577997854)
+                      (jump L.__nested.21)
+                      (with-label L.__nested.20 (set! rax -9223372036854775808))
+                      (jump done)
+                      (with-label L.__nested.21 (set! rax 9223372036854775807))
+                      (jump done)
+                      (with-label L.fn.2.3 (set! r15 1))
+                      (set! r15 (+ r15 1))
+                      (set! r15 r15)
+                      (set! r15 r15)
+                      (set! rax 1969054361)
+                      (jump done)
+                      (with-label L.x.3.4 (set! r15 rdi))
+                      (set! r14 rsi)
+                      (set! r14 rdx)
+                      (set! r14 rcx)
+                      (set! r14 r8)
+                      (set! r14 r9)
+                      (set! r14 (rbp - 0))
+                      (set! r10 -9223372036854775808)
+                      (set! (rbp - 0) r10)
+                      (set! r9 r15)
+                      (set! r8 9223372036854775807)
+                      (set! rcx 25911444)
+                      (set! rdx 9223372036854775807)
+                      (set! rsi -9223372036854775808)
+                      (set! rdi 0)
+                      (jump L.func.6.7)
+                      (with-label L.x.4.5 (set! r15 rdi))
+                      (set! (rbp - 0) r15)
+                      (set! r9 r15)
+                      (set! r8 r15)
+                      (set! rcx 1)
+                      (set! rdx r15)
+                      (set! rsi r15)
+                      (set! rdi 0)
+                      (jump L.x.3.4)
+                      (with-label L.x.5.6 (set! r15 rdi))
+                      (set! r14 rsi)
+                      (set! r13 rdx)
+                      (set! rdi rcx)
+                      (set! r8 r8)
+                      (set! r9 r9)
+                      (set! r9 rdi)
+                      (set! r14 r14)
+                      (set! r9 r9)
+                      (set! r8 rdi)
+                      (compare r14 r15)
+                      (jump-if > L.__nested.22)
+                      (jump L.__nested.23)
+                      (with-label L.__nested.22 (set! (rbp - 0) -1819248150))
+                      (set! r9 r9)
+                      (set! r8 r14)
+                      (set! rcx r9)
+                      (set! rdx r13)
+                      (set! rsi 9223372036854775807)
+                      (set! rdi -1863740769)
+                      (jump L.x.0.1)
+                      (with-label L.__nested.23 (set! rax 1))
+                      (jump done)
+                      (with-label L.func.6.7 (set! r15 rdi))
+                      (set! r14 rsi)
+                      (set! r14 rdx)
+                      (set! r14 rcx)
+                      (set! r14 r8)
+                      (set! r14 r9)
+                      (set! r14 (rbp - 0))
+                      (set! r15 r15)
+                      (set! r14 -1497437069)
+                      (jump L.__nested.24)
+                      (with-label L.__nested.24 (set! r15 r15))
+                      (set! r15 (+ r15 r15))
+                      (set! r15 r15)
+                      (set! r15 0)
+                      (set! rax 0)
+                      (jump done)
+                      (with-label L.__nested.25 (set! rax 1))
+                      (jump done)
+                      (with-label L.fn.7.8 (set! r15 0))
+                      (jump L.__nested.26)
+                      (with-label L.__nested.28 (set! rax 1))
+                      (jump done)
+                      (with-label L.__nested.29 (set! rax 0))
+                      (jump done)
+                      (with-label L.__nested.26 (set! r9 -1579752260))
+                      (set! r8 0)
+                      (set! rcx -1248542300)
+                      (set! rdx 0)
+                      (set! rsi 16140507)
+                      (set! rdi -9223372036854775808)
+                      (jump L.x.5.6)
+                      (with-label L.__nested.27 (set! r15 -9223372036854775808))
+                      (jump L.__nested.29)
+                      (with-label L.tmp.16 (set! r15 -1444900091))
+                      (jump L.tmp.18)
+                      (with-label L.tmp.17 (set! r15 -9223372036854775808))
+                      (jump L.tmp.18)
+                      (with-label L.tmp.18 (set! r15 r15))
+                      (jump L.tmp.15)
+                      (with-label L.tmp.13 (set! r15 9223372036854775807))
+                      (jump L.tmp.16)
+                      (with-label L.tmp.14 (set! r15 9223372036854775807))
+                      (set! r15 r15)
+                      (jump L.tmp.15)
+                      (with-label L.tmp.15 (set! r15 0))
+                      (jump L.__nested.9)
+                      (with-label L.__nested.11 (jump L.fn.2.3))
+                      (with-label L.__nested.12 (jump L.fn.2.3))
+                      (with-label L.__nested.9 (set! rax 1))
+                      (jump done)
+                      (with-label L.__nested.10 (set! r15 1))
+                      (jump L.__nested.12)))
+  ;; !!!
+
+  (test-success check-paren-x64 success-check-case1)
+  (test-success check-paren-x64-syntax success-check-case1)
+  (test-success check-paren-x64-init success-check-case1)
+  (test-success check-paren-x64 v2-1)
+  (test-success check-paren-x64 success-check-case2)
+  (test-success check-paren-x64-syntax success-check-case2)
+  (test-success check-paren-x64-init success-check-case2)
+  (test-fail check-paren-x64 good-syn-bad-init)
+  (test-success check-paren-x64-syntax good-syn-bad-init)
+  (test-fail check-paren-x64-init good-syn-bad-init)
+
+  (test-fail check-paren-x64 no-begin)
+  (test-fail check-paren-x64-syntax no-begin)
+
+  ; milestone 1 specified test cases
+  (test-success check-paren-x64-syntax
+                `(begin
+                   (set! rax ,(min-int 64))))
+  (test-fail check-paren-x64-syntax
+             `(begin
+                (set! rax ,(- (min-int 64) 1))))
+  (test-fail check-paren-x64-syntax
+             '(begin
+                (set! r17 170679)))
+  (test-success check-paren-x64-syntax
+                '(begin
+                   (set! rax 170679)
+                   (set! rdi rax)
+                   (set! rdi (+ rdi rdi))
+                   (set! rsp rdi)
+                   (set! rsp (* rsp rsp))
+                   (set! rbx 8991)))
+
+  (test-fail check-paren-x64-init '(set! (+ rax rdi) 42))
+  (test-fail check-paren-x64-init
+             '(begin
+                (set! (+ rax rdi) 42)))
+  (test-fail check-paren-x64-init
+             '(begin
+                (set! rax (+ rax 42))))
+  (test-fail check-paren-x64-init
+             '(begin
+                (set! rax (+ rdi 42))))
+  (test-success check-paren-x64-init
+                '(begin
+                   (set! rax 170679)
+                   (set! rdi rax)
+                   (set! rdi (+ rdi rdi))
+                   (set! rsp rdi)
+                   (set! rsp (* rsp rsp))
+                   (set! rbx 8991)))
+
+  (check-equal? (generate-x64 '(begin
+                                 (set! rax 0)
+                                 (set! rax (+ rax 42))))
+                "mov rax, 0\nadd rax, 42\n")
+
+  (check-equal? (generate-x64 '(begin
+                                 (set! rax 170679)
+                                 (set! rdi rax)
+                                 (set! rdi (+ rdi rdi))
+                                 (set! rsp rdi)
+                                 (set! rsp (* rsp rsp))
+                                 (set! rbx 8991)))
+                #<<EOS
+mov rax, 170679
+mov rdi, rax
+add rdi, rdi
+mov rsp, rdi
+imul rsp, rsp
+mov rbx, 8991
+
+EOS
+                )
+
+  ; milestone 2: interp-paren-x64-v2 output
+  (check-equal? (generate-x64 '(begin
+                                 (set! rax 42)))
+                #<<EOS
+mov rax, 42
+
+EOS
+                )
+  (check-equal? (generate-x64 '(begin
+                                 (set! rax 42)
+                                 (set! rax (+ rax 0))))
+                #<<EOS
+mov rax, 42
+add rax, 0
+
+EOS
+                )
+
+  (check-equal? (generate-x64 v2-1)
+                #<<EOS
+mov QWORD [rbp - 0], 0
+mov QWORD [rbp - 8], 42
+mov rax, QWORD [rbp - 0]
+add rax, QWORD [rbp - 8]
+
+EOS
+                )
+  (current-pass-list (list check-paren-x64 generate-x64 wrap-x64-run-time wrap-x64-boilerplate))
+
+  ; milestone 4: paren v4
+
+  (check-equal? (generate-x64 `(begin
+                                 (with-label L.start.1 (set! rax 5))))
+                #<<EOS
+L.start.1:
+mov rax, 5
+
+EOS
+                )
+
+  (check-equal? (generate-x64 `(begin
+                                 (jump L.start.2)
+                                 (set! rax 42)
+                                 (with-label L.start.2 (set! rax 5))))
+                #<<EOS
+jmp L.start.2
+mov rax, 42
+L.start.2:
+mov rax, 5
+
+EOS
+                )
+
+  (check-equal? (generate-x64 `(begin
+                                 (compare rax 0)))
+                #<<EOS
+cmp rax, 0
+
+EOS
+                )
+
+  (check-equal? (generate-x64 `(begin
+                                 (compare rax 0)
+                                 (jump-if = L.start.2)
+                                 (with-label L.start.2 (set! rbx 1))))
+                #<<EOS
+cmp rax, 0
+je L.start.2
+L.start.2:
+mov rbx, 1
+
+EOS
+                )
+
+  (check-equal? (generate-x64 `(begin
+                                 (with-label L.start.2 (set! rax 1))
+                                 (with-label L.start.3 (set! rbx 2))))
+                #<<EOS
+L.start.2:
+mov rax, 1
+L.start.3:
+mov rbx, 2
+
+EOS
+                )
+
+  (check-equal? (generate-x64 `(begin
+                                 (set! r15 L.start.2)
+                                 (jump r15)
+
+                                 (with-label L.start.2 (set! rax 42))))
+                #<<EOS
+lea r15, [rel L.start.2]
+jmp r15
+L.start.2:
+mov rax, 42
+
+EOS
+                ))

@@ -73,6 +73,17 @@
       (hash-set! proc-arities name (random 8)))
     names)
 
+  (define (generate-let depth env body-func)
+    (define xs
+      (take (shuffle (append triv-names env))
+            (if (zero? (random 2))
+                (random 1 4)
+                (random 4))))
+    (define bindings
+      (for/list ([x xs])
+        `[,x ,(generate-value (sub1 depth) env)]))
+    `(let ,bindings ,(body-func (sub1 depth) (remove-duplicates (append xs env)))))
+
   ;; () -> int64
   ;; pseudorandomly generates an int64, with additional weight towards edge cases (0, 1, minint, maxint)
   (define (generate-int64)
@@ -96,9 +107,9 @@
 
   ;; (listof symbol) -> symbol | int64
   (define (generate-triv env)
-    (if (and (not (null? env)) (zero? (random 2)))
-        (choose-from-list env)
-        (generate-int64)))
+    (if (or (null? env) (zero? (random 6)))
+        (generate-int64)
+        (choose-from-list env)))
 
   ;; (natural (listof symbol)) -> (listof (symbol | int64))
   (define (generate-trivs n env)
@@ -113,10 +124,7 @@
           [(1) '(true)]
           [(2) '(false)]
           [(3) `(not ,(generate-pred (sub1 depth) env))]
-          [(4)
-           (let ([new-x (get-random-triv-name)])
-             `(let ([,new-x ,(generate-value (sub1 depth) env)])
-                ,(generate-pred (sub1 depth) (cons new-x env))))]
+          [(4) (generate-let depth env generate-pred)]
           [(5)
            `(if ,(generate-pred (sub1 depth) env)
                 ,(generate-pred (sub1 depth) env)
@@ -125,18 +133,15 @@
   (define (generate-value depth env)
     (if (zero? depth)
         (generate-triv env)
-        (case (random 5)
+        (case (random 6)
           [(0) (generate-triv env)]
           [(1) `(,(generate-binop) ,(generate-triv env) ,(generate-triv env))]
-          [(2)
-           (let ([x (get-random-triv-name)])
-             `(let ([,x ,(generate-value (sub1 depth) env)])
-                ,(generate-value (sub1 depth) (cons x env))))]
+          [(2) (generate-let depth env generate-value)]
           [(3)
            `(if ,(generate-pred (sub1 depth) env)
                 ,(generate-value (sub1 depth) env)
                 ,(generate-value (sub1 depth) env))]
-          [(4)
+          [(4 5)
            ;; check if any procedure is defined, retry if no procedure is defined
            (if (null? proc-names)
                (generate-value depth env)
@@ -147,17 +152,14 @@
   (define (generate-tail depth env)
     (if (zero? depth)
         (generate-value 0 env)
-        (case (random 4)
+        (case (random 5)
           [(0) (generate-value depth env)] ;; can't sub1 or might get nothing in tail position
-          [(1)
-           (let ([x (get-random-triv-name)])
-             `(let ([,x ,(generate-value (sub1 depth) env)])
-                ,(generate-tail (sub1 depth) (cons x env))))]
+          [(1) (generate-let depth env generate-tail)]
           [(2)
            `(if ,(generate-pred (sub1 depth) env)
                 ,(generate-tail (sub1 depth) env)
                 ,(generate-tail (sub1 depth) env))]
-          [(3)
+          [(3 4)
            ;; check if any procedure is defined, retry if no procedure is defined
            (if (null? proc-names)
                (generate-tail depth env)
@@ -180,11 +182,17 @@
       (for/list ([_ (in-range num-defs)])
         (let ([def (generate-define 3)]) def)))
 
-    `(module ,@defs ,(generate-tail (random 1 3) '())
+    `(module ,@defs ,(generate-tail (random 1 5) '())
        ))
 
   (generate-program))
 
-(for ([i (in-range 10)])
-  (pretty-display (format "(check-by-interp '~a)" (generate-values-lang-v6)))
+; (for ([i (in-range 50)])
+;   (pretty-display (format "(check-by-interp '~a)" (generate-values-lang-v6)))
+;   (newline))
+
+(for ([i (in-range 50)])
+  (pretty-display (format "'~a" (generate-values-lang-v6)))
+  (newline)
   (newline))
+

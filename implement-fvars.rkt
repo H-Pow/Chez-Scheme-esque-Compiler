@@ -65,7 +65,7 @@
            cpsc411/langs/v5
            cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp-v4 p)
-    (check-equal? (interp-paren-x64-fvars-v4 p) (interp-paren-x64-v4 (optimize-predicates p))))
+    (check-equal? (interp-paren-x64-fvars-v4 p) (interp-paren-x64-v4 (implement-fvars p))))
   (define-syntax-rule (check-by-interp-v6 p)
     (check-equal? (interp-nested-asm-lang-fvars-v6 p)
                   (interp-nested-asm-lang-v6 (implement-fvars p))))

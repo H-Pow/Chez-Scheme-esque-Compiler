@@ -2,79 +2,140 @@
 (require cpsc411/compiler-lib
          cpsc411/langs/v4)
 (provide patch-instructions)
-;para-asm-lang-v2
-; p	 	::=	 	(begin effect ... (halt triv))
-; effect	 	::=	 	(set! loc triv)
-;  	|	 	(set! loc_1 (binop loc_1 triv))
-; triv	 	::=	 	int64
-;  	|	 	loc
-; loc	 	::=	 	reg
-;  	|	 	fvar
-; reg	 	::=	 	rsp
-;  	|	 	rbp
-;  	|	 	rax
-;  	|	 	rbx
-;  	|	 	rcx
-;  	|	 	rdx
-;  	|	 	rsi
-;  	|	 	rdi
-;  	|	 	r8
-;  	|	 	r9
-;  	|	 	r12
-;  	|	 	r13
-;  	|	 	r14
-;  	|	 	r15
-; binop	 	::=	 	*
-;  	|	 	+
-; int64	 	::=	 	int64?
-; fvar	 	::=	 	fvar?
+;para-asm-lang-v6
+;   p	 	::=	 	(begin s ...)
+
+;   s	 	::=	 	(set! loc triv)
+;  	 	|	 	(set! loc_1 (binop loc_1 opand))
+;  	 	|	 	(jump trg)
+;  	 	|	 	(with-label label s)
+;  	 	|	 	(compare loc opand)
+;  	 	|	 	(jump-if relop trg)
+
+;   triv	 	::=	 	opand
+;  	 	|	 	label
+
+;   opand	 	::=	 	int64
+;  	 	|	 	loc
+
+;   trg	 	::=	 	label
+;  	 	|	 	loc
+
+;   loc	 	::=	 	reg
+;  	 	|	 	addr
+
+;   reg	 	::=	 	rsp
+;  	 	|	 	rbp
+;  	 	|	 	rax
+;  	 	|	 	rbx
+;  	 	|	 	rcx
+;  	 	|	 	rdx
+;  	 	|	 	rsi
+;  	 	|	 	rdi
+;  	 	|	 	r8
+;  	 	|	 	r9
+;  	 	|	 	r12
+;  	 	|	 	r13
+;  	 	|	 	r14
+;  	 	|	 	r15
+
+;   binop	 	::=	 	*
+;  	 	|	 	+
+;  	 	|	 	-
+
+;   relop	 	::=	 	<
+;  	 	|	 	<=
+;  	 	|	 	=
+;  	 	|	 	>=
+;  	 	|	 	>
+;  	 	|	 	!=
+
+;   addr	 	::=	 	(fbp - dispoffset)
+
+;   fbp	 	::=	 	frame-base-pointer-register?
+
+;   int64	 	::=	 	int64?
+
+;   dispoffset	 	::=	 	dispoffset?
+
+;   label	 	::=	 	label?
 ; -----------------------
-; paren-x64-fvars-v2
-; p	 	::=	 	(begin s ...)
+; paren-x64-v6
+;   p	 	::=	 	(begin s ...)
 
-; s	 	::=	 	(set! fvar int32)
-;  	|	 	(set! fvar reg)
-;  	|	 	(set! reg loc)
-;  	|	 	(set! reg triv)
-;  	|	 	(set! reg_1 (binop reg_1 int32))
-;  	|	 	(set! reg_1 (binop reg_1 loc))
+;   s	 	::=	 	(set! addr int32)
+;  	 	|	 	(set! addr trg)
+;  	 	|	 	(set! reg loc)
+;  	 	|	 	(set! reg triv)
+;  	 	|	 	(set! reg_1 (binop reg_1 int32))
+;  	 	|	 	(set! reg_1 (binop reg_1 loc))
+;  	 	|	 	(with-label label s)
+;  	 	|	 	(jump trg)
+;  	 	|	 	(compare reg opand)
+;  	 	|	 	(jump-if relop label)
 
-; triv	 	::=	 	reg
-;  	|	 	int64
+;   trg	 	::=	 	reg
+;  	 	|	 	label
 
-; loc	 	::=	 	reg
-;  	|	 	fvar
+;   triv	 	::=	 	trg
+;  	 	|	 	int64
 
-; reg	 	::=	 	rsp
-;  	|	 	rbp
-;  	|	 	rax
-;  	|	 	rbx
-;  	|	 	rcx
-;  	|	 	rdx
-;  	|	 	rsi
-;  	|	 	rdi
-;  	|	 	r8
-;  	|	 	r9
-;  	|	 	r10
-;  	|	 	r11
-;  	|	 	r12
-;  	|	 	r13
-;  	|	 	r14
-;  	|	 	r15
+;   opand	 	::=	 	int64
+;  	 	|	 	reg
 
-; binop	 	::=	 	*
-;  	|	 	+
+;   loc	 	::=	 	reg
+;  	 	|	 	addr
 
-;; para-asm-lang-v4 -> paren-x64-fvars-v4
-;; Compiles Para-asm-lang v4 to Paren-x64-fvars v4 by patching each instruction that has no x64
-;; analogue into a sequence of instructions using auxilliary
-;; register from current-patch-instruction-registers
+;   reg	 	::=	 	rsp
+;  	 	|	 	rbp
+;  	 	|	 	rax
+;  	 	|	 	rbx
+;  	 	|	 	rcx
+;  	 	|	 	rdx
+;  	 	|	 	rsi
+;  	 	|	 	rdi
+;  	 	|	 	r8
+;  	 	|	 	r9
+;  	 	|	 	r10
+;  	 	|	 	r11
+;  	 	|	 	r12
+;  	 	|	 	r13
+;  	 	|	 	r14
+;  	 	|	 	r15
+
+;   addr	 	::=	 	(fbp - dispoffset)
+
+;   fbp	 	::=	 	frame-base-pointer-register?
+
+;   binop	 	::=	 	*
+;  	 	|	 	+
+;  	 	|	 	-
+
+;   relop	 	::=	 	<
+;  	 	|	 	<=
+;  	 	|	 	=
+;  	 	|	 	>=
+;  	 	|	 	>
+;  	 	|	 	!=
+
+;   int64	 	::=	 	int64?
+
+;   int32	 	::=	 	int32?
+
+;   dispoffset	 	::=	 	dispoffset?
+
+;   label	 	::=	 	label?
+
+;; para-asm-lang-v6 -> paren-x64-v6
+;; Compiles Para-asm-lang-v6 to Paren-x64-v6 by patching each instruction that has no x64
+;; analogue into a sequence of instructions using auxiliary
+;; registers from current-patch-instruction-registers
 (define (patch-instructions p)
   (define aux-reg current-patch-instructions-registers)
   (define first-reg (first (aux-reg)))
   (define second-reg (second (aux-reg)))
 
-  ;; (para-asm-lang-v4 s)-> (paren-x64-fvars-v4 s)
+  ;; (para-asm-lang-v6 s)-> (paren-x64-v6 s)
   ;; patches set! instructions where the id is a register
   (define (patch-set-reg s)
     (match s
@@ -83,7 +144,7 @@
        `((set! ,first-reg ,triv) (set! ,reg1 (,binop ,reg1 ,first-reg)))]
       [_ `(,s)]))
 
-  ;; (para-asm-lang-v4 s)-> (paren-x64-fvars-v4 s)
+  ;; (para-asm-lang-v6 s)-> (paren-x64-v6 s)
   ;; patches set! instructions where the id is a register
   (define (patch-set-fvar s)
     (match s
@@ -127,9 +188,12 @@
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v5)
+           cpsc411/langs/v5
+           cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-para-asm-lang-v4 p) (interp-paren-x64-fvars-v4 (patch-instructions p))))
+    (check-equal? (interp-para-asm-lang-v4 p) (interp-paren-x64-v6 (patch-instructions p))))
+  (define-syntax-rule (check-by-interp-v6 p)
+    (check-equal? (interp-para-asm-lang-v6 p) (interp-paren-x64-v6 (patch-instructions p))))
 
   ;; !!! Added by Trevor on March 2nd 2026
   (check-by-interp '(begin

@@ -34,7 +34,6 @@
                 normalize-bind
                 impose-calling-conventions
                 select-instructions
-                assign-homes-opt
                 uncover-locals
                 undead-analysis
                 conflict-analysis

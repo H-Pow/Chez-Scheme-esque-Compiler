@@ -1,9 +1,7 @@
 #lang racket
 (require cpsc411/compiler-lib)
 
-(provide assign-homes
-         assign-homes-opt
-         uncover-locals
+(provide uncover-locals
          assign-fvars
          replace-locations
          undead-analysis
@@ -13,8 +11,7 @@
          asm-lang-progs
          optimize-predicates)
 
-(require "assign-homes.rkt"
-         "assign-fvars.rkt"
+(require "assign-fvars.rkt"
          "replace-locations.rkt"
          "uncover-locals.rkt"
          "undead-analysis.rkt"
@@ -73,39 +70,4 @@
            (submod "uncover-locals.rkt" test)
            (submod "undead-analysis.rkt" test)
            (submod "conflict-analysis.rkt" test)
-           (submod "assign-registers.rkt" test))
-  (check-match (assign-homes '(module ()
-                                      (begin
-                                        (set! x.1 2)
-                                        (set! x.2 2)
-                                        (set! tmp.2 x.1)
-                                        (set! tmp.2 (+ tmp.2 x.2))
-                                        (halt tmp.2))
-                                ))
-               `(module (begin
-                          (set! ,rsp 2)
-                          (set! ,rbx 2)
-                          (set! ,rax ,rsp)
-                          (set! ,rax (+ ,rax ,rbx))
-                          (halt ,rax)))
-               (andmap (or/c register? fvar?) `(,rsp ,rax ,rbx)))
-  (check-match (assign-homes-opt '(module ()
-                                          (begin
-                                            (set! x.1 2)
-                                            (set! x.2 2)
-                                            (set! tmp.2 x.1)
-                                            (set! tmp.2 (+ tmp.2 x.2))
-                                            (halt tmp.2))
-                                    ))
-               `(module (begin
-                          (set! ,rsp 2)
-                          (set! ,rbx 2)
-                          (set! ,rax ,rsp)
-                          (set! ,rax (+ ,rax ,rbx))
-                          (halt ,rax)))
-               (andmap (or/c register? fvar?) `(,rsp ,rax ,rbx)))
-
-  ;check evaluation result equivalence of assign-homes and assign-homes-opt
-  (for-each check-equal?
-            (map (compose interp-nested-asm-lang assign-homes-opt) asm-lang-progs)
-            (map (compose interp-nested-asm-lang assign-homes) asm-lang-progs)))
+           (submod "assign-registers.rkt" test)))

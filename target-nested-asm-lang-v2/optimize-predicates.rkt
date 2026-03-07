@@ -1,8 +1,7 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/langs/v4
-         "assign-homes.rkt")
+         cpsc411/langs/v4)
 
 (provide optimize-predicates
          nested-asm-lang-progs)
@@ -5176,27 +5175,6 @@
                               (jump L.fn.2.3)
                               (jump L.fn.2.3)))))
   ;; !!!
-
-  ;   (check-by-interp (assign-homes-opt '(module ()
-  ;                                               (begin
-  ;                                                 (set! x.1 2)
-  ;                                                 (set! x.2 2)
-  ;                                                 (set! tmp.2 x.1)
-  ;                                                 (set! tmp.2 (+ tmp.2 x.2))
-  ;                                                 (halt tmp.2))
-  ;                                         )))
-  ;     (define inputs (map assign-homes-opt asm-lang-progs))
-
-  ;   (for-each check-equal?
-  ;             (map (compose interp-nested-asm-lang-v4 assign-homes-opt) asm-lang-progs)
-  ;             (map (compose interp-nested-asm-lang-v4 optimize-predicates assign-homes-opt)
-  ;                  asm-lang-progs))
-  ; (for-each
-  ;  (λ (prog)
-  ;    (define input (assign-homes-opt prog))
-  ;    (check-equal? (interp-nested-asm-lang-v4 input)
-  ;                  (interp-nested-asm-lang-v4 (optimize-predicates input))))
-  ;  asm-lang-progs)
 
   (check-equal? (optimize-predicates `(module (begin
                                                 (true))))

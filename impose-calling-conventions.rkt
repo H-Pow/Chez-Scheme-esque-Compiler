@@ -191,14 +191,14 @@
     (check-equal? (interp-proc-imp-cmf-lang-v6 p)
                   (interp-imp-cmf-lang-v6 (impose-calling-conventions p))))
   ;; M6 tests; Added by Trevor on March 6th 2026, at most one binding per let
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (begin
                                          (set! bat.9.2 -422317085)
                                          (set! foobar.3.1 bat.9.2))
                                        (begin
                                          (set! ball.2.3 foobar.3.1)
                                          foobar.3.1))))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (ball.3.5 ball.4.4 bat.0.3 bat.5.2 foobar.2.1)
                                          9223372036854775807))
                                      (define L.proc.1.2
@@ -217,7 +217,7 @@
                                        (set! ball.6.11 foobar.9.10)
                                        -1510146984)
                                      (call L.proc.1.2 -9223372036854775808 foobar.9.10)))))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (if (begin
                                              (set! bat.8.2 -1418594624)
                                              (false))
@@ -234,7 +234,7 @@
                                                  (set! bat.9.1 bat.3.5))
                                                (set! bat.9.1 (+ -9223372036854775808 1))))
                                        (- bat.9.1 bat.9.1))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foobar.8.5 foobar.9.4 bat.2.3 foo.7.2 bat.0.1)
                 (begin
@@ -249,15 +249,15 @@
                   (set! foobar.5.7 709343632))
               foobar.5.7)
       ))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (set! foo.6.1 -356902212)
                                        (+ -979281755 9223372036854775807))))
-  (replace-with-syntax-rule '(module (define L.tmp.0.1
+  (check-by-interp-v6 '(module (define L.tmp.0.1
                                        (lambda (ball.6.3 foobar.9.2 foo.5.1)
                                          (call L.tmp.0.1 0 182548382 foo.5.1)))
                                      (if (= 1 -444572554) -9223372036854775808 0)
                                ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (ball.3.5 bar.7.4 bat.6.3 ball.4.2 bat.5.1)
                 (if (not (<= bat.6.3 9223372036854775807))
@@ -281,7 +281,7 @@
                       (set! bat.5.13 bar.7.11)
                       bar.7.11)))))
       (if (>= 1588211020 1) 9223372036854775807 -9223372036854775808)))
-  (replace-with-syntax-rule '(module (define L.proc.0.1
+  (check-by-interp-v6 '(module (define L.proc.0.1
                                        (lambda (bat.9.1)
                                          (begin
                                            (set! bar.1.2 (+ 1 bat.9.1))
@@ -294,8 +294,8 @@
                                (begin
                                  (set! bat.2.6 (* 0 -9223372036854775808))
                                  (call L.proc.0.1 -39871347))))
-  (replace-with-syntax-rule '(module (if (>= 1 -9223372036854775808) 234292566 -1579825632)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6 '(module (if (>= 1 -9223372036854775808) 234292566 -1579825632)))
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (foo.2.6 ball.5.5 foobar.9.4 ball.4.3 bat.3.2 bar.7.1)
                 (if (not (not (= 9223372036854775807 foo.2.6)))
@@ -309,8 +309,8 @@
                           -9223372036854775808))))
             (call L.x.0.1 158605610 0 1 671608402 -1659310511 1)
       ))
-  (replace-with-syntax-rule '(module 1))
-  (replace-with-syntax-rule
+  (check-by-interp-v6 '(module 1))
+  (check-by-interp-v6
    '(module (define L.fn.0.1
               (lambda (ball.9.2 bat.0.1)
                 (begin
@@ -353,7 +353,7 @@
                     (= 0 bat.0.14))))
           (call L.fn.2.3 1453047515 -1663007716 0 0 -2036437657 9223372036854775807 0)
           (call L.fn.0.1 1 -1792916675))))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (if (> -9223372036854775808 9223372036854775807)
                                            (begin
                                              (if (!= 1 9223372036854775807)
@@ -370,7 +370,7 @@
                                                (if (> bat.4.1 491128034) bat.4.1 1)
                                                (if (= 1050399943 bat.4.1) -1604958676 bat.4.1))
                                            bat.4.1))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1
               (lambda (foobar.9.7 foo.4.6 foobar.7.5 bat.1.4 bar.5.3 ball.3.2 bat.8.1)
                 (call L.tmp.0.1
@@ -390,7 +390,7 @@
                   9223372036854775807
                   1)
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (foo.8.4 bat.5.3 foo.6.2 bar.0.1)
                 (call L.func.1.2 9223372036854775807 bar.0.1 bat.5.3 9223372036854775807 foo.6.2)))
@@ -418,7 +418,7 @@
                 1
                 9223372036854775807
                 1))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1
               (lambda (bar.8.7 bar.4.6 foo.7.5 foo.6.4 bat.3.3 foobar.2.2 ball.5.1)
                 (call L.func.1.2 9223372036854775807 946654223 foo.6.4)))
@@ -433,7 +433,7 @@
       (begin
         (set! ball.1.15 0)
         1)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foo.9.5 foo.0.4 foobar.7.3 bat.2.2 foo.1.1)
                 (if (false)
@@ -447,7 +447,7 @@
                     1)))
             (call L.func.0.1 -9223372036854775808 9223372036854775807 1 1918330809 1653803490)
       ))
-  (replace-with-syntax-rule '(module (define L.fn.0.1
+  (check-by-interp-v6 '(module (define L.fn.0.1
                                        (lambda (bat.8.2 bat.6.1)
                                          (if (begin
                                                (set! foobar.1.3 559317709)
@@ -458,7 +458,7 @@
                                        (lambda (foobar.1.6 foo.0.5 foo.5.4) (call L.tmp.2.3)))
                                (define L.tmp.2.3 (lambda () (call L.tmp.2.3)))
                                1))
-  (replace-with-syntax-rule '(module (define L.x.0.1
+  (check-by-interp-v6 '(module (define L.x.0.1
                                        (lambda (bar.3.4 ball.0.3 bat.2.2 bat.9.1)
                                          (begin
                                            (if (= ball.0.3 bat.9.1)
@@ -471,7 +471,7 @@
                                              (- bar.3.4 0)))))
                                      (call L.x.0.1 1 0 1097392993 1259250868)
                                ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foo.4.7 ball.1.6 bat.0.5 foobar.6.4 foobar.7.3 bat.9.2 ball.3.1)
                 (call L.x.1.2 foobar.6.4 0)))
@@ -491,7 +491,7 @@
                     (set! ball.3.11 (+ foobar.7.9 -841927304))
                     (if (= -9223372036854775808 bat.9.8) ball.8.10 -19487548)))))
       (call L.x.1.2 1130382988 169577204)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (bat.0.6 bar.8.5 foobar.2.4 ball.5.3 bat.4.2 ball.7.1)
                 (if (false)
@@ -525,7 +525,7 @@
           (if (false)
               (call L.proc.0.1 9223372036854775807 9223372036854775807 0 0 716409514 1)
               (call L.proc.0.1 1 -1938006617 -9223372036854775808 -983869259 -100459334 1)))))
-  (replace-with-syntax-rule '(module (define L.tmp.0.1
+  (check-by-interp-v6 '(module (define L.tmp.0.1
                                        (lambda (bar.9.3 ball.5.2 bar.4.1)
                                          (call L.x.1.2 0 -1620042780 ball.5.2 1 bar.4.1)))
                                      (define L.x.1.2
@@ -534,7 +534,7 @@
                                            (set! foo.6.9 9223372036854775807)
                                            (+ -9223372036854775808 bat.0.5))))
                                (call L.x.1.2 -1611188905 -913438169 9223372036854775807 1 0)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (bar.1.3 foo.3.2 foo.4.1)
                 (call L.x.1.2 346043157 foo.4.1 -9223372036854775808 -1370687846)))
@@ -542,7 +542,7 @@
               (lambda (bar.1.7 foo.3.6 bar.0.5 foo.8.4)
                 (call L.x.1.2 -1950262775 foo.3.6 0 1658781620)))
       (call L.x.1.2 -139919863 1 -1844821605 9223372036854775807)))
-  (replace-with-syntax-rule '(module (define L.tmp.0.1
+  (check-by-interp-v6 '(module (define L.tmp.0.1
                                        (lambda (bar.4.4 foobar.9.3 ball.5.2 bar.8.1)
                                          (call L.tmp.0.1 foobar.9.3 ball.5.2 ball.5.2 ball.5.2)))
                                      (if (false)
@@ -566,14 +566,14 @@
                                              0
                                              (- 1326448876 360169641)))
                                ))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (begin
                                          (set! foo.5.2 1)
                                          (begin
                                            (set! foo.5.3 foo.5.2)
                                            (set! foo.7.1 foo.5.3)))
                                        foo.7.1)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foobar.3.3 bat.7.2 bar.2.1)
                 (begin
@@ -605,7 +605,7 @@
             (begin
               (set! bat.8.12 (call L.func.0.1 2001362815 9223372036854775807 1))
               (* bat.8.12 foobar.3.10))))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1
               (lambda () (call L.fn.2.3 -9223372036854775808 -9223372036854775808 1 0 1013001136)))
             (define L.tmp.1.2
@@ -627,7 +627,7 @@
             (set! foobar.5.16 bar.9.12)
             (call L.fn.2.3 0 -9223372036854775808 0 1459656882 1))))
       (call L.fn.2.3 9223372036854775807 1 9223372036854775807 1648096326 1)))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (bat.7.3 foo.1.2 foobar.8.1)
                                          (* 1903463490 -9223372036854775808)))
                                      (define L.func.1.2
@@ -638,7 +638,7 @@
                                                (if (< bat.7.6 bat.0.4) foobar.4.8 bat.7.6)
                                                (if (>= bat.0.4 1408489810) foobar.4.8 bat.7.6)))))
                                (* 977777990 900224161)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foobar.8.3 foobar.1.2 foo.9.1)
                 (begin
@@ -648,7 +648,7 @@
                       (if (>= foo.9.1 1396041917) -1711968134 foobar.8.3)))))
             (call L.func.0.1 -9223372036854775808 9223372036854775807 0)
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda ()
                 (if (<= 0 1773437967)
@@ -661,7 +661,7 @@
             (define L.fn.1.2 (lambda (bat.6.6 foobar.3.5 foo.9.4 bat.1.3) (call L.tmp.2.3 foo.9.4)))
       (define L.tmp.2.3 (lambda (bat.1.7) bat.1.7))
       (call L.tmp.2.3 0)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.fn.0.1
               (lambda (foobar.4.2 foo.5.1)
                 (begin
@@ -695,7 +695,7 @@
             (set! foo.6.15 bat.0.14)
             (set! foo.5.13 foo.6.15)))
         foo.5.13)))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (begin
                                          (set! bat.1.2 -9223372036854775808)
                                          (begin
@@ -708,7 +708,7 @@
                                            (begin
                                              (set! foobar.4.5 bar.7.1)
                                              1974766267)))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (foobar.5.3 foo.8.2 foobar.6.1) (call L.x.0.1 0 foobar.5.3 foobar.5.3)))
             (if (begin
@@ -719,7 +719,7 @@
                   (set! foobar.6.5 (call L.x.0.1 9223372036854775807 9223372036854775807 -1530356459))
                   (if (= foobar.6.5 foobar.6.5) 9223372036854775807 9223372036854775807)))
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (bar.0.6 foobar.2.5 foo.1.4 foobar.9.3 bat.5.2 foobar.8.1)
                 (begin
@@ -735,7 +735,7 @@
               (set! foo.1.10 -1379426851)
               488563830)
       ))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (ball.2.3 foo.5.2 ball.0.1)
                                          (if (if (= 0 ball.2.3)
                                                  (false)
@@ -758,7 +758,7 @@
                                              -1170116362)
                                            (* 0 0)))
                                ))
-  (replace-with-syntax-rule '(module (define L.tmp.0.1
+  (check-by-interp-v6 '(module (define L.tmp.0.1
                                        (lambda (foo.8.3 ball.3.2 foo.2.1)
                                          (begin
                                            (begin
@@ -778,7 +778,7 @@
                                            (call L.tmp.0.1 foo.2.6 foo.2.6 1739531838)
                                            (call L.tmp.0.1 0 -2103046426 -1707829089)))
                                ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1 (lambda (bar.0.3 bar.4.2 bar.9.1) (call L.fn.1.2 9223372036854775807)))
             (define L.fn.1.2
               (lambda (bar.9.4)
@@ -794,7 +794,7 @@
       (begin
         (set! bat.1.8 0)
         bat.1.8)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (foobar.4.5 bar.5.4 foobar.6.3 ball.7.2 bat.1.1)
                 (if (false)
@@ -821,19 +821,19 @@
       (begin
         (set! ball.3.17 (* 1 -394936001))
         (call L.x.0.1 ball.3.17 ball.3.17 0 -9223372036854775808 ball.3.17))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1
               (lambda (bat.8.2 bar.7.1) (call L.fn.1.2 bat.8.2 bat.8.2 bat.8.2 9223372036854775807)))
             (define L.fn.1.2
               (lambda (bar.3.6 foobar.6.5 bar.9.4 bat.8.3) (call L.tmp.0.1 bat.8.3 bar.9.4)))
       (call L.tmp.0.1 -880757424 698097472)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1 (lambda (bat.3.5 bar.8.4 ball.4.3 bar.2.2 foo.6.1) foo.6.1))
             (begin
               (set! foo.5.6 (call L.tmp.0.1 1 -9223372036854775808 0 1 -9223372036854775808))
               (if (= -9223372036854775808 175566669) -1855219983 foo.5.6))
       ))
-  (replace-with-syntax-rule '(module (define L.proc.0.1
+  (check-by-interp-v6 '(module (define L.proc.0.1
                                        (lambda (ball.1.1)
                                          (begin
                                            (if (begin
@@ -863,7 +863,7 @@
                                    (begin
                                      (set! bar.5.10 -1579827217)
                                      (call L.fn.2.3 bar.5.10)))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (bar.6.5 foobar.5.4 foo.9.3 foobar.7.2 ball.4.1)
                 (begin
@@ -898,7 +898,7 @@
                 (if (> foobar.5.15 foobar.5.15) 1 foobar.5.15)
                 (call L.x.0.1 foobar.5.15 -126978532 foobar.5.15 foobar.5.15 9223372036854775807)))))
       (* -1293429216 880066208)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (bar.4.6 foobar.5.5 bar.0.4 foo.7.3 ball.3.2 ball.8.1)
                 (if (not (if (> 0 701262944)
@@ -924,7 +924,7 @@
             (set! ball.3.13 0)
             (set! ball.3.13 0))
         (call L.proc.0.1 ball.3.13 ball.3.13 1961997671 ball.3.13 1792291800 -9223372036854775808))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (foo.5.4 foo.0.3 foo.3.2 foo.4.1)
                 (begin
@@ -958,7 +958,7 @@
                         (set! bat.2.13 -9223372036854775808)
                         1398310587))))
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (bat.1.7 foo.6.6 ball.0.5 foo.9.4 foo.5.3 ball.2.2 foo.4.1)
                 (if (> 9223372036854775807 -1225978347)
@@ -994,7 +994,7 @@
   ;;
 
   ;; M6 tests; Added by Trevor on March 6th 2026, multiple bindings allowed per let
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (ball.9.7 foo.5.6 ball.2.5 ball.7.4 foo.0.3 bat.8.2 foobar.1.1)
                 (call L.tmp.1.2)))
@@ -1007,7 +1007,7 @@
               (<= -1490931083 -14809197))
           1275113131
           (if (<= -1702177019 -9223372036854775808) 0 1843455920))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.fn.0.1
               (lambda (bat.5.7 foo.2.6 bar.9.5 foo.8.4 foobar.4.3 bat.3.2 bat.7.1)
                 (call L.fn.0.1
@@ -1024,7 +1024,7 @@
               (set! ball.0.8 9223372036854775807)
               foobar.4.9)
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (bar.2.5 ball.4.4 foo.9.3 foobar.5.2 foo.6.1)
                 (if (true)
@@ -1041,8 +1041,8 @@
                         (call L.func.1.2 bat.0.10 foo.9.8 foo.9.8))
                     (+ -9223372036854775808 foo.6.9))))
       (if (> 9223372036854775807 9223372036854775807) -877748660 -9223372036854775808)))
-  (replace-with-syntax-rule '(module (+ -1640821439 -406700566)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6 '(module (+ -1640821439 -406700566)))
+  (check-by-interp-v6
    '(module (define L.fn.0.1
               (lambda (foo.2.2 ball.6.1)
                 (call L.x.1.2 ball.6.1 foo.2.2 ball.6.1 -9223372036854775808 ball.6.1 foo.2.2)))
@@ -1053,7 +1053,7 @@
         (set! bat.9.10 -477286222)
         (set! bar.7.9 0)
         643069821)))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (bar.9.1)
                                          (if (!= bar.9.1 bar.9.1)
                                              (call L.func.0.1 2058053814)
@@ -1081,10 +1081,10 @@
                                (if (true)
                                    (+ 9223372036854775807 -9223372036854775808)
                                    (call L.func.0.1 -2107846344))))
-  (replace-with-syntax-rule '(module (if (<= 1 -9223372036854775808)
+  (check-by-interp-v6 '(module (if (<= 1 -9223372036854775808)
                                          (if (false) -9223372036854775808 2012039291)
                                          9223372036854775807)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foo.2.6 ball.1.5 foo.4.4 foobar.7.3 foo.5.2 foo.9.1) (- foo.2.6 foo.4.4)))
             (define L.proc.1.2
@@ -1113,7 +1113,7 @@
                 (set! foo.4.19 foobar.7.16))
               (if (>= foo.9.18 foo.6.14) foobar.7.16 bar.0.17)))))
       (call L.func.2.3 0 9223372036854775807 -1735352110 9223372036854775807)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (bat.9.7 foobar.7.6 ball.1.5 foo.2.4 ball.6.3 bar.0.2 foobar.8.1)
                 (begin
@@ -1132,8 +1132,8 @@
                       bar.0.14
                       0)))
       (if (>= -9223372036854775808 -637253177) -9223372036854775808 0)))
-  (replace-with-syntax-rule '(module 9223372036854775807))
-  (replace-with-syntax-rule
+  (check-by-interp-v6 '(module 9223372036854775807))
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (bat.8.6 foo.7.5 foo.0.4 bat.1.3 bat.5.2 bat.6.1)
                 (call L.proc.0.1 bat.5.2 bat.5.2 bat.5.2 -635532414 bat.8.6 bat.1.3)))
@@ -1189,7 +1189,7 @@
         (set! foo.7.26 9223372036854775807)
         (set! foo.0.25 9223372036854775807)
         bar.3.27)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foo.4.5 ball.5.4 bar.2.3 bat.3.2 bar.1.1)
                 (if (begin
@@ -1228,7 +1228,7 @@
               9223372036854775807
               bat.6.19
               bar.2.20))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (foobar.9.5 foobar.7.4 foo.2.3 foo.5.2 foo.1.1)
                 (call L.proc.0.1 foo.1.1 foo.2.3 -675715652 -1754605622 1)))
@@ -1247,7 +1247,7 @@
         (set! bar.0.18 0)
         (set! foo.8.17 1029279872)
         bar.0.18)))
-  (replace-with-syntax-rule '(module (if (if (begin
+  (check-by-interp-v6 '(module (if (if (begin
                                                (set! bat.2.2 1)
                                                (set! foobar.0.1 -1606724555)
                                                (= bat.2.2 bat.2.2))
@@ -1260,7 +1260,7 @@
                                                (!= -1879829070 1981475003)))
                                          (- -634246165 -684848771)
                                          0)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (bat.2.3 foo.3.2 bar.6.1) (call L.proc.1.2 bat.2.3 -1803672217 bat.2.3)))
             (define L.proc.1.2
@@ -1268,7 +1268,7 @@
       (begin
         (set! bar.9.7 0)
         bar.9.7)))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (begin
                                          (begin
                                            (begin
@@ -1278,7 +1278,7 @@
                                              (set! bar.6.2 ball.0.4))
                                            (set! ball.0.1 bar.6.2))
                                          (- 9223372036854775807 ball.0.1)))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (bar.6.3 bar.3.2 foo.1.1)
                 (begin
@@ -1300,7 +1300,7 @@
               (set! foo.1.12 -9223372036854775808)
               foo.1.12)
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.fn.0.1
               (lambda (bar.0.1)
                 (if (true)
@@ -1321,11 +1321,11 @@
       (begin
         (set! bat.4.16 (+ 1 9223372036854775807))
         bat.4.16)))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (set! foobar.1.2 0)
                                        (set! bat.0.1 1)
                                        bat.0.1)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda () (call L.x.1.2 38797657 1 9223372036854775807 9223372036854775807 1 0)))
             (define L.x.1.2
@@ -1338,18 +1338,18 @@
                         (call L.func.0.1))
                     (call L.x.1.2 bat.3.4 foobar.1.2 bar.2.3 bat.9.1 bat.9.1 bar.2.3))))
       (call L.x.1.2 0 -2062025435 -9223372036854775808 -9223372036854775808 0 -9223372036854775808)))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (foo.4.4 foo.7.3 foo.3.2 foo.9.1)
                                          (call L.proc.1.2 foo.4.4 -9223372036854775808 foo.3.2)))
                                      (define L.proc.1.2
                                        (lambda (foo.9.7 bat.5.6 foo.7.5) (- bat.5.6 foo.7.5)))
                                (begin
                                  1)))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (set! ball.3.2 -550916464)
                                        (set! foobar.9.1 9223372036854775807)
                                        foobar.9.1)))
-  (replace-with-syntax-rule '(module (if (false)
+  (check-by-interp-v6 '(module (if (false)
                                          (if (if (< 9223372036854775807 1646335033)
                                                  (>= 9223372036854775807 1)
                                                  (!= 9223372036854775807 1))
@@ -1360,7 +1360,7 @@
                                                (set! bar.1.1 -9223372036854775808)
                                                bar.1.1))
                                          (- 9223372036854775807 1))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1
               (lambda (bar.1.4 bat.6.3 ball.4.2 bar.0.1)
                 (begin
@@ -1383,7 +1383,7 @@
                         (call L.tmp.0.1 foobar.8.13 bar.3.14 foobar.8.13 bar.3.14)
                         (call L.x.1.2 bat.6.12 580696126 bat.6.12)))))
       (if (<= 9223372036854775807 9223372036854775807) -1677147892 874915829)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (foo.2.7 foo.1.6 ball.4.5 ball.7.4 foobar.3.3 ball.0.2 foo.6.1)
                 (if (not (> foo.6.1 -727829088))
@@ -1417,19 +1417,19 @@
         (lambda (foobar.8.24 foo.1.23 foobar.3.22 foo.2.21 foo.6.20 ball.9.19)
           (call L.fn.2.3 foo.6.20 -9223372036854775808 foo.2.21 foo.6.20 1 0)))
       (if (< -534391580 9223372036854775807) 0 0)))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (begin
                                          (set! ball.7.3 -1762920629)
                                          (set! ball.8.2 1)
                                          (set! foobar.1.1 9223372036854775807)
                                          0))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (foobar.0.6 ball.2.5 ball.3.4 ball.5.3 bar.4.2 foobar.8.1)
                 (call L.proc.0.1 ball.2.5 15882253 foobar.0.6 ball.5.3 ball.2.5 ball.2.5)))
             (if (!= 1038395452 1) -9223372036854775808 717010255)
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (if (true)
                 (if (not (= 0 1))
                     (if (>= -9223372036854775808 -1744096882) 0 9223372036854775807)
@@ -1442,10 +1442,10 @@
                     (begin
                       (set! bat.8.3 9223372036854775807)
                       bat.8.3)))))
-  (replace-with-syntax-rule '(module (if (< 0 9223372036854775807)
+  (check-by-interp-v6 '(module (if (< 0 9223372036854775807)
                                          1620518798
                                          (if (!= 0 9223372036854775807) 0 -9223372036854775808))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (foobar.2.2 ball.0.1)
                 (call L.tmp.1.2 foobar.2.2 foobar.2.2 9223372036854775807)))
@@ -1458,13 +1458,13 @@
         (lambda (foobar.2.11 foo.6.10 foobar.7.9 ball.5.8 bar.1.7 bat.9.6)
           (call L.tmp.2.3 273235985 1666412948 bar.1.7 foobar.2.11 bar.1.7 foo.6.10)))
       (if (= -9223372036854775808 9223372036854775807) 9223372036854775807 1)))
-  (replace-with-syntax-rule '(module (define L.fn.0.1
+  (check-by-interp-v6 '(module (define L.fn.0.1
                                        (lambda (ball.2.5 ball.4.4 ball.0.3 foo.1.2 foo.8.1)
                                          (call L.fn.0.1 foo.8.1 ball.2.5 ball.4.4 foo.1.2 ball.2.5)))
                                      (begin
                                        -167685894)
                                ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1
               (lambda (bar.0.2 foobar.8.1)
                 (call L.fn.2.3 foobar.8.1 bar.0.2 foobar.8.1 bar.0.2 foobar.8.1 foobar.8.1)))
@@ -1485,7 +1485,7 @@
         (lambda (foobar.1.19 foobar.5.18 foobar.2.17 ball.4.16 foobar.8.15 foobar.7.14)
           (call L.func.0.1 foobar.1.19 ball.4.16)))
       (+ 1962527269 9223372036854775807)))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (bat.0.1)
                                          (if (if (true)
                                                  (not (> bat.0.1 bat.0.1))
@@ -1496,7 +1496,7 @@
                                              (call L.func.0.1 9223372036854775807))))
                                      (call L.func.0.1 733499244)
                                ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.proc.0.1
               (lambda (ball.3.4 foo.8.3 foobar.4.2 foobar.1.1)
                 (call L.fn.1.2 835392363 -9223372036854775808 0 1 foo.8.3)))
@@ -1524,7 +1524,7 @@
         (set! foo.8.20 -9223372036854775808)
         (set! foobar.7.19 -9223372036854775808)
         ball.3.21)))
-  (replace-with-syntax-rule '(module (define L.func.0.1
+  (check-by-interp-v6 '(module (define L.func.0.1
                                        (lambda (foobar.0.5 foo.5.4 bat.6.3 bat.3.2 bar.7.1) bat.3.2))
                                      (define L.func.1.2
                                        (lambda ()
@@ -1535,7 +1535,7 @@
                                            bat.3.7)))
                                (define L.x.2.3 (lambda (bar.8.9) (call L.func.1.2)))
                                -575594324))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.x.0.1
               (lambda (foo.3.6 foobar.0.5 bat.2.4 bar.7.3 bar.5.2 bat.6.1) (call L.x.1.2 bar.7.3 1)))
             (define L.x.1.2
@@ -1550,7 +1550,7 @@
             (set! foobar.4.9 -9223372036854775808)
             foo.3.11)
           (if (> 894536270 1910216157) 1 1))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.tmp.0.1
               (lambda (bat.6.5 bat.2.4 foobar.8.3 bar.3.2 foo.1.1)
                 (if (<= bat.2.4 9223372036854775807)
@@ -1591,7 +1591,7 @@
                 -264137160
                 726597669
                 379193781))))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (set! ball.8.3 1521957632)
                                        (begin
                                          (set! bat.6.2 -9223372036854775808))
@@ -1599,7 +1599,7 @@
                                        (if (false)
                                            (if (!= bat.6.2 bat.6.2) foo.5.1 bat.6.2)
                                            (if (> ball.8.3 -755834168) 0 bat.6.2)))))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (set! ball.1.1 -9223372036854775808)
                                        (begin
                                          (begin
@@ -1614,7 +1614,7 @@
                                          (begin
                                            (set! ball.9.8 bar.0.4)
                                            ball.1.1)))))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (begin
                                        (set! foo.7.1 1)
                                        (begin
                                          (if (= foo.7.1 foo.7.1)
@@ -1634,12 +1634,12 @@
                                              (set! foobar.3.11 foobar.3.4)
                                              (set! foobar.1.10 1648274049)
                                              foo.7.1))))))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.func.0.1 (lambda (bat.7.2 bat.8.1) (call L.func.0.1 1 bat.8.1))) 0
       ))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (if (> -9223372036854775808 526950868) -9223372036854775808 9223372036854775807)))
-  (replace-with-syntax-rule
+  (check-by-interp-v6
    '(module (define L.fn.0.1
               (lambda (foobar.6.5 ball.3.4 ball.9.3 bar.7.2 bat.4.1)
                 (call L.func.1.2 bat.4.1 ball.3.4 1064830001 bat.4.1 bar.7.2 ball.3.4)))
@@ -1665,7 +1665,7 @@
                         (set! ball.1.14 ball.3.15))
                       (call L.func.1.2 ball.1.14 ball.3.6 ball.3.6 foo.5.9 ball.1.14 foo.5.9)))))
       (call L.func.1.2 9223372036854775807 -1337458253 1 1 0 0)))
-  (replace-with-syntax-rule '(module (if (if (!= 9223372036854775807 2124101395)
+  (check-by-interp-v6 '(module (if (if (!= 9223372036854775807 2124101395)
                                              (true)
                                              (not (<= 9223372036854775807 0)))
                                          (begin
@@ -1677,10 +1677,10 @@
                                          (begin
                                            (set! bar.9.4 (+ 1865158198 1))
                                            (if (> bar.9.4 bar.9.4) bar.9.4 bar.9.4)))))
-  (replace-with-syntax-rule '(module (if (>= 1069510162 -9223372036854775808) 1 323863587)))
-  (replace-with-syntax-rule '(module (* 379335310 0)))
-  (replace-with-syntax-rule '(module 0))
-  (replace-with-syntax-rule '(module (begin
+  (check-by-interp-v6 '(module (if (>= 1069510162 -9223372036854775808) 1 323863587)))
+  (check-by-interp-v6 '(module (* 379335310 0)))
+  (check-by-interp-v6 '(module 0))
+  (check-by-interp-v6 '(module (begin
                                        (set! bat.2.2 (- -9223372036854775808 0))
                                        (set! bat.0.1 -9223372036854775808)
                                        (begin

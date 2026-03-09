@@ -1,12 +1,9 @@
 #lang racket
 
 (require cpsc411/compiler-lib)
-(provide sequentialize-let
-         interp-values-unique-lang)
+(provide sequentialize-let)
 
-(define (binop? op)
-  (or (equal? op '+) (equal? op '*)))
-
+(define binop? (or/c '+ '- '*))
 (define (binop->fun op)
   (match op
     ['+ x64-add]
@@ -14,27 +11,30 @@
     ['- x64-sub]))
 (define triv? (or/c aloc? int64?))
 
-(define (interp-values-unique-lang vlu)
-  (define (interp-triv triv env)
-    (match triv
-      [(? aloc?) (dict-ref env triv)]
-      [(? int64?) triv]))
-  (define (interp-tail tail env)
-    (match tail
-      [`(let ([,alocs ,vals] ...) ,tail2)
-       (interp-tail tail2
-                    (foldl (λ (aloc val env) (dict-set env aloc val))
-                           env
-                           alocs
-                           (map (λ (val) (interp-tail val env)) vals)))]
-      [`(,(? binop? binop) ,(? triv? triv) ,(? triv? triv2))
-       ((binop->fun binop) (interp-triv triv env) (interp-triv triv2 env))]
-      [(? triv?) (interp-triv tail env)]))
-  (let _ ([p vlu]
-          [env '()])
-    (match p
-      [`(module ,tail) (interp-tail tail env)])))
-;-----------------------------
+;; diff:
+; pred	 	::=	 	(relop opand opand)
+;  	 	|	 	(true)
+;  	 	|	 	(false)
+;  	 	|	 	(not pred)
+;  	 	|	 	(begin effect ... pred)+
+;  	 	|	 	(let ([aloc value] ...) pred)-
+;  	 	|	 	(if pred pred pred)
+; tail	 	::=	 	value
+; |	 	(call triv opand ...)+
+; |	 	(begin effect ... tail)+
+; |	 	(let ([aloc value] ...) tail)-
+; |	 	(if pred tail tail)
+; |	 	(call triv opand ...)-
+;value	 	::=	 	triv
+; |	 	(call triv opand ...)+
+; |	 	(binop opand opand)
+; |	 	(begin effect ... value)+
+; |	 	(let ([aloc value] ...) value)-
+; |	 	(if pred value value)
+; |	 	(call triv opand ...)-
+;effect+	 	::=	 	(set! aloc value)
+; |	 	(begin effect ... effect)
+; |	 	(if pred effect effect)
 
 ; values-unique-lang-v6 -> imp-mf-lang-v6
 (define (sequentialize-let vulv5)

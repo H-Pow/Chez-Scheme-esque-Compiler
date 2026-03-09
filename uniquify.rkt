@@ -7,7 +7,7 @@
          interp-values-lang)
 
 (define (binop? op)
-  (or (equal? op '+) (equal? op '*)))
+  (or (equal? op '+) (equal? op '*) (equal? op '-)))
 
 (define (binop->fun op)
   (match op

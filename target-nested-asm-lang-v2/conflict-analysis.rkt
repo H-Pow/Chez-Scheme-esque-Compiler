@@ -155,7 +155,9 @@
       [(`(set! ,aloc (,binop ,aloc ,triv)) _) (update-graph graph-init aloc ust)]
       [(`(set! ,aloc ,triv) _) (update-graph graph-init aloc (set-remove-triv ust triv))]
       [(`(if ,pred ,effect1 ,effect2) `(,ust1 ,ust2 ,ust3))
-       (analyze-tree-effect ust3 effect2 (analyze-tree-effect ust2 effect1 graph-init))]))
+       (analyze-tree-effect ust3 effect2 (analyze-tree-effect ust2 effect1 graph-init))]
+      [(`(return-point ,label ,tail) _)
+        (analyze-tree-tail ust tail graph-init)]))
 
   ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
   (define (analyze-tree-tail ust tail graph-init)
@@ -203,12 +205,121 @@
                                (w.2 (z.5 y.4 p.1 x.3 v.1))
                                (v.1 (w.2)))
 
+#;
 (module+ test
   (require rackunit
            cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-asm-pred-lang-v6/undead p)
-                  (interp-asm-pred-lang-v6/conflict (conflict-analysis p))))
+                  (interp-asm-pred-lang-v6/conflicts (conflict-analysis p))))
+  (check-by-interp '(module ((new-frames ()) (locals (ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
+                                             (call-undead ())
+                                             (undead-out ((tmp-ra.4 rbp) (bat.9.2 tmp-ra.4 rbp)
+                                                                         (foobar.3.1 tmp-ra.4 rbp)
+                                                                         (foobar.3.1 tmp-ra.4 rbp)
+                                                                         (tmp-ra.4 rax rbp)
+                                                                         (rax rbp))))
+                            (begin
+                              (set! tmp-ra.4 r15)
+                              (set! bat.9.2 -422317085)
+                              (set! foobar.3.1 bat.9.2)
+                              (set! ball.2.3 foobar.3.1)
+                              (set! rax foobar.3.1)
+                              (jump tmp-ra.4 rbp rax))
+                      ))
+  (check-by-interp
+   '(module ((new-frames ())
+             (locals (tmp.16 tmp-ra.14 ball.6.11 foobar.9.10))
+             (call-undead ())
+             (undead-out ((tmp-ra.14 rbp)
+                          ((tmp-ra.14 rbp) (foobar.9.10 tmp-ra.14 rbp)
+                                           ((tmp.16 tmp-ra.14 rbp) (tmp.16 tmp-ra.14 rbp)
+                                                                   (foobar.9.10 tmp-ra.14 rbp)))
+                          ((foobar.9.10 tmp-ra.14 rbp) ((tmp-ra.14 rbp) (tmp-ra.14 rax rbp) (rax rbp))
+                                                       ((tmp-ra.14 rsi rbp) (tmp-ra.14 rsi rdi rbp)
+                                                                            (rsi rdi r15 rbp)
+                                                                            (rsi rdi r15 rbp))))))
+            (define L.func.0.1
+              ((new-frames ())
+               (locals (foobar.2.1 bat.5.2 bat.0.3 ball.4.4 ball.3.5 tmp-ra.12))
+               (undead-out ((rdi rsi rdx rcx r8 tmp-ra.12 rbp) (rsi rdx rcx r8 tmp-ra.12 rbp)
+                                                               (rdx rcx r8 tmp-ra.12 rbp)
+                                                               (rcx r8 tmp-ra.12 rbp)
+                                                               (r8 tmp-ra.12 rbp)
+                                                               (tmp-ra.12 rbp)
+                                                               (tmp-ra.12 rax rbp)
+                                                               (rax rbp)))
+               (call-undead ()))
+              (begin
+                (set! tmp-ra.12 r15)
+                (set! ball.3.5 rdi)
+                (set! ball.4.4 rsi)
+                (set! bat.0.3 rdx)
+                (set! bat.5.2 rcx)
+                (set! foobar.2.1 r8)
+                (set! rax 9223372036854775807)
+                (jump tmp-ra.12 rbp rax)))
+      (define L.proc.1.2
+        ((new-frames (()))
+         (locals (ball.8.9 bar.7.6 bar.7.8 tmp-ra.13 bat.0.7 tmp.15))
+         (undead-out ((rdi rsi tmp-ra.13 rbp)
+                      (rsi bat.0.7 tmp-ra.13 rbp)
+                      (bat.0.7 tmp-ra.13 rbp)
+                      (bat.0.7 bar.7.8 tmp-ra.13 rbp)
+                      ((rax bat.0.7 bar.7.8 tmp-ra.13 rbp)
+                       ((bar.7.8 rsi rbp) (rsi rdi rbp) (rsi rdi r15 rbp) (rsi rdi r15 rbp)))
+                      (bat.0.7 bar.7.8 tmp-ra.13 rbp)
+                      (((bat.0.7 tmp.15 bar.7.8 tmp-ra.13 rbp) (bar.7.8 tmp-ra.13 rbp))
+                       ((tmp-ra.13 rax rbp) (rax rbp))
+                       ((tmp-ra.13 rax rbp) (rax rbp)))))
+         (call-undead (bat.0.7 bar.7.8 tmp-ra.13)))
+        (begin
+          (set! tmp-ra.13 r15)
+          (set! bat.0.7 rdi)
+          (set! bar.7.6 rsi)
+          (set! bar.7.8 bat.0.7)
+          (return-point L.rp.3
+                        (begin
+                          (set! rsi bar.7.8)
+                          (set! rdi bar.7.8)
+                          (set! r15 L.rp.3)
+                          (jump L.proc.1.2 rbp r15 rdi rsi)))
+          (set! ball.8.9 rax)
+          (if (begin
+                (set! tmp.15 -59730991)
+                (= tmp.15 bat.0.7))
+              (begin
+                (set! rax 0)
+                (jump tmp-ra.13 rbp rax))
+              (begin
+                (set! rax bar.7.8)
+                (jump tmp-ra.13 rbp rax)))))
+      (begin
+        (set! tmp-ra.14 r15)
+        (if (false)
+            (set! foobar.9.10 9223372036854775807)
+            (begin
+              (set! tmp.16 1)
+              (set! tmp.16 (* tmp.16 -9223372036854775808))
+              (set! foobar.9.10 tmp.16)))
+        (if (not (> foobar.9.10 foobar.9.10))
+            (begin
+              (set! ball.6.11 foobar.9.10)
+              (set! rax -1510146984)
+              (jump tmp-ra.14 rbp rax))
+            (begin
+              (set! rsi foobar.9.10)
+              (set! rdi -9223372036854775808)
+              (set! r15 tmp-ra.14)
+              (jump L.proc.1.2 rbp r15 rdi rsi)))))))
+
+
+(module+ test
+  (require rackunit
+           cpsc411/langs/v6)
+  (define-syntax-rule (check-by-interp p)
+    (check-equal? (interp-asm-pred-lang-v6/undead p)
+                  (interp-asm-pred-lang-v6/conflicts (conflict-analysis p))))
   ;; M6 tests; Added by Trevor on March 6th 2026, at most one binding per let
   (check-by-interp '(module ((new-frames ()) (locals (ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
                                              (call-undead ())

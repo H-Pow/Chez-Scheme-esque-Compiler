@@ -2,21 +2,31 @@
 
 (require cpsc411/compiler-lib)
 
+(provide undead-analysis)
+
 ;; (asm-pred-lang-v6/locals p) -> (asm-pred-lang-v6/undead p)
 ;; Performs undeadness analysis, decorating the program with undead-set tree.
 ;; Only the info field of the program is modified.
 (define (undead-analysis p)
+
+  (define call-undead-box (box `()))
+
+  (define (record-call-undead! s)
+    (set-box! call-undead-box (set-remove (set-union (unbox call-undead-box) s) 'rbp)))
 
   (define (analyze-defintiions def)
     (match def
       [`(define ,label
           ,info
           ,tail)
+       (set-box! call-undead-box `())
        `(define ,label
-          ,(info-set info
-                     'undead-out
-                     (let-values ([(_ ust) (analyze-program-tail `() tail)])
-                       (first ust)))
+          ,(info-set (info-set info
+                               'undead-out
+                               (let-values ([(_ ust) (analyze-program-tail `() tail)])
+                                 (first ust)))
+                     'call-undead
+                     (set->list (unbox call-undead-box)))
           ,tail)]))
 
   ;; undead-set (asm-lang-v2/locals effect) -> (values undead-set ust)
@@ -31,13 +41,14 @@
           ,effect)
        (let-values ([(undead-out updated-ust) (analyze-program-effect undead-out effect)])
          (let-values ([(pre-wrap-undead-out pre-wrap-updated-ust)
-                       (for/foldr ([undead-out undead-out] [ust updated-ust])
+                       (for/foldr ([undead-out undead-out] [ust `(,updated-ust)])
                                   ([effect effects])
                                   (let-values ([(undead-in new-ust) (analyze-program-effect undead-out
                                                                                             effect)])
                                     (values undead-in (cons new-ust ust))))])
 
-           (values pre-wrap-undead-out `(,pre-wrap-updated-ust))))]
+           ;(values pre-wrap-undead-out `(,pre-wrap-updated-ust))
+           (values pre-wrap-undead-out pre-wrap-updated-ust)))]
       [`(set! ,aloc_1 (,binop ,aloc_1 ,triv))
        (let ([undead-in (set-add (set-add-triv undead-out triv) aloc_1)])
          (values undead-in undead-out))]
@@ -49,7 +60,11 @@
                      [(undead-out-effect1 ust-effect1) (analyze-program-effect undead-out effect1)]
                      [(undead-out-pred ust-pred)
                       (analyze-program-pred (set-union undead-out-effect1 undead-out-effect2) pred)])
-         (values undead-out-pred `(,ust-pred ,ust-effect1 ,ust-effect2)))]))
+         (values undead-out-pred `(,ust-pred ,ust-effect1 ,ust-effect2)))]
+      [`(return-point ,label ,tail)
+        (let-values ([(undead-in ust-tail) (analyze-program-tail undead-out tail)])
+           (record-call-undead! undead-out)
+           (values undead-in `(,undead-out ,(first ust-tail))))]))
 
   (define (analyze-program-pred undead-out pred)
     (match pred
@@ -67,13 +82,14 @@
           ,pred)
        (let-values ([(undead-out updated-ust) (analyze-program-pred undead-out pred)])
          (let-values ([(pre-wrap-undead-out pre-wrap-updated-ust)
-                       (for/foldr ([undead-out undead-out] [ust updated-ust])
+                       (for/foldr ([undead-out undead-out] [ust `(,updated-ust)])
                                   ([effect effects])
                                   (let-values ([(undead-in new-ust) (analyze-program-effect undead-out
                                                                                             effect)])
                                     (values undead-in (cons new-ust ust))))])
 
-           (values pre-wrap-undead-out `(,pre-wrap-updated-ust))))]
+           ;(values pre-wrap-undead-out `(,pre-wrap-updated-ust))
+           (values pre-wrap-undead-out pre-wrap-updated-ust)))]
       [`(if ,pred1 ,pred2 ,pred3)
        (let*-values ([(undead-out-pred3 ust-pred3) (analyze-program-pred undead-out pred3)]
                      [(undead-out-pred2 ust-pred2) (analyze-program-pred undead-out pred2)]
@@ -106,7 +122,9 @@
                                                                                             effect)])
                                     (values undead-in (cons new-ust ust))))])
 
-           (values pre-wrap-undead-out `(,pre-wrap-updated-ust))))]
+           (values pre-wrap-undead-out `(,pre-wrap-updated-ust))
+           ;(values pre-wrap-undead-out pre-wrap-updated-ust)
+            ))]
       [`(halt ,triv)
        (let ([undead-in (set-add-triv undead-out triv)]) (values undead-in (cons undead-out '())))]
       [`(if ,pred ,tail1 ,tail2)
@@ -115,7 +133,11 @@
                      [(undead-out-pred ust-pred)
                       (analyze-program-pred (set-union undead-out-tail1 undead-out-tail2) pred)])
          (values undead-out-pred `((,ust-pred ,(first ust-tail1) ,(first ust-tail2)))))]
-      [`(jump ,label ,locs ...) (values locs (cons locs undead-out))]))
+      [`(jump ,label ,locs ...)
+       (values (if (label? label)
+                   locs
+                   (cons label locs))
+               (cons locs undead-out))]))
 
   (match p
     [`(module ,info ,definitions
@@ -124,9 +146,180 @@
      `(module ,(info-set info
                          'undead-out
                          (let-values ([(_ ust) (analyze-program-tail `() tail)])
-                           (first ust)))
+                           ust))
               ,@(map analyze-defintiions definitions)
         ,tail)]))
+
+#;
+(module+ test
+  (require rackunit
+           cpsc411/langs/v5
+           cpsc411/langs/v6)
+
+  (define-syntax-rule (check-by-interp asmplv5l)
+    (check-equal? (interp-asm-pred-lang-v5/locals asmplv5l)
+                  (interp-asm-pred-lang-v5/undead (undead-analysis asmplv5l))))
+  (define-syntax-rule (check-by-interp-v6 p)
+    (check-equal? (interp-asm-pred-lang-v6/locals p)
+                  (interp-asm-pred-lang-v6/undead (undead-analysis p))))
+
+  (check-by-interp-v6
+    '(module ((new-frames ()) (locals (tmp.16 tmp-ra.14 ball.6.11 foobar.9.10)))
+             (define L.func.0.1
+               ((new-frames ()) (locals (foobar.2.1 bat.5.2 bat.0.3 ball.4.4 ball.3.5 tmp-ra.12)))
+               (begin
+                 (set! tmp-ra.12 r15)
+                 (set! ball.3.5 rdi)
+                 (set! ball.4.4 rsi)
+                 (set! bat.0.3 rdx)
+                 (set! bat.5.2 rcx)
+                 (set! foobar.2.1 r8)
+                 (set! rax 9223372036854775807)
+                 (jump tmp-ra.12 rbp rax)))
+       (define L.proc.1.2
+         ((new-frames (())) (locals (ball.8.9 bar.7.6 bar.7.8 tmp-ra.13 bat.0.7 tmp.15)))
+         (begin
+           (set! tmp-ra.13 r15)
+           (set! bat.0.7 rdi)
+           (set! bar.7.6 rsi)
+           (set! bar.7.8 bat.0.7)
+           (return-point L.rp.3
+                         (begin
+                           (set! rsi bar.7.8)
+                           (set! rdi bar.7.8)
+                           (set! r15 L.rp.3)
+                           (jump L.proc.1.2 rbp r15 rdi rsi)))
+           (set! ball.8.9 rax)
+           (if (begin
+                 (set! tmp.15 -59730991)
+                 (= tmp.15 bat.0.7))
+               (begin
+                 (set! rax 0)
+                 (jump tmp-ra.13 rbp rax))
+               (begin
+                 (set! rax bar.7.8)
+                 (jump tmp-ra.13 rbp rax)))))
+       (begin
+         (set! tmp-ra.14 r15)
+         (if (false)
+             (set! foobar.9.10 9223372036854775807)
+             (begin
+               (set! tmp.16 1)
+               (set! tmp.16 (* tmp.16 -9223372036854775808))
+               (set! foobar.9.10 tmp.16)))
+         (if (not (> foobar.9.10 foobar.9.10))
+             (begin
+               (set! ball.6.11 foobar.9.10)
+               (set! rax -1510146984)
+               (jump tmp-ra.14 rbp rax))
+             (begin
+               (set! rsi foobar.9.10)
+               (set! rdi -9223372036854775808)
+               (set! r15 tmp-ra.14)
+               (jump L.proc.1.2 rbp r15 rdi rsi))))))
+
+  (check-by-interp-v6 '(module ((new-frames ()) (locals (tmp-ra.2)))
+                               (define L.swap.1
+                                 ((new-frames (())) (locals (z.3 tmp-ra.1 x.1 y.2)))
+                                 (begin
+                                   (set! tmp-ra.1 r15)
+                                   (set! x.1 rdi)
+                                   (set! y.2 rsi)
+                                   (if (< y.2 x.1)
+                                       (begin
+                                         (set! rax x.1)
+                                         (jump tmp-ra.1 rbp rax))
+                                       (begin
+                                         (return-point L.rp.1
+                                                       (begin
+                                                         (set! rsi x.1)
+                                                         (set! rdi y.2)
+                                                         (set! r15 L.rp.1)
+                                                         (jump L.swap.1 rbp r15 rdi rsi)))
+                                         (set! z.3 rax)
+                                         (set! rax z.3)
+                                         (jump tmp-ra.1 rbp rax)))))
+                         (begin
+                           (set! tmp-ra.2 r15)
+                           (set! rsi 2)
+                           (set! rdi 1)
+                           (set! r15 tmp-ra.2)
+                           (jump L.swap.1 rbp r15 rdi rsi))))
+                           
+  (check-by-interp-v6
+   '(module ((new-frames ()) (locals (foobar.7.19 foo.8.20 ball.3.21 tmp-ra.25)))
+            (define L.proc.0.1
+              ((new-frames ()) (locals (foobar.1.1 foobar.4.2 foo.8.3 ball.3.4 tmp-ra.22)))
+              (begin
+                (set! tmp-ra.22 r15)
+                (set! ball.3.4 rdi)
+                (set! foo.8.3 rsi)
+                (set! foobar.4.2 rdx)
+                (set! foobar.1.1 rcx)
+                (set! r8 foo.8.3)
+                (set! rcx 1)
+                (set! rdx 0)
+                (set! rsi -9223372036854775808)
+                (set! rdi 835392363)
+                (set! r15 tmp-ra.22)
+                (jump L.fn.1.2 rbp r15 rdi rsi rdx rcx r8)))
+      (define L.fn.1.2
+        ((new-frames ()) (locals (foobar.4.5 bat.6.6 bar.2.7 foobar.7.8 bat.0.9 tmp-ra.23)))
+        (begin
+          (set! tmp-ra.23 r15)
+          (set! bat.0.9 rdi)
+          (set! foobar.7.8 rsi)
+          (set! bar.2.7 rdx)
+          (set! bat.6.6 rcx)
+          (set! foobar.4.5 r8)
+          (set! rdi foobar.7.8)
+          (set! r15 tmp-ra.23)
+          (jump L.x.2.3 rbp r15 rdi)))
+      (define L.x.2.3
+        ((new-frames (())) (locals (ball.3.13 foobar.7.14
+                                              foobar.1.16
+                                              foobar.7.17
+                                              bat.0.18
+                                              foo.9.15
+                                              foo.9.11
+                                              tmp.26
+                                              bat.0.12
+                                              foobar.7.10
+                                              tmp-ra.24)))
+        (begin
+          (set! tmp-ra.24 r15)
+          (set! foobar.7.10 rdi)
+          (return-point L.rp.4
+                        (begin
+                          (set! rcx foobar.7.10)
+                          (set! rdx foobar.7.10)
+                          (set! rsi foobar.7.10)
+                          (set! rdi foobar.7.10)
+                          (set! r15 L.rp.4)
+                          (jump L.proc.0.1 rbp r15 rdi rsi rdx rcx)))
+          (set! bat.0.12 rax)
+          (set! tmp.26 bat.0.12)
+          (set! tmp.26 (- tmp.26 bat.0.12))
+          (set! foo.9.11 tmp.26)
+          (if (<= foo.9.11 foobar.7.10)
+              (set! foo.9.15 foo.9.11)
+              (set! foo.9.15 foobar.7.10))
+          (set! bat.0.18 foo.9.11)
+          (set! foobar.7.17 foobar.7.10)
+          (set! foobar.1.16 foo.9.11)
+          (set! foobar.7.14 bat.0.18)
+          (set! ball.3.13 foobar.7.10)
+          (set! rdi ball.3.13)
+          (set! r15 tmp-ra.24)
+          (jump L.x.2.3 rbp r15 rdi)))
+      (begin
+        (set! tmp-ra.25 r15)
+        (set! ball.3.21 1830309714)
+        (set! foo.8.20 -9223372036854775808)
+        (set! foobar.7.19 -9223372036854775808)
+        (set! rax ball.3.21)
+        (jump tmp-ra.25 rbp rax)))))
+
 
 (module+ test
   (require rackunit
@@ -203,6 +396,93 @@
               (set! rdi -9223372036854775808)
               (set! r15 tmp-ra.14)
               (jump L.proc.1.2 rbp r15 rdi rsi))))))
+
+  ;; return value for above test, used for sanity checking
+  #;(module ((new-frames ())
+             (locals (tmp.16 tmp-ra.14 ball.6.11 foobar.9.10))
+             (call-undead ())
+             (undead-out ((tmp-ra.14 rbp)
+                          ((tmp-ra.14 rbp) (foobar.9.10 tmp-ra.14 rbp)
+                                           ((tmp.16 tmp-ra.14 rbp) (tmp.16 tmp-ra.14 rbp)
+                                                                   (foobar.9.10 tmp-ra.14 rbp)))
+                          ((foobar.9.10 tmp-ra.14 rbp) ((tmp-ra.14 rbp) (tmp-ra.14 rax rbp) (rax rbp))
+                                                       ((tmp-ra.14 rsi rbp) (tmp-ra.14 rsi rdi rbp)
+                                                                            (rsi rdi r15 rbp)
+                                                                            (rsi rdi r15 rbp))))))
+            (define L.func.0.1
+              ((new-frames ())
+               (locals (foobar.2.1 bat.5.2 bat.0.3 ball.4.4 ball.3.5 tmp-ra.12))
+               (undead-out ((rdi rsi rdx rcx r8 tmp-ra.12 rbp) (rsi rdx rcx r8 tmp-ra.12 rbp)
+                                                               (rdx rcx r8 tmp-ra.12 rbp)
+                                                               (rcx r8 tmp-ra.12 rbp)
+                                                               (r8 tmp-ra.12 rbp)
+                                                               (tmp-ra.12 rbp)
+                                                               (tmp-ra.12 rax rbp)
+                                                               (rax rbp)))
+               (call-undead ()))
+              (begin
+                (set! tmp-ra.12 r15)
+                (set! ball.3.5 rdi)
+                (set! ball.4.4 rsi)
+                (set! bat.0.3 rdx)
+                (set! bat.5.2 rcx)
+                (set! foobar.2.1 r8)
+                (set! rax 9223372036854775807)
+                (jump tmp-ra.12 rbp rax)))
+      (define L.proc.1.2
+        ((new-frames (()))
+         (locals (ball.8.9 bar.7.6 bar.7.8 tmp-ra.13 bat.0.7 tmp.15))
+         (undead-out ((rdi rsi tmp-ra.13 rbp)
+                      (rsi bat.0.7 tmp-ra.13 rbp)
+                      (bat.0.7 tmp-ra.13 rbp)
+                      (bat.0.7 bar.7.8 tmp-ra.13 rbp)
+                      ((rax bat.0.7 bar.7.8 tmp-ra.13 rbp)
+                       ((bar.7.8 rsi rbp) (rsi rdi rbp) (rsi rdi r15 rbp) (rsi rdi r15 rbp)))
+                      (bat.0.7 bar.7.8 tmp-ra.13 rbp)
+                      (((bat.0.7 tmp.15 bar.7.8 tmp-ra.13 rbp) (bar.7.8 tmp-ra.13 rbp))
+                       ((tmp-ra.13 rax rbp) (rax rbp))
+                       ((tmp-ra.13 rax rbp) (rax rbp)))))
+         (call-undead (bat.0.7 bar.7.8 tmp-ra.13)))
+        (begin
+          (set! tmp-ra.13 r15)
+          (set! bat.0.7 rdi)
+          (set! bar.7.6 rsi)
+          (set! bar.7.8 bat.0.7)
+          (return-point L.rp.3
+                        (begin
+                          (set! rsi bar.7.8)
+                          (set! rdi bar.7.8)
+                          (set! r15 L.rp.3)
+                          (jump L.proc.1.2 rbp r15 rdi rsi)))
+          (set! ball.8.9 rax)
+          (if (begin
+                (set! tmp.15 -59730991)
+                (= tmp.15 bat.0.7))
+              (begin
+                (set! rax 0)
+                (jump tmp-ra.13 rbp rax))
+              (begin
+                (set! rax bar.7.8)
+                (jump tmp-ra.13 rbp rax)))))
+      (begin
+        (set! tmp-ra.14 r15)
+        (if (false)
+            (set! foobar.9.10 9223372036854775807)
+            (begin
+              (set! tmp.16 1)
+              (set! tmp.16 (* tmp.16 -9223372036854775808))
+              (set! foobar.9.10 tmp.16)))
+        (if (not (> foobar.9.10 foobar.9.10))
+            (begin
+              (set! ball.6.11 foobar.9.10)
+              (set! rax -1510146984)
+              (jump tmp-ra.14 rbp rax))
+            (begin
+              (set! rsi foobar.9.10)
+              (set! rdi -9223372036854775808)
+              (set! r15 tmp-ra.14)
+              (jump L.proc.1.2 rbp r15 rdi rsi)))))
+
   (check-by-interp-v6
    '(module ((new-frames ())
              (locals (tmp.9 bat.8.2 bat.9.1 bat.9.4 bat.9.3 tmp.7 tmp.8 bat.3.5 tmp-ra.6)))

@@ -57,7 +57,10 @@
          (if (not begun)
              result
              `(,result)))]
-      [`(jump ,trg ,loc) e]
+      [`(jump ,trg ,loc ...)
+       (if begun
+           `(,e)
+           e)]
       [_
        (match-let ([`(,fxs ,atail) (select-value e)])
          (append (if (not begun)
@@ -79,7 +82,7 @@
   (define (value->effect* loc value)
     (match value
       [`(,binop ,opand1 ,opand2)
-       #:when (not (eq? opand1 loc))
+       #:when (not (equal? opand1 loc))
        `((set! ,loc ,opand1) (set! ,loc (,binop ,loc ,opand2)))]
       [_ `((set! ,loc ,value))]))
 
@@ -88,18 +91,29 @@
     (match e
       [`(set! ,loc ,rest) (value->effect* loc rest)]
       [`(begin
-          ,fxs ...
-          ,fx)
-       (list (append `(begin) (foldr append '() (map select-effect fxs)) (select-effect fx)))]
+          ,fxs ...)
+       (list `(begin
+                ,@(foldr append '() (map select-effect fxs))))]
       [`(if ,pred ,effect1 ,effect2)
+       (define e1 (select-effect effect1))
+       (define e2 (select-effect effect2))
        `((if ,(select-pred pred)
-             ,(select-effect effect1)
-             ,(select-effect effect2)))]))
+             ,(if (null? (rest e1))
+                  (first e1)
+                  `(begin
+                     ,@e1))
+             ,(if (null? (rest e1))
+                  (first e2)
+                  `(begin
+                     ,@e2))))]))
 
   ;; (imp-cmf-lang-v6 definition) -> (imp-cmf-lang-v6 definition)
   (define (select-def def)
     (match def
-      [`(define ,label ,tail) `(define ,label ,(select-tail tail))]))
+      [`(define ,label ,tail)
+       `(define ,label
+          ()
+          ,(select-tail tail))]))
 
   (define (select-p p)
     (match p

@@ -191,7 +191,7 @@
        `(,binop ,(uniquify-triv triv1 env) ,(uniquify-triv triv2 env))]
       [(? triv?) (uniquify-triv value env)]
       [`(call ,x ,trivs ...)
-       `(call ,(proc-name->label x) ,@(map (λ (arg) (triv->arg arg arg-env)) trivs))]))
+       `(call ,(proc-name->label x) ,@(map (λ (arg) (triv->arg arg env)) trivs))]))
 
   (define (uniquify-tail tail arg-env)
     (match tail
@@ -232,6 +232,7 @@
 
 (module+ test
   (require rackunit
+  cpsc411/langs/v5
            cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp vlv6)
     (check-equal? (interp-values-lang-v5 vlv6) (interp-values-unique-lang-v5 (uniquify vlv6))))

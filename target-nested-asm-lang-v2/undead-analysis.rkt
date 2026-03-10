@@ -146,7 +146,7 @@
      `(module ,(info-set info
                          'undead-out
                          (let-values ([(_ ust) (analyze-program-tail `() tail)])
-                           ust))
+                           (first ust)))
               ,@(map analyze-defintiions definitions)
         ,tail)]))
 

@@ -226,8 +226,8 @@
                       (set! (rbp - 16) (* (rbp - 16) rbx))))
   ;;
 
-  ;; Manually created by Trevor on March 10th to address (set! addr label) case
-  ;; with-label is not handled properly at all
+  ;; Manually created by Trevor on March 10th to address (set! addr label), (jump-if relop addr),
+  ;; (jump addr) cases
   (check-by-interp '(begin
                       (set! rsp 3)
                       (with-label L.__main.4 (set! rsp (- rsp 1)))
@@ -235,8 +235,16 @@
                       (compare rsp 0)
                       (jump-if = done)
                       (jump (rbp - 8))))
-  ;;
 
+  (check-by-interp '(begin
+                      (set! rsp 3)
+                      (set! (rbp - 0) done)
+                      (with-label L.__main.4 (set! rsp (- rsp 1)))
+                      (set! (rbp - 8) L.__main.4)
+                      (compare rsp 0)
+                      (jump-if = (rbp - 0))
+                      (jump (rbp - 8))))
+  ;;
   ;; !!! Added by Trevor on March 2nd 2026
 
   (check-by-interp '(begin

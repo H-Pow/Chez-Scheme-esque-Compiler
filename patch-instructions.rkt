@@ -126,6 +126,7 @@
 
 ;   label	 	::=	 	label?
 
+;; (any/c) -> boolean
 ;; returns #t if addr is a para-asm-lang-v6 addr, otherwise returns #f
 (define (addr? addr)
   (match addr
@@ -171,11 +172,8 @@
        (patch-set-reg s)]
       [`(set! ,loc ,rest) (patch-set-addr s)]
       [`(with-label ,label ,s)
-       #:when (> (length (patch-s s)) 1) ;; when more than 1 instruction is returned
        (define patched (patch-s s))
        `((with-label ,label ,(first patched)) ,@(rest patched))]
-      ;   [`(halt ,opand) `((set! ,(current-return-value-register) ,opand) (jump done))]
-
       [`(compare ,loc ,opand)
        `((set! ,first-reg ,loc) (set! ,second-reg ,opand) (compare ,first-reg ,second-reg))]
       [`(jump-if ,relop ,trg)
@@ -197,12 +195,47 @@
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v5
            cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-para-asm-lang-v6 p) (interp-paren-x64-v6 (patch-instructions p))))
-  (define-syntax-rule (check-by-interp-v6 p)
-    (check-equal? (interp-para-asm-lang-v6 p) (interp-paren-x64-v6 (patch-instructions p))))
+
+  ;; Manully added by Trevor on March 10th to cover (set! addr (binop addr opand)) cases
+
+  (check-by-interp '(begin
+                      (set! (rbp - 0) 10)
+                      (set! (rbp - 0) (+ (rbp - 0) -9223372036854775808))))
+
+  (check-by-interp '(begin
+                      (set! (rbp - 8) 2)
+                      (set! (rbp - 8) (- (rbp - 8) 3))))
+
+  (check-by-interp '(begin
+                      (set! (rbp - 16) -14)
+                      (set! (rbp - 16) (* (rbp - 16) 3))))
+  (check-by-interp '(begin
+                      (set! (rbp - 0) 5)
+                      (set! (rbp - 16) -14)
+                      (set! (rbp - 16) (* (rbp - 16) (rbp - 0)))
+                      (set! (rbp - 0) (- (rbp - 0) (rbp - 0)))
+                      (set! (rbp - 0) (+ (rbp - 0) (rbp - 16)))
+                      (set! rbx -2)
+                      (set! (rbp - 16) (+ (rbp - 16) rbx))
+                      (set! rbx (+ rbx 1))
+                      (set! (rbp - 16) (- (rbp - 16) rbx))
+                      (set! rbx (+ rbx 7))
+                      (set! (rbp - 16) (* (rbp - 16) rbx))))
+  ;;
+
+  ;; Manually created by Trevor on March 10th to address (set! addr label) case
+  ;; with-label is not handled properly at all
+  (check-by-interp '(begin
+                      (set! rsp 3)
+                      (with-label L.__main.4 (set! rsp (- rsp 1)))
+                      (set! (rbp - 8) L.__main.4)
+                      (compare rsp 0)
+                      (jump-if = done)
+                      (jump (rbp - 8))))
+  ;;
 
   ;; !!! Added by Trevor on March 2nd 2026
 

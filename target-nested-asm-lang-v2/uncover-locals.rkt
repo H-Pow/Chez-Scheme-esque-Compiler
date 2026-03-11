@@ -21,8 +21,8 @@
 
   (define (uncover-triv triv)
     (match triv
-      [(? int64?) (set)]
-      [(? aloc?) (set triv)]))
+      [(? aloc?) (set triv)]
+      [_ (set)]))
 
   (define (uncover-loc loc)
     (match loc

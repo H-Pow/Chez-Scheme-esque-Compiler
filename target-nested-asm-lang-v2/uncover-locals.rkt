@@ -21,8 +21,7 @@
 
    (define (uncover-triv triv)
     (match triv
-      [(? int64?) (set)]
-      [(? register?) (set)]
+      [(? (or/c register? fvar? label? int64?)) (set)]
       [(? aloc?) (set triv)]))
 
   (define (uncover-loc loc)
@@ -52,7 +51,8 @@
           ,fxs ...
           ,fx)
        (set-union (uncover-effects fxs) (uncover-effect fx))]
-      [`(if ,pred ,e1 ,e2) (set-union (uncover-pred pred) (uncover-effect e1) (uncover-effect e2))]))
+      [`(if ,pred ,e1 ,e2) (set-union (uncover-pred pred) (uncover-effect e1) (uncover-effect e2))]
+      [`(return-point ,_ ,tail) (uncover-tail tail)]))
 
   (define (uncover-effects fxs)
     (for/fold ([locals (set)]) ([fx fxs])
@@ -87,9 +87,6 @@
                   (interp-asm-pred-lang-v5/locals (uncover-locals asmplv5))))
   (define-syntax-rule (check-by-interp-v6 p)
     (check-equal? (interp-asm-pred-lang-v6 p) (interp-asm-pred-lang-v6/locals (uncover-locals p))))
-
-  ;; M6 tests; Added by Trevor on March 6th 2026, at most one binding per let
-  ;; !!!
 
   ; example output for uncover-locals
 

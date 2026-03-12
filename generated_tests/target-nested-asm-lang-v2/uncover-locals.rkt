@@ -1,10 +1,9 @@
 #lang racket
 
-
 (require rackunit
   cpsc411/langs/v5
-  cpsc411/langs/v6
-  (only-in "../../target-nested-asm-lang-v2/uncover-locals.rkt" uncover-locals))
+  cpsc411/langs/v6)
+(require (only-in "../../target-nested-asm-lang-v2/uncover-locals.rkt" uncover-locals))
 
 (define-syntax-rule (check-by-interp asmplv5)
   (check-equal? (interp-asm-pred-lang-v5 asmplv5)
@@ -12,6 +11,9 @@
 
 (define-syntax-rule (check-by-interp-v6 p)
   (check-equal? (interp-asm-pred-lang-v6 p) (interp-asm-pred-lang-v6/locals (uncover-locals p))))
+
+;; M6 tests; Added by Trevor on March 6th 2026, at most one binding per let
+;; !!!
 
 (check-by-interp-v6 '(module
    ((new-frames ()))

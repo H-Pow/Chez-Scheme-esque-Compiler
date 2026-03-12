@@ -1,4 +1,4 @@
-; temporary script file to patch out bad tests
+; temporary script file to filter out tests cases that never terminates
 
 #lang racket
 

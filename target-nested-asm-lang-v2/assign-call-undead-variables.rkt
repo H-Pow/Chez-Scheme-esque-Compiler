@@ -29,11 +29,18 @@ frame	 ::=	 (aloc ...)
 ;; all variables in the call-undead sets to frame variables.
 (define (assign-call-undead-variables p)
 
+    (define (update-info info)
+      (match-let* ([assignment (assign-call-undead-variables/info info)]
+                   [`((,alocs ,fvars) ...) assignment]
+                   [locals-updated (set-subtract (info-ref info 'locals) alocs)])
+        (info-set (info-set info 'locals locals-updated) 'assignment assignment)))
+
+
     (define (assign-call-undead-variables/def def)
         (match def
             [`(define ,label ,info ,tail)
              `(define ,label  
-                      ,(info-set info 'assignment (assign-call-undead-variables/info info))
+                      ,(update-info info)
                       ,tail)]))
 
     (define (assign-call-undead-variables/info info)
@@ -51,14 +58,10 @@ frame	 ::=	 (aloc ...)
                    [assignments (assign-call-undead-fvar (cdr call-undead) 
                                                          (remove-vertex conflicts current-variable))]
                    [incompatiable-fvars-set (get-incompatible current-variable assignments conflicts)])
-                   (displayln "assign-call-undead")
-                   (displayln incompatiable-fvars-set)
-                   (displayln (symbol? (cdr (set->list incompatiable-fvars-set))))
-
               (cons `(,current-variable
                       ,(let/cc return
                         (let loop ([i 0])
-                          (let ([current (string->symbol (format "fvar~a" i))])
+                          (let ([current (string->symbol (format "fv~a" i))])
                             (if (memq current (set->list incompatiable-fvars-set))
                                 (loop (+ 1 i))
                                 (return current))))))
@@ -68,21 +71,21 @@ frame	 ::=	 (aloc ...)
       (let* ([directly-conflicting (get-neighbors conflicts current-variable)]
              [incompatiable-fvars-set (mutable-set (filter fvar? directly-conflicting))])
         (for ([assignment assignments]
-              #:when (memq (car assignment) directly-conflicting))
-          (displayln "get-incompatible")
-          (displayln (symbol? (cdr assignment)))
-          (set-add! incompatiable-fvars-set (cdr assignment)))
+              #:when (memq (first assignment) directly-conflicting))
+          (set-add! incompatiable-fvars-set (second assignment)))
         incompatiable-fvars-set))
 
     (match p
         [`(module ,info ,defs ... ,tail)
-            `(module ,(info-set info 'assignment (assign-call-undead-variables/info info))
+            `(module ,(update-info info)
                      ,@(map assign-call-undead-variables/def defs)
                      ,tail)]))
 
+;; works
+
 (module+ test
   (require rackunit)
-    (check-equal? (assign-call-undead-variables 
+    (check-match (assign-call-undead-variables 
     `(module
   ((new-frames ())
    (locals (ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
@@ -139,7 +142,7 @@ frame	 ::=	 (aloc ...)
     
     )
 
-  (check-equal? (assign-call-undead-variables '(module
+  (check-match (assign-call-undead-variables '(module
   ((new-frames ())
     (locals (ball.8.9 bar.7.6 bar.7.8 tmp-ra.13 bat.0.7 tmp.15))
     (undead-out
@@ -211,7 +214,7 @@ frame	 ::=	 (aloc ...)
      (rdi (r15 rbp rsi tmp-ra.13))
      (rsi (r15 rdi rbp bat.0.7 tmp-ra.13))
      (r15 (rbp rdi rsi))))
-   (assignment ((tmp-ra.13 fv0) (bar.7.8 fv1) (bat.0.7 fv1))))
+   (assignment ((bat.0.7 fv1) (bar.7.8 fv1) (tmp-ra.13 fv0))))
   (begin
     (set! tmp-ra.13 r15)
     (set! bat.0.7 rdi)

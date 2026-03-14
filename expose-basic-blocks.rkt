@@ -194,11 +194,15 @@
           ,fx)
        (foldr expose-effect! (expose-effect! fx next) fx*)]
       [`(if ,pred ,fx1 ,fx2)
-       (expose-pred! pred (expose-effect! fx1 next) (expose-effect! fx2 next))]))
+       (expose-pred! pred (expose-effect! fx1 next) (expose-effect! fx2 next))]
+      [`(return-point ,ret-label ,tail)
+        (define ret-lab (create-block! ret-label `(jump ,next)))
+        (define tail-lab (expose-tail! tail))
+        tail-lab]))
   ;; nested-tail (block-tail -> X) -> X
   (define (nested-tail->block-tail& tail [k identity])
     (match tail
-      [`(halt ,_) (k tail)]
+      ; [`(halt ,_) (k tail)] ;; removed in v6
       [`(jump ,_) (k tail)]
       [`(begin
           ,fx* ...

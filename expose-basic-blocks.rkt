@@ -235,4 +235,5 @@
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-nested-asm-lang-v6 p) (interp-block-pred-lang-v6 (expose-basic-blocks p))))
 
+    ; see generated_tests folder to see the generated tests.
   )

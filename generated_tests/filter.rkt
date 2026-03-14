@@ -25,18 +25,20 @@
 (define (dummy-interp p)
     (error "you forgot to set an actual interpretor!"))
 
+(define (dummy-valid? p) 
+  #t)
+
 (define (peek x)
   ; (pretty-display x)
   x)
 
-; step1: replace dummy-interp with the right interpretor
+; step1: replace dummy-interp and dummy-valid? with the right interpretor and validator
 (define (check-by-interp-v6 p)
-    (when (runs-within-time? p dummy-interp)
-       (displayln (string-append "(check-by-interp-v6 " (pretty-format p) ")"))))
+    (when (and (nested-asm-lang-v6? p) (runs-within-time? p interp-nested-asm-lang-v6))
+       (displayln (string-append "(check-by-interp " (pretty-format p) ")"))))
 
 ; step1: replace dummy-interp with the right interpretor
-(define (check-by-interp p )
-    (when (runs-within-time? p dummy-interp)
-        (displayln (string-append "(check-by-interp " (pretty-format p) ")"))))
+(define (check-by-interp p)
+    (check-by-interp-v6 p))
 
 ; step2: add test cases here and run

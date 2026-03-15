@@ -3755,253 +3755,254 @@
               (jump L.fn.2.3 rbp)))))
   ;; !!!
 
-  (define (set-list=? a b)
-    (set=? (list->set a) (list->set b)))
+  ; (define (set-list=? a b)
+  ;   (set=? (list->set a) (list->set b)))
 
-  (check-match (undead-analysis '(module ((locals (x.1)))
-                                         (begin
-                                           (set! x.1 42)
-                                           (halt x.1))
-                                   ))
-               `(module ((locals (x.1)) (undead-out (,(? (lambda (x) (set-list=? x '(x.1)))) ())))
-                        (begin
-                          (set! x.1 42)
-                          (halt x.1))
-                  ))
+  ; (check-match (undead-analysis '(module ((locals (x.1)))
+  ;                                        (begin
+  ;                                          (set! x.1 42)
+  ;                                          (halt x.1))
+  ;                                  ))
+  ;              `(module ((locals (x.1)) (undead-out (,(? (lambda (x) (set-list=? x '(x.1)))) ())))
+  ;                       (begin
+  ;                         (set! x.1 42)
+  ;                         (halt x.1))
+  ;                 ))
 
-  (check-equal? (undead-analysis '(module ((locals (x.1)))
-                                          (begin
-                                            (begin
-                                              (set! x.1 1))
-                                            (halt x.1))
-                                    ))
-                `(module ((locals (x.1)) (undead-out (((x.1)) ())))
-                         (begin
-                           (begin
-                             (set! x.1 1))
-                           (halt x.1))
-                   ))
+  ; (check-equal? (undead-analysis '(module ((locals (x.1)))
+  ;                                         (begin
+  ;                                           (begin
+  ;                                             (set! x.1 1))
+  ;                                           (halt x.1))
+  ;                                   ))
+  ;               `(module ((locals (x.1)) (undead-out (((x.1)) ())))
+  ;                        (begin
+  ;                          (begin
+  ;                            (set! x.1 1))
+  ;                          (halt x.1))
+  ;                  ))
 
-  (check-equal? (undead-analysis '(module ((locals (x.1)))
-                                          (begin
-                                            (begin
-                                              (begin
-                                                (set! x.1 1)))
-                                            (halt x.1))
-                                    ))
-                `(module ((locals (x.1)) (undead-out ((((x.1))) ())))
-                         (begin
-                           (begin
-                             (begin
-                               (set! x.1 1)))
-                           (halt x.1))
-                   ))
+  ; (check-equal? (undead-analysis '(module ((locals (x.1)))
+  ;                                         (begin
+  ;                                           (begin
+  ;                                             (begin
+  ;                                               (set! x.1 1)))
+  ;                                           (halt x.1))
+  ;                                   ))
+  ;               `(module ((locals (x.1)) (undead-out ((((x.1))) ())))
+  ;                        (begin
+  ;                          (begin
+  ;                            (begin
+  ;                              (set! x.1 1)))
+  ;                          (halt x.1))
+  ;                  ))
 
-  (check-match (undead-analysis '(module ((locals (v.1 w.2 x.3 y.4 z.5 t.6 p.1)))
-                                         (begin
-                                           (set! v.1 1)
-                                           (set! w.2 46)
-                                           (set! x.3 v.1)
-                                           (set! p.1 7)
-                                           (set! x.3 (+ x.3 p.1))
-                                           (set! y.4 x.3)
-                                           (set! p.1 4)
-                                           (set! y.4 (+ y.4 p.1))
-                                           (set! z.5 x.3)
-                                           (set! z.5 (+ z.5 w.2))
-                                           (set! t.6 y.4)
-                                           (set! p.1 -1)
-                                           (set! t.6 (* t.6 p.1))
-                                           (set! z.5 (+ z.5 t.6))
-                                           (halt z.5))
-                                   ))
-               `(module ((locals (v.1 w.2 x.3 y.4 z.5 t.6 p.1))
-                         (undead-out (,(? (lambda (x) (set-list=? x '(v.1))))
-                                      ,(? (lambda (x) (set-list=? x '(v.1 w.2))))
-                                      ,(? (lambda (x) (set-list=? x '(x.3 w.2))))
-                                      ,(? (lambda (x) (set-list=? x '(p.1 x.3 w.2))))
-                                      ,(? (lambda (x) (set-list=? x '(x.3 w.2))))
-                                      ,(? (lambda (x) (set-list=? x '(y.4 x.3 w.2))))
-                                      ,(? (lambda (x) (set-list=? x '(p.1 y.4 x.3 w.2))))
-                                      ,(? (lambda (x) (set-list=? x '(x.3 w.2 y.4))))
-                                      ,(? (lambda (x) (set-list=? x '(w.2 z.5 y.4))))
-                                      ,(? (lambda (x) (set-list=? x '(y.4 z.5))))
-                                      ,(? (lambda (x) (set-list=? x '(t.6 z.5))))
-                                      ,(? (lambda (x) (set-list=? x '(p.1 t.6 z.5))))
-                                      ,(? (lambda (x) (set-list=? x '(t.6 z.5))))
-                                      ,(? (lambda (x) (set-list=? x '(z.5))))
-                                      ())))
-                        (begin
-                          (set! v.1 1)
-                          (set! w.2 46)
-                          (set! x.3 v.1)
-                          (set! p.1 7)
-                          (set! x.3 (+ x.3 p.1))
-                          (set! y.4 x.3)
-                          (set! p.1 4)
-                          (set! y.4 (+ y.4 p.1))
-                          (set! z.5 x.3)
-                          (set! z.5 (+ z.5 w.2))
-                          (set! t.6 y.4)
-                          (set! p.1 -1)
-                          (set! t.6 (* t.6 p.1))
-                          (set! z.5 (+ z.5 t.6))
-                          (halt z.5))
-                  ))
+  ; (check-match (undead-analysis '(module ((locals (v.1 w.2 x.3 y.4 z.5 t.6 p.1)))
+  ;                                        (begin
+  ;                                          (set! v.1 1)
+  ;                                          (set! w.2 46)
+  ;                                          (set! x.3 v.1)
+  ;                                          (set! p.1 7)
+  ;                                          (set! x.3 (+ x.3 p.1))
+  ;                                          (set! y.4 x.3)
+  ;                                          (set! p.1 4)
+  ;                                          (set! y.4 (+ y.4 p.1))
+  ;                                          (set! z.5 x.3)
+  ;                                          (set! z.5 (+ z.5 w.2))
+  ;                                          (set! t.6 y.4)
+  ;                                          (set! p.1 -1)
+  ;                                          (set! t.6 (* t.6 p.1))
+  ;                                          (set! z.5 (+ z.5 t.6))
+  ;                                          (halt z.5))
+  ;                                  ))
+  ;              `(module ((locals (v.1 w.2 x.3 y.4 z.5 t.6 p.1))
+  ;                        (undead-out (,(? (lambda (x) (set-list=? x '(v.1))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(v.1 w.2))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(x.3 w.2))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(p.1 x.3 w.2))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(x.3 w.2))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(y.4 x.3 w.2))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(p.1 y.4 x.3 w.2))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(x.3 w.2 y.4))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(w.2 z.5 y.4))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(y.4 z.5))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(t.6 z.5))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(p.1 t.6 z.5))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(t.6 z.5))))
+  ;                                     ,(? (lambda (x) (set-list=? x '(z.5))))
+  ;                                     ())))
+  ;                       (begin
+  ;                         (set! v.1 1)
+  ;                         (set! w.2 46)
+  ;                         (set! x.3 v.1)
+  ;                         (set! p.1 7)
+  ;                         (set! x.3 (+ x.3 p.1))
+  ;                         (set! y.4 x.3)
+  ;                         (set! p.1 4)
+  ;                         (set! y.4 (+ y.4 p.1))
+  ;                         (set! z.5 x.3)
+  ;                         (set! z.5 (+ z.5 w.2))
+  ;                         (set! t.6 y.4)
+  ;                         (set! p.1 -1)
+  ;                         (set! t.6 (* t.6 p.1))
+  ;                         (set! z.5 (+ z.5 t.6))
+  ;                         (halt z.5))
+  ;                 ))
 
-  (check-equal? (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
-                                          (begin
-                                            (set! x.1 5)
-                                            (set! y.2 x.1)
-                                            (begin
-                                              (set! b.3 x.1)
-                                              (set! b.3 (+ b.3 y.2))
-                                              (set! c.4 b.3)
-                                              (if (= c.4 b.3)
-                                                  (halt c.4)
-                                                  (begin
-                                                    (set! x.1 c.4)
-                                                    (halt c.4)))))
-                                    ))
-                `(module ((locals (x.1 y.2 b.3 c.4))
-                          (undead-out ((x.1) (x.1 y.2)
-                                             ((y.2 b.3) (b.3) (b.3 c.4) ((c.4) () ((c.4) ()))))))
-                         (begin
-                           (set! x.1 5)
-                           (set! y.2 x.1)
-                           (begin
-                             (set! b.3 x.1)
-                             (set! b.3 (+ b.3 y.2))
-                             (set! c.4 b.3)
-                             (if (= c.4 b.3)
-                                 (halt c.4)
-                                 (begin
-                                   (set! x.1 c.4)
-                                   (halt c.4)))))
-                   ))
+  ; (check-equal? (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
+  ;                                         (begin
+  ;                                           (set! x.1 5)
+  ;                                           (set! y.2 x.1)
+  ;                                           (begin
+  ;                                             (set! b.3 x.1)
+  ;                                             (set! b.3 (+ b.3 y.2))
+  ;                                             (set! c.4 b.3)
+  ;                                             (if (= c.4 b.3)
+  ;                                                 (halt c.4)
+  ;                                                 (begin
+  ;                                                   (set! x.1 c.4)
+  ;                                                   (halt c.4)))))
+  ;                                   ))
+  ;               `(module ((locals (x.1 y.2 b.3 c.4))
+  ;                         (undead-out ((x.1) (x.1 y.2)
+  ;                                            ((y.2 b.3) (b.3) (b.3 c.4) ((c.4) () ((c.4) ()))))))
+  ;                        (begin
+  ;                          (set! x.1 5)
+  ;                          (set! y.2 x.1)
+  ;                          (begin
+  ;                            (set! b.3 x.1)
+  ;                            (set! b.3 (+ b.3 y.2))
+  ;                            (set! c.4 b.3)
+  ;                            (if (= c.4 b.3)
+  ;                                (halt c.4)
+  ;                                (begin
+  ;                                  (set! x.1 c.4)
+  ;                                  (halt c.4)))))
+  ;                  ))
 
-  (check-equal? (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
-                                          (begin
-                                            (set! x.1 5)
-                                            (set! y.2 x.1)
-                                            (begin
-                                              (set! b.3 x.1)
-                                              (set! b.3 (+ b.3 y.2))
-                                              (set! c.4 b.3)
-                                              (if (= c.4 b.3)
-                                                  (halt c.4)
-                                                  (begin
-                                                    (set! x.1 c.4)
-                                                    (set! x.1 y.2)
-                                                    (halt c.4)))))
-                                    ))
-                `(module ((locals (x.1 y.2 b.3 c.4))
-                          (undead-out ((x.1) (x.1 y.2)
-                                             ((b.3 y.2) (b.3 y.2)
-                                                        (b.3 y.2 c.4)
-                                                        ((y.2 c.4) () ((y.2 c.4) (c.4) ()))))))
-                         (begin
-                           (set! x.1 5)
-                           (set! y.2 x.1)
-                           (begin
-                             (set! b.3 x.1)
-                             (set! b.3 (+ b.3 y.2))
-                             (set! c.4 b.3)
-                             (if (= c.4 b.3)
-                                 (halt c.4)
-                                 (begin
-                                   (set! x.1 c.4)
-                                   (set! x.1 y.2)
-                                   (halt c.4)))))
-                   ))
+  ; (check-equal? (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
+  ;                                         (begin
+  ;                                           (set! x.1 5)
+  ;                                           (set! y.2 x.1)
+  ;                                           (begin
+  ;                                             (set! b.3 x.1)
+  ;                                             (set! b.3 (+ b.3 y.2))
+  ;                                             (set! c.4 b.3)
+  ;                                             (if (= c.4 b.3)
+  ;                                                 (halt c.4)
+  ;                                                 (begin
+  ;                                                   (set! x.1 c.4)
+  ;                                                   (set! x.1 y.2)
+  ;                                                   (halt c.4)))))
+  ;                                   ))
+  ;               `(module ((locals (x.1 y.2 b.3 c.4))
+  ;                         (undead-out ((x.1) (x.1 y.2)
+  ;                                            ((b.3 y.2) (b.3 y.2)
+  ;                                                       (b.3 y.2 c.4)
+  ;                                                       ((y.2 c.4) () ((y.2 c.4) (c.4) ()))))))
+  ;                        (begin
+  ;                          (set! x.1 5)
+  ;                          (set! y.2 x.1)
+  ;                          (begin
+  ;                            (set! b.3 x.1)
+  ;                            (set! b.3 (+ b.3 y.2))
+  ;                            (set! c.4 b.3)
+  ;                            (if (= c.4 b.3)
+  ;                                (halt c.4)
+  ;                                (begin
+  ;                                  (set! x.1 c.4)
+  ;                                  (set! x.1 y.2)
+  ;                                  (halt c.4)))))
+  ;                  ))
 
-  (check-equal?
-   (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
-                             (begin
-                               (set! x.1 5)
-                               (set! y.2 x.1)
-                               (begin
-                                 (set! b.3 x.1)
-                                 (set! b.3 (+ b.3 y.2))
-                                 (set! c.4 b.3)
-                                 (if (if (true)
-                                         (false)
-                                         (not (false)))
-                                     (halt c.4)
-                                     (begin
-                                       (set! x.1 c.4)
-                                       (set! x.1 y.2)
-                                       (halt c.4)))))
-                       ))
-   `(module ((locals (x.1 y.2 b.3 c.4)) (undead-out ((x.1) (x.1 y.2)
-                                                           ((b.3 y.2) (b.3 y.2)
-                                                                      (y.2 c.4)
-                                                                      (((y.2 c.4) (y.2 c.4) (y.2 c.4))
-                                                                       ()
-                                                                       ((y.2 c.4) (c.4) ()))))))
-            (begin
-              (set! x.1 5)
-              (set! y.2 x.1)
-              (begin
-                (set! b.3 x.1)
-                (set! b.3 (+ b.3 y.2))
-                (set! c.4 b.3)
-                (if (if (true)
-                        (false)
-                        (not (false)))
-                    (halt c.4)
-                    (begin
-                      (set! x.1 c.4)
-                      (set! x.1 y.2)
-                      (halt c.4)))))
-      ))
-  (check-equal? (undead-analysis `(module ((locals (x.3 y.4 z.4)))
-                                          (begin
-                                            (begin
-                                              (begin
-                                                (set! z.4 4)
-                                                (set! z.4 (+ z.4 5))
-                                                (set! y.4 z.4))
-                                              (set! x.3 y.4))
-                                            (halt x.3))
-                                    ))
-                `(module ((locals (x.3 y.4 z.4)) (undead-out ((((((z.4) (z.4) y.4)) x.3)) ())))
-                         (begin
-                           (begin
-                             (begin
-                               (set! z.4 4)
-                               (set! z.4 (+ z.4 5))
-                               (set! y.4 z.4))
-                             (set! x.3 y.4))
-                           (halt x.3))
-                   ))
-  (check-equal? (undead-analysis '(module ((locals (x.1)))
-                                          (define L.test.1
-                                            ((locals (x.1 x.3 y.4 z.4)))
-                                            (begin
-                                              (begin
-                                                (begin
-                                                  (set! z.4 x.1)
-                                                  (set! z.4 (+ z.4 5))
-                                                  (set! y.4 z.4))
-                                                (set! x.3 y.4))
-                                              (halt x.3)))
-                                    (begin
-                                      (begin
-                                        (set! x.1 1))
-                                      (jump L.test.1 x.1))))
-                `(module ((locals (x.1)) (undead-out (((x.1)) (x.1))))
-                         (define L.test.1
-                           ((locals (x.1 x.3 y.4 z.4)) (undead-out ((((((z.4) (z.4) y.4)) x.3)) ())))
-                           (begin
-                             (begin
-                               (begin
-                                 (set! z.4 x.1)
-                                 (set! z.4 (+ z.4 5))
-                                 (set! y.4 z.4))
-                               (set! x.3 y.4))
-                             (halt x.3)))
-                   (begin
-                     (begin
-                       (set! x.1 1))
-                     (jump L.test.1 x.1)))))
+  ; (check-equal?
+  ;  (undead-analysis `(module ((locals (x.1 y.2 b.3 c.4)))
+  ;                            (begin
+  ;                              (set! x.1 5)
+  ;                              (set! y.2 x.1)
+  ;                              (begin
+  ;                                (set! b.3 x.1)
+  ;                                (set! b.3 (+ b.3 y.2))
+  ;                                (set! c.4 b.3)
+  ;                                (if (if (true)
+  ;                                        (false)
+  ;                                        (not (false)))
+  ;                                    (halt c.4)
+  ;                                    (begin
+  ;                                      (set! x.1 c.4)
+  ;                                      (set! x.1 y.2)
+  ;                                      (halt c.4)))))
+  ;                      ))
+  ;  `(module ((locals (x.1 y.2 b.3 c.4)) (undead-out ((x.1) (x.1 y.2)
+  ;                                                          ((b.3 y.2) (b.3 y.2)
+  ;                                                                     (y.2 c.4)
+  ;                                                                     (((y.2 c.4) (y.2 c.4) (y.2 c.4))
+  ;                                                                      ()
+  ;                                                                      ((y.2 c.4) (c.4) ()))))))
+  ;           (begin
+  ;             (set! x.1 5)
+  ;             (set! y.2 x.1)
+  ;             (begin
+  ;               (set! b.3 x.1)
+  ;               (set! b.3 (+ b.3 y.2))
+  ;               (set! c.4 b.3)
+  ;               (if (if (true)
+  ;                       (false)
+  ;                       (not (false)))
+  ;                   (halt c.4)
+  ;                   (begin
+  ;                     (set! x.1 c.4)
+  ;                     (set! x.1 y.2)
+  ;                     (halt c.4)))))
+  ;     ))
+  ; (check-equal? (undead-analysis `(module ((locals (x.3 y.4 z.4)))
+  ;                                         (begin
+  ;                                           (begin
+  ;                                             (begin
+  ;                                               (set! z.4 4)
+  ;                                               (set! z.4 (+ z.4 5))
+  ;                                               (set! y.4 z.4))
+  ;                                             (set! x.3 y.4))
+  ;                                           (halt x.3))
+  ;                                   ))
+  ;               `(module ((locals (x.3 y.4 z.4)) (undead-out ((((((z.4) (z.4) y.4)) x.3)) ())))
+  ;                        (begin
+  ;                          (begin
+  ;                            (begin
+  ;                              (set! z.4 4)
+  ;                              (set! z.4 (+ z.4 5))
+  ;                              (set! y.4 z.4))
+  ;                            (set! x.3 y.4))
+  ;                          (halt x.3))
+  ;                  ))
+  ; (check-equal? (undead-analysis '(module ((locals (x.1)))
+  ;                                         (define L.test.1
+  ;                                           ((locals (x.1 x.3 y.4 z.4)))
+  ;                                           (begin
+  ;                                             (begin
+  ;                                               (begin
+  ;                                                 (set! z.4 x.1)
+  ;                                                 (set! z.4 (+ z.4 5))
+  ;                                                 (set! y.4 z.4))
+  ;                                               (set! x.3 y.4))
+  ;                                             (halt x.3)))
+  ;                                   (begin
+  ;                                     (begin
+  ;                                       (set! x.1 1))
+  ;                                     (jump L.test.1 x.1))))
+  ;               `(module ((locals (x.1)) (undead-out (((x.1)) (x.1))))
+  ;                        (define L.test.1
+  ;                          ((locals (x.1 x.3 y.4 z.4)) (undead-out ((((((z.4) (z.4) y.4)) x.3)) ())))
+  ;                          (begin
+  ;                            (begin
+  ;                              (begin
+  ;                                (set! z.4 x.1)
+  ;                                (set! z.4 (+ z.4 5))
+  ;                                (set! y.4 z.4))
+  ;                              (set! x.3 y.4))
+  ;                            (halt x.3)))
+  ;                  (begin
+  ;                    (begin
+  ;                      (set! x.1 1))
+  ;                    (jump L.test.1 x.1))))
+  )

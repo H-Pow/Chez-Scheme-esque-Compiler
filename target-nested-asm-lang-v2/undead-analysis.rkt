@@ -17,7 +17,7 @@
               ;(set-union (unbox call-undead-box) s)
               ))
 
-  (define (analyze-defintiions def)
+  (define (analyze-definitions def)
     (match def
       [`(define ,label
           ,info
@@ -153,7 +153,7 @@
                            (first ust)))
                'call-undead
                (set->list (unbox call-undead-box)))
-              ,@(map analyze-defintiions definitions)
+              ,@(map analyze-definitions definitions)
         ,tail)]))
 
 #|

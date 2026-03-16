@@ -46,14 +46,11 @@
     (check-equal? (func in) expected))
   (define-syntax-rule (check-resolve-predicates bpl4 expected)
     (check resolve-predicates bpl4 expected))
-  (define-syntax-rule (check-by-interp bpl4)
-    (check-equal? (interp-block-pred-lang-v5 bpl5)
-                  (interp-block-asm-lang-v4 (resolve-predicates bpl5))))
-  (define-syntax-rule (check-by-interp-v6 p)
+  (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-block-pred-lang-v6 p) (interp-block-asm-lang-v6 (resolve-predicates p))))
 
   ;; M6 tests; Added by Trevor on March 6th 2026, at most one binding per let
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -422317085)
@@ -61,7 +58,7 @@
                                    (set! r14 r14)
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -118,7 +115,7 @@
                              (set! rdi -9223372036854775808)
                              (set! r15 r15)
                              (jump L.proc.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -1418594624)
@@ -155,7 +152,7 @@
                              (set! r14 (- r14 r14))
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 824269768)
@@ -221,7 +218,7 @@
                            (begin
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -356902212)
@@ -229,7 +226,7 @@
                                    (set! r14 (+ r14 9223372036854775807))
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -255,7 +252,7 @@
                            (begin
                              (set! rax 0)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1588211020)
@@ -344,7 +341,7 @@
                            (begin
                              (set! rax -9223372036854775808)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -376,7 +373,7 @@
                              (set! rdi -508654129)
                              (set! r15 r15)
                              (jump L.func.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -391,7 +388,7 @@
                            (begin
                              (set! rax -1579825632)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! r9 1)
@@ -435,12 +432,12 @@
                              (set! rdi r13)
                              (set! r15 r15)
                              (jump L.x.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! rax 1)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -520,7 +517,7 @@
                              (set! rdi 1)
                              (set! r15 r15)
                              (jump L.fn.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.15
+  (check-by-interp '(module (define L.__main.15
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -592,7 +589,7 @@
                            (if (> r14 1)
                                (jump L.__nested.2)
                                (jump L.__nested.1)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! (rbp - 0) 1)
@@ -624,7 +621,7 @@
                                    (set! r15 r15)
                                    (jump L.tmp.0.1)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! (rbp - 0) 1)
@@ -679,7 +676,7 @@
                              (set! r13 (rbp - 0))
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -723,7 +720,7 @@
                              (set! rdi r13)
                              (set! r15 r15)
                              (jump L.func.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! r8 1653803490)
@@ -744,7 +741,7 @@
                                    (set! rax 1)
                                    (jump r15)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! rax 1)
@@ -782,7 +779,7 @@
                              (set! r15 r15)
                              (set! r15 r15)
                              (jump L.tmp.2.3)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! rcx 1259250868)
@@ -817,7 +814,7 @@
                              (set! r14 (- r14 0))
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! rsi 169577204)
@@ -872,7 +869,7 @@
                              (if (= r14 (rbp - 8))
                                  (jump L.__nested.5)
                                  (jump L.__nested.6))))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -929,7 +926,7 @@
                              (set! rdi 1)
                              (set! r15 r15)
                              (jump L.proc.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r8 0)
@@ -965,7 +962,7 @@
                              (set! r13 (+ r13 r14))
                              (set! rax r13)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! rcx 9223372036854775807)
@@ -999,7 +996,7 @@
                              (set! rdi -1950262775)
                              (set! r15 r15)
                              (jump L.x.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! (rbp - 0) r15)
                                    (set! r15 1326448876)
@@ -1020,7 +1017,7 @@
                                    (set! r15 r15)
                                    (jump L.tmp.0.1)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -1028,7 +1025,7 @@
                                    (set! r14 r14)
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.13
+  (check-by-interp '(module (define L.__main.13
                                  (begin
                                    (set! (rbp - 0) r15)
                                    (set! rbp (- rbp 16))
@@ -1153,7 +1150,7 @@
                              (if (false)
                                  (jump L.tmp.11)
                                  (jump L.tmp.12))))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r8 1)
@@ -1230,7 +1227,7 @@
                              (set! rdi 0)
                              (set! r15 r15)
                              (jump L.fn.2.3)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 977777990)
@@ -1285,7 +1282,7 @@
                            (if (>= r8 1408489810)
                                (jump L.__nested.8)
                                (jump L.__nested.9)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! rdx 0)
@@ -1332,7 +1329,7 @@
                              (if (false)
                                  (jump L.__nested.4)
                                  (jump L.__nested.5))))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! rdi 0)
@@ -1379,7 +1376,7 @@
                              (set! r14 rdi)
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -1471,7 +1468,7 @@
                              (set! r14 r14)
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -1491,7 +1488,7 @@
                              (set! r14 r13)
                              (set! rax 1974766267)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.8
+  (check-by-interp '(module (define L.__main.8
                                  (begin
                                    (set! (rbp - 0) r15)
                                    (set! rbp (- rbp 8))
@@ -1549,7 +1546,7 @@
                              (set! rdi 9223372036854775807)
                              (set! r15 L.rp.3)
                              (jump L.x.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -1379426851)
@@ -1569,7 +1566,7 @@
                                    (set! rax r14)
                                    (jump r15)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -1766715399)
@@ -1615,7 +1612,7 @@
                              (set! r14 r14)
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.13
+  (check-by-interp '(module (define L.__main.13
                                  (begin
                                    (set! (rbp - 0) r15)
                                    (set! r15 1)
@@ -1703,7 +1700,7 @@
                            (if (!= r15 r15)
                                (jump L.tmp.6)
                                (jump L.tmp.7)))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -1769,7 +1766,7 @@
                              (set! rdi r14)
                              (set! r15 r15)
                              (jump L.x.2.3)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -1836,7 +1833,7 @@
                              (set! rdi -1927041153)
                              (set! r15 (rbp - 0))
                              (jump L.x.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! rsi 698097472)
@@ -1865,7 +1862,7 @@
                              (set! rdi r13)
                              (set! r15 r15)
                              (jump L.tmp.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! (rbp - 0) r15)
                                    (set! rbp (- rbp 8))
@@ -1902,7 +1899,7 @@
                              (if (false)
                                  (jump L.__nested.3)
                                  (jump L.__nested.4))))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! (rbp - 0) r15)
                                    (set! rbp (- rbp 8))
@@ -1968,7 +1965,7 @@
                              (set! r15 r15)
                              (set! rax 1)
                              (jump (rbp - 0))))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -1293429216)
@@ -2043,7 +2040,7 @@
                              (set! rdi r14)
                              (set! r15 r15)
                              (jump L.x.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -2141,7 +2138,7 @@
                              (set! rdi r14)
                              (set! r15 r15)
                              (jump L.proc.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 480297521)
@@ -2201,7 +2198,7 @@
                              (if (>= r14 1434817833)
                                  (jump L.__nested.4)
                                  (jump L.__nested.5))))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -2282,7 +2279,7 @@
   ;;
 
   ;; M6 tests; Added by Trevor on March 6th 2026, multiple bindings allowed per let
-  (check-by-interp-v6 '(module (define L.__main.10
+  (check-by-interp '(module (define L.__main.10
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -2352,7 +2349,7 @@
                              (if (false)
                                  (jump L.__nested.6)
                                  (jump L.__nested.7))))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -2380,7 +2377,7 @@
                                    (set! r15 r15)
                                    (jump L.fn.0.1)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -2441,14 +2438,14 @@
                            (begin
                              (set! rax -9223372036854775808)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -1640821439)
                                    (set! r14 (+ r14 -406700566))
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -477286222)
@@ -2485,7 +2482,7 @@
                              (set! rdi 933807622)
                              (set! r15 r15)
                              (jump L.x.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -2557,7 +2554,7 @@
                              (if (= r15 r15)
                                  (jump L.__nested.8)
                                  (jump L.__nested.9))))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -2572,7 +2569,7 @@
                            (begin
                              (set! rax 9223372036854775807)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! rcx 9223372036854775807)
@@ -2654,7 +2651,7 @@
                            (begin
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -2734,12 +2731,12 @@
                            (begin
                              (set! rax 0)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! rax 9223372036854775807)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -2857,7 +2854,7 @@
                              (set! rdi r14)
                              (set! r15 r15)
                              (jump L.func.2.3)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 405359082)
@@ -2980,7 +2977,7 @@
                              (set! rdi -9223372036854775808)
                              (set! r15 r15)
                              (jump L.fn.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -3062,7 +3059,7 @@
                              (set! rdi (rbp - 16))
                              (set! r15 (rbp - 8))
                              (jump L.x.2.3)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -3094,7 +3091,7 @@
                            (begin
                              (set! rax 0)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -3122,7 +3119,7 @@
                              (set! rdi 1)
                              (set! r15 r15)
                              (jump L.proc.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1550347185)
@@ -3134,7 +3131,7 @@
                                    (set! r13 (- r13 r14))
                                    (set! rax r13)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -3219,7 +3216,7 @@
                              (if (> r15 (rbp - 8))
                                  (jump L.__nested.8)
                                  (jump L.__nested.9))))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -3272,14 +3269,14 @@
                              (set! rdi 1)
                              (set! r15 r15)
                              (jump L.tmp.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
                                    (set! r14 1)
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r9 -9223372036854775808)
@@ -3331,7 +3328,7 @@
                            (begin
                              (set! r15 r15)
                              (jump L.func.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! rax 1)
@@ -3358,21 +3355,21 @@
                              (set! r14 (- r14 r13))
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -550916464)
                                    (set! r14 9223372036854775807)
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
                                    (set! r14 (- r14 1))
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -3438,7 +3435,7 @@
                            (begin
                              (set! rax 874915829)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.8
+  (check-by-interp '(module (define L.__main.8
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -534391580)
@@ -3579,7 +3576,7 @@
                            (begin
                              (set! rax 0)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -1762920629)
@@ -3587,7 +3584,7 @@
                                    (set! r14 9223372036854775807)
                                    (set! rax 0)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1038395452)
@@ -3619,7 +3616,7 @@
                            (begin
                              (set! rax 717010255)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -3654,7 +3651,7 @@
                              (if (true)
                                  (jump L.__nested.5)
                                  (jump L.__nested.6))))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -3679,7 +3676,7 @@
                              (if (true)
                                  (jump L.__nested.3)
                                  (jump L.__nested.4))))))
-  (check-by-interp-v6 '(module (define L.__main.6
+  (check-by-interp '(module (define L.__main.6
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -3732,7 +3729,7 @@
                            (begin
                              (set! rax 1)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! rax -167685894)
@@ -3753,7 +3750,7 @@
                                    (set! r15 r15)
                                    (jump L.fn.0.1)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.4
+  (check-by-interp '(module (define L.__main.4
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1962527269)
@@ -3809,7 +3806,7 @@
                              (set! rdi r14)
                              (set! r15 r15)
                              (jump L.func.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! rdi 733499244)
@@ -3839,7 +3836,7 @@
                              (set! rdi 9223372036854775807)
                              (set! r15 r15)
                              (jump L.func.0.1)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1830309714)
@@ -3911,7 +3908,7 @@
                              (set! rdi r15)
                              (set! r15 (rbp - 0))
                              (jump L.x.2.3)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! rax -575594324)
@@ -3948,7 +3945,7 @@
                              (set! r14 rdi)
                              (set! r15 r15)
                              (jump L.func.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.7
+  (check-by-interp '(module (define L.__main.7
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 0)
@@ -4011,7 +4008,7 @@
                              (if (false)
                                  (jump L.__nested.5)
                                  (jump L.__nested.6))))))
-  (check-by-interp-v6 '(module (define L.__main.8
+  (check-by-interp '(module (define L.__main.8
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1973720366)
@@ -4132,7 +4129,7 @@
                              (set! rdi 9223372036854775807)
                              (set! r15 r15)
                              (jump L.tmp.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r9 1521957632)
@@ -4140,7 +4137,7 @@
                                    (set! r14 -9223372036854775808)
                                    (set! rax 0)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -4153,7 +4150,7 @@
                                    (set! r13 r13)
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1)
@@ -4169,7 +4166,7 @@
                                    (set! r13 1648274049)
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.2
+  (check-by-interp '(module (define L.__main.2
                                  (begin
                                    (set! r15 r15)
                                    (set! rax 0)
@@ -4184,7 +4181,7 @@
                                    (set! r15 r15)
                                    (jump L.func.0.1)))
                          ))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)
@@ -4199,7 +4196,7 @@
                            (begin
                              (set! rax 9223372036854775807)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r9 0)
@@ -4301,7 +4298,7 @@
                              (set! rdi r14)
                              (set! r15 r15)
                              (jump L.func.1.2)))))
-  (check-by-interp-v6 '(module (define L.__main.5
+  (check-by-interp '(module (define L.__main.5
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 9223372036854775807)
@@ -4334,7 +4331,7 @@
                              (set! r14 r14)
                              (set! rax r14)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.3
+  (check-by-interp '(module (define L.__main.3
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 1069510162)
@@ -4349,19 +4346,19 @@
                            (begin
                              (set! rax 323863587)
                              (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 379335310)
                                    (set! r14 (* r14 0))
                                    (set! rax r14)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! rax 0)
                                    (jump r15)))))
-  (check-by-interp-v6 '(module (define L.__main.1
+  (check-by-interp '(module (define L.__main.1
                                  (begin
                                    (set! r15 r15)
                                    (set! r14 -9223372036854775808)

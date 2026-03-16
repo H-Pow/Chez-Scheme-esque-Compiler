@@ -22,7 +22,6 @@
          resolve-predicates
          flatten-program
          patch-instructions
-
          generate-x64)
 
 ;; TODO: Fill in.
@@ -50,7 +49,6 @@
                 patch-instructions
                 generate-x64)
   (values values
-          values
           values
           values
           values

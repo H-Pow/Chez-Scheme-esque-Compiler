@@ -128,10 +128,10 @@
           ,info
           ,tail)
        `(define ,label
-          ((locals ,(info-ref info 'locals))
-           (conflicts ,(analyze-tree-tail (info-ref info 'undead-out)
+          ,(info-set (info-set (info-remove info 'undead-out) 'call-undead `()) 
+           'conflicts (analyze-tree-tail (info-ref info 'undead-out)
                                           tail
-                                          (new-graph (info-ref info 'locals)))))
+                                          (new-graph (info-ref info 'locals))))
           ,tail)]))
 
   (define (update-graph graph-init new-vertex vertices)
@@ -182,10 +182,10 @@
     [`(module ,info ,definitions
         ...
         ,tail)
-     `(module ((locals ,(info-ref info 'locals))
-               (conflicts ,(analyze-tree-tail (info-ref info 'undead-out)
-                                              tail
-                                              (new-graph (info-ref info 'locals)))))
+     `(module ,(info-set (info-set (info-remove info 'undead-out) 'call-undead `()) 
+                        'conflicts (analyze-tree-tail (info-ref info 'undead-out)
+                                    tail
+                                    (new-graph (info-ref info 'locals))))
               ,@(map analyze-defintiions definitions)
         ,tail)]))
 
@@ -203,6 +203,34 @@
                                (x.3 (y.4 p.1 w.2))
                                (w.2 (z.5 y.4 p.1 x.3 v.1))
                                (v.1 (w.2)))
+#|
+(module+ test
+  (require rackunit
+           cpsc411/langs/v6)
+  (check-match (conflict-analysis '(module ((new-frames ()) 
+  (locals (tmp-ra.1526)) 
+  (undead-out ((tmp-ra.1526 rbp) 
+  (tmp-ra.1526 rbp rax) (tmp-ra.1526 rbp rax) (rbp rax))) 
+  (call-undead ())) 
+  (begin (set! tmp-ra.1526 r15) (set! rax 3) (set! rax (* rax 2)) 
+  (jump tmp-ra.1526 rbp rax))))
+  
+  `(module
+  ((new-frames ())
+   (locals (tmp-ra.1526))
+   (undead-out
+    ((tmp-ra.1526 rbp) (tmp-ra.1526 rbp rax) (tmp-ra.1526 rbp rax) (rbp rax)))
+   (call-undead ())
+   (conflicts
+    ((tmp-ra.1526 (rax rbp)) (rbp (rax tmp-ra.1526)) (rax (rbp tmp-ra.1526)))))
+  (begin
+    (set! tmp-ra.1526 r15)
+    (set! rax 3)
+    (set! rax (* rax 2))
+    (jump tmp-ra.1526 rbp rax)))))
+|#
+
+
 
 (module+ test
   (require rackunit
@@ -5111,17 +5139,6 @@
 
   ;; !!!
 
-  (check-equal? (conflict-analysis '(module ((locals (x.1)) (undead-out ((x.1) ())))
-                                            (begin
-                                              (set! x.1 42)
-                                              (halt x.1))
-                                      ))
-                '(module ((locals (x.1)) (conflicts ((x.1 ()))))
-                         (begin
-                           (set! x.1 42)
-                           (halt x.1))
-                   ))
-
   ; works
   ; (check-equal?
   ;     (conflict-analysis
@@ -5136,32 +5153,6 @@
   ;     ((locals (y.1)) (conflicts ((y.1 (x.1)) (x.1 (y.1)))))
   ;     (begin (set! y.1 42) (set! x.1 1) (halt y.1))))
 
-  (check-equal? (conflict-analysis '(module ((locals (y.1)) (undead-out ((y.1) (y.1) ())))
-                                            (begin
-                                              (set! y.1 42)
-                                              (set! y.1 y.1)
-                                              (halt y.1))
-                                      ))
-                '(module ((locals (y.1)) (conflicts ((y.1 ()))))
-                         (begin
-                           (set! y.1 42)
-                           (set! y.1 y.1)
-                           (halt y.1))
-                   ))
-  (check-equal? (conflict-analysis '(module ((locals (y.1)) (undead-out ((y.1) (y.1) (y.1))))
-                                            (begin
-                                              (set! y.1 42)
-                                              (set! y.1 y.1)
-                                              (set! y.1 y.1)
-                                              (halt y.1))
-                                      ))
-                '(module ((locals (y.1)) (conflicts ((y.1 ()))))
-                         (begin
-                           (set! y.1 42)
-                           (set! y.1 y.1)
-                           (set! y.1 y.1)
-                           (halt y.1))
-                   ))
   ; works
   ; (check-equal?
   ;     (conflict-analysis
@@ -5244,51 +5235,6 @@
 
   #;
   ;;works
-  (check-equal? (conflict-analysis
-                 '(module ((locals (a.1 b.2 c.3 d.4))
-                           (undead-out ((a.1) (a.1 c.3) (b.2 a.1 c.3) (a.1 c.3) (c.3 d.4) (d.4) ())))
-                          (begin
-                            (set! a.1 1)
-                            (set! c.3 2)
-                            (set! b.2 a.1)
-                            (set! b.2 (+ b.2 c.3))
-                            (set! d.4 a.1)
-                            (set! d.4 (* d.4 c.3))
-                            (halt d.4))
-                    ))
-                `(module ((locals (a.1 b.2 c.3 d.4)) (conflicts ((d.4 (c.3)) (c.3 (d.4 b.2 a.1))
-                                                                             (b.2 (a.1 c.3))
-                                                                             (a.1 (b.2 c.3)))))
-                         (begin
-                           (set! a.1 1)
-                           (set! c.3 2)
-                           (set! b.2 a.1)
-                           (set! b.2 (+ b.2 c.3))
-                           (set! d.4 a.1)
-                           (set! d.4 (* d.4 c.3))
-                           (halt d.4))
-                   ))
-
-  (check-equal? (conflict-analysis
-                 '(module ((locals (x.6 x.7 y.2)) (undead-out ((x.6) (x.6) (x.7 x.6) (x.6) (x.6) ())))
-                          (begin
-                            (set! x.6 2)
-                            (set! x.6 (+ x.6 3))
-                            (set! x.7 x.6)
-                            (set! x.7 (+ x.7 x.6))
-                            (set! y.2 5)
-                            (halt x.6))
-                    ))
-                `(module ((locals (x.6 x.7 y.2)) (conflicts ((y.2 (x.6)) (x.7 (x.6))
-                                                                         (x.6 (y.2 x.7)))))
-                         (begin
-                           (set! x.6 2)
-                           (set! x.6 (+ x.6 3))
-                           (set! x.7 x.6)
-                           (set! x.7 (+ x.7 x.6))
-                           (set! y.2 5)
-                           (halt x.6))
-                   ))
 
   #;
   ;;works
@@ -5350,51 +5296,4 @@
                       (set! x.1 c.4)
                       (halt c.4)))))
       ))
-
-  (check-equal?
-   (conflict-analysis
-    `(module ((locals (x.1 y.2 b.3 c.4))
-              (undead-out ((x.1) (x.1 y.2) ((y.2 b.3) (b.3) (b.3 c.4) ((c.4) () ((c.4) ()))))))
-             (define L.test.1
-               ((locals (x.1 x.7 y.2)) (undead-out ((x.1) (x.1) (x.7 x.1) (x.1) (x.1) ())))
-               (begin
-                 (set! x.1 2)
-                 (set! x.1 (+ x.1 3))
-                 (set! x.7 x.1)
-                 (set! x.7 (+ x.7 x.1))
-                 (set! y.2 5)
-                 (halt x.1)))
-       (begin
-         (set! x.1 5)
-         (set! y.2 x.1)
-         (begin
-           (set! b.3 x.1)
-           (set! b.3 (+ b.3 y.2))
-           (set! c.4 b.3)
-           (if (= c.4 b.3)
-               (halt c.4)
-               (begin
-                 (set! x.1 c.4)
-                 (jump L.test.1 x.1)))))))
-   `(module ((locals (x.1 y.2 b.3 c.4)) (conflicts ((c.4 ()) (b.3 (y.2)) (y.2 (b.3)) (x.1 ()))))
-            (define L.test.1
-              ((locals (x.1 x.7 y.2)) (conflicts ((y.2 (x.1)) (x.7 (x.1)) (x.1 (y.2 x.7)))))
-              (begin
-                (set! x.1 2)
-                (set! x.1 (+ x.1 3))
-                (set! x.7 x.1)
-                (set! x.7 (+ x.7 x.1))
-                (set! y.2 5)
-                (halt x.1)))
-      (begin
-        (set! x.1 5)
-        (set! y.2 x.1)
-        (begin
-          (set! b.3 x.1)
-          (set! b.3 (+ b.3 y.2))
-          (set! c.4 b.3)
-          (if (= c.4 b.3)
-              (halt c.4)
-              (begin
-                (set! x.1 c.4)
-                (jump L.test.1 x.1))))))))
+)

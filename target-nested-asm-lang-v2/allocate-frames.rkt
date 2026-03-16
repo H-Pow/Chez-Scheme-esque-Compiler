@@ -1,7 +1,8 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/langs/v6)
+         cpsc411/langs/v6
+         cpsc411/info-lib)
 
 (provide allocate-frames)
 
@@ -11,28 +12,28 @@
 (define (allocate-frames p)
 
   ;; could've use a function, oh well
-  (define-syntax-rule (mymap proc lst n) (map (lambda (x) (proc x n)) lst))
+  (define-syntax-rule (mymap proc lst n)
+    (map (lambda (x) (proc x n)) lst))
 
   (define (get-size-of-frame info)
     (match-let* ([call-undead-set (info-ref info 'call-undead)]
                  [`((,_ ,call-undead-assigned-fvars) ...) (info-ref info 'assignment)]
-                 [max-fvar (foldr (lambda (curr-fvar curr-max) (max (fvar->index curr-fvar) curr-max)) 
-                            0 
-                            call-undead-assigned-fvars)])
+                 [max-fvar (foldr (lambda (curr-fvar curr-max) (max (fvar->index curr-fvar) curr-max))
+                                  0
+                                  call-undead-assigned-fvars)])
       (max (length call-undead-set) (+ 1 max-fvar))))
-  
+
   (define (get-allocation-bytes n)
     (* n (current-word-size-bytes)))
 
   (define (get-new-assignments new-frames assignments n)
-    (append (append-map (lambda (curr) (iterate-new-frame-variables curr n)) new-frames)
-            assignments))
-  
+    (append (append-map (lambda (curr) (iterate-new-frame-variables curr n)) new-frames) assignments))
+
   (define (iterate-new-frame-variables new-frames-list n)
     (for/list ([curr-fvar new-frames-list]
-                        [i (in-naturals n)])
-                `(,curr-fvar ,(make-fvar i))))
-  
+               [i (in-naturals n)])
+      `(,curr-fvar ,(make-fvar i))))
+
   (define (remove-redundant-info info)
     (info-remove (info-remove info 'call-undead) 'new-frames))
 
@@ -47,28 +48,34 @@
 
   (define (allocate-frames-def def)
     (match def
-      [`(define ,label ,info ,tail)
-        (let ([n (get-size-of-frame info)])
-          `(define ,label
-                   ,(update-info info n)
-                   ,(allocate-frames-tail tail n)))]))
+      [`(define ,label
+          ,info
+          ,tail)
+       (let ([n (get-size-of-frame info)])
+         `(define ,label
+            ,(update-info info n)
+            ,(allocate-frames-tail tail n)))]))
 
   (define (allocate-frames-pred pred n)
     (match pred
-      [`(begin ,effects ... ,pred)
-        `(begin ,@(mymap allocate-frames-effect effects n) 
-                ,(allocate-frames-pred pred n))]
-      [`(if ,preds ...)
-       `(if ,@(mymap allocate-frames-pred preds n))]
-      [`(not ,pred)
-       `(not ,(allocate-frames-pred pred n))]
+      [`(begin
+          ,effects ...
+          ,pred)
+       `(begin
+          ,@(mymap allocate-frames-effect effects n)
+          ,(allocate-frames-pred pred n))]
+      [`(if ,preds ...) `(if ,@(mymap allocate-frames-pred preds n))]
+      [`(not ,pred) `(not ,(allocate-frames-pred pred n))]
       [_ pred]))
 
   (define (allocate-frames-tail tail n)
     (match tail
-      [`(begin ,effects ... ,tail)
-       `(begin ,@(mymap allocate-frames-effect effects n) 
-               ,(allocate-frames-tail tail n))]
+      [`(begin
+          ,effects ...
+          ,tail)
+       `(begin
+          ,@(mymap allocate-frames-effect effects n)
+          ,(allocate-frames-tail tail n))]
       [`(if ,pred ,tails ...)
        `(if ,(allocate-frames-pred pred n)
             ,@(mymap allocate-frames-tail tails n))]
@@ -76,24 +83,29 @@
 
   (define (allocate-frames-effect effect n)
     (match effect
-      [`(begin ,effects ...)
-        `(begin ,@(mymap allocate-frames-effect effects n))]
+      [`(begin
+          ,effects ...)
+       `(begin
+          ,@(mymap allocate-frames-effect effects n))]
       [`(if ,pred ,effects ...)
-        `(if ,(allocate-frames-pred pred n) ,@(mymap allocate-frames-effect effects n))]
+       `(if ,(allocate-frames-pred pred n)
+            ,@(mymap allocate-frames-effect effects n))]
       [`(return-point ,label ,tail)
-        (let ([nb (get-allocation-bytes n)]
-              [fbp (current-frame-base-pointer-register)])
-        `(begin (set! ,fbp (- ,fbp ,nb))
-                (return-point ,label ,(allocate-frames-tail tail n))
-                (set! ,fbp (+ ,fbp ,nb))))]
+       (let ([nb (get-allocation-bytes n)]
+             [fbp (current-frame-base-pointer-register)])
+         `(begin
+            (set! ,fbp (- ,fbp ,nb))
+            (return-point ,label ,(allocate-frames-tail tail n))
+            (set! ,fbp (+ ,fbp ,nb))))]
       [_ effect]))
 
   (match p
-    [`(module ,info ,defs ... ,tail)
-      (let ([n (get-size-of-frame info)])
-      `(module ,(update-info info n)
-               ,@(map allocate-frames-def defs)
-               ,(allocate-frames-tail tail n)))]))
+    [`(module ,info ,defs
+        ...
+        ,tail)
+     (let ([n (get-size-of-frame info)])
+       `(module ,(update-info info n) ,@(map allocate-frames-def defs)
+          ,(allocate-frames-tail tail n)))]))
 
 (module+ test
   (require rackunit
@@ -102,450 +114,424 @@
     (check-equal? (interp-asm-pred-lang-v6/pre-framed p)
                   (interp-asm-pred-lang-v6/framed (allocate-frames p))))
 
-  
-  (check-match (allocate-frames '(module
-  ((new-frames ())
-   (locals (tmp-ra.6))
-   (call-undead ())
-   (conflicts
-    ((tmp-ra.6 (fv0 fv1 rbp))
-     (rbp (r15 fv0 fv1 tmp-ra.6))
-     (fv1 (r15 fv0 rbp tmp-ra.6))
-     (fv0 (r15 rbp fv1 tmp-ra.6))
-     (r15 (rbp fv0 fv1))))
-   (assignment ()))
-  (define L.swap.1
-    ((new-frames ((nfv.4 nfv.5)))
-     (locals (y.2 x.1 z.3 nfv.5 nfv.4))
-     (call-undead (tmp-ra.3))
-     (conflicts
-      ((y.2 (rbp tmp-ra.3 x.1 nfv.5))
-       (x.1 (y.2 rbp tmp-ra.3 fv1))
-       (tmp-ra.3 (y.2 x.1 rbp fv1 fv0 z.3 rax))
-       (z.3 (rbp tmp-ra.3))
-       (nfv.5 (r15 nfv.4 rbp y.2))
-       (nfv.4 (r15 rbp nfv.5))
-       (rax (rbp tmp-ra.3))
-       (rbp (y.2 x.1 tmp-ra.3 z.3 r15 nfv.4 nfv.5 rax))
-       (r15 (rbp nfv.4 nfv.5))
-       (fv0 (tmp-ra.3))
-       (fv1 (x.1 tmp-ra.3))))
-     (assignment ((tmp-ra.3 fv2))))
-    (begin
-      (set! tmp-ra.3 r15)
-      (set! x.1 fv0)
-      (set! y.2 fv1)
-      (if (< y.2 x.1)
-        (begin (set! rax x.1) (jump tmp-ra.3 rbp rax))
-        (begin
-          (return-point
-           L.rp.2
-           (begin
-             (set! nfv.5 x.1)
-             (set! nfv.4 y.2)
-             (set! r15 L.rp.2)
-             (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
-          (set! z.3 rax)
-          (set! rax z.3)
-          (jump tmp-ra.3 rbp rax)))))
-  (begin
-    (set! tmp-ra.6 r15)
-    (set! fv1 2)
-    (set! fv0 1)
-    (set! r15 tmp-ra.6)
-    (jump L.swap.1 rbp r15 fv0 fv1))))
-    
-  `(module
-  ((locals (tmp-ra.6))
-   (conflicts
-    ((tmp-ra.6 (fv0 fv1 rbp))
-     (rbp (r15 fv0 fv1 tmp-ra.6))
-     (fv1 (r15 fv0 rbp tmp-ra.6))
-     (fv0 (r15 rbp fv1 tmp-ra.6))
-     (r15 (rbp fv0 fv1))))
-   (assignment ()))
-  (define L.swap.1
-    ((locals (z.3 x.1 y.2))
-     (conflicts
-      ((y.2 (rbp tmp-ra.3 x.1 nfv.5))
-       (x.1 (y.2 rbp tmp-ra.3 fv1))
-       (tmp-ra.3 (y.2 x.1 rbp fv1 fv0 z.3 rax))
-       (z.3 (rbp tmp-ra.3))
-       (nfv.5 (r15 nfv.4 rbp y.2))
-       (nfv.4 (r15 rbp nfv.5))
-       (rax (rbp tmp-ra.3))
-       (rbp (y.2 x.1 tmp-ra.3 z.3 r15 nfv.4 nfv.5 rax))
-       (r15 (rbp nfv.4 nfv.5))
-       (fv0 (tmp-ra.3))
-       (fv1 (x.1 tmp-ra.3))))
-     (assignment ((nfv.4 fv3) (nfv.5 fv4) (tmp-ra.3 fv2))))
-    (begin
-      (set! tmp-ra.3 r15)
-      (set! x.1 fv0)
-      (set! y.2 fv1)
-      (if (< y.2 x.1)
-        (begin (set! rax x.1) (jump tmp-ra.3 rbp rax))
-        (begin
-          (begin
-            (set! rbp (- rbp 24))
-            (return-point
-             L.rp.2
-             (begin
-               (set! nfv.5 x.1)
-               (set! nfv.4 y.2)
-               (set! r15 L.rp.2)
-               (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
-            (set! rbp (+ rbp 24)))
-          (set! z.3 rax)
-          (set! rax z.3)
-          (jump tmp-ra.3 rbp rax)))))
-  (begin
-    (set! tmp-ra.6 r15)
-    (set! fv1 2)
-    (set! fv0 1)
-    (set! r15 tmp-ra.6)
-    (jump L.swap.1 rbp r15 fv0 fv1))))
-
-  (check-match (allocate-frames
-    `(module
-  ((new-frames ())
-   (locals (tmp-ra.4 bat.9.2 foobar.3.1 ball.2.3))
-   (call-undead ())
-   (conflicts
-    ((tmp-ra.4 (rax ball.2.3 foobar.3.1 bat.9.2 rbp))
-     (bat.9.2 (rbp tmp-ra.4))
-     (foobar.3.1 (rbp tmp-ra.4))
-     (ball.2.3 (rbp tmp-ra.4))
-     (rbp (rax ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
-     (rax (rbp tmp-ra.4))))
-   (assignment ()))
-  (begin
-    (set! tmp-ra.4 r15)
-    (set! bat.9.2 -422317085)
-    (set! foobar.3.1 bat.9.2)
-    (set! ball.2.3 foobar.3.1)
-    (set! rax foobar.3.1)
-    (jump tmp-ra.4 rbp rax))))
-
-    `(module
-  ((locals (ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
-   (conflicts
-    ((tmp-ra.4 (rax ball.2.3 foobar.3.1 bat.9.2 rbp))
-     (bat.9.2 (rbp tmp-ra.4))
-     (foobar.3.1 (rbp tmp-ra.4))
-     (ball.2.3 (rbp tmp-ra.4))
-     (rbp (rax ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
-     (rax (rbp tmp-ra.4))))
-   (assignment ()))
-  (begin
-    (set! tmp-ra.4 r15)
-    (set! bat.9.2 -422317085)
-    (set! foobar.3.1 bat.9.2)
-    (set! ball.2.3 foobar.3.1)
-    (set! rax foobar.3.1)
-    (jump tmp-ra.4 rbp rax))))
-
-  (check-match (allocate-frames `(module
-  ((new-frames ())
-   (locals (tmp.15 bar.7.6 ball.8.9))
-   (call-undead (bat.0.7 bar.7.8 tmp-ra.13))
-   (conflicts
-    ((tmp.15 (rbp tmp-ra.13 bar.7.8 bat.0.7))
-     (bat.0.7 (ball.8.9 rax bar.7.6 rbp tmp-ra.13 rsi tmp.15))
-     (tmp-ra.13 (ball.8.9 bar.7.8 bar.7.6 bat.0.7 rbp rsi rdi tmp.15 rax))
-     (bar.7.8 (ball.8.9 rax rbp tmp-ra.13 tmp.15))
-     (bar.7.6 (rbp tmp-ra.13 bat.0.7))
-     (ball.8.9 (rbp tmp-ra.13 bar.7.8 bat.0.7))
-     (rax (bar.7.8 bat.0.7 rbp tmp-ra.13))
-     (rbp (ball.8.9 r15 rdi rsi bar.7.8 bar.7.6 bat.0.7 tmp-ra.13 tmp.15 rax))
-     (rdi (r15 rbp rsi tmp-ra.13))
-     (rsi (r15 rdi rbp bat.0.7 tmp-ra.13))
-     (r15 (rbp rdi rsi))))
-   (assignment ((bat.0.7 fv1) (bar.7.8 fv1) (tmp-ra.13 fv0))))
-  (begin
-    (set! tmp-ra.13 r15)
-    (set! bat.0.7 rdi)
-    (set! bar.7.6 rsi)
-    (set! bar.7.8 bat.0.7)
-    (return-point
-     L.rp.3
-     (begin
-       (set! rsi bar.7.8)
-       (set! rdi bar.7.8)
-       (set! r15 L.rp.3)
-       (jump L.proc.1.2 rbp r15 rdi rsi)))
-    (set! ball.8.9 rax)
-    (if (begin (set! tmp.15 -59730991) (= tmp.15 bat.0.7))
-      (begin (set! rax 0) (jump tmp-ra.13 rbp rax))
-      (begin (set! rax bar.7.8) (jump tmp-ra.13 rbp rax))))))
-
-  `(module
-  ((locals (ball.8.9 bar.7.6 tmp.15))
-   (conflicts
-    ((tmp.15 (rbp tmp-ra.13 bar.7.8 bat.0.7))
-     (bat.0.7 (ball.8.9 rax bar.7.6 rbp tmp-ra.13 rsi tmp.15))
-     (tmp-ra.13 (ball.8.9 bar.7.8 bar.7.6 bat.0.7 rbp rsi rdi tmp.15 rax))
-     (bar.7.8 (ball.8.9 rax rbp tmp-ra.13 tmp.15))
-     (bar.7.6 (rbp tmp-ra.13 bat.0.7))
-     (ball.8.9 (rbp tmp-ra.13 bar.7.8 bat.0.7))
-     (rax (bar.7.8 bat.0.7 rbp tmp-ra.13))
-     (rbp (ball.8.9 r15 rdi rsi bar.7.8 bar.7.6 bat.0.7 tmp-ra.13 tmp.15 rax))
-     (rdi (r15 rbp rsi tmp-ra.13))
-     (rsi (r15 rdi rbp bat.0.7 tmp-ra.13))
-     (r15 (rbp rdi rsi))))
-   (assignment ((bat.0.7 fv1) (bar.7.8 fv1) (tmp-ra.13 fv0))))
-  (begin
-    (set! tmp-ra.13 r15)
-    (set! bat.0.7 rdi)
-    (set! bar.7.6 rsi)
-    (set! bar.7.8 bat.0.7)
-    (begin
-      (set! rbp (- rbp 24))
-      (return-point
-       L.rp.3
+  (check-match
+   (allocate-frames
+    '(module ((new-frames ()) (locals (tmp-ra.6))
+                              (call-undead ())
+                              (conflicts ((tmp-ra.6 (fv0 fv1 rbp)) (rbp (r15 fv0 fv1 tmp-ra.6))
+                                                                   (fv1 (r15 fv0 rbp tmp-ra.6))
+                                                                   (fv0 (r15 rbp fv1 tmp-ra.6))
+                                                                   (r15 (rbp fv0 fv1))))
+                              (assignment ()))
+             (define L.swap.1
+               ((new-frames ((nfv.4 nfv.5)))
+                (locals (y.2 x.1 z.3 nfv.5 nfv.4))
+                (call-undead (tmp-ra.3))
+                (conflicts ((y.2 (rbp tmp-ra.3 x.1 nfv.5))
+                            (x.1 (y.2 rbp tmp-ra.3 fv1))
+                            (tmp-ra.3 (y.2 x.1 rbp fv1 fv0 z.3 rax))
+                            (z.3 (rbp tmp-ra.3))
+                            (nfv.5 (r15 nfv.4 rbp y.2))
+                            (nfv.4 (r15 rbp nfv.5))
+                            (rax (rbp tmp-ra.3))
+                            (rbp (y.2 x.1 tmp-ra.3 z.3 r15 nfv.4 nfv.5 rax))
+                            (r15 (rbp nfv.4 nfv.5))
+                            (fv0 (tmp-ra.3))
+                            (fv1 (x.1 tmp-ra.3))))
+                (assignment ((tmp-ra.3 fv2))))
+               (begin
+                 (set! tmp-ra.3 r15)
+                 (set! x.1 fv0)
+                 (set! y.2 fv1)
+                 (if (< y.2 x.1)
+                     (begin
+                       (set! rax x.1)
+                       (jump tmp-ra.3 rbp rax))
+                     (begin
+                       (return-point L.rp.2
+                                     (begin
+                                       (set! nfv.5 x.1)
+                                       (set! nfv.4 y.2)
+                                       (set! r15 L.rp.2)
+                                       (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
+                       (set! z.3 rax)
+                       (set! rax z.3)
+                       (jump tmp-ra.3 rbp rax)))))
        (begin
-         (set! rsi bar.7.8)
-         (set! rdi bar.7.8)
-         (set! r15 L.rp.3)
-         (jump L.proc.1.2 rbp r15 rdi rsi)))
-      (set! rbp (+ rbp 24)))
-    (set! ball.8.9 rax)
-    (if (begin (set! tmp.15 -59730991) (= tmp.15 bat.0.7))
-      (begin (set! rax 0) (jump tmp-ra.13 rbp rax))
-      (begin (set! rax bar.7.8) (jump tmp-ra.13 rbp rax)))))    
-  )
+         (set! tmp-ra.6 r15)
+         (set! fv1 2)
+         (set! fv0 1)
+         (set! r15 tmp-ra.6)
+         (jump L.swap.1 rbp r15 fv0 fv1))))
+   `(module ((locals (tmp-ra.6)) (conflicts ((tmp-ra.6 (fv0 fv1 rbp)) (rbp (r15 fv0 fv1 tmp-ra.6))
+                                                                      (fv1 (r15 fv0 rbp tmp-ra.6))
+                                                                      (fv0 (r15 rbp fv1 tmp-ra.6))
+                                                                      (r15 (rbp fv0 fv1))))
+                                 (assignment ()))
+            (define L.swap.1
+              ((locals (z.3 x.1 y.2)) (conflicts ((y.2 (rbp tmp-ra.3 x.1 nfv.5))
+                                                  (x.1 (y.2 rbp tmp-ra.3 fv1))
+                                                  (tmp-ra.3 (y.2 x.1 rbp fv1 fv0 z.3 rax))
+                                                  (z.3 (rbp tmp-ra.3))
+                                                  (nfv.5 (r15 nfv.4 rbp y.2))
+                                                  (nfv.4 (r15 rbp nfv.5))
+                                                  (rax (rbp tmp-ra.3))
+                                                  (rbp (y.2 x.1 tmp-ra.3 z.3 r15 nfv.4 nfv.5 rax))
+                                                  (r15 (rbp nfv.4 nfv.5))
+                                                  (fv0 (tmp-ra.3))
+                                                  (fv1 (x.1 tmp-ra.3))))
+                                      (assignment ((nfv.4 fv3) (nfv.5 fv4) (tmp-ra.3 fv2))))
+              (begin
+                (set! tmp-ra.3 r15)
+                (set! x.1 fv0)
+                (set! y.2 fv1)
+                (if (< y.2 x.1)
+                    (begin
+                      (set! rax x.1)
+                      (jump tmp-ra.3 rbp rax))
+                    (begin
+                      (begin
+                        (set! rbp (- rbp 24))
+                        (return-point L.rp.2
+                                      (begin
+                                        (set! nfv.5 x.1)
+                                        (set! nfv.4 y.2)
+                                        (set! r15 L.rp.2)
+                                        (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
+                        (set! rbp (+ rbp 24)))
+                      (set! z.3 rax)
+                      (set! rax z.3)
+                      (jump tmp-ra.3 rbp rax)))))
+      (begin
+        (set! tmp-ra.6 r15)
+        (set! fv1 2)
+        (set! fv0 1)
+        (set! r15 tmp-ra.6)
+        (jump L.swap.1 rbp r15 fv0 fv1))))
 
-  (check-match (allocate-frames '(module
-  ((new-frames ())
-   (locals (tmp-ra.2))
-   (call-undead ())
-   (conflicts
-    ((tmp-ra.2 (rdi rsi rbp))
-     (rbp (r15 rdi rsi tmp-ra.2))
-     (rsi (r15 rdi rbp tmp-ra.2))
-     (rdi (r15 rbp rsi tmp-ra.2))
-     (r15 (rbp rdi rsi))))
-   (assignment ()))
-  (define L.swap.1
-    ((new-frames (()))
-     (locals (y.2 x.1 z.3))
-     (call-undead (tmp-ra.1))
-     (conflicts
-      ((y.2 (rbp tmp-ra.1 x.1 rsi))
-       (x.1 (y.2 rbp tmp-ra.1 rsi))
-       (tmp-ra.1 (y.2 x.1 rbp rsi rdi z.3 rax))
-       (z.3 (rbp tmp-ra.1))
-       (rax (rbp tmp-ra.1))
-       (rbp (y.2 x.1 tmp-ra.1 z.3 r15 rdi rsi rax))
-       (rsi (x.1 tmp-ra.1 r15 rdi rbp y.2))
-       (rdi (tmp-ra.1 r15 rbp rsi))
-       (r15 (rbp rdi rsi))))
-     (assignment ((tmp-ra.1 fv0))))
-    (begin
-      (set! tmp-ra.1 r15)
-      (set! x.1 rdi)
-      (set! y.2 rsi)
-      (if (< y.2 x.1)
-        (begin (set! rax x.1) (jump tmp-ra.1 rbp rax))
-        (begin
-          (return-point
-           L.rp.1
-           (begin
-             (set! rsi x.1)
-             (set! rdi y.2)
-             (set! r15 L.rp.1)
-             (jump L.swap.1 rbp r15 rdi rsi)))
-          (set! z.3 rax)
-          (set! rax z.3)
-          (jump tmp-ra.1 rbp rax)))))
-  (begin
-    (set! tmp-ra.2 r15)
-    (set! rsi 2)
-    (set! rdi 1)
-    (set! r15 tmp-ra.2)
-    (jump L.swap.1 rbp r15 rdi rsi))))
-
-  `(module
-  ((locals (tmp-ra.2))
-   (conflicts
-    ((tmp-ra.2 (rdi rsi rbp))
-     (rbp (r15 rdi rsi tmp-ra.2))
-     (rsi (r15 rdi rbp tmp-ra.2))
-     (rdi (r15 rbp rsi tmp-ra.2))
-     (r15 (rbp rdi rsi))))
-   (assignment ()))
-  (define L.swap.1
-    ((locals (z.3 x.1 y.2))
-     (conflicts
-      ((y.2 (rbp tmp-ra.1 x.1 rsi))
-       (x.1 (y.2 rbp tmp-ra.1 rsi))
-       (tmp-ra.1 (y.2 x.1 rbp rsi rdi z.3 rax))
-       (z.3 (rbp tmp-ra.1))
-       (rax (rbp tmp-ra.1))
-       (rbp (y.2 x.1 tmp-ra.1 z.3 r15 rdi rsi rax))
-       (rsi (x.1 tmp-ra.1 r15 rdi rbp y.2))
-       (rdi (tmp-ra.1 r15 rbp rsi))
-       (r15 (rbp rdi rsi))))
-     (assignment ((tmp-ra.1 fv0))))
-    (begin
-      (set! tmp-ra.1 r15)
-      (set! x.1 rdi)
-      (set! y.2 rsi)
-      (if (< y.2 x.1)
-        (begin (set! rax x.1) (jump tmp-ra.1 rbp rax))
-        (begin
-          (begin
-            (set! rbp (- rbp 8))
-            (return-point
-             L.rp.1
-             (begin
-               (set! rsi x.1)
-               (set! rdi y.2)
-               (set! r15 L.rp.1)
-               (jump L.swap.1 rbp r15 rdi rsi)))
-            (set! rbp (+ rbp 8)))
-          (set! z.3 rax)
-          (set! rax z.3)
-          (jump tmp-ra.1 rbp rax)))))
-  (begin
-    (set! tmp-ra.2 r15)
-    (set! rsi 2)
-    (set! rdi 1)
-    (set! r15 tmp-ra.2)
-    (jump L.swap.1 rbp r15 rdi rsi))))
-  
   (check-match (allocate-frames
-  '(module
-  ((new-frames ())
-   (locals (tmp-ra.6))
-   (call-undead ())
-   (conflicts
-    ((tmp-ra.6 (fv0 fv1 rbp))
-     (rbp (r15 fv0 fv1 tmp-ra.6))
-     (fv1 (r15 fv0 rbp tmp-ra.6))
-     (fv0 (r15 rbp fv1 tmp-ra.6))
-     (r15 (rbp fv0 fv1))))
-   (assignment ()))
-  (define L.swap.1
-    ((new-frames ((nfv.4 nfv.5) (nfv.2 nfv.3)))
-     (locals (y.2 x.1 z.2 nfv.3 nfv.2 z.3 nfv.5 nfv.4))
-     (call-undead (tmp-ra.1))
-     (conflicts
-      ((y.2 (rbp tmp-ra.1 x.1 nfv.5))
-       (x.1 (y.2 rbp tmp-ra.1 fv1 nfv.3))
-       (z.2 (rbp tmp-ra.1))
-       (nfv.3 (r15 nfv.2 rbp x.1))
-       (nfv.2 (r15 rbp nfv.3))
-       (tmp-ra.1 (y.2 x.1 rbp fv1 fv0 z.2 z.3 rax))
-       (z.3 (rbp tmp-ra.1))
-       (nfv.5 (r15 nfv.4 rbp y.2))
-       (nfv.4 (r15 rbp nfv.5))
-       (rax (rbp tmp-ra.1))
-       (rbp (y.2 x.1 tmp-ra.1 z.2 nfv.2 nfv.3 z.3 r15 nfv.4 nfv.5 rax))
-       (r15 (nfv.2 nfv.3 rbp nfv.4 nfv.5))
-       (fv0 (tmp-ra.1))
-       (fv1 (x.1 tmp-ra.1))))
-     (assignment ((tmp-ra.1 fv2))))
-    (begin
-      (set! tmp-ra.1 r15)
-      (set! x.1 fv0)
-      (set! y.2 fv1)
-      (if (< y.2 x.1)
-        (begin
-          (return-point L.rp.1
-            (begin
-              (set! nfv.3 y.2)
-              (set! nfv.2 x.1)
-              (set! r15 L.rp.1)
-              (jump L.swap.1 rbp r15 nfv.2 nfv.3)))
-          (set! z.2 rax)
-          (set! rax z.2)
-          (jump tmp-ra.1 rbp rax))
-        (begin
-          (return-point L.rp.2
-            (begin
-              (set! nfv.5 x.1)
-              (set! nfv.4 y.2)
-              (set! r15 L.rp.2)
-              (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
-          (set! z.3 rax)
-          (set! rax z.3)
-          (jump tmp-ra.1 rbp rax)))))
-  (begin
-    (set! tmp-ra.6 r15)
-    (set! fv1 2)
-    (set! fv0 1)
-    (set! r15 tmp-ra.6)
-    (jump L.swap.1 rbp r15 fv0 fv1))))
-  
-  '(module
-  ((locals (tmp-ra.6))
-   (conflicts
-    ((tmp-ra.6 (fv0 fv1 rbp))
-     (rbp (r15 fv0 fv1 tmp-ra.6))
-     (fv1 (r15 fv0 rbp tmp-ra.6))
-     (fv0 (r15 rbp fv1 tmp-ra.6))
-     (r15 (rbp fv0 fv1))))
-   (assignment ()))
-  (define L.swap.1
-    ((locals (z.3 z.2 x.1 y.2))
-     (conflicts
-      ((y.2 (rbp tmp-ra.1 x.1 nfv.5))
-       (x.1 (y.2 rbp tmp-ra.1 fv1 nfv.3))
-       (z.2 (rbp tmp-ra.1))
-       (nfv.3 (r15 nfv.2 rbp x.1))
-       (nfv.2 (r15 rbp nfv.3))
-       (tmp-ra.1 (y.2 x.1 rbp fv1 fv0 z.2 z.3 rax))
-       (z.3 (rbp tmp-ra.1))
-       (nfv.5 (r15 nfv.4 rbp y.2))
-       (nfv.4 (r15 rbp nfv.5))
-       (rax (rbp tmp-ra.1))
-       (rbp (y.2 x.1 tmp-ra.1 z.2 nfv.2 nfv.3 z.3 r15 nfv.4 nfv.5 rax))
-       (r15 (nfv.2 nfv.3 rbp nfv.4 nfv.5))
-       (fv0 (tmp-ra.1))
-       (fv1 (x.1 tmp-ra.1))))
-     (assignment
-      ((nfv.4 fv3) (nfv.5 fv4) (nfv.2 fv3) (nfv.3 fv4) (tmp-ra.1 fv2))))
-    (begin
-      (set! tmp-ra.1 r15)
-      (set! x.1 fv0)
-      (set! y.2 fv1)
-      (if (< y.2 x.1)
-        (begin
-          (begin
-            (set! rbp (- rbp 24))
-            (return-point L.rp.1
-              (begin
-                (set! nfv.3 y.2)
-                (set! nfv.2 x.1)
-                (set! r15 L.rp.1)
-                (jump L.swap.1 rbp r15 nfv.2 nfv.3)))
-            (set! rbp (+ rbp 24)))
-          (set! z.2 rax)
-          (set! rax z.2)
-          (jump tmp-ra.1 rbp rax))
-        (begin
-          (begin
-            (set! rbp (- rbp 24))
-            (return-point L.rp.2
-              (begin
-                (set! nfv.5 x.1)
-                (set! nfv.4 y.2)
-                (set! r15 L.rp.2)
-                (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
-            (set! rbp (+ rbp 24)))
-          (set! z.3 rax)
-          (set! rax z.3)
-          (jump tmp-ra.1 rbp rax)))))
-  (begin
-    (set! tmp-ra.6 r15)
-    (set! fv1 2)
-    (set! fv0 1)
-    (set! r15 tmp-ra.6)
-    (jump L.swap.1 rbp r15 fv0 fv1))))
+                `(module ((new-frames ()) (locals (tmp-ra.4 bat.9.2 foobar.3.1 ball.2.3))
+                                          (call-undead ())
+                                          (conflicts ((tmp-ra.4 (rax ball.2.3 foobar.3.1 bat.9.2 rbp))
+                                                      (bat.9.2 (rbp tmp-ra.4))
+                                                      (foobar.3.1 (rbp tmp-ra.4))
+                                                      (ball.2.3 (rbp tmp-ra.4))
+                                                      (rbp (rax ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
+                                                      (rax (rbp tmp-ra.4))))
+                                          (assignment ()))
+                         (begin
+                           (set! tmp-ra.4 r15)
+                           (set! bat.9.2 -422317085)
+                           (set! foobar.3.1 bat.9.2)
+                           (set! ball.2.3 foobar.3.1)
+                           (set! rax foobar.3.1)
+                           (jump tmp-ra.4 rbp rax))
+                   ))
+               `(module ((locals (ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
+                         (conflicts ((tmp-ra.4 (rax ball.2.3 foobar.3.1 bat.9.2 rbp))
+                                     (bat.9.2 (rbp tmp-ra.4))
+                                     (foobar.3.1 (rbp tmp-ra.4))
+                                     (ball.2.3 (rbp tmp-ra.4))
+                                     (rbp (rax ball.2.3 foobar.3.1 bat.9.2 tmp-ra.4))
+                                     (rax (rbp tmp-ra.4))))
+                         (assignment ()))
+                        (begin
+                          (set! tmp-ra.4 r15)
+                          (set! bat.9.2 -422317085)
+                          (set! foobar.3.1 bat.9.2)
+                          (set! ball.2.3 foobar.3.1)
+                          (set! rax foobar.3.1)
+                          (jump tmp-ra.4 rbp rax))
+                  ))
 
+  (check-match
+   (allocate-frames
+    `(module ((new-frames ())
+              (locals (tmp.15 bar.7.6 ball.8.9))
+              (call-undead (bat.0.7 bar.7.8 tmp-ra.13))
+              (conflicts ((tmp.15 (rbp tmp-ra.13 bar.7.8 bat.0.7))
+                          (bat.0.7 (ball.8.9 rax bar.7.6 rbp tmp-ra.13 rsi tmp.15))
+                          (tmp-ra.13 (ball.8.9 bar.7.8 bar.7.6 bat.0.7 rbp rsi rdi tmp.15 rax))
+                          (bar.7.8 (ball.8.9 rax rbp tmp-ra.13 tmp.15))
+                          (bar.7.6 (rbp tmp-ra.13 bat.0.7))
+                          (ball.8.9 (rbp tmp-ra.13 bar.7.8 bat.0.7))
+                          (rax (bar.7.8 bat.0.7 rbp tmp-ra.13))
+                          (rbp (ball.8.9 r15 rdi rsi bar.7.8 bar.7.6 bat.0.7 tmp-ra.13 tmp.15 rax))
+                          (rdi (r15 rbp rsi tmp-ra.13))
+                          (rsi (r15 rdi rbp bat.0.7 tmp-ra.13))
+                          (r15 (rbp rdi rsi))))
+              (assignment ((bat.0.7 fv1) (bar.7.8 fv1) (tmp-ra.13 fv0))))
+             (begin
+               (set! tmp-ra.13 r15)
+               (set! bat.0.7 rdi)
+               (set! bar.7.6 rsi)
+               (set! bar.7.8 bat.0.7)
+               (return-point L.rp.3
+                             (begin
+                               (set! rsi bar.7.8)
+                               (set! rdi bar.7.8)
+                               (set! r15 L.rp.3)
+                               (jump L.proc.1.2 rbp r15 rdi rsi)))
+               (set! ball.8.9 rax)
+               (if (begin
+                     (set! tmp.15 -59730991)
+                     (= tmp.15 bat.0.7))
+                   (begin
+                     (set! rax 0)
+                     (jump tmp-ra.13 rbp rax))
+                   (begin
+                     (set! rax bar.7.8)
+                     (jump tmp-ra.13 rbp rax))))
+       ))
+   `(module ((locals (ball.8.9 bar.7.6 tmp.15))
+             (conflicts ((tmp.15 (rbp tmp-ra.13 bar.7.8 bat.0.7))
+                         (bat.0.7 (ball.8.9 rax bar.7.6 rbp tmp-ra.13 rsi tmp.15))
+                         (tmp-ra.13 (ball.8.9 bar.7.8 bar.7.6 bat.0.7 rbp rsi rdi tmp.15 rax))
+                         (bar.7.8 (ball.8.9 rax rbp tmp-ra.13 tmp.15))
+                         (bar.7.6 (rbp tmp-ra.13 bat.0.7))
+                         (ball.8.9 (rbp tmp-ra.13 bar.7.8 bat.0.7))
+                         (rax (bar.7.8 bat.0.7 rbp tmp-ra.13))
+                         (rbp (ball.8.9 r15 rdi rsi bar.7.8 bar.7.6 bat.0.7 tmp-ra.13 tmp.15 rax))
+                         (rdi (r15 rbp rsi tmp-ra.13))
+                         (rsi (r15 rdi rbp bat.0.7 tmp-ra.13))
+                         (r15 (rbp rdi rsi))))
+             (assignment ((bat.0.7 fv1) (bar.7.8 fv1) (tmp-ra.13 fv0))))
+            (begin
+              (set! tmp-ra.13 r15)
+              (set! bat.0.7 rdi)
+              (set! bar.7.6 rsi)
+              (set! bar.7.8 bat.0.7)
+              (begin
+                (set! rbp (- rbp 24))
+                (return-point L.rp.3
+                              (begin
+                                (set! rsi bar.7.8)
+                                (set! rdi bar.7.8)
+                                (set! r15 L.rp.3)
+                                (jump L.proc.1.2 rbp r15 rdi rsi)))
+                (set! rbp (+ rbp 24)))
+              (set! ball.8.9 rax)
+              (if (begin
+                    (set! tmp.15 -59730991)
+                    (= tmp.15 bat.0.7))
+                  (begin
+                    (set! rax 0)
+                    (jump tmp-ra.13 rbp rax))
+                  (begin
+                    (set! rax bar.7.8)
+                    (jump tmp-ra.13 rbp rax))))
+      ))
 
-  ;;; Added by Trevor for M6 on March 6th 2026, single let
+  (check-match
+   (allocate-frames
+    '(module ((new-frames ()) (locals (tmp-ra.2))
+                              (call-undead ())
+                              (conflicts ((tmp-ra.2 (rdi rsi rbp)) (rbp (r15 rdi rsi tmp-ra.2))
+                                                                   (rsi (r15 rdi rbp tmp-ra.2))
+                                                                   (rdi (r15 rbp rsi tmp-ra.2))
+                                                                   (r15 (rbp rdi rsi))))
+                              (assignment ()))
+             (define L.swap.1
+               ((new-frames (()))
+                (locals (y.2 x.1 z.3))
+                (call-undead (tmp-ra.1))
+                (conflicts ((y.2 (rbp tmp-ra.1 x.1 rsi)) (x.1 (y.2 rbp tmp-ra.1 rsi))
+                                                         (tmp-ra.1 (y.2 x.1 rbp rsi rdi z.3 rax))
+                                                         (z.3 (rbp tmp-ra.1))
+                                                         (rax (rbp tmp-ra.1))
+                                                         (rbp (y.2 x.1 tmp-ra.1 z.3 r15 rdi rsi rax))
+                                                         (rsi (x.1 tmp-ra.1 r15 rdi rbp y.2))
+                                                         (rdi (tmp-ra.1 r15 rbp rsi))
+                                                         (r15 (rbp rdi rsi))))
+                (assignment ((tmp-ra.1 fv0))))
+               (begin
+                 (set! tmp-ra.1 r15)
+                 (set! x.1 rdi)
+                 (set! y.2 rsi)
+                 (if (< y.2 x.1)
+                     (begin
+                       (set! rax x.1)
+                       (jump tmp-ra.1 rbp rax))
+                     (begin
+                       (return-point L.rp.1
+                                     (begin
+                                       (set! rsi x.1)
+                                       (set! rdi y.2)
+                                       (set! r15 L.rp.1)
+                                       (jump L.swap.1 rbp r15 rdi rsi)))
+                       (set! z.3 rax)
+                       (set! rax z.3)
+                       (jump tmp-ra.1 rbp rax)))))
+       (begin
+         (set! tmp-ra.2 r15)
+         (set! rsi 2)
+         (set! rdi 1)
+         (set! r15 tmp-ra.2)
+         (jump L.swap.1 rbp r15 rdi rsi))))
+   `(module ((locals (tmp-ra.2)) (conflicts ((tmp-ra.2 (rdi rsi rbp)) (rbp (r15 rdi rsi tmp-ra.2))
+                                                                      (rsi (r15 rdi rbp tmp-ra.2))
+                                                                      (rdi (r15 rbp rsi tmp-ra.2))
+                                                                      (r15 (rbp rdi rsi))))
+                                 (assignment ()))
+            (define L.swap.1
+              ((locals (z.3 x.1 y.2))
+               (conflicts ((y.2 (rbp tmp-ra.1 x.1 rsi)) (x.1 (y.2 rbp tmp-ra.1 rsi))
+                                                        (tmp-ra.1 (y.2 x.1 rbp rsi rdi z.3 rax))
+                                                        (z.3 (rbp tmp-ra.1))
+                                                        (rax (rbp tmp-ra.1))
+                                                        (rbp (y.2 x.1 tmp-ra.1 z.3 r15 rdi rsi rax))
+                                                        (rsi (x.1 tmp-ra.1 r15 rdi rbp y.2))
+                                                        (rdi (tmp-ra.1 r15 rbp rsi))
+                                                        (r15 (rbp rdi rsi))))
+               (assignment ((tmp-ra.1 fv0))))
+              (begin
+                (set! tmp-ra.1 r15)
+                (set! x.1 rdi)
+                (set! y.2 rsi)
+                (if (< y.2 x.1)
+                    (begin
+                      (set! rax x.1)
+                      (jump tmp-ra.1 rbp rax))
+                    (begin
+                      (begin
+                        (set! rbp (- rbp 8))
+                        (return-point L.rp.1
+                                      (begin
+                                        (set! rsi x.1)
+                                        (set! rdi y.2)
+                                        (set! r15 L.rp.1)
+                                        (jump L.swap.1 rbp r15 rdi rsi)))
+                        (set! rbp (+ rbp 8)))
+                      (set! z.3 rax)
+                      (set! rax z.3)
+                      (jump tmp-ra.1 rbp rax)))))
+      (begin
+        (set! tmp-ra.2 r15)
+        (set! rsi 2)
+        (set! rdi 1)
+        (set! r15 tmp-ra.2)
+        (jump L.swap.1 rbp r15 rdi rsi))))
+
+  (check-match
+   (allocate-frames
+    '(module ((new-frames ()) (locals (tmp-ra.6))
+                              (call-undead ())
+                              (conflicts ((tmp-ra.6 (fv0 fv1 rbp)) (rbp (r15 fv0 fv1 tmp-ra.6))
+                                                                   (fv1 (r15 fv0 rbp tmp-ra.6))
+                                                                   (fv0 (r15 rbp fv1 tmp-ra.6))
+                                                                   (r15 (rbp fv0 fv1))))
+                              (assignment ()))
+             (define L.swap.1
+               ((new-frames ((nfv.4 nfv.5) (nfv.2 nfv.3)))
+                (locals (y.2 x.1 z.2 nfv.3 nfv.2 z.3 nfv.5 nfv.4))
+                (call-undead (tmp-ra.1))
+                (conflicts ((y.2 (rbp tmp-ra.1 x.1 nfv.5))
+                            (x.1 (y.2 rbp tmp-ra.1 fv1 nfv.3))
+                            (z.2 (rbp tmp-ra.1))
+                            (nfv.3 (r15 nfv.2 rbp x.1))
+                            (nfv.2 (r15 rbp nfv.3))
+                            (tmp-ra.1 (y.2 x.1 rbp fv1 fv0 z.2 z.3 rax))
+                            (z.3 (rbp tmp-ra.1))
+                            (nfv.5 (r15 nfv.4 rbp y.2))
+                            (nfv.4 (r15 rbp nfv.5))
+                            (rax (rbp tmp-ra.1))
+                            (rbp (y.2 x.1 tmp-ra.1 z.2 nfv.2 nfv.3 z.3 r15 nfv.4 nfv.5 rax))
+                            (r15 (nfv.2 nfv.3 rbp nfv.4 nfv.5))
+                            (fv0 (tmp-ra.1))
+                            (fv1 (x.1 tmp-ra.1))))
+                (assignment ((tmp-ra.1 fv2))))
+               (begin
+                 (set! tmp-ra.1 r15)
+                 (set! x.1 fv0)
+                 (set! y.2 fv1)
+                 (if (< y.2 x.1)
+                     (begin
+                       (return-point L.rp.1
+                                     (begin
+                                       (set! nfv.3 y.2)
+                                       (set! nfv.2 x.1)
+                                       (set! r15 L.rp.1)
+                                       (jump L.swap.1 rbp r15 nfv.2 nfv.3)))
+                       (set! z.2 rax)
+                       (set! rax z.2)
+                       (jump tmp-ra.1 rbp rax))
+                     (begin
+                       (return-point L.rp.2
+                                     (begin
+                                       (set! nfv.5 x.1)
+                                       (set! nfv.4 y.2)
+                                       (set! r15 L.rp.2)
+                                       (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
+                       (set! z.3 rax)
+                       (set! rax z.3)
+                       (jump tmp-ra.1 rbp rax)))))
+       (begin
+         (set! tmp-ra.6 r15)
+         (set! fv1 2)
+         (set! fv0 1)
+         (set! r15 tmp-ra.6)
+         (jump L.swap.1 rbp r15 fv0 fv1))))
+   '(module ((locals (tmp-ra.6)) (conflicts ((tmp-ra.6 (fv0 fv1 rbp)) (rbp (r15 fv0 fv1 tmp-ra.6))
+                                                                      (fv1 (r15 fv0 rbp tmp-ra.6))
+                                                                      (fv0 (r15 rbp fv1 tmp-ra.6))
+                                                                      (r15 (rbp fv0 fv1))))
+                                 (assignment ()))
+            (define L.swap.1
+              ((locals (z.3 z.2 x.1 y.2))
+               (conflicts ((y.2 (rbp tmp-ra.1 x.1 nfv.5))
+                           (x.1 (y.2 rbp tmp-ra.1 fv1 nfv.3))
+                           (z.2 (rbp tmp-ra.1))
+                           (nfv.3 (r15 nfv.2 rbp x.1))
+                           (nfv.2 (r15 rbp nfv.3))
+                           (tmp-ra.1 (y.2 x.1 rbp fv1 fv0 z.2 z.3 rax))
+                           (z.3 (rbp tmp-ra.1))
+                           (nfv.5 (r15 nfv.4 rbp y.2))
+                           (nfv.4 (r15 rbp nfv.5))
+                           (rax (rbp tmp-ra.1))
+                           (rbp (y.2 x.1 tmp-ra.1 z.2 nfv.2 nfv.3 z.3 r15 nfv.4 nfv.5 rax))
+                           (r15 (nfv.2 nfv.3 rbp nfv.4 nfv.5))
+                           (fv0 (tmp-ra.1))
+                           (fv1 (x.1 tmp-ra.1))))
+               (assignment ((nfv.4 fv3) (nfv.5 fv4) (nfv.2 fv3) (nfv.3 fv4) (tmp-ra.1 fv2))))
+              (begin
+                (set! tmp-ra.1 r15)
+                (set! x.1 fv0)
+                (set! y.2 fv1)
+                (if (< y.2 x.1)
+                    (begin
+                      (begin
+                        (set! rbp (- rbp 24))
+                        (return-point L.rp.1
+                                      (begin
+                                        (set! nfv.3 y.2)
+                                        (set! nfv.2 x.1)
+                                        (set! r15 L.rp.1)
+                                        (jump L.swap.1 rbp r15 nfv.2 nfv.3)))
+                        (set! rbp (+ rbp 24)))
+                      (set! z.2 rax)
+                      (set! rax z.2)
+                      (jump tmp-ra.1 rbp rax))
+                    (begin
+                      (begin
+                        (set! rbp (- rbp 24))
+                        (return-point L.rp.2
+                                      (begin
+                                        (set! nfv.5 x.1)
+                                        (set! nfv.4 y.2)
+                                        (set! r15 L.rp.2)
+                                        (jump L.swap.1 rbp r15 nfv.4 nfv.5)))
+                        (set! rbp (+ rbp 24)))
+                      (set! z.3 rax)
+                      (set! rax z.3)
+                      (jump tmp-ra.1 rbp rax)))))
+      (begin
+        (set! tmp-ra.6 r15)
+        (set! fv1 2)
+        (set! fv0 1)
+        (set! r15 tmp-ra.6)
+        (jump L.swap.1 rbp r15 fv0 fv1))))
+
+  ;; Added by Trevor for M6 on March 6th 2026, single let
   (check-by-interp
    '(module ((new-frames ()) (locals (tmp-ra.4 bat.9.2 foobar.3.1 ball.2.3))
                              (call-undead ())
@@ -954,436 +940,7 @@
             (begin
               (set! rax 0)
               (jump tmp-ra.5 rbp rax))))))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp.18 tmp-ra.16))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.16 rbp) (((tmp.18 tmp-ra.16 rbp) (tmp-ra.16 rbp))
-                                                           ((tmp-ra.16 rax rbp) (rax rbp))
-                                                           ((tmp-ra.16 rax rbp) (rax rbp)))))
-                             (conflicts ((tmp.18 (rbp tmp-ra.16)) (tmp-ra.16 (rbp tmp.18 rax))
-                                                                  (rax (rbp tmp-ra.16))
-                                                                  (rbp (tmp-ra.16 tmp.18 rax))))
-                             (assignment ()))
-            (define L.x.0.1
-              ((new-frames (()))
-               (locals (foobar.9.6 bat.6.7 ball.4.2 bat.5.1 bat.5.8 ball.3.5))
-               (undead-out ((rdi rsi rdx rcx r8 tmp-ra.14 rbp)
-                            (rsi rdx rcx r8 tmp-ra.14 rbp)
-                            (rdx rcx r8 bar.7.4 tmp-ra.14 rbp)
-                            (rcx r8 bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                            (r8 ball.4.2 bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                            (bat.5.1 ball.4.2 bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                            ((bat.5.1 ball.4.2 bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                             ((bat.6.7 ball.4.2 bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                              (ball.4.2 bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                              ((bar.7.4 bat.6.3 tmp-ra.14 rbp) ((tmp-ra.14 rax rbp) (rax rbp))
-                                                               ((tmp-ra.14 rax rbp) (rax rbp))))
-                             (((rax bar.7.4 bat.6.3 tmp-ra.14 rbp)
-                               ((bat.6.3 bat.5.1 r8 rbp) (bat.6.3 bat.5.1 r8 rcx rbp)
-                                                         (bat.5.1 r8 rcx rdx rbp)
-                                                         (bat.5.1 r8 rcx rdx rsi rbp)
-                                                         (r8 rcx rdx rsi rdi rbp)
-                                                         (r8 rcx rdx rsi rdi r15 rbp)
-                                                         (r8 rcx rdx rsi rdi r15 rbp)))
-                              (bar.7.4 bat.6.3 bat.5.8 tmp-ra.14 rbp)
-                              ((bat.6.3 bat.5.8 tmp-ra.14 rbp) ((tmp-ra.14 rax rbp) (rax rbp))
-                                                               ((tmp-ra.14 rax rbp) (rax rbp)))))))
-               (call-undead (bar.7.4 bat.6.3 tmp-ra.14))
-               (conflicts
-                ((bat.6.3
-                  (bat.5.1 ball.4.2 rbp tmp-ra.14 bar.7.4 foobar.9.6 bat.6.7 bat.5.8 rcx r8 rax))
-                 (foobar.9.6 (rbp tmp-ra.14 bat.6.3 bar.7.4 ball.4.2))
-                 (bat.6.7 (rbp tmp-ra.14 bat.6.3 bar.7.4 ball.4.2))
-                 (bar.7.4
-                  (bat.5.1 ball.4.2 bat.6.3 rbp tmp-ra.14 r8 rcx rdx foobar.9.6 bat.6.7 bat.5.8 rax))
-                 (tmp-ra.14 (bat.5.1 ball.4.2
-                                     bat.6.3
-                                     bar.7.4
-                                     ball.3.5
-                                     rbp
-                                     r8
-                                     rcx
-                                     rdx
-                                     rsi
-                                     rdi
-                                     foobar.9.6
-                                     bat.6.7
-                                     bat.5.8
-                                     rax))
-                 (ball.4.2 (bat.5.1 rbp tmp-ra.14 bat.6.3 bar.7.4 r8 foobar.9.6 bat.6.7))
-                 (bat.5.1 (rbp tmp-ra.14 bat.6.3 bar.7.4 ball.4.2 rsi rdx r8))
-                 (bat.5.8 (rbp tmp-ra.14 bat.6.3 bar.7.4))
-                 (ball.3.5 (rbp tmp-ra.14 r8 rcx rdx rsi))
-                 (rax (bat.6.3 bar.7.4 rbp tmp-ra.14))
-                 (rbp (bat.5.1 ball.4.2
-                               bat.6.3
-                               bar.7.4
-                               ball.3.5
-                               tmp-ra.14
-                               foobar.9.6
-                               bat.6.7
-                               bat.5.8
-                               r15
-                               rdi
-                               rsi
-                               rdx
-                               rcx
-                               r8
-                               rax))
-                 (r8 (ball.4.2 bar.7.4 ball.3.5 tmp-ra.14 r15 rdi rsi rdx rcx rbp bat.5.1 bat.6.3))
-                 (rcx (bar.7.4 ball.3.5 tmp-ra.14 r15 rdi rsi rdx rbp r8 bat.6.3))
-                 (rdx (bar.7.4 ball.3.5 tmp-ra.14 r15 rdi rsi rbp rcx r8 bat.5.1))
-                 (rsi (ball.3.5 tmp-ra.14 r15 rdi rbp rdx rcx r8 bat.5.1))
-                 (rdi (tmp-ra.14 r15 rbp rsi rdx rcx r8))
-                 (r15 (rbp rdi rsi rdx rcx r8))))
-               (assignment ((tmp-ra.14 fv0) (bat.6.3 fv1) (bar.7.4 fv2))))
-              (begin
-                (set! tmp-ra.14 r15)
-                (set! ball.3.5 rdi)
-                (set! bar.7.4 rsi)
-                (set! bat.6.3 rdx)
-                (set! ball.4.2 rcx)
-                (set! bat.5.1 r8)
-                (if (not (<= bat.6.3 9223372036854775807))
-                    (begin
-                      (set! bat.6.7 -18835826)
-                      (set! foobar.9.6 bat.6.7)
-                      (if (>= bat.6.3 ball.4.2)
-                          (begin
-                            (set! rax bat.6.3)
-                            (jump tmp-ra.14 rbp rax))
-                          (begin
-                            (set! rax bar.7.4)
-                            (jump tmp-ra.14 rbp rax))))
-                    (begin
-                      (return-point L.rp.3
-                                    (begin
-                                      (set! r8 0)
-                                      (set! rcx bat.5.1)
-                                      (set! rdx bat.6.3)
-                                      (set! rsi 9223372036854775807)
-                                      (set! rdi bat.5.1)
-                                      (set! r15 L.rp.3)
-                                      (jump L.x.0.1 rbp r15 rdi rsi rdx rcx r8)))
-                      (set! bat.5.8 rax)
-                      (if (<= bar.7.4 -186024487)
-                          (begin
-                            (set! rax bat.5.8)
-                            (jump tmp-ra.14 rbp rax))
-                          (begin
-                            (set! rax bat.6.3)
-                            (jump tmp-ra.14 rbp rax)))))))
-      (define L.func.1.2
-        ((new-frames ())
-         (locals (tmp-ra.15 bar.8.10 ball.4.9 bar.7.11 foobar.9.12 tmp.17 bat.5.13))
-         (undead-out ((rdi rsi tmp-ra.15 rbp)
-                      (rsi bar.8.10 tmp-ra.15 rbp)
-                      (bar.8.10 tmp-ra.15 rbp)
-                      (bar.8.10 bar.7.11 tmp-ra.15 rbp)
-                      (((tmp.17 bar.8.10 bar.7.11 tmp-ra.15 rbp) (bar.8.10 bar.7.11 tmp-ra.15 rbp))
-                       (bar.7.11 tmp-ra.15 rbp)
-                       (bar.7.11 tmp-ra.15 rbp))
-                      (bar.7.11 tmp-ra.15 rbp)
-                      (tmp-ra.15 rax rbp)
-                      (rax rbp)))
-         (call-undead ())
-         (conflicts
-          ((tmp-ra.15 (rax bat.5.13 tmp.17 foobar.9.12 bar.7.11 ball.4.9 bar.8.10 rbp rsi rdi))
-           (bar.8.10 (tmp.17 bar.7.11 ball.4.9 rbp tmp-ra.15 rsi))
-           (ball.4.9 (rbp tmp-ra.15 bar.8.10))
-           (bar.7.11 (tmp.17 foobar.9.12 rbp tmp-ra.15 bar.8.10))
-           (foobar.9.12 (rbp tmp-ra.15 bar.7.11))
-           (tmp.17 (rbp tmp-ra.15 bar.7.11 bar.8.10))
-           (bat.5.13 (rbp tmp-ra.15))
-           (rdi (tmp-ra.15))
-           (rsi (bar.8.10 tmp-ra.15))
-           (rbp (rax bat.5.13 tmp.17 foobar.9.12 bar.7.11 ball.4.9 bar.8.10 tmp-ra.15))
-           (rax (rbp tmp-ra.15))))
-         (assignment ()))
-        (begin
-          (set! tmp-ra.15 r15)
-          (set! bar.8.10 rdi)
-          (set! ball.4.9 rsi)
-          (set! bar.7.11 -932453002)
-          (if (begin
-                (set! tmp.17 -1133252869)
-                (>= tmp.17 9223372036854775807))
-              (set! foobar.9.12 479665611)
-              (set! foobar.9.12 bar.8.10))
-          (set! bat.5.13 bar.7.11)
-          (set! rax bar.7.11)
-          (jump tmp-ra.15 rbp rax)))
-      (begin
-        (set! tmp-ra.16 r15)
-        (if (begin
-              (set! tmp.18 1588211020)
-              (>= tmp.18 1))
-            (begin
-              (set! rax 9223372036854775807)
-              (jump tmp-ra.16 rbp rax))
-            (begin
-              (set! rax -9223372036854775808)
-              (jump tmp-ra.16 rbp rax))))))
-  (check-by-interp
-   '(module ((new-frames ())
-             (locals (tmp-ra.9 tmp.11 bat.2.6))
-             (call-undead ())
-             (undead-out ((tmp-ra.9 rbp) (tmp.11 tmp-ra.9 rbp)
-                                         (tmp.11 tmp-ra.9 rbp)
-                                         (tmp-ra.9 rbp)
-                                         (tmp-ra.9 rdi rbp)
-                                         (rdi r15 rbp)
-                                         (rdi r15 rbp)))
-             (conflicts ((tmp-ra.9 (rdi bat.2.6 tmp.11 rbp)) (tmp.11 (rbp tmp-ra.9))
-                                                             (bat.2.6 (rbp tmp-ra.9))
-                                                             (rbp (r15 rdi bat.2.6 tmp.11 tmp-ra.9))
-                                                             (rdi (r15 rbp tmp-ra.9))
-                                                             (r15 (rbp rdi))))
-             (assignment ()))
-            (define L.proc.0.1
-              ((new-frames ()) (locals (tmp-ra.7 bat.9.1 tmp.10 bar.1.2))
-                               (undead-out ((rdi tmp-ra.7 rbp) (bat.9.1 tmp-ra.7 rbp)
-                                                               (bat.9.1 tmp.10 tmp-ra.7 rbp)
-                                                               (tmp.10 tmp-ra.7 rbp)
-                                                               (bar.1.2 tmp-ra.7 rbp)
-                                                               (bar.1.2 tmp-ra.7 rdx rbp)
-                                                               (tmp-ra.7 rdx rsi rbp)
-                                                               (tmp-ra.7 rdx rsi rdi rbp)
-                                                               (rdx rsi rdi r15 rbp)
-                                                               (rdx rsi rdi r15 rbp)))
-                               (call-undead ())
-                               (conflicts ((tmp-ra.7 (rsi rdx bar.1.2 tmp.10 bat.9.1 rbp rdi))
-                                           (bat.9.1 (tmp.10 rbp tmp-ra.7))
-                                           (tmp.10 (rbp tmp-ra.7 bat.9.1))
-                                           (bar.1.2 (rdx rbp tmp-ra.7))
-                                           (rdi (r15 rbp rsi rdx tmp-ra.7))
-                                           (rbp (r15 rdi rsi rdx bar.1.2 tmp.10 bat.9.1 tmp-ra.7))
-                                           (rdx (r15 rdi rsi rbp tmp-ra.7 bar.1.2))
-                                           (rsi (r15 rdi rbp rdx tmp-ra.7))
-                                           (r15 (rbp rdi rsi rdx))))
-                               (assignment ()))
-              (begin
-                (set! tmp-ra.7 r15)
-                (set! bat.9.1 rdi)
-                (set! tmp.10 1)
-                (set! tmp.10 (+ tmp.10 bat.9.1))
-                (set! bar.1.2 tmp.10)
-                (set! rdx 9223372036854775807)
-                (set! rsi bar.1.2)
-                (set! rdi 515658026)
-                (set! r15 tmp-ra.7)
-                (jump L.func.1.2 rbp r15 rdi rsi rdx)))
-      (define L.func.1.2
-        ((new-frames ()) (locals (tmp-ra.8 foobar.8.5 foobar.6.4 bar.1.3))
-                         (undead-out ((rdi rsi rdx tmp-ra.8 rbp)
-                                      (rsi rdx foobar.8.5 tmp-ra.8 rbp)
-                                      (rdx foobar.6.4 foobar.8.5 tmp-ra.8 rbp)
-                                      (foobar.6.4 foobar.8.5 tmp-ra.8 rbp)
-                                      ((foobar.6.4 foobar.8.5 tmp-ra.8 rbp)
-                                       ((foobar.8.5 tmp-ra.8 rdx rbp) (tmp-ra.8 rdx rsi rbp)
-                                                                      (tmp-ra.8 rdx rsi rdi rbp)
-                                                                      (rdx rsi rdi r15 rbp)
-                                                                      (rdx rsi rdi r15 rbp))
-                                       ((tmp-ra.8 rdx rbp) (tmp-ra.8 rdx rsi rbp)
-                                                           (tmp-ra.8 rdx rsi rdi rbp)
-                                                           (rdx rsi rdi r15 rbp)
-                                                           (rdx rsi rdi r15 rbp)))))
-                         (call-undead ())
-                         (conflicts ((tmp-ra.8 (bar.1.3 foobar.6.4 foobar.8.5 rbp rdi rsi rdx))
-                                     (foobar.8.5 (bar.1.3 foobar.6.4 rbp tmp-ra.8 rsi rdx))
-                                     (foobar.6.4 (bar.1.3 rbp tmp-ra.8 foobar.8.5 rdx))
-                                     (bar.1.3 (rbp tmp-ra.8 foobar.8.5 foobar.6.4))
-                                     (rdx (foobar.6.4 foobar.8.5 r15 rdi rsi rbp tmp-ra.8))
-                                     (rbp (bar.1.3 foobar.6.4 foobar.8.5 tmp-ra.8 r15 rdi rsi rdx))
-                                     (rsi (foobar.8.5 r15 rdi rbp rdx tmp-ra.8))
-                                     (rdi (r15 rbp rsi rdx tmp-ra.8))
-                                     (r15 (rbp rdi rsi rdx))))
-                         (assignment ()))
-        (begin
-          (set! tmp-ra.8 r15)
-          (set! foobar.8.5 rdi)
-          (set! foobar.6.4 rsi)
-          (set! bar.1.3 rdx)
-          (if (true)
-              (begin
-                (set! rdx foobar.6.4)
-                (set! rsi foobar.8.5)
-                (set! rdi -508654129)
-                (set! r15 tmp-ra.8)
-                (jump L.func.1.2 rbp r15 rdi rsi rdx))
-              (begin
-                (set! rdx foobar.6.4)
-                (set! rsi 9223372036854775807)
-                (set! rdi 1)
-                (set! r15 tmp-ra.8)
-                (jump L.func.1.2 rbp r15 rdi rsi rdx)))))
-      (begin
-        (set! tmp-ra.9 r15)
-        (set! tmp.11 0)
-        (set! tmp.11 (* tmp.11 -9223372036854775808))
-        (set! bat.2.6 tmp.11)
-        (set! rdi -39871347)
-        (set! r15 tmp-ra.9)
-        (jump L.proc.0.1 rbp r15 rdi))))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp.2 tmp-ra.1))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.1 rbp) (((tmp.2 tmp-ra.1 rbp) (tmp-ra.1 rbp))
-                                                          ((tmp-ra.1 rax rbp) (rax rbp))
-                                                          ((tmp-ra.1 rax rbp) (rax rbp)))))
-                             (conflicts ((tmp.2 (rbp tmp-ra.1)) (tmp-ra.1 (rbp tmp.2 rax))
-                                                                (rax (rbp tmp-ra.1))
-                                                                (rbp (tmp-ra.1 tmp.2 rax))))
-                             (assignment ()))
-            (begin
-              (set! tmp-ra.1 r15)
-              (if (begin
-                    (set! tmp.2 1)
-                    (>= tmp.2 -9223372036854775808))
-                  (begin
-                    (set! rax 234292566)
-                    (jump tmp-ra.1 rbp rax))
-                  (begin
-                    (set! rax -1579825632)
-                    (jump tmp-ra.1 rbp rax))))
-      ))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp-ra.8))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.8 rbp) (tmp-ra.8 r9 rbp)
-                                                         (tmp-ra.8 r9 r8 rbp)
-                                                         (tmp-ra.8 r9 r8 rcx rbp)
-                                                         (tmp-ra.8 r9 r8 rcx rdx rbp)
-                                                         (tmp-ra.8 r9 r8 rcx rdx rsi rbp)
-                                                         (tmp-ra.8 r9 r8 rcx rdx rsi rdi rbp)
-                                                         (r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                         (r9 r8 rcx rdx rsi rdi r15 rbp)))
-                             (conflicts ((tmp-ra.8 (rdi rsi rdx rcx r8 r9 rbp))
-                                         (rbp (r15 rdi rsi rdx rcx r8 r9 tmp-ra.8))
-                                         (r9 (r15 rdi rsi rdx rcx r8 rbp tmp-ra.8))
-                                         (r8 (r15 rdi rsi rdx rcx rbp r9 tmp-ra.8))
-                                         (rcx (r15 rdi rsi rdx rbp r8 r9 tmp-ra.8))
-                                         (rdx (r15 rdi rsi rbp rcx r8 r9 tmp-ra.8))
-                                         (rsi (r15 rdi rbp rdx rcx r8 r9 tmp-ra.8))
-                                         (rdi (r15 rbp rsi rdx rcx r8 r9 tmp-ra.8))
-                                         (r15 (rbp rdi rsi rdx rcx r8 r9))))
-                             (assignment ()))
-            (define L.x.0.1
-              ((new-frames ())
-               (locals (tmp.9 foo.2.6 tmp-ra.7 foobar.9.4 ball.4.3 bat.3.2 ball.5.5 bar.7.1))
-               (undead-out ((rdi rsi rdx rcx r8 r9 tmp-ra.7 rbp)
-                            (rsi rdx rcx r8 r9 foo.2.6 tmp-ra.7 rbp)
-                            (rdx rcx r8 r9 ball.5.5 foo.2.6 tmp-ra.7 rbp)
-                            (rcx r8 r9 foobar.9.4 ball.5.5 foo.2.6 tmp-ra.7 rbp)
-                            (r8 r9 foobar.9.4 ball.4.3 ball.5.5 foo.2.6 tmp-ra.7 rbp)
-                            (r9 foobar.9.4 ball.4.3 bat.3.2 ball.5.5 foo.2.6 tmp-ra.7 rbp)
-                            (foobar.9.4 ball.4.3 bat.3.2 ball.5.5 foo.2.6 tmp-ra.7 rbp)
-                            (((tmp.9 foobar.9.4 ball.4.3 bat.3.2 ball.5.5 foo.2.6 tmp-ra.7 rbp)
-                              (foobar.9.4 ball.4.3 bat.3.2 ball.5.5 foo.2.6 tmp-ra.7 rbp))
-                             ((foo.2.6 tmp-ra.7 r9 rbp) (foo.2.6 tmp-ra.7 r9 r8 rbp)
-                                                        (foo.2.6 tmp-ra.7 r9 r8 rcx rbp)
-                                                        (foo.2.6 tmp-ra.7 r9 r8 rcx rdx rbp)
-                                                        (foo.2.6 tmp-ra.7 r9 r8 rcx rdx rsi rbp)
-                                                        (tmp-ra.7 r9 r8 rcx rdx rsi rdi rbp)
-                                                        (r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                        (r9 r8 rcx rdx rsi rdi r15 rbp))
-                             ((ball.5.5 bat.3.2 ball.4.3 foobar.9.4 tmp-ra.7 r9 rbp)
-                              (bat.3.2 ball.4.3 foobar.9.4 tmp-ra.7 r9 r8 rbp)
-                              (ball.4.3 foobar.9.4 tmp-ra.7 r9 r8 rcx rbp)
-                              (ball.4.3 foobar.9.4 tmp-ra.7 r9 r8 rcx rdx rbp)
-                              (foobar.9.4 tmp-ra.7 r9 r8 rcx rdx rsi rbp)
-                              (tmp-ra.7 r9 r8 rcx rdx rsi rdi rbp)
-                              (r9 r8 rcx rdx rsi rdi r15 rbp)
-                              (r9 r8 rcx rdx rsi rdi r15 rbp)))))
-               (call-undead ())
-               (conflicts
-                ((tmp.9 (rbp tmp-ra.7 foo.2.6 ball.5.5 bat.3.2 ball.4.3 foobar.9.4))
-                 (foo.2.6
-                  (bar.7.1 bat.3.2 ball.4.3 foobar.9.4 ball.5.5 rbp tmp-ra.7 tmp.9 rsi rdx rcx r8 r9))
-                 (tmp-ra.7 (bar.7.1 bat.3.2
-                                    ball.4.3
-                                    foobar.9.4
-                                    ball.5.5
-                                    foo.2.6
-                                    rbp
-                                    tmp.9
-                                    rdi
-                                    rsi
-                                    rdx
-                                    rcx
-                                    r8
-                                    r9))
-                 (foobar.9.4
-                  (bar.7.1 bat.3.2 ball.4.3 rbp tmp-ra.7 foo.2.6 ball.5.5 tmp.9 rsi rdx rcx r8 r9))
-                 (ball.4.3
-                  (bar.7.1 bat.3.2 rbp tmp-ra.7 foo.2.6 ball.5.5 foobar.9.4 tmp.9 rdx rcx r8 r9))
-                 (bat.3.2 (bar.7.1 rbp tmp-ra.7 foo.2.6 ball.5.5 ball.4.3 foobar.9.4 tmp.9 r8 r9))
-                 (ball.5.5
-                  (bar.7.1 bat.3.2 ball.4.3 foobar.9.4 rbp tmp-ra.7 foo.2.6 r8 rcx rdx tmp.9 r9))
-                 (bar.7.1 (rbp tmp-ra.7 foo.2.6 ball.5.5 bat.3.2 ball.4.3 foobar.9.4))
-                 (r9
-                  (foo.2.6 r15 rdi rsi rdx rcx r8 rbp tmp-ra.7 foobar.9.4 ball.4.3 bat.3.2 ball.5.5))
-                 (rbp (bar.7.1 bat.3.2
-                               ball.4.3
-                               foobar.9.4
-                               ball.5.5
-                               foo.2.6
-                               tmp-ra.7
-                               tmp.9
-                               r15
-                               rdi
-                               rsi
-                               rdx
-                               rcx
-                               r8
-                               r9))
-                 (r8
-                  (ball.5.5 foo.2.6 r15 rdi rsi rdx rcx rbp r9 tmp-ra.7 foobar.9.4 ball.4.3 bat.3.2))
-                 (rcx (ball.5.5 foo.2.6 r15 rdi rsi rdx rbp r8 r9 tmp-ra.7 foobar.9.4 ball.4.3))
-                 (rdx (ball.5.5 foo.2.6 r15 rdi rsi rbp rcx r8 r9 tmp-ra.7 foobar.9.4 ball.4.3))
-                 (rsi (foo.2.6 r15 rdi rbp rdx rcx r8 r9 tmp-ra.7 foobar.9.4))
-                 (rdi (r15 rbp rsi rdx rcx r8 r9 tmp-ra.7))
-                 (r15 (rbp rdi rsi rdx rcx r8 r9))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.7 r15)
-                (set! foo.2.6 rdi)
-                (set! ball.5.5 rsi)
-                (set! foobar.9.4 rdx)
-                (set! ball.4.3 rcx)
-                (set! bat.3.2 r8)
-                (set! bar.7.1 r9)
-                (if (not (not (begin
-                                (set! tmp.9 9223372036854775807)
-                                (= tmp.9 foo.2.6))))
-                    (begin
-                      (set! r9 9223372036854775807)
-                      (set! r8 -1679374410)
-                      (set! rcx 1)
-                      (set! rdx 1)
-                      (set! rsi 0)
-                      (set! rdi foo.2.6)
-                      (set! r15 tmp-ra.7)
-                      (jump L.x.0.1 rbp r15 rdi rsi rdx rcx r8 r9))
-                    (begin
-                      (set! r9 -9223372036854775808)
-                      (set! r8 ball.5.5)
-                      (set! rcx bat.3.2)
-                      (set! rdx -30425170)
-                      (set! rsi ball.4.3)
-                      (set! rdi foobar.9.4)
-                      (set! r15 tmp-ra.7)
-                      (jump L.x.0.1 rbp r15 rdi rsi rdx rcx r8 r9)))))
-      (begin
-        (set! tmp-ra.8 r15)
-        (set! r9 1)
-        (set! r8 -1659310511)
-        (set! rcx 671608402)
-        (set! rdx 1)
-        (set! rsi 0)
-        (set! rdi 158605610)
-        (set! r15 tmp-ra.8)
-        (jump L.x.0.1 rbp r15 rdi rsi rdx rcx r8 r9))))
+
   (check-by-interp '(module ((new-frames ()) (locals (tmp-ra.1))
                                              (call-undead ())
                                              (undead-out ((tmp-ra.1 rbp) (tmp-ra.1 rax rbp)
@@ -1762,164 +1319,7 @@
                     (set! rax bat.4.1)
                     (jump tmp-ra.5 rbp rax))))
       ))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp-ra.9))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.9 rbp) (tmp-ra.9 fv0 rbp)
-                                                         (tmp-ra.9 fv0 r9 rbp)
-                                                         (tmp-ra.9 fv0 r9 r8 rbp)
-                                                         (tmp-ra.9 fv0 r9 r8 rcx rbp)
-                                                         (tmp-ra.9 fv0 r9 r8 rcx rdx rbp)
-                                                         (tmp-ra.9 fv0 r9 r8 rcx rdx rsi rbp)
-                                                         (tmp-ra.9 fv0 r9 r8 rcx rdx rsi rdi rbp)
-                                                         (fv0 r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                         (fv0 r9 r8 rcx rdx rsi rdi r15 rbp)))
-                             (conflicts ((tmp-ra.9 (rdi rsi rdx rcx r8 r9 fv0 rbp))
-                                         (rbp (r15 rdi rsi rdx rcx r8 r9 fv0 tmp-ra.9))
-                                         (fv0 (r15 rdi rsi rdx rcx r8 r9 rbp tmp-ra.9))
-                                         (r9 (r15 rdi rsi rdx rcx r8 rbp fv0 tmp-ra.9))
-                                         (r8 (r15 rdi rsi rdx rcx rbp r9 fv0 tmp-ra.9))
-                                         (rcx (r15 rdi rsi rdx rbp r8 r9 fv0 tmp-ra.9))
-                                         (rdx (r15 rdi rsi rbp rcx r8 r9 fv0 tmp-ra.9))
-                                         (rsi (r15 rdi rbp rdx rcx r8 r9 fv0 tmp-ra.9))
-                                         (rdi (r15 rbp rsi rdx rcx r8 r9 fv0 tmp-ra.9))
-                                         (r15 (rbp rdi rsi rdx rcx r8 r9 fv0))))
-                             (assignment ()))
-            (define L.tmp.0.1
-              ((new-frames ())
-               (locals (tmp-ra.8 foobar.9.7 foo.4.6 foobar.7.5 bat.1.4 bar.5.3 ball.3.2 bat.8.1))
-               (undead-out ((rdi rsi rdx rcx r8 r9 fv0 tmp-ra.8 rbp)
-                            (rsi rdx rcx r8 r9 fv0 tmp-ra.8 rbp)
-                            (rdx rcx r8 r9 fv0 tmp-ra.8 rbp)
-                            (rcx r8 r9 fv0 tmp-ra.8 rbp)
-                            (r8 r9 fv0 tmp-ra.8 rbp)
-                            (r9 fv0 tmp-ra.8 rbp)
-                            (fv0 ball.3.2 tmp-ra.8 rbp)
-                            (ball.3.2 bat.8.1 tmp-ra.8 rbp)
-                            (bat.8.1 tmp-ra.8 fv0 rbp)
-                            (bat.8.1 tmp-ra.8 fv0 r9 rbp)
-                            (bat.8.1 tmp-ra.8 fv0 r9 r8 rbp)
-                            (bat.8.1 tmp-ra.8 fv0 r9 r8 rcx rbp)
-                            (tmp-ra.8 fv0 r9 r8 rcx rdx rbp)
-                            (tmp-ra.8 fv0 r9 r8 rcx rdx rsi rbp)
-                            (tmp-ra.8 fv0 r9 r8 rcx rdx rsi rdi rbp)
-                            (fv0 r9 r8 rcx rdx rsi rdi r15 rbp)
-                            (fv0 r9 r8 rcx rdx rsi rdi r15 rbp)))
-               (call-undead ())
-               (conflicts
-                ((tmp-ra.8 (bat.8.1 ball.3.2
-                                    bar.5.3
-                                    bat.1.4
-                                    foobar.7.5
-                                    foo.4.6
-                                    foobar.9.7
-                                    rbp
-                                    fv0
-                                    r9
-                                    r8
-                                    rcx
-                                    rdx
-                                    rsi
-                                    rdi))
-                 (foobar.9.7 (rbp tmp-ra.8 fv0 r9 r8 rcx rdx rsi))
-                 (foo.4.6 (rbp tmp-ra.8 fv0 r9 r8 rcx rdx))
-                 (foobar.7.5 (rbp tmp-ra.8 fv0 r9 r8 rcx))
-                 (bat.1.4 (rbp tmp-ra.8 fv0 r9 r8))
-                 (bar.5.3 (rbp tmp-ra.8 fv0 r9))
-                 (ball.3.2 (bat.8.1 rbp tmp-ra.8 fv0))
-                 (bat.8.1 (rcx r8 r9 fv0 rbp tmp-ra.8 ball.3.2))
-                 (rdi (r15 rbp rsi rdx rcx r8 r9 fv0 tmp-ra.8))
-                 (rsi (r15 rdi rbp rdx rcx r8 r9 fv0 foobar.9.7 tmp-ra.8))
-                 (rdx (r15 rdi rsi rbp rcx r8 r9 fv0 foo.4.6 foobar.9.7 tmp-ra.8))
-                 (rcx (r15 rdi rsi rdx rbp r8 r9 fv0 bat.8.1 foobar.7.5 foo.4.6 foobar.9.7 tmp-ra.8))
-                 (r8 (r15 rdi
-                          rsi
-                          rdx
-                          rcx
-                          rbp
-                          r9
-                          fv0
-                          bat.8.1
-                          bat.1.4
-                          foobar.7.5
-                          foo.4.6
-                          foobar.9.7
-                          tmp-ra.8))
-                 (r9 (r15 rdi
-                          rsi
-                          rdx
-                          rcx
-                          r8
-                          rbp
-                          fv0
-                          bat.8.1
-                          bar.5.3
-                          bat.1.4
-                          foobar.7.5
-                          foo.4.6
-                          foobar.9.7
-                          tmp-ra.8))
-                 (fv0 (r15 rdi
-                           rsi
-                           rdx
-                           rcx
-                           r8
-                           r9
-                           rbp
-                           bat.8.1
-                           ball.3.2
-                           bar.5.3
-                           bat.1.4
-                           foobar.7.5
-                           foo.4.6
-                           foobar.9.7
-                           tmp-ra.8))
-                 (rbp (r15 rdi
-                           rsi
-                           rdx
-                           rcx
-                           r8
-                           r9
-                           fv0
-                           bat.8.1
-                           ball.3.2
-                           bar.5.3
-                           bat.1.4
-                           foobar.7.5
-                           foo.4.6
-                           foobar.9.7
-                           tmp-ra.8))
-                 (r15 (rbp rdi rsi rdx rcx r8 r9 fv0))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.8 r15)
-                (set! foobar.9.7 rdi)
-                (set! foo.4.6 rsi)
-                (set! foobar.7.5 rdx)
-                (set! bat.1.4 rcx)
-                (set! bar.5.3 r8)
-                (set! ball.3.2 r9)
-                (set! bat.8.1 fv0)
-                (set! fv0 ball.3.2)
-                (set! r9 -1130190811)
-                (set! r8 -9223372036854775808)
-                (set! rcx 1751496267)
-                (set! rdx bat.8.1)
-                (set! rsi 0)
-                (set! rdi -9223372036854775808)
-                (set! r15 tmp-ra.8)
-                (jump L.tmp.0.1 rbp r15 rdi rsi rdx rcx r8 r9 fv0)))
-      (begin
-        (set! tmp-ra.9 r15)
-        (set! fv0 1)
-        (set! r9 9223372036854775807)
-        (set! r8 -9223372036854775808)
-        (set! rcx -522285902)
-        (set! rdx 754255570)
-        (set! rsi -1704260755)
-        (set! rdi 0)
-        (set! r15 tmp-ra.9)
-        (jump L.tmp.0.1 rbp r15 rdi rsi rdx rcx r8 r9 fv0))))
+
   (check-by-interp
    '(module ((new-frames ())
              (locals (foo.9.17 tmp-ra.21))
@@ -2537,442 +1937,7 @@
         (set! rdi 1)
         (set! r15 tmp-ra.9)
         (jump L.x.0.1 rbp r15 rdi rsi rdx rcx))))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp-ra.15))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.15 rbp) (tmp-ra.15 rsi rbp)
-                                                          (tmp-ra.15 rsi rdi rbp)
-                                                          (rsi rdi r15 rbp)
-                                                          (rsi rdi r15 rbp)))
-                             (conflicts ((tmp-ra.15 (rdi rsi rbp)) (rbp (r15 rdi rsi tmp-ra.15))
-                                                                   (rsi (r15 rdi rbp tmp-ra.15))
-                                                                   (rdi (r15 rbp rsi tmp-ra.15))
-                                                                   (r15 (rbp rdi rsi))))
-                             (assignment ()))
-            (define L.func.0.1
-              ((new-frames ())
-               (locals (tmp-ra.12 foo.4.7 ball.1.6 bat.0.5 foobar.6.4 foobar.7.3 bat.9.2 ball.3.1))
-               (undead-out ((rdi rsi rdx rcx r8 r9 fv0 tmp-ra.12 rbp)
-                            (rsi rdx rcx r8 r9 fv0 tmp-ra.12 rbp)
-                            (rdx rcx r8 r9 fv0 tmp-ra.12 rbp)
-                            (rcx r8 r9 fv0 tmp-ra.12 rbp)
-                            (r8 r9 fv0 foobar.6.4 tmp-ra.12 rbp)
-                            (r9 fv0 foobar.6.4 tmp-ra.12 rbp)
-                            (fv0 foobar.6.4 tmp-ra.12 rbp)
-                            (foobar.6.4 tmp-ra.12 rbp)
-                            (foobar.6.4 tmp-ra.12 rsi rbp)
-                            (tmp-ra.12 rsi rdi rbp)
-                            (rsi rdi r15 rbp)
-                            (rsi rdi r15 rbp)))
-               (call-undead ())
-               (conflicts ((tmp-ra.12 (ball.3.1 bat.9.2
-                                                foobar.7.3
-                                                foobar.6.4
-                                                bat.0.5
-                                                ball.1.6
-                                                foo.4.7
-                                                rbp
-                                                fv0
-                                                r9
-                                                r8
-                                                rcx
-                                                rdx
-                                                rsi
-                                                rdi))
-                           (foo.4.7 (rbp tmp-ra.12 fv0 r9 r8 rcx rdx rsi))
-                           (ball.1.6 (rbp tmp-ra.12 fv0 r9 r8 rcx rdx))
-                           (bat.0.5 (rbp tmp-ra.12 fv0 r9 r8 rcx))
-                           (foobar.6.4 (rsi ball.3.1 bat.9.2 foobar.7.3 rbp tmp-ra.12 fv0 r9 r8))
-                           (foobar.7.3 (rbp tmp-ra.12 foobar.6.4 fv0 r9))
-                           (bat.9.2 (rbp tmp-ra.12 foobar.6.4 fv0))
-                           (ball.3.1 (rbp tmp-ra.12 foobar.6.4))
-                           (rdi (r15 rbp rsi tmp-ra.12))
-                           (rsi (r15 rdi rbp foobar.6.4 foo.4.7 tmp-ra.12))
-                           (rdx (ball.1.6 foo.4.7 tmp-ra.12))
-                           (rcx (bat.0.5 ball.1.6 foo.4.7 tmp-ra.12))
-                           (r8 (foobar.6.4 bat.0.5 ball.1.6 foo.4.7 tmp-ra.12))
-                           (r9 (foobar.7.3 foobar.6.4 bat.0.5 ball.1.6 foo.4.7 tmp-ra.12))
-                           (fv0 (bat.9.2 foobar.7.3 foobar.6.4 bat.0.5 ball.1.6 foo.4.7 tmp-ra.12))
-                           (rbp (r15 rdi
-                                     rsi
-                                     ball.3.1
-                                     bat.9.2
-                                     foobar.7.3
-                                     foobar.6.4
-                                     bat.0.5
-                                     ball.1.6
-                                     foo.4.7
-                                     tmp-ra.12))
-                           (r15 (rbp rdi rsi))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.12 r15)
-                (set! foo.4.7 rdi)
-                (set! ball.1.6 rsi)
-                (set! bat.0.5 rdx)
-                (set! foobar.6.4 rcx)
-                (set! foobar.7.3 r8)
-                (set! bat.9.2 r9)
-                (set! ball.3.1 fv0)
-                (set! rsi 0)
-                (set! rdi foobar.6.4)
-                (set! r15 tmp-ra.12)
-                (jump L.x.1.2 rbp r15 rdi rsi)))
-      (define L.x.1.2
-        ((new-frames ((nfv.14)))
-         (locals (tmp.17 ball.8.10 nfv.14 tmp.16 ball.3.11))
-         (undead-out ((rdi rsi tmp-ra.13 rbp)
-                      (rsi foobar.7.9 tmp-ra.13 rbp)
-                      (foobar.7.9 bat.9.8 tmp-ra.13 rbp)
-                      ((rax foobar.7.9 bat.9.8 tmp-ra.13 rbp)
-                       ((bat.9.8 foobar.7.9 nfv.14 rbp) (bat.9.8 foobar.7.9 nfv.14 r9 rbp)
-                                                        (bat.9.8 foobar.7.9 nfv.14 r9 r8 rbp)
-                                                        (bat.9.8 foobar.7.9 nfv.14 r9 r8 rcx rbp)
-                                                        (bat.9.8 foobar.7.9 nfv.14 r9 r8 rcx rdx rbp)
-                                                        (foobar.7.9 nfv.14 r9 r8 rcx rdx rsi rbp)
-                                                        (nfv.14 r9 r8 rcx rdx rsi rdi rbp)
-                                                        (nfv.14 r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                        (nfv.14 r9 r8 rcx rdx rsi rdi r15 rbp)))
-                      (foobar.7.9 bat.9.8 ball.8.10 tmp-ra.13 rbp)
-                      (tmp.16 bat.9.8 ball.8.10 tmp-ra.13 rbp)
-                      (tmp.16 bat.9.8 ball.8.10 tmp-ra.13 rbp)
-                      (bat.9.8 ball.8.10 tmp-ra.13 rbp)
-                      (((bat.9.8 tmp.17 ball.8.10 tmp-ra.13 rbp) (ball.8.10 tmp-ra.13 rbp))
-                       ((tmp-ra.13 rax rbp) (rax rbp))
-                       ((tmp-ra.13 rax rbp) (rax rbp)))))
-         (call-undead (foobar.7.9 bat.9.8 tmp-ra.13))
-         (conflicts
-          ((tmp.17 (rbp tmp-ra.13 ball.8.10 bat.9.8))
-           (bat.9.8 (ball.3.11 tmp.16 ball.8.10 rcx r8 r9 rax rbp tmp-ra.13 foobar.7.9 tmp.17))
-           (ball.8.10 (ball.3.11 tmp.16 rbp tmp-ra.13 bat.9.8 foobar.7.9 tmp.17))
-           (tmp-ra.13 (ball.3.11 tmp.16 ball.8.10 bat.9.8 foobar.7.9 rbp rsi rdi tmp.17 rax))
-           (foobar.7.9 (ball.8.10 rdx r8 r9 nfv.14 rax bat.9.8 rbp tmp-ra.13 rsi))
-           (nfv.14 (r15 rdi rsi rdx rcx r8 r9 rbp foobar.7.9))
-           (tmp.16 (rbp tmp-ra.13 ball.8.10 bat.9.8))
-           (ball.3.11 (rbp tmp-ra.13 ball.8.10 bat.9.8))
-           (rax (bat.9.8 foobar.7.9 rbp tmp-ra.13))
-           (rbp (ball.3.11 tmp.16
-                           ball.8.10
-                           r15
-                           rdi
-                           rsi
-                           rdx
-                           rcx
-                           r8
-                           r9
-                           nfv.14
-                           bat.9.8
-                           foobar.7.9
-                           tmp-ra.13
-                           tmp.17
-                           rax))
-           (rdi (r15 rbp rsi rdx rcx r8 r9 nfv.14 tmp-ra.13))
-           (rsi (r15 rdi rbp rdx rcx r8 r9 nfv.14 foobar.7.9 tmp-ra.13))
-           (r9 (r15 rdi rsi rdx rcx r8 rbp nfv.14 foobar.7.9 bat.9.8))
-           (r8 (r15 rdi rsi rdx rcx rbp r9 nfv.14 foobar.7.9 bat.9.8))
-           (rcx (r15 rdi rsi rdx rbp r8 r9 nfv.14 bat.9.8))
-           (rdx (r15 rdi rsi rbp rcx r8 r9 nfv.14 foobar.7.9))
-           (r15 (rbp rdi rsi rdx rcx r8 r9 nfv.14))))
-         (assignment ((tmp-ra.13 fv0) (bat.9.8 fv1) (foobar.7.9 fv2))))
-        (begin
-          (set! tmp-ra.13 r15)
-          (set! foobar.7.9 rdi)
-          (set! bat.9.8 rsi)
-          (return-point L.rp.3
-                        (begin
-                          (set! nfv.14 bat.9.8)
-                          (set! r9 -9223372036854775808)
-                          (set! r8 -9223372036854775808)
-                          (set! rcx foobar.7.9)
-                          (set! rdx bat.9.8)
-                          (set! rsi bat.9.8)
-                          (set! rdi foobar.7.9)
-                          (set! r15 L.rp.3)
-                          (jump L.func.0.1 rbp r15 rdi rsi rdx rcx r8 r9 nfv.14)))
-          (set! ball.8.10 rax)
-          (set! tmp.16 foobar.7.9)
-          (set! tmp.16 (+ tmp.16 -841927304))
-          (set! ball.3.11 tmp.16)
-          (if (begin
-                (set! tmp.17 -9223372036854775808)
-                (= tmp.17 bat.9.8))
-              (begin
-                (set! rax ball.8.10)
-                (jump tmp-ra.13 rbp rax))
-              (begin
-                (set! rax -19487548)
-                (jump tmp-ra.13 rbp rax)))))
-      (begin
-        (set! tmp-ra.15 r15)
-        (set! rsi 169577204)
-        (set! rdi 1130382988)
-        (set! r15 tmp-ra.15)
-        (jump L.x.1.2 rbp r15 rdi rsi))))
-  (check-by-interp
-   '(module ((new-frames ())
-             (locals (foo.6.13 tmp.19 tmp.20 tmp.21 tmp-ra.17 bar.1.14))
-             (call-undead ())
-             (undead-out
-              ((tmp-ra.17 rbp)
-               ((((tmp.19 tmp-ra.17 rbp) (tmp.19 tmp-ra.17 rbp) (tmp-ra.17 rbp)) (tmp-ra.17 rbp))
-                ((tmp-ra.17 rbp)
-                 ((tmp-ra.17 rbp) ((tmp-ra.17 rcx rbp) (tmp-ra.17 rcx rdx rbp)
-                                                       (tmp-ra.17 rcx rdx rsi rbp)
-                                                       (tmp-ra.17 rcx rdx rsi rdi rbp)
-                                                       (rcx rdx rsi rdi r15 rbp)
-                                                       (rcx rdx rsi rdi r15 rbp))
-                                  ((tmp-ra.17 rbp) (tmp-ra.17 rax rbp) (rax rbp)))
-                 (((tmp.20 tmp-ra.17 rbp) (tmp-ra.17 rbp))
-                  (((tmp.21 tmp-ra.17 rbp) (tmp-ra.17 rbp)) ((tmp-ra.17 rax rbp) (rax rbp))
-                                                            ((tmp-ra.17 rax rbp) (rax rbp)))
-                  ((tmp-ra.17 r9 rbp) (tmp-ra.17 r9 r8 rbp)
-                                      (tmp-ra.17 r9 r8 rcx rbp)
-                                      (tmp-ra.17 r9 r8 rcx rdx rbp)
-                                      (tmp-ra.17 r9 r8 rcx rdx rsi rbp)
-                                      (tmp-ra.17 r9 r8 rcx rdx rsi rdi rbp)
-                                      (r9 r8 rcx rdx rsi rdi r15 rbp)
-                                      (r9 r8 rcx rdx rsi rdi r15 rbp))))
-                ((tmp-ra.17 rbp) ((tmp-ra.17 r9 rbp) (tmp-ra.17 r9 r8 rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rdx rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rdx rsi rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rdx rsi rdi rbp)
-                                                     (r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                     (r9 r8 rcx rdx rsi rdi r15 rbp))
-                                 ((tmp-ra.17 r9 rbp) (tmp-ra.17 r9 r8 rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rdx rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rdx rsi rbp)
-                                                     (tmp-ra.17 r9 r8 rcx rdx rsi rdi rbp)
-                                                     (r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                     (r9 r8 rcx rdx rsi rdi r15 rbp))))))
-             (conflicts
-              ((foo.6.13 (rbp tmp-ra.17))
-               (tmp.19 (rbp tmp-ra.17))
-               (tmp.20 (rbp tmp-ra.17))
-               (tmp.21 (rbp tmp-ra.17))
-               (tmp-ra.17 (rbp tmp.19 foo.6.13 bar.1.14 tmp.20 tmp.21 rax rdi rsi rdx rcx r8 r9))
-               (bar.1.14 (rbp tmp-ra.17))
-               (r9 (r15 rdi rsi rdx rcx r8 rbp tmp-ra.17))
-               (rbp (tmp-ra.17 tmp.19 foo.6.13 bar.1.14 tmp.20 tmp.21 rax r15 rdi rsi rdx rcx r8 r9))
-               (r8 (r15 rdi rsi rdx rcx rbp r9 tmp-ra.17))
-               (rcx (r15 rdi rsi rdx rbp r8 r9 tmp-ra.17))
-               (rdx (r15 rdi rsi rbp rcx r8 r9 tmp-ra.17))
-               (rsi (r15 rdi rbp rdx rcx r8 r9 tmp-ra.17))
-               (rdi (r15 rbp rsi rdx rcx r8 r9 tmp-ra.17))
-               (r15 (rbp rdi rsi rdx rcx r8 r9))
-               (rax (rbp tmp-ra.17))))
-             (assignment ()))
-            (define L.proc.0.1
-              ((new-frames ())
-               (locals (ball.5.3 foobar.2.8
-                                 bar.1.7
-                                 tmp.18
-                                 tmp-ra.15
-                                 bat.4.2
-                                 bar.8.5
-                                 bat.0.6
-                                 foobar.2.4
-                                 ball.7.1))
-               (undead-out ((rdi rsi rdx rcx r8 r9 tmp-ra.15 rbp)
-                            (rsi rdx rcx r8 r9 tmp-ra.15 rbp)
-                            (rdx rcx r8 r9 bar.8.5 tmp-ra.15 rbp)
-                            (rcx r8 r9 bar.8.5 tmp-ra.15 rbp)
-                            (r8 r9 bar.8.5 ball.5.3 tmp-ra.15 rbp)
-                            (r9 bat.4.2 bar.8.5 ball.5.3 tmp-ra.15 rbp)
-                            (bat.4.2 bar.8.5 ball.5.3 tmp-ra.15 rbp)
-                            ((bat.4.2 bar.8.5 ball.5.3 tmp-ra.15 rbp)
-                             ((tmp.18 ball.5.3 tmp-ra.15 rbp) (tmp.18 ball.5.3 tmp-ra.15 rbp)
-                                                              (ball.5.3 tmp-ra.15 rbp)
-                                                              (ball.5.3 tmp-ra.15 rbp)
-                                                              (tmp-ra.15 rax rbp)
-                                                              (rax rbp))
-                             ((bar.8.5 bat.4.2 tmp-ra.15 r9 rbp) (bar.8.5 bat.4.2 tmp-ra.15 r9 r8 rbp)
-                                                                 (bat.4.2 tmp-ra.15 r9 r8 rcx rbp)
-                                                                 (bat.4.2 tmp-ra.15 r9 r8 rcx rdx rbp)
-                                                                 (tmp-ra.15 r9 r8 rcx rdx rsi rbp)
-                                                                 (tmp-ra.15 r9 r8 rcx rdx rsi rdi rbp)
-                                                                 (r9 r8 rcx rdx rsi rdi r15 rbp)
-                                                                 (r9 r8 rcx rdx rsi rdi r15 rbp)))))
-               (call-undead ())
-               (conflicts
-                ((ball.5.3 (ball.7.1 bat.4.2 rbp tmp-ra.15 bar.8.5 r9 r8 foobar.2.8 bar.1.7 tmp.18))
-                 (foobar.2.8 (rbp tmp-ra.15 ball.5.3))
-                 (bar.1.7 (rbp tmp-ra.15 ball.5.3))
-                 (tmp.18 (rbp tmp-ra.15 ball.5.3))
-                 (tmp-ra.15 (ball.7.1 bat.4.2
-                                      ball.5.3
-                                      foobar.2.4
-                                      bar.8.5
-                                      bat.0.6
-                                      rbp
-                                      rax
-                                      foobar.2.8
-                                      bar.1.7
-                                      tmp.18
-                                      rdi
-                                      rsi
-                                      rdx
-                                      rcx
-                                      r8
-                                      r9))
-                 (bat.4.2 (ball.7.1 rbp tmp-ra.15 ball.5.3 bar.8.5 rcx r8 r9))
-                 (bar.8.5 (ball.7.1 bat.4.2 ball.5.3 foobar.2.4 rbp tmp-ra.15 r9 rcx rdx r8))
-                 (bat.0.6 (rbp tmp-ra.15 r9 r8 rcx rdx rsi))
-                 (foobar.2.4 (rbp tmp-ra.15 bar.8.5 r9 r8 rcx))
-                 (ball.7.1 (rbp tmp-ra.15 ball.5.3 bar.8.5 bat.4.2))
-                 (r9
-                  (ball.5.3 foobar.2.4 bar.8.5 bat.0.6 r15 rdi rsi rdx rcx r8 rbp tmp-ra.15 bat.4.2))
-                 (rbp (ball.7.1 bat.4.2
-                                ball.5.3
-                                foobar.2.4
-                                bar.8.5
-                                bat.0.6
-                                tmp-ra.15
-                                rax
-                                foobar.2.8
-                                bar.1.7
-                                tmp.18
-                                r15
-                                rdi
-                                rsi
-                                rdx
-                                rcx
-                                r8
-                                r9))
-                 (r8
-                  (ball.5.3 foobar.2.4 bat.0.6 r15 rdi rsi rdx rcx rbp r9 tmp-ra.15 bat.4.2 bar.8.5))
-                 (rcx (foobar.2.4 bar.8.5 bat.0.6 r15 rdi rsi rdx rbp r8 r9 tmp-ra.15 bat.4.2))
-                 (rdx (bar.8.5 bat.0.6 r15 rdi rsi rbp rcx r8 r9 tmp-ra.15))
-                 (rsi (bat.0.6 r15 rdi rbp rdx rcx r8 r9 tmp-ra.15))
-                 (rdi (r15 rbp rsi rdx rcx r8 r9 tmp-ra.15))
-                 (r15 (rbp rdi rsi rdx rcx r8 r9))
-                 (rax (rbp tmp-ra.15))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.15 r15)
-                (set! bat.0.6 rdi)
-                (set! bar.8.5 rsi)
-                (set! foobar.2.4 rdx)
-                (set! ball.5.3 rcx)
-                (set! bat.4.2 r8)
-                (set! ball.7.1 r9)
-                (if (false)
-                    (begin
-                      (set! tmp.18 1763789232)
-                      (set! tmp.18 (+ tmp.18 0))
-                      (set! bar.1.7 tmp.18)
-                      (set! foobar.2.8 9223372036854775807)
-                      (set! rax ball.5.3)
-                      (jump tmp-ra.15 rbp rax))
-                    (begin
-                      (set! r9 bar.8.5)
-                      (set! r8 -9223372036854775808)
-                      (set! rcx bar.8.5)
-                      (set! rdx bat.4.2)
-                      (set! rsi bat.4.2)
-                      (set! rdi 9223372036854775807)
-                      (set! r15 tmp-ra.15)
-                      (jump L.proc.0.1 rbp r15 rdi rsi rdx rcx r8 r9)))))
-      (define L.func.1.2
-        ((new-frames ())
-         (locals (tmp-ra.16 foobar.2.12 bar.1.11 bat.4.10 ball.5.9))
-         (undead-out ((rdi rsi rdx rcx tmp-ra.16 rbp) (rsi rdx rcx tmp-ra.16 rbp)
-                                                      (rdx rcx bar.1.11 tmp-ra.16 rbp)
-                                                      (rcx bat.4.10 bar.1.11 tmp-ra.16 rbp)
-                                                      (ball.5.9 bat.4.10 bar.1.11 tmp-ra.16 rbp)
-                                                      (ball.5.9 bat.4.10 bar.1.11 tmp-ra.16 rcx rbp)
-                                                      (bat.4.10 bar.1.11 tmp-ra.16 rcx rdx rbp)
-                                                      (bar.1.11 tmp-ra.16 rcx rdx rsi rbp)
-                                                      (tmp-ra.16 rcx rdx rsi rdi rbp)
-                                                      (rcx rdx rsi rdi r15 rbp)
-                                                      (rcx rdx rsi rdi r15 rbp)))
-         (call-undead ())
-         (conflicts ((tmp-ra.16 (ball.5.9 bat.4.10 bar.1.11 foobar.2.12 rbp rcx rdx rsi rdi))
-                     (foobar.2.12 (rbp tmp-ra.16 rcx rdx rsi))
-                     (bar.1.11 (rsi ball.5.9 bat.4.10 rbp tmp-ra.16 rcx rdx))
-                     (bat.4.10 (rdx ball.5.9 rbp tmp-ra.16 bar.1.11 rcx))
-                     (ball.5.9 (rcx rbp tmp-ra.16 bar.1.11 bat.4.10))
-                     (rdi (r15 rbp rsi rdx rcx tmp-ra.16))
-                     (rsi (r15 rdi rbp rdx rcx bar.1.11 foobar.2.12 tmp-ra.16))
-                     (rdx (r15 rdi rsi rbp rcx bat.4.10 bar.1.11 foobar.2.12 tmp-ra.16))
-                     (rcx (r15 rdi rsi rdx rbp ball.5.9 bat.4.10 bar.1.11 foobar.2.12 tmp-ra.16))
-                     (rbp (r15 rdi rsi rdx rcx ball.5.9 bat.4.10 bar.1.11 foobar.2.12 tmp-ra.16))
-                     (r15 (rbp rdi rsi rdx rcx))))
-         (assignment ()))
-        (begin
-          (set! tmp-ra.16 r15)
-          (set! foobar.2.12 rdi)
-          (set! bar.1.11 rsi)
-          (set! bat.4.10 rdx)
-          (set! ball.5.9 rcx)
-          (set! rcx 1283566420)
-          (set! rdx ball.5.9)
-          (set! rsi bat.4.10)
-          (set! rdi bar.1.11)
-          (set! r15 tmp-ra.16)
-          (jump L.func.1.2 rbp r15 rdi rsi rdx rcx)))
-      (begin
-        (set! tmp-ra.17 r15)
-        (if (begin
-              (begin
-                (set! tmp.19 -9223372036854775808)
-                (set! tmp.19 (- tmp.19 9223372036854775807))
-                (set! foo.6.13 tmp.19))
-              (false))
-            (if (true)
-                (if (true)
-                    (begin
-                      (set! rcx -9223372036854775808)
-                      (set! rdx -481495635)
-                      (set! rsi 0)
-                      (set! rdi 9223372036854775807)
-                      (set! r15 tmp-ra.17)
-                      (jump L.func.1.2 rbp r15 rdi rsi rdx rcx))
-                    (begin
-                      (set! bar.1.14 1)
-                      (set! rax 1)
-                      (jump tmp-ra.17 rbp rax)))
-                (if (not (begin
-                           (set! tmp.20 -2094891483)
-                           (<= tmp.20 -9223372036854775808)))
-                    (if (begin
-                          (set! tmp.21 -9223372036854775808)
-                          (>= tmp.21 -753552692))
-                        (begin
-                          (set! rax 1)
-                          (jump tmp-ra.17 rbp rax))
-                        (begin
-                          (set! rax 9223372036854775807)
-                          (jump tmp-ra.17 rbp rax)))
-                    (begin
-                      (set! r9 -1972468042)
-                      (set! r8 9223372036854775807)
-                      (set! rcx 1598924696)
-                      (set! rdx 0)
-                      (set! rsi 1)
-                      (set! rdi 1)
-                      (set! r15 tmp-ra.17)
-                      (jump L.proc.0.1 rbp r15 rdi rsi rdx rcx r8 r9))))
-            (if (false)
-                (begin
-                  (set! r9 1)
-                  (set! r8 716409514)
-                  (set! rcx 0)
-                  (set! rdx 0)
-                  (set! rsi 9223372036854775807)
-                  (set! rdi 9223372036854775807)
-                  (set! r15 tmp-ra.17)
-                  (jump L.proc.0.1 rbp r15 rdi rsi rdx rcx r8 r9))
-                (begin
-                  (set! r9 1)
-                  (set! r8 -100459334)
-                  (set! rcx -983869259)
-                  (set! rdx -9223372036854775808)
-                  (set! rsi -1938006617)
-                  (set! rdi 1)
-                  (set! r15 tmp-ra.17)
-                  (jump L.proc.0.1 rbp r15 rdi rsi rdx rcx r8 r9)))))))
+
   (check-by-interp
    '(module ((new-frames ())
              (locals (tmp-ra.12))
@@ -3083,248 +2048,7 @@
         (set! rdi -1611188905)
         (set! r15 tmp-ra.12)
         (jump L.x.1.2 rbp r15 rdi rsi rdx rcx r8))))
-  (check-by-interp
-   '(module ((new-frames ())
-             (locals (tmp-ra.10))
-             (call-undead ())
-             (undead-out ((tmp-ra.10 rbp) (tmp-ra.10 rcx rbp)
-                                          (tmp-ra.10 rcx rdx rbp)
-                                          (tmp-ra.10 rcx rdx rsi rbp)
-                                          (tmp-ra.10 rcx rdx rsi rdi rbp)
-                                          (rcx rdx rsi rdi r15 rbp)
-                                          (rcx rdx rsi rdi r15 rbp)))
-             (conflicts ((tmp-ra.10 (rdi rsi rdx rcx rbp)) (rbp (r15 rdi rsi rdx rcx tmp-ra.10))
-                                                           (rcx (r15 rdi rsi rdx rbp tmp-ra.10))
-                                                           (rdx (r15 rdi rsi rbp rcx tmp-ra.10))
-                                                           (rsi (r15 rdi rbp rdx rcx tmp-ra.10))
-                                                           (rdi (r15 rbp rsi rdx rcx tmp-ra.10))
-                                                           (r15 (rbp rdi rsi rdx rcx))))
-             (assignment ()))
-            (define L.x.0.1
-              ((new-frames ())
-               (locals (tmp-ra.8 bar.1.3 foo.3.2 foo.4.1))
-               (undead-out ((rdi rsi rdx tmp-ra.8 rbp) (rsi rdx tmp-ra.8 rbp)
-                                                       (rdx tmp-ra.8 rbp)
-                                                       (foo.4.1 tmp-ra.8 rbp)
-                                                       (foo.4.1 tmp-ra.8 rcx rbp)
-                                                       (foo.4.1 tmp-ra.8 rcx rdx rbp)
-                                                       (tmp-ra.8 rcx rdx rsi rbp)
-                                                       (tmp-ra.8 rcx rdx rsi rdi rbp)
-                                                       (rcx rdx rsi rdi r15 rbp)
-                                                       (rcx rdx rsi rdi r15 rbp)))
-               (call-undead ())
-               (conflicts ((tmp-ra.8 (rcx foo.4.1 foo.3.2 bar.1.3 rbp rdx rsi rdi))
-                           (bar.1.3 (rbp tmp-ra.8 rdx rsi))
-                           (foo.3.2 (rbp tmp-ra.8 rdx))
-                           (foo.4.1 (rdx rcx rbp tmp-ra.8))
-                           (rdi (r15 rbp rsi rdx rcx tmp-ra.8))
-                           (rsi (r15 rdi rbp rdx rcx bar.1.3 tmp-ra.8))
-                           (rdx (r15 rdi rsi rbp rcx foo.4.1 foo.3.2 bar.1.3 tmp-ra.8))
-                           (rbp (r15 rdi rsi rdx rcx foo.4.1 foo.3.2 bar.1.3 tmp-ra.8))
-                           (rcx (r15 rdi rsi rdx rbp tmp-ra.8 foo.4.1))
-                           (r15 (rbp rdi rsi rdx rcx))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.8 r15)
-                (set! bar.1.3 rdi)
-                (set! foo.3.2 rsi)
-                (set! foo.4.1 rdx)
-                (set! rcx -1370687846)
-                (set! rdx -9223372036854775808)
-                (set! rsi foo.4.1)
-                (set! rdi 346043157)
-                (set! r15 tmp-ra.8)
-                (jump L.x.1.2 rbp r15 rdi rsi rdx rcx)))
-      (define L.x.1.2
-        ((new-frames ())
-         (locals (tmp-ra.9 bar.1.7 foo.3.6 bar.0.5 foo.8.4))
-         (undead-out ((rdi rsi rdx rcx tmp-ra.9 rbp) (rsi rdx rcx tmp-ra.9 rbp)
-                                                     (rdx rcx foo.3.6 tmp-ra.9 rbp)
-                                                     (rcx foo.3.6 tmp-ra.9 rbp)
-                                                     (foo.3.6 tmp-ra.9 rbp)
-                                                     (foo.3.6 tmp-ra.9 rcx rbp)
-                                                     (foo.3.6 tmp-ra.9 rcx rdx rbp)
-                                                     (tmp-ra.9 rcx rdx rsi rbp)
-                                                     (tmp-ra.9 rcx rdx rsi rdi rbp)
-                                                     (rcx rdx rsi rdi r15 rbp)
-                                                     (rcx rdx rsi rdi r15 rbp)))
-         (call-undead ())
-         (conflicts ((tmp-ra.9 (foo.8.4 bar.0.5 foo.3.6 bar.1.7 rbp rcx rdx rsi rdi))
-                     (bar.1.7 (rbp tmp-ra.9 rcx rdx rsi))
-                     (foo.3.6 (foo.8.4 bar.0.5 rbp tmp-ra.9 rcx rdx))
-                     (bar.0.5 (rbp tmp-ra.9 foo.3.6 rcx))
-                     (foo.8.4 (rbp tmp-ra.9 foo.3.6))
-                     (rdi (r15 rbp rsi rdx rcx tmp-ra.9))
-                     (rsi (r15 rdi rbp rdx rcx bar.1.7 tmp-ra.9))
-                     (rdx (r15 rdi rsi rbp rcx foo.3.6 bar.1.7 tmp-ra.9))
-                     (rcx (r15 rdi rsi rdx rbp bar.0.5 foo.3.6 bar.1.7 tmp-ra.9))
-                     (rbp (r15 rdi rsi rdx rcx foo.8.4 bar.0.5 foo.3.6 bar.1.7 tmp-ra.9))
-                     (r15 (rbp rdi rsi rdx rcx))))
-         (assignment ()))
-        (begin
-          (set! tmp-ra.9 r15)
-          (set! bar.1.7 rdi)
-          (set! foo.3.6 rsi)
-          (set! bar.0.5 rdx)
-          (set! foo.8.4 rcx)
-          (set! rcx 1658781620)
-          (set! rdx 0)
-          (set! rsi foo.3.6)
-          (set! rdi -1950262775)
-          (set! r15 tmp-ra.9)
-          (jump L.x.1.2 rbp r15 rdi rsi rdx rcx)))
-      (begin
-        (set! tmp-ra.10 r15)
-        (set! rcx 9223372036854775807)
-        (set! rdx -1844821605)
-        (set! rsi 1)
-        (set! rdi -139919863)
-        (set! r15 tmp-ra.10)
-        (jump L.x.1.2 rbp r15 rdi rsi rdx rcx))))
-  (check-by-interp
-   '(module ((new-frames (()))
-             (locals (tmp.10 tmp.11 tmp.12 foobar.1.7 foobar.1.6 tmp.14 bar.7.5 tmp.13 tmp.15))
-             (call-undead (tmp-ra.9))
-             (undead-out
-              ((tmp-ra.9 rbp)
-               ((tmp-ra.9 rbp)
-                (((((tmp.10 tmp-ra.9 rbp) (tmp-ra.9 rbp)) ((tmp.11 tmp-ra.9 rbp) (tmp-ra.9 rbp))
-                                                          ((tmp.12 tmp-ra.9 rbp) (tmp-ra.9 rbp)))
-                  (((rax tmp-ra.9 rbp) ((rcx rbp) (rcx rdx rbp)
-                                                  (rcx rdx rsi rbp)
-                                                  (rcx rdx rsi rdi rbp)
-                                                  (rcx rdx rsi rdi r15 rbp)
-                                                  (rcx rdx rsi rdi r15 rbp)))
-                   (bar.7.5 tmp-ra.9 rbp))
-                  (bar.7.5 tmp-ra.9 rbp))
-                 ((((tmp.13 bar.7.5 tmp-ra.9 rbp) (bar.7.5 tmp-ra.9 rbp))
-                   (bar.7.5 tmp-ra.9 rbp)
-                   ((tmp.14 bar.7.5 tmp-ra.9 rbp) (bar.7.5 tmp-ra.9 rbp)))
-                  ((tmp-ra.9 rbp) (tmp-ra.9 rax rbp) (rax rbp))
-                  ((bar.7.5 tmp-ra.9 rbp) (tmp-ra.9 rax rbp) (rax rbp))))
-                ((tmp-ra.9 rbp)
-                 ((tmp-ra.9 rax rbp) (rax rbp))
-                 ((tmp.15 tmp-ra.9 rbp) (tmp.15 tmp-ra.9 rbp) (tmp-ra.9 rax rbp) (rax rbp))))))
-             (conflicts
-              ((tmp.10 (rbp tmp-ra.9))
-               (tmp.11 (rbp tmp-ra.9))
-               (tmp.12 (rbp tmp-ra.9))
-               (foobar.1.7 (rbp tmp-ra.9 bar.7.5))
-               (tmp-ra.9
-                (rbp tmp.10 tmp.11 tmp.12 bar.7.5 tmp.13 tmp.14 foobar.1.6 foobar.1.7 rax tmp.15))
-               (foobar.1.6 (rbp tmp-ra.9))
-               (tmp.14 (rbp tmp-ra.9 bar.7.5))
-               (bar.7.5 (rbp tmp-ra.9 tmp.13 tmp.14 foobar.1.7))
-               (tmp.13 (rbp tmp-ra.9 bar.7.5))
-               (tmp.15 (rbp tmp-ra.9))
-               (rbp (tmp-ra.9 tmp.10
-                              tmp.11
-                              tmp.12
-                              r15
-                              rdi
-                              rsi
-                              rdx
-                              rcx
-                              bar.7.5
-                              tmp.13
-                              tmp.14
-                              foobar.1.6
-                              foobar.1.7
-                              rax
-                              tmp.15))
-               (rax (rbp tmp-ra.9))
-               (rcx (r15 rdi rsi rdx rbp))
-               (rdx (r15 rdi rsi rbp rcx))
-               (rsi (r15 rdi rbp rdx rcx))
-               (rdi (r15 rbp rsi rdx rcx))
-               (r15 (rbp rdi rsi rdx rcx))))
-             (assignment ((tmp-ra.9 fv0))))
-            (define L.tmp.0.1
-              ((new-frames ())
-               (locals (tmp-ra.8 bar.4.4 foobar.9.3 ball.5.2 bar.8.1))
-               (undead-out ((rdi rsi rdx rcx tmp-ra.8 rbp) (rsi rdx rcx tmp-ra.8 rbp)
-                                                           (rdx rcx foobar.9.3 tmp-ra.8 rbp)
-                                                           (rcx ball.5.2 foobar.9.3 tmp-ra.8 rbp)
-                                                           (ball.5.2 foobar.9.3 tmp-ra.8 rbp)
-                                                           (ball.5.2 foobar.9.3 tmp-ra.8 rcx rbp)
-                                                           (ball.5.2 foobar.9.3 tmp-ra.8 rcx rdx rbp)
-                                                           (foobar.9.3 tmp-ra.8 rcx rdx rsi rbp)
-                                                           (tmp-ra.8 rcx rdx rsi rdi rbp)
-                                                           (rcx rdx rsi rdi r15 rbp)
-                                                           (rcx rdx rsi rdi r15 rbp)))
-               (call-undead ())
-               (conflicts ((tmp-ra.8 (bar.8.1 ball.5.2 foobar.9.3 bar.4.4 rbp rcx rdx rsi rdi))
-                           (bar.4.4 (rbp tmp-ra.8 rcx rdx rsi))
-                           (foobar.9.3 (rsi bar.8.1 ball.5.2 rbp tmp-ra.8 rcx rdx))
-                           (ball.5.2 (bar.8.1 rbp tmp-ra.8 foobar.9.3 rcx))
-                           (bar.8.1 (rbp tmp-ra.8 foobar.9.3 ball.5.2))
-                           (rdi (r15 rbp rsi rdx rcx tmp-ra.8))
-                           (rsi (r15 rdi rbp rdx rcx foobar.9.3 bar.4.4 tmp-ra.8))
-                           (rdx (r15 rdi rsi rbp rcx foobar.9.3 bar.4.4 tmp-ra.8))
-                           (rcx (r15 rdi rsi rdx rbp ball.5.2 foobar.9.3 bar.4.4 tmp-ra.8))
-                           (rbp (r15 rdi rsi rdx rcx bar.8.1 ball.5.2 foobar.9.3 bar.4.4 tmp-ra.8))
-                           (r15 (rbp rdi rsi rdx rcx))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.8 r15)
-                (set! bar.4.4 rdi)
-                (set! foobar.9.3 rsi)
-                (set! ball.5.2 rdx)
-                (set! bar.8.1 rcx)
-                (set! rcx ball.5.2)
-                (set! rdx ball.5.2)
-                (set! rsi ball.5.2)
-                (set! rdi foobar.9.3)
-                (set! r15 tmp-ra.8)
-                (jump L.tmp.0.1 rbp r15 rdi rsi rdx rcx)))
-      (begin
-        (set! tmp-ra.9 r15)
-        (if (false)
-            (begin
-              (if (if (begin
-                        (set! tmp.10 9223372036854775807)
-                        (> tmp.10 1428972274))
-                      (begin
-                        (set! tmp.11 0)
-                        (!= tmp.11 479631559))
-                      (begin
-                        (set! tmp.12 0)
-                        (>= tmp.12 1284385619)))
-                  (begin
-                    (return-point L.rp.2
-                                  (begin
-                                    (set! rcx 1)
-                                    (set! rdx 0)
-                                    (set! rsi -1164071576)
-                                    (set! rdi 1550080702)
-                                    (set! r15 L.rp.2)
-                                    (jump L.tmp.0.1 rbp r15 rdi rsi rdx rcx)))
-                    (set! bar.7.5 rax))
-                  (set! bar.7.5 -9223372036854775808))
-              (if (if (begin
-                        (set! tmp.13 0)
-                        (<= tmp.13 bar.7.5))
-                      (!= bar.7.5 2009350954)
-                      (begin
-                        (set! tmp.14 1170635915)
-                        (!= tmp.14 bar.7.5)))
-                  (begin
-                    (set! foobar.1.6 bar.7.5)
-                    (set! rax 0)
-                    (jump tmp-ra.9 rbp rax))
-                  (begin
-                    (set! foobar.1.7 -378459323)
-                    (set! rax bar.7.5)
-                    (jump tmp-ra.9 rbp rax))))
-            (if (false)
-                (begin
-                  (set! rax 0)
-                  (jump tmp-ra.9 rbp rax))
-                (begin
-                  (set! tmp.15 1326448876)
-                  (set! tmp.15 (- tmp.15 360169641))
-                  (set! rax tmp.15)
-                  (jump tmp-ra.9 rbp rax)))))))
+
   (check-by-interp '(module ((new-frames ()) (locals (tmp-ra.4 foo.5.2 foo.5.3 foo.7.1))
                                              (call-undead ())
                                              (undead-out ((tmp-ra.4 rbp) (foo.5.2 tmp-ra.4 rbp)
@@ -3347,508 +2071,7 @@
                               (set! rax foo.7.1)
                               (jump tmp-ra.4 rbp rax))
                       ))
-  (check-by-interp
-   '(module ((new-frames (() ()))
-             (locals (tmp.20 tmp.21 bat.8.11 tmp.23 tmp.22 tmp.24 bat.8.12))
-             (call-undead (foobar.3.10 tmp-ra.15))
-             (undead-out ((tmp-ra.15 rbp)
-                          ((rax tmp-ra.15 rbp) ((rdx rbp) (rdx rsi rbp)
-                                                          (rdx rsi rdi rbp)
-                                                          (rdx rsi rdi r15 rbp)
-                                                          (rdx rsi rdi r15 rbp)))
-                          (foobar.3.10 tmp-ra.15 rbp)
-                          ((((tmp.20 foobar.3.10 tmp-ra.15 rbp) (foobar.3.10 tmp-ra.15 rbp))
-                            ((tmp.21 foobar.3.10 tmp-ra.15 rbp) (foobar.3.10 tmp-ra.15 rbp))
-                            (foobar.3.10 tmp-ra.15 rbp))
-                           (((tmp.22 foobar.3.10 tmp-ra.15 rbp) (foobar.3.10 tmp-ra.15 rbp))
-                            ((foobar.3.10 tmp.23 tmp-ra.15 rbp) (tmp.23 tmp-ra.15 rbp)
-                                                                (tmp-ra.15 rax rbp)
-                                                                (rax rbp))
-                            ((bat.8.11 tmp-ra.15 rbp) (tmp-ra.15 rax rbp) (rax rbp)))
-                           (((rax foobar.3.10 tmp-ra.15 rbp) ((rdx rbp) (rdx rsi rbp)
-                                                                        (rdx rsi rdi rbp)
-                                                                        (rdx rsi rdi r15 rbp)
-                                                                        (rdx rsi rdi r15 rbp)))
-                            (bat.8.12 foobar.3.10 tmp-ra.15 rbp)
-                            (foobar.3.10 tmp.24 tmp-ra.15 rbp)
-                            (tmp.24 tmp-ra.15 rbp)
-                            (tmp-ra.15 rax rbp)
-                            (rax rbp)))))
-             (conflicts
-              ((tmp.20 (rbp tmp-ra.15 foobar.3.10))
-               (foobar.3.10 (rbp tmp-ra.15 tmp.20 tmp.21 tmp.22 tmp.23 tmp.24 bat.8.12 rax))
-               (tmp.21 (rbp tmp-ra.15 foobar.3.10))
-               (bat.8.11 (rbp tmp-ra.15))
-               (tmp-ra.15 (foobar.3.10 rbp tmp.20 tmp.21 tmp.22 tmp.23 bat.8.11 tmp.24 bat.8.12 rax))
-               (tmp.23 (rbp tmp-ra.15 foobar.3.10))
-               (tmp.22 (rbp tmp-ra.15 foobar.3.10))
-               (tmp.24 (rbp tmp-ra.15 foobar.3.10))
-               (bat.8.12 (rbp tmp-ra.15 foobar.3.10))
-               (rax (rbp tmp-ra.15 foobar.3.10))
-               (rbp (foobar.3.10 tmp-ra.15
-                                 tmp.20
-                                 tmp.21
-                                 tmp.22
-                                 tmp.23
-                                 bat.8.11
-                                 tmp.24
-                                 bat.8.12
-                                 r15
-                                 rdi
-                                 rsi
-                                 rdx
-                                 rax))
-               (rdx (r15 rdi rsi rbp))
-               (rsi (r15 rdi rbp rdx))
-               (rdi (r15 rbp rsi rdx))
-               (r15 (rbp rdi rsi rdx))))
-             (assignment ((tmp-ra.15 fv0) (foobar.3.10 fv1))))
-            (define L.func.0.1
-              ((new-frames (()))
-               (locals (tmp.17 foobar.3.3 bat.7.2 tmp.16 ball.4.4 bat.8.5))
-               (undead-out ((rdi rsi rdx tmp-ra.13 rbp)
-                            (rsi rdx tmp-ra.13 rbp)
-                            (rdx tmp-ra.13 rbp)
-                            (bar.2.1 tmp-ra.13 rbp)
-                            (tmp.16 bar.2.1 tmp-ra.13 rbp)
-                            (tmp.16 bar.2.1 tmp-ra.13 rbp)
-                            (ball.4.4 bar.2.1 tmp-ra.13 rbp)
-                            ((rax bar.2.1 tmp-ra.13 rbp) ((ball.4.4 rdx rbp) (ball.4.4 rdx rsi rbp)
-                                                                             (rdx rsi rdi rbp)
-                                                                             (rdx rsi rdi r15 rbp)
-                                                                             (rdx rsi rdi r15 rbp)))
-                            (bar.2.1 tmp-ra.13 rbp)
-                            (((bar.2.1 tmp.17 tmp-ra.13 rbp) (tmp-ra.13 rbp))
-                             ((tmp-ra.13 rax rbp) (rax rbp))
-                             ((tmp-ra.13 rax rbp) (rax rbp)))))
-               (call-undead (bar.2.1 tmp-ra.13))
-               (conflicts
-                ((tmp.17 (rbp tmp-ra.13 bar.2.1))
-                 (bar.2.1 (bat.8.5 rax ball.4.4 tmp.16 rbp tmp-ra.13 tmp.17))
-                 (tmp-ra.13
-                  (bat.8.5 ball.4.4 tmp.16 bar.2.1 bat.7.2 foobar.3.3 rbp rdx rsi rdi tmp.17 rax))
-                 (foobar.3.3 (rbp tmp-ra.13 rdx rsi))
-                 (bat.7.2 (rbp tmp-ra.13 rdx))
-                 (tmp.16 (rbp tmp-ra.13 bar.2.1))
-                 (ball.4.4 (rdx rbp tmp-ra.13 bar.2.1))
-                 (bat.8.5 (rbp tmp-ra.13 bar.2.1))
-                 (rax (bar.2.1 rbp tmp-ra.13))
-                 (rbp (bat.8.5 r15
-                               rdi
-                               rsi
-                               rdx
-                               ball.4.4
-                               tmp.16
-                               bar.2.1
-                               bat.7.2
-                               foobar.3.3
-                               tmp-ra.13
-                               tmp.17
-                               rax))
-                 (rdi (r15 rbp rsi rdx tmp-ra.13))
-                 (rsi (r15 rdi rbp rdx foobar.3.3 tmp-ra.13))
-                 (rdx (r15 rdi rsi rbp ball.4.4 bat.7.2 foobar.3.3 tmp-ra.13))
-                 (r15 (rbp rdi rsi rdx))))
-               (assignment ((tmp-ra.13 fv0) (bar.2.1 fv1))))
-              (begin
-                (set! tmp-ra.13 r15)
-                (set! foobar.3.3 rdi)
-                (set! bat.7.2 rsi)
-                (set! bar.2.1 rdx)
-                (set! tmp.16 -529343887)
-                (set! tmp.16 (* tmp.16 -1285114971))
-                (set! ball.4.4 tmp.16)
-                (return-point L.rp.3
-                              (begin
-                                (set! rdx bar.2.1)
-                                (set! rsi ball.4.4)
-                                (set! rdi ball.4.4)
-                                (set! r15 L.rp.3)
-                                (jump L.func.0.1 rbp r15 rdi rsi rdx)))
-                (set! bat.8.5 rax)
-                (if (begin
-                      (set! tmp.17 1981945067)
-                      (= tmp.17 bar.2.1))
-                    (begin
-                      (set! rax -195961595)
-                      (jump tmp-ra.13 rbp rax))
-                    (begin
-                      (set! rax 9223372036854775807)
-                      (jump tmp-ra.13 rbp rax)))))
-      (define L.fn.1.2
-        ((new-frames (()))
-         (locals (bat.8.6 tmp.18 foobar.1.8 bar.9.7 foobar.1.9 tmp.19))
-         (undead-out ((rdi tmp-ra.14 rbp)
-                      (bat.8.6 tmp-ra.14 rbp)
-                      (tmp.18 bat.8.6 tmp-ra.14 rbp)
-                      (tmp.18 bat.8.6 tmp-ra.14 rbp)
-                      (bat.8.6 tmp-ra.14 rbp)
-                      ((bat.8.6 tmp-ra.14 rbp) (bat.8.6 tmp-ra.14 rbp) (bat.8.6 tmp-ra.14 rbp))
-                      ((rax tmp-ra.14 rbp) ((bat.8.6 rdx rbp) (bat.8.6 rdx rsi rbp)
-                                                              (rdx rsi rdi rbp)
-                                                              (rdx rsi rdi r15 rbp)
-                                                              (rdx rsi rdi r15 rbp)))
-                      (foobar.1.9 tmp-ra.14 rbp)
-                      (foobar.1.9 tmp.19 tmp-ra.14 rbp)
-                      (tmp.19 tmp-ra.14 rbp)
-                      (tmp-ra.14 rax rbp)
-                      (rax rbp)))
-         (call-undead (tmp-ra.14))
-         (conflicts
-          ((tmp-ra.14 (tmp.19 foobar.1.9 rax bar.9.7 foobar.1.8 tmp.18 bat.8.6 rbp rdi))
-           (bat.8.6 (rsi rdx bar.9.7 foobar.1.8 tmp.18 rbp tmp-ra.14))
-           (tmp.18 (rbp tmp-ra.14 bat.8.6))
-           (foobar.1.8 (rbp tmp-ra.14 bat.8.6))
-           (bar.9.7 (rbp tmp-ra.14 bat.8.6))
-           (foobar.1.9 (tmp.19 rbp tmp-ra.14))
-           (tmp.19 (rbp tmp-ra.14 foobar.1.9))
-           (rdi (r15 rbp rsi rdx tmp-ra.14))
-           (rbp (tmp.19 foobar.1.9 r15 rdi rsi rdx rax bar.9.7 foobar.1.8 tmp.18 bat.8.6 tmp-ra.14))
-           (rax (rbp tmp-ra.14))
-           (rdx (r15 rdi rsi rbp bat.8.6))
-           (rsi (r15 rdi rbp rdx bat.8.6))
-           (r15 (rbp rdi rsi rdx))))
-         (assignment ((tmp-ra.14 fv0))))
-        (begin
-          (set! tmp-ra.14 r15)
-          (set! bat.8.6 rdi)
-          (set! tmp.18 -73068505)
-          (set! tmp.18 (+ tmp.18 -9223372036854775808))
-          (set! foobar.1.8 tmp.18)
-          (if (<= bat.8.6 -9223372036854775808)
-              (set! bar.9.7 bat.8.6)
-              (set! bar.9.7 -241738702))
-          (return-point L.rp.4
-                        (begin
-                          (set! rdx 0)
-                          (set! rsi 9223372036854775807)
-                          (set! rdi bat.8.6)
-                          (set! r15 L.rp.4)
-                          (jump L.func.0.1 rbp r15 rdi rsi rdx)))
-          (set! foobar.1.9 rax)
-          (set! tmp.19 1)
-          (set! tmp.19 (+ tmp.19 foobar.1.9))
-          (set! rax tmp.19)
-          (jump tmp-ra.14 rbp rax)))
-      (begin
-        (set! tmp-ra.15 r15)
-        (return-point L.rp.5
-                      (begin
-                        (set! rdx 9223372036854775807)
-                        (set! rsi 9223372036854775807)
-                        (set! rdi 0)
-                        (set! r15 L.rp.5)
-                        (jump L.func.0.1 rbp r15 rdi rsi rdx)))
-        (set! foobar.3.10 rax)
-        (if (not (if (begin
-                       (set! tmp.20 -9223372036854775808)
-                       (= tmp.20 649827574))
-                     (begin
-                       (set! tmp.21 -9223372036854775808)
-                       (< tmp.21 foobar.3.10))
-                     (= foobar.3.10 -9223372036854775808)))
-            (if (begin
-                  (set! tmp.22 -9223372036854775808)
-                  (< tmp.22 -9223372036854775808))
-                (begin
-                  (set! tmp.23 9223372036854775807)
-                  (set! tmp.23 (- tmp.23 foobar.3.10))
-                  (set! rax tmp.23)
-                  (jump tmp-ra.15 rbp rax))
-                (begin
-                  (set! bat.8.11 foobar.3.10)
-                  (set! rax bat.8.11)
-                  (jump tmp-ra.15 rbp rax)))
-            (begin
-              (return-point L.rp.6
-                            (begin
-                              (set! rdx 1)
-                              (set! rsi 9223372036854775807)
-                              (set! rdi 2001362815)
-                              (set! r15 L.rp.6)
-                              (jump L.func.0.1 rbp r15 rdi rsi rdx)))
-              (set! bat.8.12 rax)
-              (set! tmp.24 bat.8.12)
-              (set! tmp.24 (* tmp.24 foobar.3.10))
-              (set! rax tmp.24)
-              (jump tmp-ra.15 rbp rax))))))
-  (check-by-interp
-   '(module ((new-frames ())
-             (locals (tmp-ra.20))
-             (call-undead ())
-             (undead-out ((tmp-ra.20 rbp) (tmp-ra.20 r8 rbp)
-                                          (tmp-ra.20 r8 rcx rbp)
-                                          (tmp-ra.20 r8 rcx rdx rbp)
-                                          (tmp-ra.20 r8 rcx rdx rsi rbp)
-                                          (tmp-ra.20 r8 rcx rdx rsi rdi rbp)
-                                          (r8 rcx rdx rsi rdi r15 rbp)
-                                          (r8 rcx rdx rsi rdi r15 rbp)))
-             (conflicts ((tmp-ra.20 (rdi rsi rdx rcx r8 rbp)) (rbp (r15 rdi rsi rdx rcx r8 tmp-ra.20))
-                                                              (r8 (r15 rdi rsi rdx rcx rbp tmp-ra.20))
-                                                              (rcx (r15 rdi rsi rdx rbp r8 tmp-ra.20))
-                                                              (rdx (r15 rdi rsi rbp rcx r8 tmp-ra.20))
-                                                              (rsi (r15 rdi rbp rdx rcx r8 tmp-ra.20))
-                                                              (rdi (r15 rbp rsi rdx rcx r8 tmp-ra.20))
-                                                              (r15 (rbp rdi rsi rdx rcx r8))))
-             (assignment ()))
-            (define L.tmp.0.1
-              ((new-frames ()) (locals (tmp-ra.17))
-                               (undead-out ((tmp-ra.17 rbp) (tmp-ra.17 r8 rbp)
-                                                            (tmp-ra.17 r8 rcx rbp)
-                                                            (tmp-ra.17 r8 rcx rdx rbp)
-                                                            (tmp-ra.17 r8 rcx rdx rsi rbp)
-                                                            (tmp-ra.17 r8 rcx rdx rsi rdi rbp)
-                                                            (r8 rcx rdx rsi rdi r15 rbp)
-                                                            (r8 rcx rdx rsi rdi r15 rbp)))
-                               (call-undead ())
-                               (conflicts ((tmp-ra.17 (rdi rsi rdx rcx r8 rbp))
-                                           (rbp (r15 rdi rsi rdx rcx r8 tmp-ra.17))
-                                           (r8 (r15 rdi rsi rdx rcx rbp tmp-ra.17))
-                                           (rcx (r15 rdi rsi rdx rbp r8 tmp-ra.17))
-                                           (rdx (r15 rdi rsi rbp rcx r8 tmp-ra.17))
-                                           (rsi (r15 rdi rbp rdx rcx r8 tmp-ra.17))
-                                           (rdi (r15 rbp rsi rdx rcx r8 tmp-ra.17))
-                                           (r15 (rbp rdi rsi rdx rcx r8))))
-                               (assignment ()))
-              (begin
-                (set! tmp-ra.17 r15)
-                (set! r8 1013001136)
-                (set! rcx 0)
-                (set! rdx 1)
-                (set! rsi -9223372036854775808)
-                (set! rdi -9223372036854775808)
-                (set! r15 tmp-ra.17)
-                (jump L.fn.2.3 rbp r15 rdi rsi rdx rcx r8)))
-      (define L.tmp.1.2
-        ((new-frames ())
-         (locals (tmp-ra.18 foo.7.7
-                            bar.9.6
-                            bar.0.5
-                            ball.4.4
-                            foo.3.3
-                            foobar.5.2
-                            foobar.2.1
-                            foo.3.10
-                            foo.3.8
-                            ball.4.9))
-         (undead-out
-          ((rdi rsi rdx rcx r8 r9 fv0 tmp-ra.18 rbp)
-           (rsi rdx rcx r8 r9 fv0 foo.7.7 tmp-ra.18 rbp)
-           (rdx rcx r8 r9 fv0 foo.7.7 bar.9.6 tmp-ra.18 rbp)
-           (rcx r8 r9 fv0 foo.7.7 bar.9.6 bar.0.5 tmp-ra.18 rbp)
-           (r8 r9 fv0 foo.7.7 bar.9.6 ball.4.4 bar.0.5 tmp-ra.18 rbp)
-           (r9 fv0 foo.7.7 bar.9.6 ball.4.4 bar.0.5 tmp-ra.18 rbp)
-           (fv0 foo.7.7 bar.9.6 ball.4.4 foobar.5.2 bar.0.5 tmp-ra.18 rbp)
-           (foo.7.7 bar.9.6 foobar.2.1 ball.4.4 foobar.5.2 bar.0.5 tmp-ra.18 rbp)
-           (((bar.9.6 foobar.2.1 ball.4.4 foobar.5.2 bar.0.5 tmp-ra.18 rbp)
-             (foobar.2.1 ball.4.4 foobar.5.2 bar.0.5 tmp-ra.18 rbp))
-            ((foobar.5.2 bar.0.5 tmp-ra.18 rbp) (foobar.5.2 bar.0.5 tmp-ra.18 rbp))
-            ((foobar.2.1 foobar.5.2 bar.0.5 tmp-ra.18 rbp) (foobar.5.2 bar.0.5 tmp-ra.18 rbp)
-                                                           (foobar.5.2 bar.0.5 tmp-ra.18 rbp)))
-           (foobar.5.2 bar.0.5 tmp-ra.18 r8 rbp)
-           (bar.0.5 tmp-ra.18 r8 rcx rbp)
-           (bar.0.5 tmp-ra.18 r8 rcx rdx rbp)
-           (tmp-ra.18 r8 rcx rdx rsi rbp)
-           (tmp-ra.18 r8 rcx rdx rsi rdi rbp)
-           (r8 rcx rdx rsi rdi r15 rbp)
-           (r8 rcx rdx rsi rdi r15 rbp)))
-         (call-undead ())
-         (conflicts
-          ((tmp-ra.18 (ball.4.9 foo.3.10
-                                foo.3.8
-                                foobar.2.1
-                                foobar.5.2
-                                foo.3.3
-                                ball.4.4
-                                bar.0.5
-                                bar.9.6
-                                foo.7.7
-                                rbp
-                                fv0
-                                r9
-                                r8
-                                rcx
-                                rdx
-                                rsi
-                                rdi))
-           (foo.7.7 (foobar.2.1 foobar.5.2
-                                foo.3.3
-                                ball.4.4
-                                bar.0.5
-                                bar.9.6
-                                rbp
-                                tmp-ra.18
-                                fv0
-                                r9
-                                r8
-                                rcx
-                                rdx
-                                rsi))
-           (bar.9.6 (ball.4.9 foobar.2.1
-                              foobar.5.2
-                              foo.3.3
-                              ball.4.4
-                              bar.0.5
-                              rbp
-                              tmp-ra.18
-                              foo.7.7
-                              fv0
-                              r9
-                              r8
-                              rcx
-                              rdx))
-           (bar.0.5 (rdx ball.4.9
-                         foo.3.10
-                         foo.3.8
-                         foobar.2.1
-                         foobar.5.2
-                         foo.3.3
-                         ball.4.4
-                         rbp
-                         tmp-ra.18
-                         bar.9.6
-                         foo.7.7
-                         fv0
-                         r9
-                         r8
-                         rcx))
-           (ball.4.4
-            (ball.4.9 foobar.2.1 foobar.5.2 foo.3.3 rbp tmp-ra.18 bar.0.5 bar.9.6 foo.7.7 fv0 r9 r8))
-           (foo.3.3 (rbp tmp-ra.18 bar.0.5 ball.4.4 bar.9.6 foo.7.7 fv0 r9))
-           (foobar.5.2 (r8 ball.4.9
-                           foo.3.10
-                           foo.3.8
-                           foobar.2.1
-                           rbp
-                           tmp-ra.18
-                           bar.0.5
-                           ball.4.4
-                           bar.9.6
-                           foo.7.7
-                           fv0))
-           (foobar.2.1 (ball.4.9 rbp tmp-ra.18 bar.0.5 foobar.5.2 ball.4.4 bar.9.6 foo.7.7))
-           (foo.3.10 (rbp tmp-ra.18 bar.0.5 foobar.5.2))
-           (foo.3.8 (rbp tmp-ra.18 bar.0.5 foobar.5.2))
-           (ball.4.9 (rbp tmp-ra.18 bar.0.5 foobar.5.2 ball.4.4 foobar.2.1 bar.9.6))
-           (rdi (r15 rbp rsi rdx rcx r8 tmp-ra.18))
-           (rsi (r15 rdi rbp rdx rcx r8 foo.7.7 tmp-ra.18))
-           (rdx (r15 rdi rsi rbp rcx r8 bar.0.5 bar.9.6 foo.7.7 tmp-ra.18))
-           (rcx (r15 rdi rsi rdx rbp r8 bar.0.5 bar.9.6 foo.7.7 tmp-ra.18))
-           (r8 (r15 rdi rsi rdx rcx rbp foobar.5.2 ball.4.4 bar.0.5 bar.9.6 foo.7.7 tmp-ra.18))
-           (r9 (foo.3.3 ball.4.4 bar.0.5 bar.9.6 foo.7.7 tmp-ra.18))
-           (fv0 (foobar.5.2 foo.3.3 ball.4.4 bar.0.5 bar.9.6 foo.7.7 tmp-ra.18))
-           (rbp (r15 rdi
-                     rsi
-                     rdx
-                     rcx
-                     r8
-                     ball.4.9
-                     foo.3.10
-                     foo.3.8
-                     foobar.2.1
-                     foobar.5.2
-                     foo.3.3
-                     ball.4.4
-                     bar.0.5
-                     bar.9.6
-                     foo.7.7
-                     tmp-ra.18))
-           (r15 (rbp rdi rsi rdx rcx r8))))
-         (assignment ()))
-        (begin
-          (set! tmp-ra.18 r15)
-          (set! foo.7.7 rdi)
-          (set! bar.9.6 rsi)
-          (set! bar.0.5 rdx)
-          (set! ball.4.4 rcx)
-          (set! foo.3.3 r8)
-          (set! foobar.5.2 r9)
-          (set! foobar.2.1 fv0)
-          (if (begin
-                (set! ball.4.9 foo.7.7)
-                (< bar.9.6 0))
-              (begin
-                (set! foo.3.10 ball.4.4)
-                (set! foo.3.8 -224488027))
-              (if (= foobar.2.1 bar.0.5)
-                  (set! foo.3.8 foobar.2.1)
-                  (set! foo.3.8 foobar.2.1)))
-          (set! r8 1)
-          (set! rcx foobar.5.2)
-          (set! rdx -1015791473)
-          (set! rsi bar.0.5)
-          (set! rdi -9223372036854775808)
-          (set! r15 tmp-ra.18)
-          (jump L.fn.2.3 rbp r15 rdi rsi rdx rcx r8)))
-      (define L.fn.2.3
-        ((new-frames ())
-         (locals (tmp-ra.19 foo.3.15 ball.4.14 bar.6.13 bar.9.12 foobar.5.11 foobar.5.16))
-         (undead-out ((rdi rsi rdx rcx r8 tmp-ra.19 rbp) (rsi rdx rcx r8 tmp-ra.19 rbp)
-                                                         (rdx rcx r8 tmp-ra.19 rbp)
-                                                         (rcx r8 tmp-ra.19 rbp)
-                                                         (r8 bar.9.12 tmp-ra.19 rbp)
-                                                         (bar.9.12 tmp-ra.19 rbp)
-                                                         (tmp-ra.19 rbp)
-                                                         (tmp-ra.19 r8 rbp)
-                                                         (tmp-ra.19 r8 rcx rbp)
-                                                         (tmp-ra.19 r8 rcx rdx rbp)
-                                                         (tmp-ra.19 r8 rcx rdx rsi rbp)
-                                                         (tmp-ra.19 r8 rcx rdx rsi rdi rbp)
-                                                         (r8 rcx rdx rsi rdi r15 rbp)
-                                                         (r8 rcx rdx rsi rdi r15 rbp)))
-         (call-undead ())
-         (conflicts
-          ((tmp-ra.19
-            (foobar.5.16 foobar.5.11 bar.9.12 bar.6.13 ball.4.14 foo.3.15 rbp r8 rcx rdx rsi rdi))
-           (foo.3.15 (rbp tmp-ra.19 r8 rcx rdx rsi))
-           (ball.4.14 (rbp tmp-ra.19 r8 rcx rdx))
-           (bar.6.13 (rbp tmp-ra.19 r8 rcx))
-           (bar.9.12 (foobar.5.11 rbp tmp-ra.19 r8))
-           (foobar.5.11 (rbp tmp-ra.19 bar.9.12))
-           (foobar.5.16 (rbp tmp-ra.19))
-           (rdi (r15 rbp rsi rdx rcx r8 tmp-ra.19))
-           (rsi (r15 rdi rbp rdx rcx r8 foo.3.15 tmp-ra.19))
-           (rdx (r15 rdi rsi rbp rcx r8 ball.4.14 foo.3.15 tmp-ra.19))
-           (rcx (r15 rdi rsi rdx rbp r8 bar.6.13 ball.4.14 foo.3.15 tmp-ra.19))
-           (r8 (r15 rdi rsi rdx rcx rbp bar.9.12 bar.6.13 ball.4.14 foo.3.15 tmp-ra.19))
-           (rbp (r15 rdi
-                     rsi
-                     rdx
-                     rcx
-                     r8
-                     foobar.5.16
-                     foobar.5.11
-                     bar.9.12
-                     bar.6.13
-                     ball.4.14
-                     foo.3.15
-                     tmp-ra.19))
-           (r15 (rbp rdi rsi rdx rcx r8))))
-         (assignment ()))
-        (begin
-          (set! tmp-ra.19 r15)
-          (set! foo.3.15 rdi)
-          (set! ball.4.14 rsi)
-          (set! bar.6.13 rdx)
-          (set! bar.9.12 rcx)
-          (set! foobar.5.11 r8)
-          (set! foobar.5.16 bar.9.12)
-          (set! r8 1)
-          (set! rcx 1459656882)
-          (set! rdx 0)
-          (set! rsi -9223372036854775808)
-          (set! rdi 0)
-          (set! r15 tmp-ra.19)
-          (jump L.fn.2.3 rbp r15 rdi rsi rdx rcx r8)))
-      (begin
-        (set! tmp-ra.20 r15)
-        (set! r8 1)
-        (set! rcx 1648096326)
-        (set! rdx 9223372036854775807)
-        (set! rsi 1)
-        (set! rdi 9223372036854775807)
-        (set! r15 tmp-ra.20)
-        (jump L.fn.2.3 rbp r15 rdi rsi rdx rcx r8))))
+
   (check-by-interp
    '(module ((new-frames ()) (locals (tmp-ra.11 tmp.15))
                              (call-undead ())
@@ -3958,92 +2181,7 @@
         (set! tmp.15 (* tmp.15 900224161))
         (set! rax tmp.15)
         (jump tmp-ra.11 rbp rax))))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp-ra.6))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.6 rbp) (tmp-ra.6 rdx rbp)
-                                                         (tmp-ra.6 rdx rsi rbp)
-                                                         (tmp-ra.6 rdx rsi rdi rbp)
-                                                         (rdx rsi rdi r15 rbp)
-                                                         (rdx rsi rdi r15 rbp)))
-                             (conflicts ((tmp-ra.6 (rdi rsi rdx rbp)) (rbp (r15 rdi rsi rdx tmp-ra.6))
-                                                                      (rdx (r15 rdi rsi rbp tmp-ra.6))
-                                                                      (rsi (r15 rdi rbp rdx tmp-ra.6))
-                                                                      (rdi (r15 rbp rsi rdx tmp-ra.6))
-                                                                      (r15 (rbp rdi rsi rdx))))
-                             (assignment ()))
-            (define L.func.0.1
-              ((new-frames (()))
-               (locals (tmp.7 bar.6.4))
-               (undead-out
-                ((rdi rsi rdx tmp-ra.5 rbp)
-                 (rsi rdx foobar.8.3 tmp-ra.5 rbp)
-                 (rdx foobar.8.3 foobar.1.2 tmp-ra.5 rbp)
-                 (foobar.8.3 foo.9.1 foobar.1.2 tmp-ra.5 rbp)
-                 ((rax foobar.8.3 foo.9.1 foobar.1.2 tmp-ra.5 rbp) ((rdx rbp) (rdx rsi rbp)
-                                                                              (rdx rsi rdi rbp)
-                                                                              (rdx rsi rdi r15 rbp)
-                                                                              (rdx rsi rdi r15 rbp)))
-                 (foobar.8.3 foo.9.1 foobar.1.2 tmp-ra.5 rbp)
-                 (((tmp.7 foobar.8.3 foo.9.1 foobar.1.2 tmp-ra.5 rbp)
-                   (foobar.8.3 foo.9.1 foobar.1.2 tmp-ra.5 rbp))
-                  ((foobar.1.2 tmp-ra.5 rdx rbp) (tmp-ra.5 rdx rsi rbp)
-                                                 (tmp-ra.5 rdx rsi rdi rbp)
-                                                 (rdx rsi rdi r15 rbp)
-                                                 (rdx rsi rdi r15 rbp))
-                  ((foobar.8.3 tmp-ra.5 rbp) ((tmp-ra.5 rax rbp) (rax rbp))
-                                             ((tmp-ra.5 rax rbp) (rax rbp))))))
-               (call-undead (foobar.8.3 foo.9.1 foobar.1.2 tmp-ra.5))
-               (conflicts
-                ((tmp.7 (rbp tmp-ra.5 foobar.1.2 foo.9.1 foobar.8.3))
-                 (tmp-ra.5 (bar.6.4 foo.9.1 foobar.1.2 foobar.8.3 rbp tmp.7 rdi rsi rdx rax))
-                 (foobar.1.2 (bar.6.4 rax foo.9.1 rbp tmp-ra.5 foobar.8.3 rdx tmp.7))
-                 (foobar.8.3 (bar.6.4 rax foo.9.1 foobar.1.2 rbp tmp-ra.5 rdx rsi tmp.7))
-                 (foo.9.1 (bar.6.4 rax rbp tmp-ra.5 foobar.1.2 foobar.8.3 tmp.7))
-                 (bar.6.4 (rbp tmp-ra.5 foobar.1.2 foo.9.1 foobar.8.3))
-                 (rax (foobar.1.2 foo.9.1 foobar.8.3 rbp tmp-ra.5))
-                 (rbp (bar.6.4 foo.9.1 foobar.1.2 foobar.8.3 tmp-ra.5 tmp.7 r15 rdi rsi rdx rax))
-                 (rdx (foobar.1.2 foobar.8.3 r15 rdi rsi rbp tmp-ra.5))
-                 (rsi (foobar.8.3 r15 rdi rbp rdx tmp-ra.5))
-                 (rdi (r15 rbp rsi rdx tmp-ra.5))
-                 (r15 (rbp rdi rsi rdx))))
-               (assignment ((tmp-ra.5 fv0) (foobar.1.2 fv1) (foo.9.1 fv2) (foobar.8.3 fv3))))
-              (begin
-                (set! tmp-ra.5 r15)
-                (set! foobar.8.3 rdi)
-                (set! foobar.1.2 rsi)
-                (set! foo.9.1 rdx)
-                (return-point L.rp.2
-                              (begin
-                                (set! rdx 9223372036854775807)
-                                (set! rsi -1363029646)
-                                (set! rdi 9223372036854775807)
-                                (set! r15 L.rp.2)
-                                (jump L.func.0.1 rbp r15 rdi rsi rdx)))
-                (set! bar.6.4 rax)
-                (if (begin
-                      (set! tmp.7 9223372036854775807)
-                      (= tmp.7 0))
-                    (begin
-                      (set! rdx foobar.1.2)
-                      (set! rsi foobar.1.2)
-                      (set! rdi 719591632)
-                      (set! r15 tmp-ra.5)
-                      (jump L.func.0.1 rbp r15 rdi rsi rdx))
-                    (if (>= foo.9.1 1396041917)
-                        (begin
-                          (set! rax -1711968134)
-                          (jump tmp-ra.5 rbp rax))
-                        (begin
-                          (set! rax foobar.8.3)
-                          (jump tmp-ra.5 rbp rax))))))
-      (begin
-        (set! tmp-ra.6 r15)
-        (set! rdx 0)
-        (set! rsi 9223372036854775807)
-        (set! rdi -9223372036854775808)
-        (set! r15 tmp-ra.6)
-        (jump L.func.0.1 rbp r15 rdi rsi rdx))))
+
   (check-by-interp
    '(module ((new-frames ())
              (locals (tmp-ra.11))
@@ -4408,434 +2546,7 @@
                     (set! rax 1974766267)
                     (jump tmp-ra.6 rbp rax))))
       ))
-  (check-by-interp
-   '(module ((new-frames (() ()))
-             (locals (tmp.8 ball.3.4 foobar.6.5))
-             (call-undead (tmp-ra.7))
-             (undead-out ((tmp-ra.7 rbp) (((((rax tmp-ra.7 rbp) ((rdx rbp) (rdx rsi rbp)
-                                                                           (rdx rsi rdi rbp)
-                                                                           (rdx rsi rdi r15 rbp)
-                                                                           (rdx rsi rdi r15 rbp)))
-                                            (ball.3.4 tmp-ra.7 rbp))
-                                           ((ball.3.4 tmp.8 tmp-ra.7 rbp) (tmp-ra.7 rbp)))
-                                          ((tmp-ra.7 rdx rbp) (tmp-ra.7 rdx rsi rbp)
-                                                              (tmp-ra.7 rdx rsi rdi rbp)
-                                                              (rdx rsi rdi r15 rbp)
-                                                              (rdx rsi rdi r15 rbp))
-                                          (((rax tmp-ra.7 rbp) ((rdx rbp) (rdx rsi rbp)
-                                                                          (rdx rsi rdi rbp)
-                                                                          (rdx rsi rdi r15 rbp)
-                                                                          (rdx rsi rdi r15 rbp)))
-                                           (foobar.6.5 tmp-ra.7 rbp)
-                                           ((tmp-ra.7 rbp) ((tmp-ra.7 rax rbp) (rax rbp))
-                                                           ((tmp-ra.7 rax rbp) (rax rbp)))))))
-             (conflicts ((tmp.8 (rbp tmp-ra.7 ball.3.4))
-                         (ball.3.4 (rbp tmp-ra.7 tmp.8))
-                         (tmp-ra.7 (rbp ball.3.4 tmp.8 rdi rsi rdx foobar.6.5 rax))
-                         (foobar.6.5 (rbp tmp-ra.7))
-                         (rax (rbp tmp-ra.7))
-                         (rbp (tmp-ra.7 ball.3.4 tmp.8 foobar.6.5 r15 rdi rsi rdx rax))
-                         (rdx (tmp-ra.7 r15 rdi rsi rbp))
-                         (rsi (tmp-ra.7 r15 rdi rbp rdx))
-                         (rdi (tmp-ra.7 r15 rbp rsi rdx))
-                         (r15 (rbp rdi rsi rdx))))
-             (assignment ((tmp-ra.7 fv0))))
-            (define L.x.0.1
-              ((new-frames ())
-               (locals (tmp-ra.6 foobar.5.3 foo.8.2 foobar.6.1))
-               (undead-out ((rdi rsi rdx tmp-ra.6 rbp) (rsi rdx foobar.5.3 tmp-ra.6 rbp)
-                                                       (rdx foobar.5.3 tmp-ra.6 rbp)
-                                                       (foobar.5.3 tmp-ra.6 rbp)
-                                                       (foobar.5.3 tmp-ra.6 rdx rbp)
-                                                       (tmp-ra.6 rdx rsi rbp)
-                                                       (tmp-ra.6 rdx rsi rdi rbp)
-                                                       (rdx rsi rdi r15 rbp)
-                                                       (rdx rsi rdi r15 rbp)))
-               (call-undead ())
-               (conflicts ((tmp-ra.6 (foobar.6.1 foo.8.2 foobar.5.3 rbp rdx rsi rdi))
-                           (foobar.5.3 (foobar.6.1 foo.8.2 rbp tmp-ra.6 rdx rsi))
-                           (foo.8.2 (rbp tmp-ra.6 foobar.5.3 rdx))
-                           (foobar.6.1 (rbp tmp-ra.6 foobar.5.3))
-                           (rdi (r15 rbp rsi rdx tmp-ra.6))
-                           (rsi (r15 rdi rbp rdx foobar.5.3 tmp-ra.6))
-                           (rdx (r15 rdi rsi rbp foo.8.2 foobar.5.3 tmp-ra.6))
-                           (rbp (r15 rdi rsi rdx foobar.6.1 foo.8.2 foobar.5.3 tmp-ra.6))
-                           (r15 (rbp rdi rsi rdx))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.6 r15)
-                (set! foobar.5.3 rdi)
-                (set! foo.8.2 rsi)
-                (set! foobar.6.1 rdx)
-                (set! rdx foobar.5.3)
-                (set! rsi foobar.5.3)
-                (set! rdi 0)
-                (set! r15 tmp-ra.6)
-                (jump L.x.0.1 rbp r15 rdi rsi rdx)))
-      (begin
-        (set! tmp-ra.7 r15)
-        (if (begin
-              (begin
-                (return-point L.rp.2
-                              (begin
-                                (set! rdx 0)
-                                (set! rsi 9223372036854775807)
-                                (set! rdi 1)
-                                (set! r15 L.rp.2)
-                                (jump L.x.0.1 rbp r15 rdi rsi rdx)))
-                (set! ball.3.4 rax))
-              (begin
-                (set! tmp.8 9223372036854775807)
-                (< tmp.8 ball.3.4)))
-            (begin
-              (set! rdx 1)
-              (set! rsi -9223372036854775808)
-              (set! rdi 1)
-              (set! r15 tmp-ra.7)
-              (jump L.x.0.1 rbp r15 rdi rsi rdx))
-            (begin
-              (return-point L.rp.3
-                            (begin
-                              (set! rdx -1530356459)
-                              (set! rsi 9223372036854775807)
-                              (set! rdi 9223372036854775807)
-                              (set! r15 L.rp.3)
-                              (jump L.x.0.1 rbp r15 rdi rsi rdx)))
-              (set! foobar.6.5 rax)
-              (if (= foobar.6.5 foobar.6.5)
-                  (begin
-                    (set! rax 9223372036854775807)
-                    (jump tmp-ra.7 rbp rax))
-                  (begin
-                    (set! rax 9223372036854775807)
-                    (jump tmp-ra.7 rbp rax))))))))
-  (check-by-interp
-   '(module ((new-frames ())
-             (locals (tmp-ra.12 foo.1.10))
-             (call-undead ())
-             (undead-out ((tmp-ra.12 rbp) (tmp-ra.12 rbp) (tmp-ra.12 rax rbp) (rax rbp)))
-             (conflicts ((tmp-ra.12 (rax foo.1.10 rbp)) (foo.1.10 (rbp tmp-ra.12))
-                                                        (rbp (rax foo.1.10 tmp-ra.12))
-                                                        (rax (rbp tmp-ra.12))))
-             (assignment ()))
-            (define L.func.0.1
-              ((new-frames ())
-               (locals (foo.1.8 tmp-ra.11
-                                foobar.8.1
-                                foo.1.9
-                                bar.0.6
-                                foobar.2.5
-                                foo.1.4
-                                foobar.9.3
-                                bat.5.2
-                                bat.6.7))
-               (undead-out ((rdi rsi rdx rcx r8 r9 tmp-ra.11 rbp)
-                            (rsi rdx rcx r8 r9 tmp-ra.11 rbp)
-                            (rdx rcx r8 r9 tmp-ra.11 rbp)
-                            (rcx r8 r9 tmp-ra.11 rbp)
-                            (r8 r9 tmp-ra.11 rbp)
-                            (r9 tmp-ra.11 rbp)
-                            (foobar.8.1 tmp-ra.11 rbp)
-                            (foobar.8.1 tmp-ra.11 rbp)
-                            ((foobar.8.1 tmp-ra.11 rbp)
-                             ((foo.1.8 tmp-ra.11 rbp) (tmp-ra.11 rax rbp) (rax rbp))
-                             ((foobar.8.1 tmp-ra.11 rbp) (tmp-ra.11 rax rbp) (rax rbp)))))
-               (call-undead ())
-               (conflicts ((foo.1.8 (rbp tmp-ra.11))
-                           (tmp-ra.11 (bat.6.7 foobar.8.1
-                                               bat.5.2
-                                               foobar.9.3
-                                               foo.1.4
-                                               foobar.2.5
-                                               bar.0.6
-                                               rbp
-                                               r9
-                                               r8
-                                               rcx
-                                               rdx
-                                               rsi
-                                               rdi
-                                               foo.1.8
-                                               rax
-                                               foo.1.9))
-                           (foobar.8.1 (bat.6.7 rbp tmp-ra.11 foo.1.9))
-                           (foo.1.9 (rbp tmp-ra.11 foobar.8.1))
-                           (bar.0.6 (rbp tmp-ra.11 r9 r8 rcx rdx rsi))
-                           (foobar.2.5 (rbp tmp-ra.11 r9 r8 rcx rdx))
-                           (foo.1.4 (rbp tmp-ra.11 r9 r8 rcx))
-                           (foobar.9.3 (rbp tmp-ra.11 r9 r8))
-                           (bat.5.2 (rbp tmp-ra.11 r9))
-                           (bat.6.7 (rbp tmp-ra.11 foobar.8.1))
-                           (rbp (bat.6.7 foobar.8.1
-                                         bat.5.2
-                                         foobar.9.3
-                                         foo.1.4
-                                         foobar.2.5
-                                         bar.0.6
-                                         tmp-ra.11
-                                         foo.1.8
-                                         rax
-                                         foo.1.9))
-                           (rax (rbp tmp-ra.11))
-                           (rdi (tmp-ra.11))
-                           (rsi (bar.0.6 tmp-ra.11))
-                           (rdx (foobar.2.5 bar.0.6 tmp-ra.11))
-                           (rcx (foo.1.4 foobar.2.5 bar.0.6 tmp-ra.11))
-                           (r8 (foobar.9.3 foo.1.4 foobar.2.5 bar.0.6 tmp-ra.11))
-                           (r9 (bat.5.2 foobar.9.3 foo.1.4 foobar.2.5 bar.0.6 tmp-ra.11))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.11 r15)
-                (set! bar.0.6 rdi)
-                (set! foobar.2.5 rsi)
-                (set! foo.1.4 rdx)
-                (set! foobar.9.3 rcx)
-                (set! bat.5.2 r8)
-                (set! foobar.8.1 r9)
-                (set! bat.6.7 -951184591)
-                (if (false)
-                    (begin
-                      (set! foo.1.8 -9223372036854775808)
-                      (set! rax foo.1.8)
-                      (jump tmp-ra.11 rbp rax))
-                    (begin
-                      (set! foo.1.9 310790521)
-                      (set! rax foobar.8.1)
-                      (jump tmp-ra.11 rbp rax)))))
-      (begin
-        (set! tmp-ra.12 r15)
-        (set! foo.1.10 -1379426851)
-        (set! rax 488563830)
-        (jump tmp-ra.12 rbp rax))))
-  (check-by-interp
-   '(module ((new-frames ())
-             (locals (foo.5.5 foobar.4.6 tmp-ra.8 tmp.10))
-             (call-undead ())
-             (undead-out
-              ((tmp-ra.8 rbp)
-               (foo.5.5 tmp-ra.8 rbp)
-               ((foo.5.5 tmp-ra.8 rbp)
-                (((foo.5.5 tmp-ra.8 rbp) (tmp-ra.8 rbp) (tmp-ra.8 rbp)) (tmp-ra.8 rax rbp) (rax rbp))
-                ((tmp.10 tmp-ra.8 rbp) (tmp.10 tmp-ra.8 rbp) (tmp-ra.8 rax rbp) (rax rbp)))))
-             (conflicts ((foo.5.5 (rbp tmp-ra.8)) (foobar.4.6 (rbp tmp-ra.8))
-                                                  (tmp-ra.8 (foo.5.5 rbp foobar.4.6 rax tmp.10))
-                                                  (tmp.10 (rbp tmp-ra.8))
-                                                  (rbp (foo.5.5 tmp-ra.8 foobar.4.6 rax tmp.10))
-                                                  (rax (rbp tmp-ra.8))))
-             (assignment ()))
-            (define L.func.0.1
-              ((new-frames ())
-               (locals (tmp.9 ball.2.3 foo.5.2 ball.0.1 tmp-ra.7 foo.5.4))
-               (undead-out ((rdi rsi rdx tmp-ra.7 rbp)
-                            (rsi rdx ball.2.3 tmp-ra.7 rbp)
-                            (rdx ball.2.3 foo.5.2 tmp-ra.7 rbp)
-                            (ball.0.1 ball.2.3 foo.5.2 tmp-ra.7 rbp)
-                            ((((tmp.9 ball.0.1 ball.2.3 foo.5.2 tmp-ra.7 rbp)
-                               (ball.0.1 ball.2.3 foo.5.2 tmp-ra.7 rbp))
-                              (ball.2.3 foo.5.2 tmp-ra.7 rbp)
-                              ((ball.2.3 foo.5.2 tmp-ra.7 rbp) (ball.2.3 foo.5.2 tmp-ra.7 rbp)
-                                                               (ball.2.3 foo.5.2 tmp-ra.7 rbp)))
-                             ((foo.5.2 tmp-ra.7 rdx rbp) (foo.5.2 tmp-ra.7 rdx rsi rbp)
-                                                         (tmp-ra.7 rdx rsi rdi rbp)
-                                                         (rdx rsi rdi r15 rbp)
-                                                         (rdx rsi rdi r15 rbp))
-                             ((foo.5.2 ball.2.3 tmp-ra.7 rbp)
-                              ((foo.5.4 tmp-ra.7 rbp) (tmp-ra.7 rax rbp) (rax rbp))
-                              ((foo.5.2 tmp-ra.7 rdx rbp) (foo.5.2 tmp-ra.7 rdx rsi rbp)
-                                                          (tmp-ra.7 rdx rsi rdi rbp)
-                                                          (rdx rsi rdi r15 rbp)
-                                                          (rdx rsi rdi r15 rbp))))))
-               (call-undead ())
-               (conflicts
-                ((tmp.9 (rbp tmp-ra.7 foo.5.2 ball.2.3 ball.0.1))
-                 (ball.2.3 (ball.0.1 foo.5.2 rbp tmp-ra.7 rdx rsi tmp.9))
-                 (foo.5.2 (ball.0.1 rbp tmp-ra.7 ball.2.3 tmp.9 rsi rdx))
-                 (ball.0.1 (rbp tmp-ra.7 foo.5.2 ball.2.3 tmp.9))
-                 (tmp-ra.7 (ball.0.1 foo.5.2 ball.2.3 rbp tmp.9 rax foo.5.4 rdi rsi rdx))
-                 (foo.5.4 (rbp tmp-ra.7))
-                 (rdx (ball.2.3 r15 rdi rsi rbp tmp-ra.7 foo.5.2))
-                 (rbp (ball.0.1 foo.5.2 ball.2.3 tmp-ra.7 tmp.9 rax foo.5.4 r15 rdi rsi rdx))
-                 (rsi (ball.2.3 foo.5.2 r15 rdi rbp rdx tmp-ra.7))
-                 (rdi (r15 rbp rsi rdx tmp-ra.7))
-                 (r15 (rbp rdi rsi rdx))
-                 (rax (rbp tmp-ra.7))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.7 r15)
-                (set! ball.2.3 rdi)
-                (set! foo.5.2 rsi)
-                (set! ball.0.1 rdx)
-                (if (if (begin
-                          (set! tmp.9 0)
-                          (= tmp.9 ball.2.3))
-                        (false)
-                        (if (<= ball.0.1 -483103791)
-                            (= foo.5.2 ball.2.3)
-                            (= ball.2.3 foo.5.2)))
-                    (begin
-                      (set! rdx 1)
-                      (set! rsi 1)
-                      (set! rdi foo.5.2)
-                      (set! r15 tmp-ra.7)
-                      (jump L.func.0.1 rbp r15 rdi rsi rdx))
-                    (if (true)
-                        (begin
-                          (set! foo.5.4 ball.2.3)
-                          (set! rax foo.5.4)
-                          (jump tmp-ra.7 rbp rax))
-                        (begin
-                          (set! rdx 1)
-                          (set! rsi foo.5.2)
-                          (set! rdi foo.5.2)
-                          (set! r15 tmp-ra.7)
-                          (jump L.func.0.1 rbp r15 rdi rsi rdx))))))
-      (begin
-        (set! tmp-ra.8 r15)
-        (set! foo.5.5 -1766715399)
-        (if (not (not (< foo.5.5 foo.5.5)))
-            (begin
-              (if (< foo.5.5 0)
-                  (set! foobar.4.6 9223372036854775807)
-                  (set! foobar.4.6 foo.5.5))
-              (set! rax -1170116362)
-              (jump tmp-ra.8 rbp rax))
-            (begin
-              (set! tmp.10 0)
-              (set! tmp.10 (* tmp.10 0))
-              (set! rax tmp.10)
-              (jump tmp-ra.8 rbp rax))))))
-  (check-by-interp
-   '(module ((new-frames (()))
-             (locals (foo.2.6 tmp.13 tmp.12 tmp.11 tmp.10 tmp.9))
-             (call-undead (tmp-ra.8))
-             (undead-out
-              ((tmp-ra.8 rbp)
-               ((((tmp.9 tmp-ra.8 rbp) (tmp-ra.8 rbp)) ((tmp.10 tmp-ra.8 rbp) (tmp-ra.8 rbp))
-                                                       ((tmp.11 tmp-ra.8 rbp) (tmp-ra.8 rbp)))
-                (((rax tmp-ra.8 rbp) ((rdx rbp) (rdx rsi rbp)
-                                                (rdx rsi rdi rbp)
-                                                (rdx rsi rdi r15 rbp)
-                                                (rdx rsi rdi r15 rbp)))
-                 (foo.2.6 tmp-ra.8 rbp))
-                ((tmp.12 tmp-ra.8 rbp) (tmp.12 tmp-ra.8 rbp) (foo.2.6 tmp-ra.8 rbp)))
-               (((foo.2.6 tmp-ra.8 rbp) (foo.2.6 tmp-ra.8 rbp)
-                                        ((tmp.13 foo.2.6 tmp-ra.8 rbp) (foo.2.6 tmp-ra.8 rbp)))
-                ((foo.2.6 tmp-ra.8 rdx rbp) (foo.2.6 tmp-ra.8 rdx rsi rbp)
-                                            (tmp-ra.8 rdx rsi rdi rbp)
-                                            (rdx rsi rdi r15 rbp)
-                                            (rdx rsi rdi r15 rbp))
-                ((tmp-ra.8 rdx rbp) (tmp-ra.8 rdx rsi rbp)
-                                    (tmp-ra.8 rdx rsi rdi rbp)
-                                    (rdx rsi rdi r15 rbp)
-                                    (rdx rsi rdi r15 rbp)))))
-             (conflicts
-              ((foo.2.6 (rbp tmp-ra.8 tmp.13 rdx))
-               (tmp.13 (rbp tmp-ra.8 foo.2.6))
-               (tmp-ra.8 (tmp.9 tmp.10 tmp.11 rax tmp.12 foo.2.6 rbp tmp.13 rdi rsi rdx))
-               (tmp.12 (rbp tmp-ra.8))
-               (tmp.11 (rbp tmp-ra.8))
-               (tmp.10 (rbp tmp-ra.8))
-               (tmp.9 (rbp tmp-ra.8))
-               (rdx (foo.2.6 r15 rdi rsi rbp tmp-ra.8))
-               (rbp (tmp.9 tmp.10 tmp.11 rax tmp.12 foo.2.6 tmp-ra.8 tmp.13 r15 rdi rsi rdx))
-               (rsi (r15 rdi rbp rdx tmp-ra.8))
-               (rdi (r15 rbp rsi rdx tmp-ra.8))
-               (r15 (rbp rdi rsi rdx))
-               (rax (rbp tmp-ra.8))))
-             (assignment ((tmp-ra.8 fv0))))
-            (define L.tmp.0.1
-              ((new-frames (()))
-               (locals (foo.8.3 foo.6.5 ball.4.4))
-               (undead-out ((rdi rsi rdx tmp-ra.7 rbp) (rsi rdx tmp-ra.7 rbp)
-                                                       (rdx ball.3.2 tmp-ra.7 rbp)
-                                                       (ball.3.2 foo.2.1 tmp-ra.7 rbp)
-                                                       (ball.3.2 foo.2.1 tmp-ra.7 rbp)
-                                                       ((rax ball.3.2 foo.2.1 tmp-ra.7 rbp)
-                                                        ((foo.2.1 rdx rbp) (rdx rsi rbp)
-                                                                           (rdx rsi rdi rbp)
-                                                                           (rdx rsi rdi r15 rbp)
-                                                                           (rdx rsi rdi r15 rbp)))
-                                                       (ball.3.2 foo.2.1 tmp-ra.7 rbp)
-                                                       (foo.2.1 tmp-ra.7 rdx rbp)
-                                                       (tmp-ra.7 rdx rsi rbp)
-                                                       (tmp-ra.7 rdx rsi rdi rbp)
-                                                       (rdx rsi rdi r15 rbp)
-                                                       (rdx rsi rdi r15 rbp)))
-               (call-undead (ball.3.2 foo.2.1 tmp-ra.7))
-               (conflicts
-                ((tmp-ra.7 (ball.4.4 rax foo.6.5 foo.2.1 ball.3.2 foo.8.3 rbp rdx rsi rdi))
-                 (foo.8.3 (rbp tmp-ra.7 rdx rsi))
-                 (ball.3.2 (ball.4.4 rax foo.6.5 foo.2.1 rbp tmp-ra.7 rdx))
-                 (foo.2.1 (rdx ball.4.4 rax foo.6.5 rbp tmp-ra.7 ball.3.2))
-                 (foo.6.5 (rbp tmp-ra.7 foo.2.1 ball.3.2))
-                 (ball.4.4 (rbp tmp-ra.7 foo.2.1 ball.3.2))
-                 (rdi (r15 rbp rsi rdx tmp-ra.7))
-                 (rsi (r15 rdi rbp rdx foo.8.3 tmp-ra.7))
-                 (rdx (foo.2.1 r15 rdi rsi rbp ball.3.2 foo.8.3 tmp-ra.7))
-                 (rbp (ball.4.4 r15 rdi rsi rdx rax foo.6.5 foo.2.1 ball.3.2 foo.8.3 tmp-ra.7))
-                 (rax (rbp tmp-ra.7 foo.2.1 ball.3.2))
-                 (r15 (rbp rdi rsi rdx))))
-               (assignment ((tmp-ra.7 fv0) (foo.2.1 fv1) (ball.3.2 fv2))))
-              (begin
-                (set! tmp-ra.7 r15)
-                (set! foo.8.3 rdi)
-                (set! ball.3.2 rsi)
-                (set! foo.2.1 rdx)
-                (set! foo.6.5 1591590730)
-                (return-point L.rp.2
-                              (begin
-                                (set! rdx foo.2.1)
-                                (set! rsi foo.2.1)
-                                (set! rdi 1001483234)
-                                (set! r15 L.rp.2)
-                                (jump L.tmp.0.1 rbp r15 rdi rsi rdx)))
-                (set! ball.4.4 rax)
-                (set! rdx ball.3.2)
-                (set! rsi foo.2.1)
-                (set! rdi -9223372036854775808)
-                (set! r15 tmp-ra.7)
-                (jump L.tmp.0.1 rbp r15 rdi rsi rdx)))
-      (begin
-        (set! tmp-ra.8 r15)
-        (if (if (begin
-                  (set! tmp.9 1)
-                  (!= tmp.9 0))
-                (begin
-                  (set! tmp.10 -9223372036854775808)
-                  (<= tmp.10 9223372036854775807))
-                (begin
-                  (set! tmp.11 0)
-                  (= tmp.11 0)))
-            (begin
-              (return-point L.rp.3
-                            (begin
-                              (set! rdx 1)
-                              (set! rsi 1188321444)
-                              (set! rdi -1860695803)
-                              (set! r15 L.rp.3)
-                              (jump L.tmp.0.1 rbp r15 rdi rsi rdx)))
-              (set! foo.2.6 rax))
-            (begin
-              (set! tmp.12 -9223372036854775808)
-              (set! tmp.12 (+ tmp.12 -335192473))
-              (set! foo.2.6 tmp.12)))
-        (if (if (!= foo.2.6 foo.2.6)
-                (< foo.2.6 foo.2.6)
-                (begin
-                  (set! tmp.13 -1823864705)
-                  (= tmp.13 -2078605817)))
-            (begin
-              (set! rdx 1739531838)
-              (set! rsi foo.2.6)
-              (set! rdi foo.2.6)
-              (set! r15 tmp-ra.8)
-              (jump L.tmp.0.1 rbp r15 rdi rsi rdx))
-            (begin
-              (set! rdx -1707829089)
-              (set! rsi -2103046426)
-              (set! rdi 0)
-              (set! r15 tmp-ra.8)
-              (jump L.tmp.0.1 rbp r15 rdi rsi rdx))))))
+
   (check-by-interp
    '(module ((new-frames ())
              (locals (tmp-ra.12 bat.1.8))
@@ -5211,171 +2922,7 @@
         (set! rdi ball.3.17)
         (set! r15 tmp-ra.21)
         (jump L.x.0.1 rbp r15 rdi rsi rdx rcx r8))))
-  (check-by-interp
-   '(module ((new-frames ()) (locals (tmp-ra.9))
-                             (call-undead ())
-                             (undead-out ((tmp-ra.9 rbp) (tmp-ra.9 rsi rbp)
-                                                         (tmp-ra.9 rsi rdi rbp)
-                                                         (rsi rdi r15 rbp)
-                                                         (rsi rdi r15 rbp)))
-                             (conflicts ((tmp-ra.9 (rdi rsi rbp)) (rbp (r15 rdi rsi tmp-ra.9))
-                                                                  (rsi (r15 rdi rbp tmp-ra.9))
-                                                                  (rdi (r15 rbp rsi tmp-ra.9))
-                                                                  (r15 (rbp rdi rsi))))
-                             (assignment ()))
-            (define L.tmp.0.1
-              ((new-frames ()) (locals (tmp-ra.7 bat.8.2 bar.7.1))
-                               (undead-out ((rdi rsi tmp-ra.7 rbp) (rsi bat.8.2 tmp-ra.7 rbp)
-                                                                   (bat.8.2 tmp-ra.7 rbp)
-                                                                   (bat.8.2 tmp-ra.7 rcx rbp)
-                                                                   (bat.8.2 tmp-ra.7 rcx rdx rbp)
-                                                                   (bat.8.2 tmp-ra.7 rcx rdx rsi rbp)
-                                                                   (tmp-ra.7 rcx rdx rsi rdi rbp)
-                                                                   (rcx rdx rsi rdi r15 rbp)
-                                                                   (rcx rdx rsi rdi r15 rbp)))
-                               (call-undead ())
-                               (conflicts ((tmp-ra.7 (rdx rcx bar.7.1 bat.8.2 rbp rsi rdi))
-                                           (bat.8.2 (rcx bar.7.1 rbp tmp-ra.7 rsi))
-                                           (bar.7.1 (rbp tmp-ra.7 bat.8.2))
-                                           (rdi (r15 rbp rsi rdx rcx tmp-ra.7))
-                                           (rsi (r15 rdi rbp rdx rcx bat.8.2 tmp-ra.7))
-                                           (rbp (r15 rdi rsi rdx rcx bar.7.1 bat.8.2 tmp-ra.7))
-                                           (rcx (r15 rdi rsi rdx rbp tmp-ra.7 bat.8.2))
-                                           (rdx (r15 rdi rsi rbp rcx tmp-ra.7))
-                                           (r15 (rbp rdi rsi rdx rcx))))
-                               (assignment ()))
-              (begin
-                (set! tmp-ra.7 r15)
-                (set! bat.8.2 rdi)
-                (set! bar.7.1 rsi)
-                (set! rcx 9223372036854775807)
-                (set! rdx bat.8.2)
-                (set! rsi bat.8.2)
-                (set! rdi bat.8.2)
-                (set! r15 tmp-ra.7)
-                (jump L.fn.1.2 rbp r15 rdi rsi rdx rcx)))
-      (define L.fn.1.2
-        ((new-frames ())
-         (locals (tmp-ra.8 bar.3.6 foobar.6.5 bar.9.4 bat.8.3))
-         (undead-out ((rdi rsi rdx rcx tmp-ra.8 rbp) (rsi rdx rcx tmp-ra.8 rbp)
-                                                     (rdx rcx tmp-ra.8 rbp)
-                                                     (rcx bar.9.4 tmp-ra.8 rbp)
-                                                     (bar.9.4 bat.8.3 tmp-ra.8 rbp)
-                                                     (bat.8.3 tmp-ra.8 rsi rbp)
-                                                     (tmp-ra.8 rsi rdi rbp)
-                                                     (rsi rdi r15 rbp)
-                                                     (rsi rdi r15 rbp)))
-         (call-undead ())
-         (conflicts ((tmp-ra.8 (bat.8.3 bar.9.4 foobar.6.5 bar.3.6 rbp rcx rdx rsi rdi))
-                     (bar.3.6 (rbp tmp-ra.8 rcx rdx rsi))
-                     (foobar.6.5 (rbp tmp-ra.8 rcx rdx))
-                     (bar.9.4 (bat.8.3 rbp tmp-ra.8 rcx))
-                     (bat.8.3 (rsi rbp tmp-ra.8 bar.9.4))
-                     (rdi (r15 rbp rsi tmp-ra.8))
-                     (rsi (r15 rdi rbp bat.8.3 bar.3.6 tmp-ra.8))
-                     (rdx (foobar.6.5 bar.3.6 tmp-ra.8))
-                     (rcx (bar.9.4 foobar.6.5 bar.3.6 tmp-ra.8))
-                     (rbp (r15 rdi rsi bat.8.3 bar.9.4 foobar.6.5 bar.3.6 tmp-ra.8))
-                     (r15 (rbp rdi rsi))))
-         (assignment ()))
-        (begin
-          (set! tmp-ra.8 r15)
-          (set! bar.3.6 rdi)
-          (set! foobar.6.5 rsi)
-          (set! bar.9.4 rdx)
-          (set! bat.8.3 rcx)
-          (set! rsi bar.9.4)
-          (set! rdi bat.8.3)
-          (set! r15 tmp-ra.8)
-          (jump L.tmp.0.1 rbp r15 rdi rsi)))
-      (begin
-        (set! tmp-ra.9 r15)
-        (set! rsi 698097472)
-        (set! rdi -880757424)
-        (set! r15 tmp-ra.9)
-        (jump L.tmp.0.1 rbp r15 rdi rsi))))
-  (check-by-interp
-   '(module ((new-frames (()))
-             (locals (tmp.9 foo.5.6))
-             (call-undead (tmp-ra.8))
-             (undead-out ((tmp-ra.8 rbp) ((rax tmp-ra.8 rbp) ((r8 rbp) (r8 rcx rbp)
-                                                                       (r8 rcx rdx rbp)
-                                                                       (r8 rcx rdx rsi rbp)
-                                                                       (r8 rcx rdx rsi rdi rbp)
-                                                                       (r8 rcx rdx rsi rdi r15 rbp)
-                                                                       (r8 rcx rdx rsi rdi r15 rbp)))
-                                         (foo.5.6 tmp-ra.8 rbp)
-                                         (((tmp.9 foo.5.6 tmp-ra.8 rbp) (foo.5.6 tmp-ra.8 rbp))
-                                          ((tmp-ra.8 rax rbp) (rax rbp))
-                                          ((tmp-ra.8 rax rbp) (rax rbp)))))
-             (conflicts ((tmp.9 (rbp tmp-ra.8 foo.5.6))
-                         (tmp-ra.8 (foo.5.6 rbp tmp.9 rax))
-                         (foo.5.6 (rbp tmp-ra.8 tmp.9))
-                         (rax (rbp tmp-ra.8))
-                         (rbp (foo.5.6 r15 rdi rsi rdx rcx r8 tmp-ra.8 tmp.9 rax))
-                         (r8 (r15 rdi rsi rdx rcx rbp))
-                         (rcx (r15 rdi rsi rdx rbp r8))
-                         (rdx (r15 rdi rsi rbp rcx r8))
-                         (rsi (r15 rdi rbp rdx rcx r8))
-                         (rdi (r15 rbp rsi rdx rcx r8))
-                         (r15 (rbp rdi rsi rdx rcx r8))))
-             (assignment ((tmp-ra.8 fv0))))
-            (define L.tmp.0.1
-              ((new-frames ())
-               (locals (tmp-ra.7 bat.3.5 bar.8.4 ball.4.3 bar.2.2 foo.6.1))
-               (undead-out ((rdi rsi rdx rcx r8 tmp-ra.7 rbp) (rsi rdx rcx r8 tmp-ra.7 rbp)
-                                                              (rdx rcx r8 tmp-ra.7 rbp)
-                                                              (rcx r8 tmp-ra.7 rbp)
-                                                              (r8 tmp-ra.7 rbp)
-                                                              (foo.6.1 tmp-ra.7 rbp)
-                                                              (tmp-ra.7 rax rbp)
-                                                              (rax rbp)))
-               (call-undead ())
-               (conflicts
-                ((tmp-ra.7 (rax foo.6.1 bar.2.2 ball.4.3 bar.8.4 bat.3.5 rbp r8 rcx rdx rsi rdi))
-                 (bat.3.5 (rbp tmp-ra.7 r8 rcx rdx rsi))
-                 (bar.8.4 (rbp tmp-ra.7 r8 rcx rdx))
-                 (ball.4.3 (rbp tmp-ra.7 r8 rcx))
-                 (bar.2.2 (rbp tmp-ra.7 r8))
-                 (foo.6.1 (rbp tmp-ra.7))
-                 (rdi (tmp-ra.7))
-                 (rsi (bat.3.5 tmp-ra.7))
-                 (rdx (bar.8.4 bat.3.5 tmp-ra.7))
-                 (rcx (ball.4.3 bar.8.4 bat.3.5 tmp-ra.7))
-                 (r8 (bar.2.2 ball.4.3 bar.8.4 bat.3.5 tmp-ra.7))
-                 (rbp (rax foo.6.1 bar.2.2 ball.4.3 bar.8.4 bat.3.5 tmp-ra.7))
-                 (rax (rbp tmp-ra.7))))
-               (assignment ()))
-              (begin
-                (set! tmp-ra.7 r15)
-                (set! bat.3.5 rdi)
-                (set! bar.8.4 rsi)
-                (set! ball.4.3 rdx)
-                (set! bar.2.2 rcx)
-                (set! foo.6.1 r8)
-                (set! rax foo.6.1)
-                (jump tmp-ra.7 rbp rax)))
-      (begin
-        (set! tmp-ra.8 r15)
-        (return-point L.rp.2
-                      (begin
-                        (set! r8 -9223372036854775808)
-                        (set! rcx 1)
-                        (set! rdx 0)
-                        (set! rsi -9223372036854775808)
-                        (set! rdi 1)
-                        (set! r15 L.rp.2)
-                        (jump L.tmp.0.1 rbp r15 rdi rsi rdx rcx r8)))
-        (set! foo.5.6 rax)
-        (if (begin
-              (set! tmp.9 -9223372036854775808)
-              (= tmp.9 175566669))
-            (begin
-              (set! rax -1855219983)
-              (jump tmp-ra.8 rbp rax))
-            (begin
-              (set! rax foo.5.6)
-              (jump tmp-ra.8 rbp rax))))))
+
   (check-by-interp
    '(module ((new-frames (()))
              (locals (bar.7.9 bat.3.8 bar.5.10))
@@ -13180,7 +10727,6 @@
               (set! rax foo.5.4)
               (jump tmp-ra.6 rbp rax))
       ))
-      
 
   ;;;
   )

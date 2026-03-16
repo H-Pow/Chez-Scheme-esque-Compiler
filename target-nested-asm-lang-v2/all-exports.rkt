@@ -9,7 +9,9 @@
          assign-registers
          interp-nested-asm-lang
          asm-lang-progs
-         optimize-predicates)
+         optimize-predicates
+         assign-call-undead-variables
+         allocate-frames)
 
 (require "assign-fvars.rkt"
          "replace-locations.rkt"
@@ -18,7 +20,10 @@
          "conflict-analysis.rkt"
          "assign-registers.rkt"
          "interp-nested-asm-lang.rkt"
-         "optimize-predicates.rkt")
+         "optimize-predicates.rkt"
+         "assign-call-undead-variables.rkt"
+         "allocate-frames.rkt"
+         )
 
 (define asm-lang-progs
   '((module () (halt 1)

@@ -3,8 +3,7 @@
 (require cpsc411/compiler-lib
          cpsc411/langs/v6)
 
-(provide uniquify
-         interp-values-lang)
+(provide uniquify)
 
 (define (binop? op)
   (or (equal? op '+) (equal? op '*) (equal? op '-)))
@@ -54,25 +53,6 @@
 ;  	 	|	 	!=
 
 ;   int64	 	::=	 	int64?
-
-(define (interp-values-lang vl3)
-  (define (interp-triv triv env)
-    (match triv
-      [(? name?) (dict-ref env triv (λ () (error "not defined: ~a" triv)))]
-      [(? int64?) triv]))
-  (define (interp-tail tail env)
-    (match tail
-      [`(let ([,x* ,value*] ...) ,tail)
-       (define val+ (map (λ (val) (interp-tail val env)) value*))
-       (define env+ (foldl (λ (x val env) (dict-set env x val)) env x* val+))
-       (interp-tail tail env+)]
-      [`(,(? binop? binop) ,(? triv? triv) ,(? triv? triv2))
-       ((binop->fun binop) (interp-triv triv env) (interp-triv triv2 env))]
-      [(? triv?) (interp-triv tail env)]))
-  (let _ ([p vl3]
-          [env '()])
-    (match p
-      [`(module ,tail) (interp-tail tail env)])))
 
 ;---------------------
 ; values-unique-lang-v6

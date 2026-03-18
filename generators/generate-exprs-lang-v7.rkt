@@ -6,7 +6,7 @@
          cpsc411/test-suite/utils
          cpsc411/test-suite/public/v7)
 
-(define (generate-values-lang-v7)
+(define (generate-exprs-lang-v7)
   (define unassigned-proc-names '())
   (define proc-names '())
   (define triv-names '())
@@ -48,7 +48,7 @@
 
   ;; () -> symbol
   ;; assigns a procedure name to follow a 'define', removes it from procedure names that are available
-  ;; to be assigned (values-lang doesn't allow repeated declarations of procedures)
+  ;; to be assigned (exprs-lang doesn't allow repeated declarations of procedures)
   (define (assign-proc-name)
     (define assigned-proc-name (first unassigned-proc-names))
     (set! unassigned-proc-names (rest unassigned-proc-names))
@@ -102,7 +102,7 @@
       [(4) (random (max-int 32))]
       [(5) (- 0 (random (sub1 (max-int 32))))]))
 
-  ;; () -> (values-lang-v7 binop)
+  ;; () -> (exprs-lang-v7 binop)
   ;; randomly selects a binop
   (define (generate-binop)
     (choose-from-list '(+ * - eq? < <= > >=)))
@@ -115,15 +115,14 @@
   (define (generate-value depth env)
     (if (zero? depth)
         (generate-triv env)
-        (case (random 6)
+        (case (random 5)
           [(0) (generate-triv env)]
-          [(1) `(,(generate-binop) ,(generate-triv env) ,(generate-triv env))]
-          [(2) (generate-let depth env generate-value)]
-          [(3)
-           `(if ,(generate-pred (sub1 depth) env)
+          [(1) (generate-let depth env generate-value)]
+          [(2)
+           `(if ,(generate-value (sub1 depth) env)
                 ,(generate-value (sub1 depth) env)
                 ,(generate-value (sub1 depth) env))]
-          [(4 5)
+          [(3 4)
            ;; check if any procedure is defined, retry if no procedure is defined
            (if (null? proc-names)
                (generate-value depth env)
@@ -131,11 +130,16 @@
                       [arity (hash-ref proc-arities fname)])
                  `(call ,fname ,@(generate-trivs arity env))))])))
 
+(define (generate-name)
+    0
+)
+
+;; restrict to [32, 126] to only include the printable ascii characters
   (define (generate-ascii-char-literal)
-    (integer->char (random 256)))
+    (integer->char (random 32 127)))
 
   (define (generate-unop)
-    (choose-from-list '(fixnum? boolean? empty? eq? void? ascii-char? error? not)))
+    (choose-from-list '(fixnum? boolean? empty? void? ascii-char? error? not)))
 
   (define (generate-prim-f)
     (case (random 1)
@@ -165,7 +169,7 @@
            [num-params (hash-ref proc-arities proc)]
            ;; take first num-params from shuffled copy of triv-names
            [params (take (shuffle triv-names) num-params)])
-      `(define ,proc (lambda ,params ,(generate-tail depth params)))))
+      `(define ,proc (lambda ,params ,(generate-value depth params)))))
 
   (define (generate-program)
     (define num-defs (random 4))
@@ -180,33 +184,37 @@
 
   (generate-program))
 
-(define (runs-within-time? p)
-  (define ch (make-channel))
+; (define (runs-within-time? p)
+;   (define ch (make-channel))
 
-  (define thr
-    (thread (lambda ()
-              (channel-put ch
-                           (with-handlers ([exn:fail? (lambda (e) 'error)])
-                             (interp-values-lang-7 p))))))
+;   (define thr
+;     (thread (lambda ()
+;               (channel-put ch
+;                            (with-handlers ([exn:fail? (lambda (e) 'error)])
+;                              (interp-exprs-lang-7 p))))))
 
-  (define result (sync/timeout 3 ch))
+;   (define result (sync/timeout 3 ch))
 
-  (cond
-    [(not result) ; timeout
-     (kill-thread thr)
-     #f]
-    [(eq? result 'error) #f]
-    [else #t]))
+;   (cond
+;     [(not result) ; timeout
+;      (kill-thread thr)
+;      #f]
+;     [(eq? result 'error) #f]
+;     [else #t]))
 
-; (define success 0)
-(for ([i (in-range 100)])
+; (for ([i (in-range 55)])
 
-  (define p (generate-values-lang-v7))
-  ; (pretty-display (format "Iteration number: ~a" (add1 i)))
-  (when (runs-within-time? p)
-    (pretty-display (format "'~a" p))
-    (pretty-display "#%")
-    ; (set! success (add1 success))
-    ; (newline)
-    ; (pretty-display (format "Sucesss number: ~a" success))
-    ))
+;   (define p (generate-exprs-lang-v7))
+;   (when (runs-within-time? p)
+;     (pretty-display (format "'~a" p))
+;     (pretty-display "#%")
+;     ))
+
+
+(exprs-lang-v7? '(module (if + 1 2)))
+(exprs-lang-v7? '(module (if empty 2 2)))
+(exprs-lang-v7? '(module (call + 2 2)))
+(exprs-lang-v7? '(module (call + 2)))
+
+(exprs-lang-v7? '(module +))
+(interp-exprs-lang-v7 '(module (call + #f 2)))

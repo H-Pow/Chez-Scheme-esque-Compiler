@@ -22,54 +22,24 @@
          resolve-predicates
          flatten-program
          patch-instructions
-
          generate-x64)
 
-;; TODO: Fill in.
-;; You'll want to merge milestone-5 code in
+(require "uniquify.rkt")
+(require "sequentialize-let.rkt")
+(require "normalize-bind.rkt")
+(require "select-instructions.rkt")
+(require "target-nested-asm-lang-v2/all-exports.rkt")
+(require "flatten-begins.rkt")
+(require "patch-instructions.rkt")
+(require "expose-basic-blocks.rkt")
+(require "assign-frame-variables.rkt")
+(require "implement-fvars.rkt")
+(require "resolve-predicates.rkt")
+(require "generate-x64.rkt")
+(require "expose-basic-blocks.rkt")
+(require "flatten-program.rkt")
+(require "impose-calling-conventions.rkt")
 
-;; Stubs; remove or replace with your definitions.
-(define-values (uniquify
-                sequentialize-let
-                normalize-bind
-                impose-calling-conventions
-                select-instructions
-                uncover-locals
-                undead-analysis
-                conflict-analysis
-                assign-call-undead-variables
-                allocate-frames
-                assign-registers
-                replace-locations
-                assign-frame-variables
-                implement-fvars
-                optimize-predicates
-                expose-basic-blocks
-                resolve-predicates
-                flatten-program
-                patch-instructions
-                generate-x64)
-  (values values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values
-          values))
 
 (module+ test
   (require rackunit
@@ -79,16 +49,15 @@
   (require (submod "uniquify.rkt" test))
   (require (submod "sequentialize-let.rkt" test))
   (require (submod "normalize-bind.rkt" test))
+  (require (submod "impose-calling-conventions.rkt" test))
   (require (submod "select-instructions.rkt" test))
-  (require (submod "flatten-begins.rkt" test))
+  (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
+  (require (submod "implement-fvars.rkt" test))
+  (require (submod "expose-basic-blocks.rkt" test))
+  (require (submod "resolve-predicates.rkt" test))
   (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
-  (require (submod "resolve-predicates.rkt" test))
-  (require (submod "implement-fvars.rkt" test))
   (require (submod "generate-x64.rkt" test))
-  (require (submod "expose-basic-blocks.rkt" test))
-  (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
-  (require (submod "impose-calling-conventions.rkt" test))
 
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.

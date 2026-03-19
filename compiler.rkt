@@ -1,8 +1,8 @@
 #lang racket
 
 (require
- cpsc411/compiler-lib
- cpsc411/ptr-run-time)
+  cpsc411/compiler-lib
+  cpsc411/ptr-run-time)
 
 (provide
  uniquify
@@ -33,60 +33,28 @@
 ;; You'll want to merge milestone-6 code in
 
 ;; Stubs; remove or replace with your definitions.
-(define-values (uniquify
-                implement-safe-primops
-                specify-representation
-                remove-complex-opera*
-                sequentialize-let
-                normalize-bind
-                impose-calling-conventions
-                select-instructions
-                uncover-locals
-                undead-analysis
-                conflict-analysis
-                assign-call-undead-variables
-                allocate-frames
-                assign-registers
-                assign-frame-variables
-                replace-locations
-                implement-fvars
-                optimize-predicates
-                expose-basic-blocks
-                resolve-predicates
-                flatten-program
-                patch-instructions
-                generate-x64)
-  (values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values))
+(require "uniquify.rkt")
+(require "sequentialize-let.rkt")
+(require "normalize-bind.rkt")
+(require "select-instructions.rkt")
+(require "target-nested-asm-lang-v2/all-exports.rkt")
+(require "flatten-begins.rkt")
+(require "patch-instructions.rkt")
+(require "expose-basic-blocks.rkt")
+(require "assign-frame-variables.rkt")
+(require "implement-fvars.rkt")
+(require "resolve-predicates.rkt")
+(require "generate-x64.rkt")
+(require "expose-basic-blocks.rkt")
+(require "flatten-program.rkt")
+(require "impose-calling-conventions.rkt")
 
 (module+ test
   (require
-   rackunit
-   rackunit/text-ui
-   cpsc411/langs/v7
-   cpsc411/test-suite/public/v7)
+    rackunit
+    rackunit/text-ui
+    cpsc411/langs/v7
+    cpsc411/test-suite/public/v7)
 
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.
@@ -120,6 +88,19 @@
      (cons generate-x64 interp-paren-x64-v7)
      (cons wrap-x64-boilerplate #f)
      (cons wrap-x64-run-time #f)))
+
+  (require (submod "uniquify.rkt" test))
+  (require (submod "sequentialize-let.rkt" test))
+  (require (submod "normalize-bind.rkt" test))
+  (require (submod "impose-calling-conventions.rkt" test))
+  (require (submod "select-instructions.rkt" test))
+  (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
+  (require (submod "implement-fvars.rkt" test))
+  (require (submod "expose-basic-blocks.rkt" test))
+  (require (submod "resolve-predicates.rkt" test))
+  (require (submod "flatten-program.rkt" test))
+  (require (submod "patch-instructions.rkt" test))
+  (require (submod "generate-x64.rkt" test))
 
   (current-pass-list
    (map car pass-map))

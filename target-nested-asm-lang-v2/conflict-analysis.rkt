@@ -128,7 +128,7 @@
           ,info
           ,tail)
        `(define ,label
-          ,(info-set (info-set (info-remove info 'undead-out) 'call-undead `()) 
+          ,(info-set (info-remove info 'undead-out)
            'conflicts (analyze-tree-tail (info-ref info 'undead-out)
                                           tail
                                           (new-graph (info-ref info 'locals))))
@@ -182,7 +182,7 @@
     [`(module ,info ,definitions
         ...
         ,tail)
-     `(module ,(info-set (info-set (info-remove info 'undead-out) 'call-undead `()) 
+     `(module ,(info-set (info-remove info 'undead-out)
                         'conflicts (analyze-tree-tail (info-ref info 'undead-out)
                                     tail
                                     (new-graph (info-ref info 'locals))))

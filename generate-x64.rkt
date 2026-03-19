@@ -239,6 +239,13 @@
 ;; Compiles a Paren-x64 v6 program into a x64 instruction sequence represented as a string.
 (define (generate-x64 p)
 
+  ;; is this how we supposed to do this?
+  ;; edit nvm found the helper
+  (define (fix-label l)
+  #;
+  (regexp-replace* #rx"-" (symbol->string l) "$2d$")
+  (sanitize-label l))
+
   ;; paren-x64-v6-p -> x64-instruction-sequence
   ;; Compiles a Paren-x64-v6 begin-expression into a x64 instruction sequence represented as a string.
   (define (program->x64 p)
@@ -258,14 +265,14 @@
   (define (val->ins val)
     (match val
       [(? int64?) val]
-      [(? label?) (~a val)]
+      [(? label?) (~a (fix-label val))]
       [_ (loc->ins val)]))
 
   ;; paren-x64-v6-trg -> x64-instruction-sequence
   (define (trg->ins trg)
     (match trg
       [(? register?) (~a trg)]
-      [(? label?) (~a trg)]))
+      [(? label?) (~a (fix-label trg))]))
 
   (define (opand->ins opand)
     (match opand
@@ -280,12 +287,12 @@
        (format "~a ~a, ~a\n" (binop->ins binop) reg1 (val->ins val))]
       [`(set! ,loc ,label)
        #:when (label? label)
-       (format "lea ~a, [rel ~a]\n" (loc->ins loc) label)]
+       (format "lea ~a, [rel ~a]\n" (loc->ins loc) (fix-label label))]
       [`(set! ,loc ,val) (format "mov ~a, ~a\n" (loc->ins loc) (val->ins val))]
-      [`(with-label ,l ,s) (format "~a:\n~a" l (statement->x64 s))]
+      [`(with-label ,l ,s) (format "~a:\n~a" (fix-label l) (statement->x64 s))]
       [`(jump ,trg) (format "jmp ~a\n" (trg->ins trg))]
       [`(compare ,reg ,opand) (format "cmp ~a, ~a\n" reg (opand->ins opand))]
-      [`(jump-if ,relop ,l) (format "~a ~a\n" (relop->ins relop) l)]))
+      [`(jump-if ,relop ,l) (format "~a ~a\n" (relop->ins relop) (fix-label l))]))
 
   (define (relop->ins relop)
     (match relop

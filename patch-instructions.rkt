@@ -179,9 +179,9 @@
       [`(jump-if ,relop ,trg)
        #:when (or (addr? trg) (register? trg))
        `((set! ,first-reg ,trg) (jump-if ,relop ,first-reg))]
-      [`(jump ,relop ,trg)
+      [`(jump ,trg)
        #:when (addr? trg)
-       `((set! ,first-reg ,trg) (jump ,relop ,first-reg))]
+       `((set! ,first-reg ,trg) (jump ,first-reg))]
       [_ `(,s)]))
 
   (define (patch-p p)
@@ -192,6 +192,7 @@
           ,@(apply append (map patch-s ss)))]))
 
   (patch-p p))
+
 
 (module+ test
   (require rackunit

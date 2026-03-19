@@ -94,7 +94,7 @@
         ,tail)]))
 
 ;; HaYdEnS WacKy DebUGgEr
-#|
+#;
 (module+ test
   (require rackunit
            cpsc411/langs/v6)
@@ -209,16 +209,14 @@
 
   (displayln (interp-asm-pred-lang-v6/spilled
   `(module ((locals ()) 
-  (conflicts ((tmp-ra.1529 (rax rbp)) 
-  (tmp.1540 ()) (rbp (rax tmp-ra.1529)) 
-  (rax (rbp tmp-ra.1529)))) 
-  (assignment ((tmp.1540 rsp) (tmp-ra.1529 rsp)))) (
-    begin (set! tmp-ra.1529 r15) 
+  (conflicts ((tmp-ra.1529 (rax rbp)) (tmp.1540 ()) (rbp (rax tmp-ra.1529)) (rax (rbp tmp-ra.1529)))) 
+  (assignment ((tmp.1540 rsp) (tmp-ra.1529 rsp)))) 
+  (begin (set! tmp-ra.1529 r15) 
     (if (begin (set! tmp.1540 0) (= tmp.1540 0)) 
         (begin (set! rax 0) (jump tmp-ra.1529 rbp rax)) 
         (begin (set! rax 1) (jump tmp-ra.1529 rbp rax)))))))
 ) 
-|#
+
 
 (module+ test
   (require rackunit

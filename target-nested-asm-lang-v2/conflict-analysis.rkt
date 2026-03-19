@@ -128,7 +128,7 @@
           ,info
           ,tail)
        `(define ,label
-          ,(info-set (info-set (info-remove info 'undead-out) 'call-undead `()) 
+          ,(info-set (info-remove info 'undead-out)
            'conflicts (analyze-tree-tail (info-ref info 'undead-out)
                                           tail
                                           (new-graph (info-ref info 'locals))))
@@ -138,7 +138,7 @@
     (add-edges graph-init new-vertex (set-remove vertices new-vertex)))
 
   (define (set-remove-triv ust triv)
-    (if (aloc? triv)
+    (if (or (register? triv) (aloc? triv))
         (set-remove ust triv)
         ust))
 
@@ -158,6 +158,17 @@
        (analyze-tree-effect ust3 effect2 (analyze-tree-effect ust2 effect1 graph-init))]
       [(`(return-point ,label ,tail) _) (analyze-tree-tail ust tail graph-init)]))
 
+  (define (analyze-tree-pred ust pred graph-init)
+    (match* (pred ust)
+      [(`(begin ,fx* ... ,pred0) `(,ust* ... ,ust-pred)) 
+       (analyze-tree-pred ust-pred pred0 (for/fold ([graph graph-init])
+                                                    ([effect fx*]
+                                                    [ust ust*])
+                                                    (analyze-tree-effect ust effect graph)))]
+      [(`(not ,pred0) `(,ust-pred0)) (analyze-tree-pred ust-pred0 pred0)]
+      [(`(,relop ,loc ,opand) _) (update-graph graph-init loc (set-remove-triv ust opand))]
+      [(pred ust) graph-init]))
+
   ;; Undead-search-tree (Asm-lang-v2/undead tail) -> graph
   (define (analyze-tree-tail ust tail graph-init)
     (match* (tail ust)
@@ -172,28 +183,19 @@
                                      [ust usts])
                             (analyze-tree-effect ust effect graph)))]
       [(`(halt ,triv) ust) graph-init]
-      [(`(jump ,trg ,loc ...) ust) graph-init]
+      [(`(jump ,trg ,loc ...) ust) 
+       ;(update-graph graph-init trg ust)
+       (if (not (label? trg))
+           (update-graph graph-init trg ust)
+           graph-init)]
       [(`(if ,pred ,tail1 ,tail2) `(,ust1 ,ust2 ,ust3))
-       (analyze-tree-tail ust3 tail2 
-        (analyze-tree-tail ust2 tail1 
-         (analyze-tree-pred ust1 pred graph-init)))]))
-
-  (define (analyze-tree-pred ust pred graph-init)
-    (match* (pred ust)
-      [(`(begin ,fx* ... ,pred0) `(,ust* ... ,ust-pred)) 
-       (analyze-tree-pred ust-pred pred0 (for/fold ([graph graph-init])
-                                                    ([effect fx*]
-                                                    [ust ust*])
-                                                    (analyze-tree-effect ust effect graph)))]
-      [(`(not ,pred0) `(,ust-pred0)) (analyze-tree-pred ust-pred0 pred0)]
-      [(`(,relop ,loc ,opand) _) (update-graph graph-init loc (set-remove-triv ust opand))]
-      [(pred ust) graph-init]))
+       (analyze-tree-tail ust3 tail2 (analyze-tree-tail ust2 tail1 (analyze-tree-pred ust1 pred graph-init)))]))
 
   (match p
     [`(module ,info ,definitions
         ...
         ,tail)
-     `(module ,(info-set (info-set (info-remove info 'undead-out) 'call-undead `()) 
+     `(module ,(info-set (info-remove info 'undead-out)
                         'conflicts (analyze-tree-tail (info-ref info 'undead-out)
                                     tail
                                     (new-graph (info-ref info 'locals))))
@@ -214,7 +216,7 @@
                                (x.3 (y.4 p.1 w.2))
                                (w.2 (z.5 y.4 p.1 x.3 v.1))
                                (v.1 (w.2)))
-#|
+#;
 (module+ test
   (require rackunit
            cpsc411/langs/v6)
@@ -238,8 +240,60 @@
     (set! tmp-ra.1526 r15)
     (set! rax 3)
     (set! rax (* rax 2))
-    (jump tmp-ra.1526 rbp rax)))))
-|#
+    (jump tmp-ra.1526 rbp rax))))
+
+  (check-match (conflict-analysis 
+  `(module ((new-frames ()) (locals (tmp-ra.1505)) 
+  (undead-out ((tmp-ra.1505 rbp) (tmp-ra.1505 rbp rdi) (rbp r15 rdi) (rbp r15 rdi))) 
+  (call-undead ())) 
+  (define L.id.3515 
+  ((new-frames ()) (locals (tmp-ra.1506 x.1471)) 
+  (undead-out ((r15 x.1471 rbp) (x.1471 tmp-ra.1506 rbp) (tmp-ra.1506 rbp rax) (rbp rax))) 
+  (call-undead ())) 
+  (begin (set! x.1471 rdi) (set! tmp-ra.1506 r15) (set! rax x.1471) (jump tmp-ra.1506 rbp rax))) 
+  (begin (set! tmp-ra.1505 r15) (set! rdi 5) (set! r15 tmp-ra.1505) (jump L.id.3515 rbp r15 rdi))))
+  
+  `(module
+  ((new-frames ())
+   (locals (tmp-ra.1505))
+   (undead-out
+    ((tmp-ra.1505 rbp) (tmp-ra.1505 rbp rdi) (rbp r15 rdi) (rbp r15 rdi)))
+   (call-undead ())
+   (conflicts
+    ((tmp-ra.1505 (rdi rbp))
+     (rbp (r15 rdi tmp-ra.1505))
+     (rdi (r15 rbp tmp-ra.1505))
+     (r15 (rdi rbp)))))
+  (define L.id.3515
+    ((new-frames ())
+     (locals (tmp-ra.1506 x.1471))
+     (undead-out
+      ((r15 x.1471 rbp)
+       (x.1471 tmp-ra.1506 rbp)
+       (tmp-ra.1506 rbp rax)
+       (rbp rax)))
+     (call-undead ())
+     (conflicts
+      ((x.1471 (tmp-ra.1506 rbp r15))
+       (tmp-ra.1506 (rax rbp x.1471))
+       (r15 (x.1471))
+       (rbp (rax tmp-ra.1506 x.1471))
+       (rax (rbp tmp-ra.1506)))))
+    (begin
+      (set! x.1471 rdi)
+      (set! tmp-ra.1506 r15)
+      (set! rax x.1471)
+      (jump tmp-ra.1506 rbp rax)))
+  (begin
+    (set! tmp-ra.1505 r15)
+    (set! rdi 5)
+    (set! r15 tmp-ra.1505)
+    (jump L.id.3515 rbp r15 rdi))))
+    
+    
+    
+    )
+
 
 
 

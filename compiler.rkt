@@ -45,7 +45,8 @@
   (require rackunit
            rackunit/text-ui
            cpsc411/langs/v6
-           cpsc411/test-suite/public/v6)
+           cpsc411/test-suite/public/v6
+           file/glob)
   (require (submod "uniquify.rkt" test))
   (require (submod "sequentialize-let.rkt" test))
   (require (submod "normalize-bind.rkt" test))
@@ -58,6 +59,7 @@
   (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
   (require (submod "generate-x64.rkt" test))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "generated_tests/**.rkt"))
 
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.

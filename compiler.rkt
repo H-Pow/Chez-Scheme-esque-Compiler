@@ -101,6 +101,7 @@
   (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
   (require (submod "generate-x64.rkt" test))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "generated_tests/**.rkt"))
 
   (current-pass-list
    (map car pass-map))

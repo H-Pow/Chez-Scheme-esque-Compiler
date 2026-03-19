@@ -74,11 +74,12 @@
 ;; Compiles Asm-pred-lang-v6/spilled to Asm-pred-lang-v6/assignments
 ;; by allocating all abstract locations in the locals set to free frame variables.
 (define (assign-frame-variables p)
-
+  ; (pretty-display p)
   (define (update-info info)
-    (match-let* ([assignment (assign-variables/info info)]
-                 [`((,alocs ,fvars) ...) assignment])
-      (info-set (info-remove (info-remove info 'locals) 'conflicts) 'assignment assignment)))
+    (let ([assignment (assign-variables/info info)])
+      (info-set (info-remove (info-remove info 'locals) 'conflicts) 'assignment
+                (append assignment
+                        (info-ref info 'assignment)))))
 
   (define (assign-fvar locals conflicts)
     (if (empty? locals)
@@ -86,13 +87,12 @@
         (let* ([current-variable (car locals)]
                [assignments (assign-fvar (cdr locals) (remove-vertex conflicts current-variable))]
                [incompatible-fvars-set (get-incompatible current-variable assignments conflicts)])
-          (cons `(,current-variable ,(let/cc return
-                                       (let loop ([i 0])
-                                         (let ([current (make-fvar i)])
-                                           (if (set-member? (set->list incompatible-fvars-set)
-                                                              current)
-                                               (loop (+ 1 i))
-                                               (return current))))))
+          (cons `(,current-variable ,(let loop ([i 0])
+                                       (let ([current (make-fvar i)])
+                                         (if (set-member? incompatible-fvars-set
+                                                          current)
+                                             (loop (+ 1 i))
+                                             current))))
                 assignments))))
 
   (define (get-incompatible current-variable assignments conflicts)

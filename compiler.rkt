@@ -31,6 +31,10 @@
 
 ;; TODO: Fill in.
 ;; You'll want to merge milestone-6 code in
+; TODO: replace the stub
+(define implement-safe-primops values)
+(define specify-representation values)
+(define remove-complex-opera* values)
 
 ;; Stubs; remove or replace with your definitions.
 (require "uniquify.rkt")
@@ -54,7 +58,8 @@
     rackunit
     rackunit/text-ui
     cpsc411/langs/v7
-    cpsc411/test-suite/public/v7)
+    cpsc411/test-suite/public/v7
+    file/glob)
 
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.

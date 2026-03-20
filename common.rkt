@@ -1,5 +1,6 @@
 #lang racket
-(provide all-defined-out)
+(provide binop binop? unop unop? prim-f prim-f?)
+
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))
 (define unop '(fixnum?

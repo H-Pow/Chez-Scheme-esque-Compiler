@@ -69,7 +69,7 @@
       [`(define ,x (lambda (,param* ...) ,value))
        (define param/aloc* (map fresh param*))
        `(define ,(dict-ref env x) (lambda ,param/aloc*
-          ,(uniquify-value value (append (map cons param* param/aloc*) env))))]))
+                                    ,(uniquify-value value (append (map cons param* param/aloc*) env))))]))
   (match p
     [`(module ,def* ... ,value)
      (define env (foldr mark-def DEFAULT-ENV def*))
@@ -79,5 +79,20 @@
   (require rackunit
            cpsc411/langs/v7)
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-expr-lang-v7 p) (interp-expr-unique-lang-v7 (uniquify p))))
+    (check-equal? (interp-exprs-lang-v7 p) (interp-exprs-unique-lang-v7 (uniquify p))))
+
+  (check-by-interp `(module (define fact (lambda (n)
+                                           (if (call <= n 1) 1
+                                               (call * n (call fact (call - n 1))))))
+                      (call fact 5)))
+
+  (check-by-interp `(module (define fact (lambda (n acc)
+                                           (if (call <= n 1) acc
+                                               (call fact (call - n 1) (call * acc n)))))
+                      (call fact 5 1)))
+
+  (check-by-interp `(module (define fib (lambda (n)
+                                          (if (call <= n 1) n
+                                              (call + (call fib (call - n 1)) (call fib (call - n 2))))))
+                      (call fib 5)))
   )

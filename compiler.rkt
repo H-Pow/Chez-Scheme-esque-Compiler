@@ -31,6 +31,10 @@
 
 ;; TODO: Fill in.
 ;; You'll want to merge milestone-6 code in
+; TODO: replace the stub
+(define implement-safe-primops values)
+(define specify-representation values)
+(define remove-complex-opera* values)
 
 ;; Stubs; remove or replace with your definitions.
 (require "uniquify.rkt")
@@ -54,7 +58,8 @@
     rackunit
     rackunit/text-ui
     cpsc411/langs/v7
-    cpsc411/test-suite/public/v7)
+    cpsc411/test-suite/public/v7
+    file/glob)
 
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.
@@ -101,7 +106,7 @@
   (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
   (require (submod "generate-x64.rkt" test))
-  (for-each (λ(p) (dynamic-require p #f)) (glob "generated_tests/**.rkt"))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated_tests/**.rkt"))
 
   (current-pass-list
    (map car pass-map))

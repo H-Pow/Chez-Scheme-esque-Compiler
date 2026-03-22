@@ -1,8 +1,12 @@
 #lang racket
-(provide binop binop? unop unop? prim-f prim-f?)
+(provide binop binop? binop/unsafe binop/unsafe? unop unop? prim-f prim-f? primop primop?)
 
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))
+; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't 
+;    break implement-safe-primop
+(define binop/unsafe '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
+(define binop/unsafe? (compose not false? (curryr memq binop/unsafe)))
 (define unop '(fixnum?
                boolean?
                empty?
@@ -14,6 +18,9 @@
 
 (define prim-f `(,@binop ,@unop))
 (define prim-f? (compose not false? (curryr memq prim-f)))
+
+(define primop `(,@binop/unsafe ,@unop))
+(define primop? (compose not false? (curryr memq primop)))
 
 (module+ test
   (require rackunit)

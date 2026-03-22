@@ -32,12 +32,12 @@
 ;; TODO: Fill in.
 ;; You'll want to merge milestone-6 code in
 ; TODO: replace the stub
-(define implement-safe-primops values)
 (define specify-representation values)
 (define remove-complex-opera* values)
 
 ;; Stubs; remove or replace with your definitions.
 (require "uniquify.rkt")
+(require "implement-safe-primops.rkt")
 (require "sequentialize-let.rkt")
 (require "normalize-bind.rkt")
 (require "select-instructions.rkt")

@@ -3,8 +3,10 @@
 
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))
+; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't 
+;    break implement-safe-primop
 (define binop/unsafe '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
-(define binop/unsafe? (compose not false (curryr memq binop/unsafe)))
+(define binop/unsafe? (compose not false? (curryr memq binop/unsafe)))
 (define unop '(fixnum?
                boolean?
                empty?

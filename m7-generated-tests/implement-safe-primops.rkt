@@ -1,18 +1,25 @@
 #lang racket
+
 (require rackunit
          cpsc411/langs/v7
          (only-in "../implement-safe-primops.rkt" implement-safe-primops))
 
 (define (check-exprs-unique-lang-v7 p)
-  (if (exprs-unique-lang-v7? p) p #f))
+  (if (exprs-unique-lang-v7? p) p (error (format "program \n ~a \n is not semantically valid"
+    (pretty-format p)))))
 
 (define (check-exprs-unsafe-data-lang-v7 p)
-  (if (exprs-unsafe-data-lang-v7? p) p #f))
+  (if (exprs-unsafe-data-lang-v7? p) p (error (format "program \n ~a \n is not semantically valid"
+    (pretty-format p)))))
+
+(define (peek x)
+  ; (pretty-display x)
+  x)
 
 (define-syntax-rule (check-by-interp p)
   (check-equal? (interp-exprs-unique-lang-v7 (check-exprs-unique-lang-v7 p))
                 (interp-exprs-unsafe-data-lang-v7
-                 (check-exprs-unsafe-data-lang-v7 (implement-safe-primops p)))))
+                 (check-exprs-unsafe-data-lang-v7 (peek (implement-safe-primops p))))))
 
 ;;; Added by Trevor on 2026-03-19
 

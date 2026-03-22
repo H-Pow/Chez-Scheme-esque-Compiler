@@ -95,10 +95,40 @@
        `(define ,label (lambda ,aloc* ,(implement-value! value)))]))
   (match p
     [`(module ,def* ... ,value)
-        (define def/unsafe* (map implement-def! def*))
-        (define value/unsafe (implement-value! value))
-        (define binop-defs (filter-map (curry dict-ref DEF-ENV) (set->list usage)))
+     (define def/unsafe* (map implement-def! def*))
+     (define value/unsafe (implement-value! value))
+     (define binop-defs (filter-map (curry dict-ref DEF-ENV) (set->list usage)))
      `(module ,@binop-defs ,@def/unsafe* ,value/unsafe)]))
 
 (module+ test
-    (require rackunit))
+  (require rackunit
+           cpsc411/langs/v7)
+  (define-syntax-rule (check-by-interp p)
+    (check-equal? (interp-exprs-unique-lang-v7 p)
+                  (interp-exprs-unsafe-data-lang-v7 (implement-safe-primops p))))
+  (check-by-interp `(module 1))
+  (check-by-interp `(module #t))
+  (check-by-interp `(module #f))
+  (check-by-interp `(module #\a))
+
+  (check-by-interp `(module (define L.fact.0 (lambda (x.0)
+                                               (if (call <= x.0 1) 1
+                                                   (call * x.0 (call L.fact.0 (call - x.0 1))))))
+                      (call L.fact.0 5)
+                      )
+                   )
+
+  (check-by-interp `(module (define L.fact.0 (lambda (x.0 a.0)
+                                               (if (call <= x.0 1) a.0
+                                                   (call L.fact.0 (call - x.0 1) (call * x.0 a.0)))))
+                      (call L.fact.0 5 1)
+                      ))
+
+  (check-by-interp `(module (define L.fib.0 (lambda (x.0)
+                                              (if (call <= x.0 1) x.0
+                                                  (call +
+                                                        (call L.fib.0 (call - x.0 1))
+                                                        (call L.fib.0 (call - x.0 2))))))
+                      (call L.fib.0 5)
+                      ))
+  )

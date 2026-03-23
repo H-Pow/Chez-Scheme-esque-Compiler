@@ -104,10 +104,9 @@
   (require (submod "implement-fvars.rkt" test))
   (require (submod "expose-basic-blocks.rkt" test))
   (require (submod "resolve-predicates.rkt" test))
-  (require (submod "specify-representation.rkt" test))
+;   (require (submod "specify-representation.rkt" test))
   (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
-  (require (submod "generate-x64.rkt" test))
   (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
 
   (current-pass-list

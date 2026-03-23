@@ -13,9 +13,15 @@
   ; (if (execute? p) p #f)
   p)
 
+(define (ptr->v/generate-x64 p)
+  (define v (ptr->v/p3yaz p))
+  (if (equal? v (void)) 
+    eof
+    v))
+
 (define-syntax-rule (check-by-interp p)
   (parameterize ([current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate)])
-    (check-equal? (ptr->v/p3yaz (interp-paren-x64-v7 (check-paren-x64-v7 p)))
+    (check-equal? (ptr->v/generate-x64 (interp-paren-x64-v7 (check-paren-x64-v7 p)))
        (execute (generate-x64 p)))))
 
 ;;; Added by Trevor on 2026-03-19

@@ -1,6 +1,7 @@
 #lang racket
 
-(require cpsc411/compiler-lib)
+(require cpsc411/compiler-lib
+         "../common.rkt")
 (provide uncover-locals)
 
 ;; asm-pred-lang-v6 p -> asm-pred-lang-v6/locals p
@@ -19,7 +20,7 @@
           ,(info-set info 'locals (set->list (uncover-tail tail)))
           ,tail)]))
 
-   (define (uncover-triv triv)
+  (define (uncover-triv triv)
     (match triv
       [(? (or/c register? fvar? label? int64?)) (set)]
       [(? aloc?) (set triv)]))
@@ -74,7 +75,7 @@
           ...
           ,tail)
        `(module ,(info-set info 'locals (set->list (uncover-tail tail)))
-          ,@(map uncover-defintiions definitions)
+                ,@(map uncover-defintiions definitions)
           ,tail)]))
   (uncover-p p))
 
@@ -91,91 +92,91 @@
   ; example output for uncover-locals
 
   (check-match (uncover-locals '(module ()
-                                  (begin
-                                    (set! x.1 0)
-                                    (halt x.1))
+                                        (begin
+                                          (set! x.1 0)
+                                          (halt x.1))
                                   ))
                '(module ((locals (x.1)))
-                  (begin
-                    (set! x.1 0)
-                    (halt x.1))
+                        (begin
+                          (set! x.1 0)
+                          (halt x.1))
                   ))
   (check-match (uncover-locals '(module ()
-                                  (begin
-                                    (set! x.1 0)
-                                    (set! y.1 x.1)
-                                    (set! y.1 (+ y.1 x.1))
-                                    (halt y.1))
+                                        (begin
+                                          (set! x.1 0)
+                                          (set! y.1 x.1)
+                                          (set! y.1 (+ y.1 x.1))
+                                          (halt y.1))
                                   ))
                `(module ((locals ,locals))
-                  (begin
-                    (set! x.1 0)
-                    (set! y.1 x.1)
-                    (set! y.1 (+ y.1 x.1))
-                    (halt y.1))
+                        (begin
+                          (set! x.1 0)
+                          (set! y.1 x.1)
+                          (set! y.1 (+ y.1 x.1))
+                          (halt y.1))
                   )
                (equal? (list->seteq locals) (seteq 'x.1 'y.1)))
 
   ;; works, just in different order
   #;(check-equal? (uncover-locals `(module ()
-                                     (begin
-                                       (set! x.1 5)
-                                       (set! y.2 x.1)
-                                       (begin
-                                         (set! b.3 x.1)
-                                         (set! b.3 (+ b.3 y.2))
-                                         (set! c.4 b.3)
-                                         (if (if (true)
-                                                 (false)
-                                                 (not (false)))
-                                             (halt c.4)
+                                           (begin
+                                             (set! x.1 5)
+                                             (set! y.2 x.1)
                                              (begin
-                                               (set! x.1 c.4)
-                                               (set! x.1 y.2)
-                                               (halt c.4)))))
+                                               (set! b.3 x.1)
+                                               (set! b.3 (+ b.3 y.2))
+                                               (set! c.4 b.3)
+                                               (if (if (true)
+                                                       (false)
+                                                       (not (false)))
+                                                   (halt c.4)
+                                                   (begin
+                                                     (set! x.1 c.4)
+                                                     (set! x.1 y.2)
+                                                     (halt c.4)))))
                                      ))
                   `(module ((locals (b.3 x.1 y.2 c.4)))
-                     (begin
-                       (set! x.1 5)
-                       (set! y.2 x.1)
-                       (begin
-                         (set! b.3 x.1)
-                         (set! b.3 (+ b.3 y.2))
-                         (set! c.4 b.3)
-                         (if (if (true)
-                                 (false)
-                                 (not (false)))
-                             (halt c.4)
+                           (begin
+                             (set! x.1 5)
+                             (set! y.2 x.1)
                              (begin
-                               (set! x.1 c.4)
-                               (set! x.1 y.2)
-                               (halt c.4)))))
+                               (set! b.3 x.1)
+                               (set! b.3 (+ b.3 y.2))
+                               (set! c.4 b.3)
+                               (if (if (true)
+                                       (false)
+                                       (not (false)))
+                                   (halt c.4)
+                                   (begin
+                                     (set! x.1 c.4)
+                                     (set! x.1 y.2)
+                                     (halt c.4)))))
                      ))
   (check-match (uncover-locals '(module ()
-                                  (define L.newlabel.1
-                                    ()
-                                    (begin
-                                      (set! x.1 0)
-                                      (halt x.1)))
+                                        (define L.newlabel.1
+                                          ()
+                                          (begin
+                                            (set! x.1 0)
+                                            (halt x.1)))
                                   (begin
                                     (set! x.1 0)
                                     (halt x.1))))
                '(module ((locals (x.1)))
-                  (define L.newlabel.1
-                    ((locals (x.1)))
-                    (begin
-                      (set! x.1 0)
-                      (halt x.1)))
+                        (define L.newlabel.1
+                          ((locals (x.1)))
+                          (begin
+                            (set! x.1 0)
+                            (halt x.1)))
                   (begin
                     (set! x.1 0)
                     (halt x.1))))
 
   (check-match (uncover-locals '(module ()
-                                  (define L.newlabel.1
-                                    ()
-                                    (begin
-                                      (set! x.1 0)
-                                      (halt x.1)))
+                                        (define L.newlabel.1
+                                          ()
+                                          (begin
+                                            (set! x.1 0)
+                                            (halt x.1)))
                                   (define L.newlabel.2
                                     ()
                                     (begin
@@ -197,11 +198,11 @@
                                     (set! x.1 0)
                                     (halt x.1))))
                '(module ((locals (x.1)))
-                  (define L.newlabel.1
-                    ((locals (x.1)))
-                    (begin
-                      (set! x.1 0)
-                      (halt x.1)))
+                        (define L.newlabel.1
+                          ((locals (x.1)))
+                          (begin
+                            (set! x.1 0)
+                            (halt x.1)))
                   (define L.newlabel.2
                     ((locals (c.4 x.1 b.3 y.2)))
                     (begin

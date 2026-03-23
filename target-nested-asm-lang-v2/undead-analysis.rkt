@@ -1,6 +1,7 @@
 #lang racket
 
-(require cpsc411/compiler-lib)
+(require cpsc411/compiler-lib
+         "../common.rkt")
 
 (provide undead-analysis)
 
@@ -12,12 +13,12 @@
   (define call-undead-box (box `()))
 
   (define (record-call-undead! s)
-    (set-box! call-undead-box
-              (set-subtract (set-union (unbox call-undead-box) s) 
-                            `(,(current-frame-base-pointer-register)
-                              ,(current-return-value-register)))
-              ;(set-union (unbox call-undead-box) s)
-              ))
+    (set-box!
+     call-undead-box
+     (set-subtract (set-union (unbox call-undead-box) s)
+                   `(,(current-frame-base-pointer-register) ,(current-return-value-register)))
+     ;(set-union (unbox call-undead-box) s)
+     ))
 
   (define (analyze-definitions def)
     (match def
@@ -69,7 +70,8 @@
       [`(return-point ,label ,tail)
        (let-values ([(undead-in ust-tail) (analyze-program-tail undead-out tail)])
          (record-call-undead! undead-out)
-         (values (set-union (set-remove undead-out (current-return-value-register)) undead-in) `(,undead-out ,(first ust-tail))))]))
+         (values (set-union (set-remove undead-out (current-return-value-register)) undead-in)
+                 `(,undead-out ,(first ust-tail))))]))
 
   (define (analyze-program-pred undead-out pred)
     (match pred
@@ -148,13 +150,12 @@
     [`(module ,info ,definitions
         ...
         ,tail)
-     `(module ,(info-set 
-                (info-set info
-                         'undead-out
-                         (let-values ([(_ ust) (analyze-program-tail `() tail)])
-                           (first ust)))
-               'call-undead
-               (set->list (unbox call-undead-box)))
+     `(module ,(info-set (info-set info
+                                   'undead-out
+                                   (let-values ([(_ ust) (analyze-program-tail `() tail)])
+                                     (first ust)))
+                         'call-undead
+                         (set->list (unbox call-undead-box)))
               ,@(map analyze-definitions definitions)
         ,tail)]))
 
@@ -164,34 +165,34 @@
            cpsc411/langs/v5
            cpsc411/langs/v6)
 
-  (check-match (undead-analysis 
-  '(module 
-  ((new-frames ()) 
-    (locals (tmp-ra.1530))) 
-      (define L.fact.3527 
-        ((new-frames (())) 
-         (locals (tmp-ra.1531 z.1492 y.1493 x.1491))) 
-        (begin (set! x.1491 rdi) 
-               (set! tmp-ra.1531 r15) 
-               (if (= x.1491 0) 
-                   (begin (set! rax 1) 
-                          (jump tmp-ra.1531 rbp rax)) 
-                   (begin (set! z.1492 x.1491) 
-                          (set! z.1492 (+ z.1492 -1)) 
-                          (return-point L.return-point.3544 
-                            (begin (set! rdi z.1492) 
-                                   (set! r15 L.return-point.3544) 
-                                   (jump L.fact.3527 rbp r15 rdi))) 
+  (check-match (undead-analysis
+  '(module
+  ((new-frames ())
+    (locals (tmp-ra.1530)))
+      (define L.fact.3527
+        ((new-frames (()))
+         (locals (tmp-ra.1531 z.1492 y.1493 x.1491)))
+        (begin (set! x.1491 rdi)
+               (set! tmp-ra.1531 r15)
+               (if (= x.1491 0)
+                   (begin (set! rax 1)
+                          (jump tmp-ra.1531 rbp rax))
+                   (begin (set! z.1492 x.1491)
+                          (set! z.1492 (+ z.1492 -1))
+                          (return-point L.return-point.3544
+                            (begin (set! rdi z.1492)
+                                   (set! r15 L.return-point.3544)
+                                   (jump L.fact.3527 rbp r15 rdi)))
                           (set! y.1493 rax)
-                          (set! rax x.1491) 
-                          (set! rax (* rax y.1493)) 
-                          (jump tmp-ra.1531 rbp rax))))) 
-   (begin 
-    (set! tmp-ra.1530 r15) 
-    (set! rdi 5) 
-    (set! r15 tmp-ra.1530) 
+                          (set! rax x.1491)
+                          (set! rax (* rax y.1493))
+                          (jump tmp-ra.1531 rbp rax)))))
+   (begin
+    (set! tmp-ra.1530 r15)
+    (set! rdi 5)
+    (set! r15 tmp-ra.1530)
     (jump L.fact.3527 rbp r15 rdi))))
-   
+
    `(module
   ((new-frames ())
    (locals (tmp-ra.1530))
@@ -208,9 +209,9 @@
         ((tmp-ra.1531 rax rbp) (rax rbp))
         ((z.1492 x.1491 tmp-ra.1531 rbp)
          (z.1492 x.1491 tmp-ra.1531 rbp)
-          ((rax x.1491 tmp-ra.1531 rbp) 
-           ((rdi rbp) 
-            (rdi r15 rbp) 
+          ((rax x.1491 tmp-ra.1531 rbp)
+           ((rdi rbp)
+            (rdi r15 rbp)
             (rdi r15 rbp)))
          (x.1491 y.1493 tmp-ra.1531 rbp)
          (y.1493 rax tmp-ra.1531 rbp)
@@ -241,14 +242,14 @@
     (set! r15 tmp-ra.1530)
     (jump L.fact.3527 rbp r15 rdi)))))
 
-  (check-match (undead-analysis '(module ((locals (x.1 y.2)) 
-  (call-undead ()) (new-frames (())) 
-  (undead-out ((x.1 r15) (x.1 y.2 r15) 
-  ((x.1 y.2 r15) ((r15) ()) ((r15) ()))))) 
-  (begin (set! x.1 3) (set! y.2 x.1) 
-  (if (> y.2 x.1) (begin (set! rax x.1) 
+  (check-match (undead-analysis '(module ((locals (x.1 y.2))
+  (call-undead ()) (new-frames (()))
+  (undead-out ((x.1 r15) (x.1 y.2 r15)
+  ((x.1 y.2 r15) ((r15) ()) ((r15) ())))))
+  (begin (set! x.1 3) (set! y.2 x.1)
+  (if (> y.2 x.1) (begin (set! rax x.1)
   (jump r15)) (begin (set! rax y.2) (jump r15))))))
-  
+
   `(module
   ((locals (x.1 y.2))
    (call-undead ())

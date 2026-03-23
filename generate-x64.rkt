@@ -1,12 +1,16 @@
 #lang racket
 
 (require cpsc411/compiler-lib
+<<<<<<< HEAD
          cpsc411/ptr-run-time)
+=======
+         cpsc411/ptr-run-time
+         "common.rkt")
+>>>>>>> m7-ex7
 
 (require rackunit)
 
-(provide check-paren-x64
-         generate-x64)
+(provide generate-x64)
 
 (define-syntax-rule (TODO . stx)
   (error "Unfinished skeleton"))
@@ -82,16 +86,11 @@
 ;   label	 	::=	 	label?
 
 (define registers `(rax rbx rcx rdx rsi rdi r8 r9 r10 r11 r12 r13 r14 r15 rsp rbp))
-(define assoc/binops->fun (list (list '+ x64-add) (list '* x64-mul) (list '- x64-sub)))
-(define binops (map car assoc/binops->fun))
+; (define assoc/binops->fun (list (list '+ x64-add) (list '* x64-mul) (list '- x64-sub)))
+; (define binops (map car assoc/binops->fun))
 
 (define (relop? rl)
   (memq rl '(< <= = >= > !=)))
-
-;; symbol -> boolean
-;; returns true if bo is a binop, false otherwise
-(define (binop? bo)
-  (memq bo binops))
 
 ;; symbol -> boolean
 ;; reutrns true if addr is an address, false otherwise
@@ -103,141 +102,6 @@
 ;; symbol -> boolean
 ;; returns true if provided symbol is a loc(reg or addr), false otherwise
 (define loc? (or/c register? addr?))
-
-;; imperative, do nothing on success
-(define check-success (void))
-
-;; Optional; if you choose not to complete, implement a stub that returns the input
-;; paren-x64-v2 -> paren-x64-v2
-;; Takes valid Paren-x64 v1 syntax, and returns a valid Paren-x64 v1 program
-;;     or raises an error with a descriptive error message.
-(define (check-paren-x64-init p)
-  ;; env is hashtable that maps location to its value
-  (define env (make-hash))
-  (define (env-set! reg val)
-    (hash-set! env reg val))
-
-  ;; location -> int64 or void
-  (define (env-get reg)
-    (hash-ref env reg (void)))
-
-  ; set is 0, represent that the register is set
-  (define set 0)
-  ;; any -> boolean
-  ;; returns true if val is set, false otherwise
-  (define (set? val)
-    (equal? val 0))
-
-  ;; loc -> void
-  ;; raises error if location is not set
-  (define (check-loc-defined loc)
-    (if (set? (env-get loc))
-        check-success
-        (error "location ~a not set" loc)))
-  ;; int64 or loc or bin-op -> void
-  ;; raises error if op2 is not an int64, a set register, or valid binop expression
-  (define (check-paren-x64-init-op2 op2)
-    (match op2
-      [(? int64? _) check-success]
-      [r
-       #:when (loc? r)
-       (check-loc-defined r)]
-      [`(,bin-op ,reg1 ,i32)
-       #:when (and (binop? bin-op) (register? reg1) (int32? i32))
-       (check-loc-defined reg1)]
-      [`(,bin-op ,reg1 ,loc)
-       #:when (and (binop? bin-op) (register? reg1) (loc? loc))
-       (check-loc-defined reg1)
-       (check-loc-defined loc)]))
-
-  ;; paren-x64-v2-s -> void
-  ;; raises error if s is not valid paren-x64-v2 set!-expression
-  (define (check-paren-x64-init-s s)
-    (match s
-      [`(set! ,reg ,op2)
-       #:when (loc? reg)
-       (check-paren-x64-init-op2 op2)
-       ; define register on successful validation
-       (env-set! reg set)]))
-
-  ;; paren-x64-v2-p -> void
-  ;; raises error if p is not valid paren-x64-v2 begin-expression
-  (define (check-paren-x64-init-p p)
-    (match p
-      [`(begin
-          ,s ...)
-       (for-each check-paren-x64-init-s s)]))
-
-  (check-paren-x64-init-p p)
-  p)
-
-;; Optional; if you choose not to complete, implement a stub that returns the input
-;; any -> paren-x64-v4
-;; Takes an arbitrary value and either returns it, if it is valid Paren-x64 v1 syntax,
-;;     or raises an error with a descriptive error message.
-(define (check-paren-x64-syntax p)
-  ;; any addr -> void
-  ;; raises error if op2 is not valid second op for set! given that op1 is an addr
-  (define (check-paren-x64-syntax-op2/addr op2 addr)
-    (match op2
-      [(? int32?) check-success]
-      [(? int64?) (error "address assignment only allow int32, given int64: ~a" op2)]
-      [(? register?) check-success]
-      [`(,(? binop?) ,_ ,_) (error "binop not allowed for memory address")]
-      [_ (error (format "invalid operation: ~a for address: ~a" op2 addr))]))
-  ;; any register -> void
-  ;; raises error if op2 is not valid syntax for second parameter of a set!-expression
-  (define (check-paren-x64-syntax-op2/reg op2 reg)
-    (match op2
-      [(? int64?) check-success]
-      [(? loc?) check-success]
-      [`(,bin-op ,reg1 ,i32)
-       #:when (and (binop? bin-op) (register? reg1) (equal? reg reg1) (int32? i32))
-       check-success]
-      [`(,bin-op ,reg1 ,loc)
-       #:when (and (binop? bin-op) (equal? reg reg1) (register? reg1) (loc? loc))
-       check-success]
-      [`(,bin-op ,op1 ,_)
-       #:when (binop? bin-op)
-       (error (format "unknown oprand ~a, expected ~a" op1 reg))]
-      [x
-       (error (format "unexpected symbol ~a, expected a int64, register or a bin-op expression" x))]))
-  ;; any loc -> void
-  ;; raises error if op2 is not valid syntax for the second paramter of a set!
-  ;;    given location
-  (define (check-paren-x64-syntax-op2 op2 loc)
-    (match loc
-      [(? addr?) (check-paren-x64-syntax-op2/addr op2 loc)]
-      [(? register?) (check-paren-x64-syntax-op2/reg op2 loc)]))
-  ;; any -> void
-  ;; raises error if s is not a valid syntax for a set!-expression
-  ;; uses match to progressively check for violations for "descriptive" error message
-  (define (check-paren-x64-syntax-s s)
-    (match s
-      [`(set! ,loc ,op2)
-       #:when (loc? loc)
-       (check-paren-x64-syntax-op2 op2 loc)]
-      [`(set! ,op1 ,_)
-       (error (format "unknown oprand ~a, expected a location(symbol in '~a)" op1 registers))]
-      [`(with-label ,(? label?) ,s) (check-paren-x64-syntax-s s)]
-      [`(jump ,(? (or/c register? label?))) (void)]
-      [`(compare ,(? register?) ,(? (or/c register? int64?))) (void)]
-      [`(jump-if ,(? relop?) ,(? label?)) (void)]
-      [x (error (format "unexpected symbol ~a, expected a paren-x64-s expression" x))]))
-  ;; any -> void
-  ;; raises an error if p is not valid syntax for begin-expression.
-  (define (check-paren-x64-syntax-p p)
-    (match p
-      [`(begin
-          ,s ...)
-       (for-each check-paren-x64-syntax-s s)]
-      [x (error "no begin expression: ~a" x)]))
-
-  (check-paren-x64-syntax-p p)
-  p)
-
-(define (check-paren-x64 p)
-  (check-paren-x64-init (check-paren-x64-syntax p)))
 
 ;; paren-x64-v6 -> x64-instruction-sequence
 ;; Compiles a Paren-x64 v6 program into a x64 instruction sequence represented as a string.
@@ -318,4 +182,4 @@
       ['bitwise-ior "or"]
       ['bitwise-xor "xor"]
       ['arithmetic-shift-right "sar"]))
-  (program->x64 p #;(check-paren-x64 p)))
+  (program->x64 p)) 

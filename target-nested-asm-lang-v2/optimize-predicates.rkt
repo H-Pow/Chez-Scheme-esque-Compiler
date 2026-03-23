@@ -1,74 +1,12 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/langs/v4)
+         cpsc411/langs/v4
+         "../common.rkt")
 
 (provide optimize-predicates
          nested-asm-lang-progs)
 
-;; nested-asm-lang-fvars-v6
-;  p	 	::=	 	(module (define label tail) ... tail)
-
-;   pred	 	::=	 	(relop loc opand)
-;  	 	|	 	(true)
-;  	 	|	 	(false)
-;  	 	|	 	(not pred)
-;  	 	|	 	(begin effect ... pred)
-;  	 	|	 	(if pred pred pred)
-
-;   tail	 	::=	 	(jump trg)
-;  	 	|	 	(begin effect ... tail)
-;  	 	|	 	(if pred tail tail)
-
-;   effect	 	::=	 	(set! loc triv)
-;  	 	|	 	(set! loc_1 (binop loc_1 opand))
-;  	 	|	 	(begin effect ... effect)
-;  	 	|	 	(if pred effect effect)
-;  	 	|	 	(return-point label tail)
-
-;   opand	 	::=	 	int64
-;  	 	|	 	loc
-
-;   triv	 	::=	 	opand
-;  	 	|	 	label
-
-;   loc	 	::=	 	reg
-;  	 	|	 	fvar
-
-;   trg	 	::=	 	label
-;  	 	|	 	loc
-
-;   reg	 	::=	 	rsp
-;  	 	|	 	rbp
-;  	 	|	 	rax
-;  	 	|	 	rbx
-;  	 	|	 	rcx
-;  	 	|	 	rdx
-;  	 	|	 	rsi
-;  	 	|	 	rdi
-;  	 	|	 	r8
-;  	 	|	 	r9
-;  	 	|	 	r12
-;  	 	|	 	r13
-;  	 	|	 	r14
-;  	 	|	 	r15
-
-;   binop	 	::=	 	*
-;  	 	|	 	+
-;  	 	|	 	-
-
-;   relop	 	::=	 	<
-;  	 	|	 	<=
-;  	 	|	 	=
-;  	 	|	 	>=
-;  	 	|	 	>
-;  	 	|	 	!=
-
-;   int64	 	::=	 	int64?
-
-;   fvar	 	::=	 	fvar?
-
-;   label	 	::=	 	label?
 
 ;; (nested-asm-lang-fvars-v6 p) -> (nested-asm-lang-fvars-v6 p)
 ;; Optimizes Nested-asm-lang-v4 programs by analyzing and simplifying predicates

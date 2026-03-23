@@ -5,16 +5,36 @@
          cpsc411/test-suite/utils
          ;cpsc411/2c-run-time
          cpsc411/langs/v7
+         cpsc411/compiler-lib
+         cpsc411/ptr-run-time
+         "../test-common.rkt"
          (only-in "../generate-x64.rkt" generate-x64))
 
 (define (check-paren-x64-v7 p)
   (if (paren-x64-v7? p) p #f))
 
+<<<<<<< HEAD
 (current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate))
 
 (define-syntax-rule (check-by-interp p)
   (check-equal? (ptr->v (interp-paren-x64-v7 (check-paren-x64-v7 p)))
                 (execute (generate-x64 p))))
+=======
+(define (check-execute p)
+  ; (if (execute? p) p #f)
+  p)
+
+(define (ptr->v/generate-x64 p)
+  (define v (ptr->v/p3yaz p))
+  (if (equal? v (void)) 
+    eof
+    v))
+
+(define-syntax-rule (check-by-interp p)
+  (parameterize ([current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate)])
+    (check-equal? (ptr->v/generate-x64 (interp-paren-x64-v7 (check-paren-x64-v7 p)))
+       (execute (generate-x64 p)))))
+>>>>>>> m7-ex7
 
 ;;; Added by Trevor on 2026-03-19
 

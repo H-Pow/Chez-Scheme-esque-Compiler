@@ -1,7 +1,8 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../assign-call-undead-variables.rkt" assign-call-undead-variables))
+         (only-in "../target-nested-asm-lang-v2/assign-call-undead-variables.rkt"
+                  assign-call-undead-variables))
 
 (define (check-asm-pred-lang-v7/conflicts p)
   (if (asm-pred-lang-v7/conflicts? p) p #f))

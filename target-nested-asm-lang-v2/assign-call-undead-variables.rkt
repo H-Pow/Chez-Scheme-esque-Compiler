@@ -1,7 +1,8 @@
 #lang racket
 (require cpsc411/compiler-lib
          cpsc411/graph-lib
-         cpsc411/langs/v6)
+         cpsc411/langs/v7
+         "../common.rkt")
 
 (provide assign-call-undead-variables)
 ;; asm-pred-lang-v6/conflicts

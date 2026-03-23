@@ -130,11 +130,10 @@
                       [arity (hash-ref proc-arities fname)])
                  `(call ,fname ,@(generate-trivs arity env))))])))
 
-(define (generate-name)
-    0
-)
+  (define (generate-name)
+    0)
 
-;; restrict to [32, 126] to only include the printable ascii characters
+  ;; restrict to [32, 126] to only include the printable ascii characters
   (define (generate-ascii-char-literal)
     (integer->char (random 32 127)))
 
@@ -209,7 +208,6 @@
 ;     (pretty-display (format "'~a" p))
 ;     (pretty-display "#%")
 ;     ))
-
 
 (exprs-lang-v7? '(module (if + 1 2)))
 (exprs-lang-v7? '(module (if empty 2 2)))

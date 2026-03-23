@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../undead-analysis.rkt" undead-analysis))
+         (only-in "../target-nested-asm-lang-v2/undead-analysis.rkt" undead-analysis))
 
 (define (check-asm-pred-lang-v7/locals p)
   (if (asm-pred-lang-v7/locals? p) p #f))

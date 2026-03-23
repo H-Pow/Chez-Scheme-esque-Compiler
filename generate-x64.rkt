@@ -309,7 +309,11 @@
     (match b
       ['+ "add"]
       ['* "imul"]
-      ['- "sub"]))
+      ['- "sub"]
+      ['bitwise-and "and"]
+      ['bitwise-ior "or"]
+      ['bitwise-xor "xor"]
+      ['arithmetic-shift-right "sar"]))
   (program->x64 p #;(check-paren-x64 p)))
 
 (module+ test

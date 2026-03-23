@@ -11,7 +11,7 @@
 ;; in an info? fields.
 (define (uncover-locals p)
 
-  (define (uncover-defintiions def)
+  (define (uncover-definitions def)
     (match def
       [`(define ,label
           ,info
@@ -77,7 +77,7 @@
           ...
           ,tail)
        `(module ,(info-set info 'locals (set->list (uncover-tail tail)))
-                ,@(map uncover-defintiions definitions)
+                ,@(map uncover-definitions definitions)
           ,tail)]))
   (uncover-p p))
 

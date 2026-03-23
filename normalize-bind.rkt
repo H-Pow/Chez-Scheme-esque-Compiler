@@ -35,7 +35,7 @@
                                                   ,(k nvalue1)
                                                   ,(k nvalue2))))))]
     [`(,binop ,triv1 ,triv2)
-        #:when (binop? binop)
+        #:when (binop/ptr? binop)
      (k `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2)))]
       [triv (k (normalize-triv triv))]))
   (define (normalize-pred pred)
@@ -82,7 +82,7 @@
       ;; nothing special happens
       [`(call ,_ ,_ ...) tail]
       [`(,binop ,triv1 ,triv2) 
-      #:when (binop? binop)
+      #:when (binop/ptr? binop)
       `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2))]
       [triv (normalize-triv triv)]
       

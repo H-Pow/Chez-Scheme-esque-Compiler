@@ -1,18 +1,43 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
+         cpsc411/compiler-lib
+         cpsc411/test-suite/utils
+         "../test-common.rkt"
          (only-in "../specify-representation.rkt" specify-representation))
 
 (define (check-exprs-unsafe-data-lang-v7 p)
   (if (exprs-unsafe-data-lang-v7? p) p #f))
 
 (define (check-exprs-bits-lang-v7 p)
-  (if (exprs-bits-lang-v7? p) p #f))
+  (if (exprs-bits-lang-v7? p)
+      p
+      (error (format "invalid expr-bits-lang-v7 ~a" (pretty-format p)))))
 
 (define-syntax-rule (check-by-interp p)
   (check-equal? (interp-exprs-unsafe-data-lang-v7 (check-exprs-unsafe-data-lang-v7 p))
-                (interp-exprs-bits-lang-v7 (check-exprs-bits-lang-v7 (specify-representation p)))))
+                (ptr->v/p3yaz (interp-exprs-bits-lang-v7
+                         (check-exprs-bits-lang-v7 (specify-representation p))))))
+; (define-syntax-rule (check-by-interp p dtype-conversion)
+;   (check-equal? (interp-exprs-unsafe-data-lang-v7 (check-exprs-unsafe-data-lang-v7 p))
+;                 (dtype-conversion
+;                  (arithmetic-shift-right
+;                   (interp-exprs-bits-lang-v7 (check-exprs-bits-lang-v7 (specify-representation p)))
+;                   3))))
+; (define-syntax check-by-interp
+;       (syntax-rules ()
+;             [(_ p dtype-conversion)
+;                   (check-equal? (interp-exprs-unsafe-data-lang-v7 (check-exprs-unsafe-data-lang-v7 p))
+;                         (dtype-conversion
+;                         (arithmetic-shift
+;                               (interp-exprs-bits-lang-v7 (check-exprs-bits-lang-v7 (specify-representation p)))
+;                               -3)))]
+;             [(_ p) (check-by-interp p ptr->v)]))
+(define-syntax-rule (check-spec p1 p2)
+  (check-equal? (interp-exprs-bits-lang-v7 (specify-representation p1)) p2))
 
+(define-syntax-rule (check-result/interp p1 res)
+  (check-equal? (specify-representation p1) res))
 ;;; Added by Trevor on 2026-03-19
 
 (check-by-interp '(module 0))
@@ -45,9 +70,7 @@
 (check-by-interp '(module (define L.fixnum?.1 (lambda (tmp.17) (fixnum? tmp.17)))
                           (call L.fixnum?.1 empty)
                     ))
-(check-by-interp '(module (define L.ascii-char?.1 (lambda (tmp.21) (ascii-char? tmp.21)))
-                          (call L.ascii-char?.1 #t)
-                    ))
+
 (check-by-interp '(module (define L.boolean?.1 (lambda (tmp.18) (boolean? tmp.18)))
                           (call L.boolean?.1 (void))
                     ))

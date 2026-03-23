@@ -49,7 +49,8 @@
 (require "generate-x64.rkt")
 (require "expose-basic-blocks.rkt")
 
-(require "specify-representation.rkt"); (require "remove-complex-opera.rkt")
+(require "specify-representation.rkt")
+(require "remove-complex-opera.rkt")
 (require "flatten-program.rkt")
 (require "impose-calling-conventions.rkt")
 
@@ -106,7 +107,7 @@
   (require (submod "resolve-predicates.rkt" test))
 ;   (require (submod "specify-representation.rkt" test))
   (require (submod "flatten-program.rkt" test))
-  (require (submod "patch-instructions.rkt" test))
+;   (require (submod "patch-instructions.rkt" test))
   (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
 
   (current-pass-list

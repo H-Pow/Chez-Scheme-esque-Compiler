@@ -26,7 +26,6 @@
           ,effects ...
           ,value2)
        (normalize-value value2 (λ (nvalue) (join-begin (map normalize-effect effects) (k nvalue))))]
-      [`(,binop ,triv1 ,triv2) (k `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2)))]
       [`(if ,pred ,value1 ,value2)
        (normalize-value value1
                         (λ (nvalue1)
@@ -35,6 +34,9 @@
                                              `(if ,(normalize-pred pred)
                                                   ,(k nvalue1)
                                                   ,(k nvalue2))))))]
+    [`(,binop ,triv1 ,triv2)
+        #:when (binop? binop)
+     (k `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2)))]
       [triv (k (normalize-triv triv))]))
   (define (normalize-pred pred)
     (match pred
@@ -73,14 +75,18 @@
        `(begin
           ,@(map normalize-effect effects)
           ,(normalize-tail tail))]
-      [`(,binop ,triv1 ,triv2) `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2))]
-      [`(if ,pred ,tail1 ,tail2)
+        [`(if ,pred ,tail1 ,tail2)
        `(if ,(normalize-pred pred)
             ,(normalize-tail tail1)
             ,(normalize-tail tail2))]
       ;; nothing special happens
       [`(call ,_ ,_ ...) tail]
-      [triv (normalize-triv triv)]))
+      [`(,binop ,triv1 ,triv2) 
+      #:when (binop? binop)
+      `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2))]
+      [triv (normalize-triv triv)]
+      
+      ))
   (define (normalize-p p)
     (match p
       [`(module ,definitions ...

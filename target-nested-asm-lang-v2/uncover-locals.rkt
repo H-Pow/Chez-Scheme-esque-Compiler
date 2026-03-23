@@ -46,7 +46,9 @@
 
   (define (uncover-effect effect)
     (match effect
-      [`(set! ,loc (,binop ,loc ,triv)) (set-union (uncover-loc loc) (uncover-triv triv))]
+      [`(set! ,loc (,binop ,loc ,triv)) 
+        #:when (binop/ptr? binop)
+      (set-union (uncover-loc loc) (uncover-triv triv))]
       [`(set! ,loc ,triv) (set-union (uncover-loc loc) (uncover-triv triv))]
       [`(begin
           ,fxs ...

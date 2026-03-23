@@ -1,9 +1,5 @@
 #lang racket
 (require rackunit
-         cpsc411/compiler-lib
-         cpsc411/ptr-run-time
-         cpsc411/test-suite/utils
-         ;cpsc411/2c-run-time
          cpsc411/langs/v7
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
@@ -13,13 +9,6 @@
 (define (check-paren-x64-v7 p)
   (if (paren-x64-v7? p) p #f))
 
-<<<<<<< HEAD
-(current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate))
-
-(define-syntax-rule (check-by-interp p)
-  (check-equal? (ptr->v (interp-paren-x64-v7 (check-paren-x64-v7 p)))
-                (execute (generate-x64 p))))
-=======
 (define (check-execute p)
   ; (if (execute? p) p #f)
   p)
@@ -34,14 +23,7 @@
   (parameterize ([current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate)])
     (check-equal? (ptr->v/generate-x64 (interp-paren-x64-v7 (check-paren-x64-v7 p)))
        (execute (generate-x64 p)))))
->>>>>>> m7-ex7
-
-;;; Added by Trevor on 2026-03-19
-
-(check-by-interp '(begin
-                    (with-label L.__main.1 (set! r15 r15))
-                    (set! rax 0)
-                    (jump r15)))
+       
 (check-by-interp '(begin
                     (with-label L.__main.1 (set! r15 r15))
                     (set! rax 8)
@@ -62,8 +44,6 @@
                     (with-label L.__main.1 (set! r15 r15))
                     (set! rax 18990)
                     (jump r15)))
-;; doesn't like number 30 lmao
-#;
 (check-by-interp '(begin
                     (with-label L.__main.1 (set! r15 r15))
                     (set! rax 30)
@@ -518,8 +498,6 @@
                     (set! r14 r9)
                     (set! rax 14)
                     (jump r15)))
-;; doesn't like number 30 lmao
-#;
 (check-by-interp '(begin
                     (with-label L.__main.3 (set! r15 r15))
                     (set! rax 30)
@@ -611,8 +589,6 @@
                     (set! r14 rsi)
                     (set! rax 6)
                     (jump r15)))
-;; doesn't like number 30 lmao
-#;
 (check-by-interp '(begin
                     (with-label L.__main.5 (set! r15 r15))
                     (set! r14 25902)
@@ -682,8 +658,6 @@
                     (set! r14 rdi)
                     (set! rax r14)
                     (jump r15)))
-;; doesn't like number 30 lmao
-#;
 (check-by-interp '(begin
                     (with-label L.__main.3 (set! r15 r15))
                     (set! rax 30)
@@ -774,8 +748,6 @@
                     (with-label L.tmp.6 (set! rdi r15))
                     (set! r15 (rbp - 0))
                     (jump L.ascii-char?.2)))
-;; doesn't like number 30 lmao
-#;
 (check-by-interp '(begin
                     (with-label L.__main.6 (set! r15 r15))
                     (set! r14 30)

@@ -1,23 +1,60 @@
 #lang racket
-(provide binop binop? binop/unsafe binop/unsafe? unop unop? prim-f prim-f? primop primop?)
+(require cpsc411/compiler-lib)
+(provide binop
+         binop?
+         binop/unsafe
+         binop/unsafe?
+         unop
+         unop?
+         prim-f
+         prim-f?
+         primop
+         primop?
+         fixnum?
+         fixnum/tagged?
+         boolean/tagged?
+         empty/tagged?
+         void/tagged?
+         ascii-char/tagged?
+         error/tagged?
+         pair/tagged?)
 
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))
-; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't 
+; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't
 ;    break implement-safe-primop
-(define binop/unsafe '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
+(define binop/unsafe
+  '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
 (define binop/unsafe? (compose not false? (curryr memq binop/unsafe)))
-(define unop '(fixnum?
-               boolean?
-               empty?
-               void?
-               ascii-char?
-               error?
-               not))
+(define unop '(fixnum? boolean? empty? void? ascii-char? error? not))
 (define unop? (compose not false? (curryr memq unop)))
 
 (define prim-f `(,@binop ,@unop))
 (define prim-f? (compose not false? (curryr memq prim-f)))
+
+;; alias for int61?
+(define (fixnum? n)
+  (int61? n))
+(define (fixnum/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-fixnum-mask) fn) (current-fixnum-tag))))
+
+(define (boolean/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-boolean-mask) fn) (current-boolean-tag))))
+
+(define (empty/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-empty-mask) fn) (current-empty-tag))))
+
+(define (void/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-void-mask) fn) (current-void-tag))))
+
+(define (ascii-char/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-ascii-char-mask) fn) (current-ascii-char-tag))))
+
+(define (error/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-error-mask) fn) (current-error-tag))))
+
+(define (pair/tagged? fn)
+  (and (int64? fn) (eq? (bitwise-and (current-pair-mask) fn) (current-pair-tag))))
 
 (define primop `(,@binop/unsafe ,@unop))
 (define primop? (compose not false? (curryr memq primop)))
@@ -58,6 +95,11 @@
     (check-true (unop? 'void?))
     (check-true (unop? 'ascii-char?))
     (check-true (unop? 'error?))
-    (check-true (unop? 'not))
-    )
-  )
+    (check-true (unop? 'not)))
+  (check-true (primop? 'unsafe-fx+))
+  (check-true (primop? 'unsafe-fx-))
+  (check-true (primop? 'unsafe-fx*))
+  (check-true (primop? 'unsafe-fx<))
+  (check-true (primop? 'unsafe-fx<=))
+  (check-true (primop? 'unsafe-fx>))
+  (check-true (primop? 'unsafe-fx>=)))

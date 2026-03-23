@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../remove-complex-opera.rkt" remove-complex-opera))
+         (only-in "../remove-complex-opera.rkt" remove-complex-opera*))
 
 (define (check-exprs-bits-lang-v7 p)
   (if (exprs-bits-lang-v7? p) p #f))
@@ -11,7 +11,7 @@
 
 (define-syntax-rule (check-by-interp p)
   (check-equal? (interp-exprs-bits-lang-v7 (check-exprs-bits-lang-v7 p))
-                (interp-values-bits-lang-v7 (check-values-bits-lang-v7 (remove-complex-opera p)))))
+                (interp-values-bits-lang-v7 (check-values-bits-lang-v7 (remove-complex-opera* p)))))
 
 ;;; Added by Trevor on 2026-03-19
 

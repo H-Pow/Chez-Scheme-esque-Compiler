@@ -103,7 +103,7 @@
       [(? label?) (k triv)]
       [_ 
        (let ([fresh-aloc (fresh)])
-         `(let ([,fresh-aloc ,(rco-tail triv)])
+         `(let ([,fresh-aloc ,(rco-value triv)])
             ,(k fresh-aloc)))]))
 
   (match p
@@ -111,7 +111,7 @@
      `(module ,@(map rco-def defs)
         ,(rco-tail tail))]))
 
-
+#;
 (module+ test
   (require rackunit
            cpsc411/langs/v7)
@@ -151,4 +151,15 @@
       (if (let ((tmp.1 (bitwise-and tmp.22 255))) (= tmp.1 62)) 14 6)))
   (call L.error?.1 30)) )
 
+
+ (check-match (remove-complex-opera* `(module (* x.1 (arithmetic-shift-right opand2.6 3))))
+  `(module (let ((tmp.1 (arithmetic-shift-right opand2.6 3))) (* x.1 tmp.1)))
+ 
+ )
+
+ (check-match (remove-complex-opera* `(module (let ([x.2 (* x.1 (arithmetic-shift-right opand2.6 3))]) x.2)))
+ `(module
+  (let ((x.2
+         (let ((tmp.1 (arithmetic-shift-right opand2.6 3))) (* x.1 tmp.1))))
+    x.2)))
 )

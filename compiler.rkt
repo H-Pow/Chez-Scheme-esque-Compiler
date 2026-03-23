@@ -31,7 +31,6 @@
 
 ;; TODO: Fill in.
 ; TODO: replace the stub
-(define remove-complex-opera* values)
 
 ;; Stubs; remove or replace with your definitions.
 (require "uniquify.rkt")

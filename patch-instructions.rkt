@@ -196,9 +196,9 @@
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v6)
+           cpsc411/langs/v7)
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-para-asm-lang-v6 p) (interp-paren-x64-v6 (patch-instructions p))))
+    (check-equal? (interp-para-asm-lang-v7 p) (interp-paren-x64-v7 (patch-instructions p))))
 
   ;; Manully added by Trevor on March 10th to cover (set! addr (binop addr opand)) cases
 
@@ -1850,6 +1850,34 @@
                       (set! r14 r14)
                       (set! rax r13)
                       (jump r15)))
+  ;; m7 binop tests
+  (check-by-interp '(begin
+                      (with-label L.__main.1 (set! r15 r15))
+                      (set! r14 -9223372036854775808)
+                      (set! r14 (bitwise-and r14 0))
+                      (set! r13 r14)
+                      (set! r14 -9223372036854775808)
+                      (set! r9 1969620648)
+                      (set! r13 r13)
+                      (set! r14 r14)
+                      (set! rax r13)
+                      (jump r15)))
+  
+  (check-by-interp '(begin
+                      (with-label L.__main.1 (set! r15 r15))
+                      (set! r14 -9223372036854775808)
+                      (set! r14 (bitwise-and r14 0))
+                      (set! r14 (bitwise-xor r14 0))
+                      (set! r14 (bitwise-ior r14 0))
+                      (set! r14 (arithmetic-shift-right r14 3))
+                      (set! r13 r14)
+                      (set! r14 -9223372036854775808)
+                      (set! r9 1969620648)
+                      (set! r13 r13)
+                      (set! r14 r14)
+                      (set! rax r13)
+                      (jump r15)))
+        
 
   ;;;
   )

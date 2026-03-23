@@ -2,8 +2,11 @@
 (require cpsc411/compiler-lib)
 (provide binop
          binop?
+         binop->fun
          binop/unsafe
          binop/unsafe?
+         binop/ptr
+         binop/ptr?
          unop
          unop?
          prim-f
@@ -26,11 +29,26 @@
 (define binop/unsafe
   '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
 (define binop/unsafe? (compose not false? (curryr memq binop/unsafe)))
+
+(define binop/ptr '(+ - * bitwise-and bitwise-ior bitwise-xor arithmetic-shift-right))
+
+(define binop/ptr? (compose not false? (curryr memq binop/ptr)))
+
 (define unop '(fixnum? boolean? empty? void? ascii-char? error? not))
 (define unop? (compose not false? (curryr memq unop)))
 
 (define prim-f `(,@binop ,@unop))
 (define prim-f? (compose not false? (curryr memq prim-f)))
+
+(define (binop->fun op)
+  (match op
+    ['+ x64-add]
+    ['* x64-mul]
+    ['- x64-sub]
+    ['bitwise-and bitwise-and]
+    ['bitwise-xor bitwise-xor]
+    ['bitwise-ior bitwise-ior]
+    ['arithmetic-shift-right (λ (x) (arithmetic-shift (- x)))]))
 
 ;; alias for int61?
 (define (fixnum? n)

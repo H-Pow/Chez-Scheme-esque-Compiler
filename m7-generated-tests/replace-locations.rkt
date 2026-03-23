@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../replace-locations.rkt" replace-locations))
+         (only-in "../target-nested-asm-lang-v2/replace-locations.rkt" replace-locations))
 
 (define (check-asm-pred-lang-v7/assignments p)
   (if (asm-pred-lang-v7/assignments? p) p #f))

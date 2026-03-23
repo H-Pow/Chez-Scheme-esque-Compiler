@@ -1,6 +1,7 @@
 #lang racket
 
-(require cpsc411/compiler-lib)
+(require cpsc411/compiler-lib
+         "../common.rkt")
 (provide replace-locations)
 
 ; asm-pred-lang-v6/assignments -> nested-asm-lang-fvars-v6

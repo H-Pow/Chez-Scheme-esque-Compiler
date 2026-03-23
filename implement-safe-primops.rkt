@@ -40,8 +40,6 @@
     (dict-set! BINOP-ENV bo label-or-primop)
     (dict-set! DEF-ENV bo def)))
 
-
-
 ;; exprs-unique-lang-v7 ->  exprs-unsafe-data-lang v7
 ;; Implement safe primitive operations by inserting procedure definitions
 ;;    for each primitive operation which perform dynamic tag checking, to ensure type safety.
@@ -64,8 +62,9 @@
       [(? (or/c label? aloc? int61? boolean? 'empty ascii-char-literal?)) triv]
       [`(error ,(? uint8?)) triv]
       ['(void) triv]
-      [(? binop?) (set-add! usage triv)
-                  (dict-ref BINOP-ENV triv)]
+      [(? binop?)
+       (set-add! usage triv)
+       (dict-ref BINOP-ENV triv)]
       [(? unop?) triv]))
   ; value	 	::=	 	triv
   ;  	|	 	+(primop value ...)
@@ -83,9 +82,11 @@
       [`(let ([,aloc* ,val*] ...) ,val)
        `(let ,(map list aloc* (map implement-value! val*)) ,(implement-value! val k))]
       [`(call ,val0 ,opand* ...)
-       (implement-value! val0 (λ(triv) (if (primop? triv)
-                                           `(,triv ,@(map implement-value! opand*))
-                                           `(call ,triv ,@(map implement-value! opand*)))))]
+       (implement-value! val0
+                         (λ (triv)
+                           (if (primop? triv)
+                               `(,triv ,@(map implement-value! opand*))
+                               `(call ,triv ,@(map implement-value! opand*)))))]
       [_ (k (implement-triv! value))]))
   ;   p	 	::=	 	(module (define label (lambda (aloc ...) value)) ... value)
   ;; EFFECT: adds referenced binop to usage
@@ -94,11 +95,13 @@
       [`(define ,label (lambda (,aloc* ...) ,value))
        `(define ,label (lambda ,aloc* ,(implement-value! value)))]))
   (match p
-    [`(module ,def* ... ,value)
+    [`(module ,def* ...
+        ,value)
      (define def/unsafe* (map implement-def! def*))
      (define value/unsafe (implement-value! value))
      (define binop-defs (filter-map (curry dict-ref DEF-ENV) (set->list usage)))
-     `(module ,@binop-defs ,@def/unsafe* ,value/unsafe)]))
+     `(module ,@binop-defs ,@def/unsafe*
+        ,value/unsafe)]))
 
 (module+ test
   (require rackunit
@@ -111,24 +114,27 @@
   (check-by-interp `(module #f))
   (check-by-interp `(module #\a))
 
-  (check-by-interp `(module (define L.fact.0 (lambda (x.0)
-                                               (if (call <= x.0 1) 1
-                                                   (call * x.0 (call L.fact.0 (call - x.0 1))))))
-                      (call L.fact.0 5)
-                      )
-                   )
-
-  (check-by-interp `(module (define L.fact.0 (lambda (x.0 a.0)
-                                               (if (call <= x.0 1) a.0
-                                                   (call L.fact.0 (call - x.0 1) (call * x.0 a.0)))))
-                      (call L.fact.0 5 1)
+  (check-by-interp `(module (define L.fact.0
+                              (lambda (x.0)
+                                (if (call <= x.0 1)
+                                    1
+                                    (call * x.0 (call L.fact.0 (call - x.0 1))))))
+                            (call L.fact.0 5)
                       ))
 
-  (check-by-interp `(module (define L.fib.0 (lambda (x.0)
-                                              (if (call <= x.0 1) x.0
-                                                  (call +
-                                                        (call L.fib.0 (call - x.0 1))
-                                                        (call L.fib.0 (call - x.0 2))))))
-                      (call L.fib.0 5)
+  (check-by-interp `(module (define L.fact.0
+                              (lambda (x.0 a.0)
+                                (if (call <= x.0 1)
+                                    a.0
+                                    (call L.fact.0 (call - x.0 1) (call * x.0 a.0)))))
+                            (call L.fact.0 5 1)
                       ))
-  )
+
+  (check-by-interp
+   `(module (define L.fib.0
+              (lambda (x.0)
+                (if (call <= x.0 1)
+                    x.0
+                    (call + (call L.fib.0 (call - x.0 1)) (call L.fib.0 (call - x.0 2))))))
+            (call L.fib.0 5)
+      )))

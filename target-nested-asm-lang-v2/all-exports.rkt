@@ -17,8 +17,7 @@
          "assign-registers.rkt"
          "optimize-predicates.rkt"
          "assign-call-undead-variables.rkt"
-         "allocate-frames.rkt"
-         )
+         "allocate-frames.rkt")
 #;
 ;; X -> X
 ;; debug function, displays X and returns X
@@ -34,5 +33,4 @@
            (submod "conflict-analysis.rkt" test)
            (submod "assign-registers.rkt" test)
            (submod "assign-call-undead-variables.rkt" test)
-           (submod "allocate-frames.rkt" test)
-           ))
+           (submod "allocate-frames.rkt" test)))

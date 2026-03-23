@@ -1,13 +1,13 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../optimize-predicates.rkt" optimize-predicates))
+         (only-in "../target-nested-asm-lang-v2/optimize-predicates.rkt" optimize-predicates))
 
 (define (check-nested-asm-lang-fvars-v7 p)
   (if (nested-asm-lang-fvars-v7? p) p #f))
 
-(define (check-nested-asm-lang-fvars-v7 p)
-  (if (nested-asm-lang-fvars-v7? p) p #f))
+; (define (check-nested-asm-lang-fvars-v7 p)
+;   (if (nested-asm-lang-fvars-v7? p) p #f))
 
 (define-syntax-rule (check-by-interp p)
   (check-equal? (interp-nested-asm-lang-fvars-v7 (check-nested-asm-lang-fvars-v7 p))

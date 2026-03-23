@@ -1,7 +1,7 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/langs/v6
+         cpsc411/langs/v7
          cpsc411/info-lib)
 
 (provide allocate-frames)

@@ -30,9 +30,7 @@
  generate-x64)
 
 ;; TODO: Fill in.
-;; You'll want to merge milestone-6 code in
 ; TODO: replace the stub
-(define specify-representation values)
 (define remove-complex-opera* values)
 
 ;; Stubs; remove or replace with your definitions.
@@ -50,6 +48,8 @@
 (require "resolve-predicates.rkt")
 (require "generate-x64.rkt")
 (require "expose-basic-blocks.rkt")
+
+(require "specify-representation.rkt"); (require "remove-complex-opera.rkt")
 (require "flatten-program.rkt")
 (require "impose-calling-conventions.rkt")
 
@@ -93,8 +93,9 @@
      (cons generate-x64 interp-paren-x64-v7)
      (cons wrap-x64-boilerplate #f)
      (cons wrap-x64-run-time #f)))
-
   (require (submod "uniquify.rkt" test))
+
+  (require (submod "implement-safe-primops.rkt" test))
   (require (submod "sequentialize-let.rkt" test))
   (require (submod "normalize-bind.rkt" test))
   (require (submod "impose-calling-conventions.rkt" test))
@@ -103,10 +104,11 @@
   (require (submod "implement-fvars.rkt" test))
   (require (submod "expose-basic-blocks.rkt" test))
   (require (submod "resolve-predicates.rkt" test))
+  (require (submod "specify-representation.rkt" test))
   (require (submod "flatten-program.rkt" test))
   (require (submod "patch-instructions.rkt" test))
   (require (submod "generate-x64.rkt" test))
-  (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated_tests/**.rkt"))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
 
   (current-pass-list
    (map car pass-map))

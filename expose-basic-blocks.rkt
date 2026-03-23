@@ -193,8 +193,7 @@
           ,fx* ...
           ,fx)
        (foldr expose-effect! (expose-effect! fx next) fx*)]
-      [`(if ,pred ,fx1 ,fx2)
-       (expose-pred! pred (expose-effect! fx1 next) (expose-effect! fx2 next))]
+      [`(if ,pred ,fx1 ,fx2) (expose-pred! pred (expose-effect! fx1 next) (expose-effect! fx2 next))]
       [`(return-point ,ret-label ,tail)
        (define ret-lab (create-block! ret-label `(jump ,next)))
        (define tail-lab (expose-tail! tail))
@@ -235,5 +234,5 @@
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-nested-asm-lang-v6 p) (interp-block-pred-lang-v6 (expose-basic-blocks p))))
 
-    ; see generated_tests folder to see the generated tests.
+  ; see generated_tests folder to see the generated tests.
   )

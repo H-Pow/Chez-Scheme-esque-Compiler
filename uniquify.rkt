@@ -34,25 +34,25 @@
   ;  	|	 	(call value value ...)
   (define (uniquify-value value env)
     (match value
-      [`(call ,val1 ,val* ...) `(call ,(uniquify-value val1 env)
-                                      ,@(map (curryr uniquify-value env) val*))]
-      [`(if ,val0 ,val1 ,val2) `(if ,(uniquify-value val0 env)
-                                    ,(uniquify-value val1 env)
-                                    ,(uniquify-value val2 env))]
+      [`(call ,val1 ,val* ...)
+       `(call ,(uniquify-value val1 env) ,@(map (curryr uniquify-value env) val*))]
+      [`(if ,val0 ,val1 ,val2)
+       `(if ,(uniquify-value val0 env)
+            ,(uniquify-value val1 env)
+            ,(uniquify-value val2 env))]
       [`(let ([,x* ,val*] ...) ,val)
-       (let-values ([(env/updated aloc* unique-val*)
-                     (for/fold ([env/updated env]
-                                [aloc* '()]
-                                [unique-val* '()])
-                               ([x x*]
-                                [val val*])
-                       (define aloc (fresh x))
-                       (values (dict-set env/updated x aloc)
-                               (cons aloc aloc*)
-                               ;use original env, this is not let*
-                               (cons (uniquify-value val env) unique-val*)))])
-         `(let ,(map list aloc* unique-val*)
-            ,(uniquify-value val env/updated)))]
+       (let-values ([(env/updated aloc* unique-val*) (for/fold ([env/updated env]
+                                                                [aloc* '()]
+                                                                [unique-val* '()])
+                                                               ([x x*]
+                                                                [val val*])
+                                                       (define aloc (fresh x))
+                                                       (values (dict-set env/updated x aloc)
+                                                               (cons aloc aloc*)
+                                                               ;use original env, this is not let*
+                                                               (cons (uniquify-value val env)
+                                                                     unique-val*)))])
+         `(let ,(map list aloc* unique-val*) ,(uniquify-value val env/updated)))]
       [_ (uniquify-triv value env)]))
   ;  p	 	::=	 	(module (define x (lambda (x ...) value)) ... value)
   ;; (define x (lambda (x ...) value)) env -> env
@@ -60,20 +60,21 @@
   ;; this step is necessary for mutual recursion
   (define (mark-def def env)
     (match def
-      [`(define ,x (lambda (,_ ...) ,_))
-       (dict-set env x (fresh-label x))]))
+      [`(define ,x (lambda (,_ ...) ,_)) (dict-set env x (fresh-label x))]))
 
   ;; (define x (lambda (x ...) value)) env -> (define label (lambda (aloc ...) unique-value))
   (define (uniquify-def def env)
     (match def
       [`(define ,x (lambda (,param* ...) ,value))
        (define param/aloc* (map fresh param*))
-       `(define ,(dict-ref env x) (lambda ,param/aloc*
-                                    ,(uniquify-value value (append (map cons param* param/aloc*) env))))]))
+       `(define ,(dict-ref env x)
+          (lambda ,param/aloc* ,(uniquify-value value (append (map cons param* param/aloc*) env))))]))
   (match p
-    [`(module ,def* ... ,value)
+    [`(module ,def* ...
+        ,value)
      (define env (foldr mark-def DEFAULT-ENV def*))
-     `(module ,@(map (curryr uniquify-def env) def*) ,(uniquify-value value env))]))
+     `(module ,@(map (curryr uniquify-def env) def*) ,(uniquify-value value env)
+        )]))
 
 (module+ test
   (require rackunit
@@ -81,18 +82,26 @@
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-exprs-lang-v7 p) (interp-exprs-unique-lang-v7 (uniquify p))))
 
-  (check-by-interp `(module (define fact (lambda (n)
-                                           (if (call <= n 1) 1
-                                               (call * n (call fact (call - n 1))))))
-                      (call fact 5)))
+  (check-by-interp `(module (define fact
+                              (lambda (n)
+                                (if (call <= n 1)
+                                    1
+                                    (call * n (call fact (call - n 1))))))
+                            (call fact 5)
+                      ))
 
-  (check-by-interp `(module (define fact (lambda (n acc)
-                                           (if (call <= n 1) acc
-                                               (call fact (call - n 1) (call * acc n)))))
-                      (call fact 5 1)))
+  (check-by-interp `(module (define fact
+                              (lambda (n acc)
+                                (if (call <= n 1)
+                                    acc
+                                    (call fact (call - n 1) (call * acc n)))))
+                            (call fact 5 1)
+                      ))
 
-  (check-by-interp `(module (define fib (lambda (n)
-                                          (if (call <= n 1) n
-                                              (call + (call fib (call - n 1)) (call fib (call - n 2))))))
-                      (call fib 5)))
-  )
+  (check-by-interp `(module (define fib
+                              (lambda (n)
+                                (if (call <= n 1)
+                                    n
+                                    (call + (call fib (call - n 1)) (call fib (call - n 2))))))
+                            (call fib 5)
+                      )))

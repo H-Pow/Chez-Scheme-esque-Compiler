@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../uncover-locals.rkt" uncover-locals))
+         (only-in "../target-nested-asm-lang-v2/uncover-locals.rkt" uncover-locals))
 
 (define (check-asm-pred-lang-v7 p)
   (if (asm-pred-lang-v7? p) p #f))

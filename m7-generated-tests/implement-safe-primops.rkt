@@ -5,12 +5,14 @@
          (only-in "../implement-safe-primops.rkt" implement-safe-primops))
 
 (define (check-exprs-unique-lang-v7 p)
-  (if (exprs-unique-lang-v7? p) p (error (format "program \n ~a \n is not semantically valid"
-    (pretty-format p)))))
+  (if (exprs-unique-lang-v7? p)
+      p
+      (error (format "program \n ~a \n is not semantically valid" (pretty-format p)))))
 
 (define (check-exprs-unsafe-data-lang-v7 p)
-  (if (exprs-unsafe-data-lang-v7? p) p (error (format "program \n ~a \n is not semantically valid"
-    (pretty-format p)))))
+  (if (exprs-unsafe-data-lang-v7? p)
+      p
+      (error (format "program \n ~a \n is not semantically valid" (pretty-format p)))))
 
 (define (peek x)
   ; (pretty-display x)

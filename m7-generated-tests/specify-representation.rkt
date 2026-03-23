@@ -17,7 +17,7 @@
 (define-syntax-rule (check-by-interp p)
   (check-equal? (interp-exprs-unsafe-data-lang-v7 (check-exprs-unsafe-data-lang-v7 p))
                 (ptr->v/p3yaz (interp-exprs-bits-lang-v7
-                         (check-exprs-bits-lang-v7 (specify-representation p))))))
+                               (check-exprs-bits-lang-v7 (specify-representation p))))))
 ; (define-syntax-rule (check-by-interp p dtype-conversion)
 ;   (check-equal? (interp-exprs-unsafe-data-lang-v7 (check-exprs-unsafe-data-lang-v7 p))
 ;                 (dtype-conversion

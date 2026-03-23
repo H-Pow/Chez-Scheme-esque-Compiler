@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../conflict-analysis.rkt" conflict-analysis))
+         (only-in "../target-nested-asm-lang-v2/conflict-analysis.rkt" conflict-analysis))
 
 (define (check-asm-pred-lang-v7/undead p)
   (if (asm-pred-lang-v7/undead? p) p #f))

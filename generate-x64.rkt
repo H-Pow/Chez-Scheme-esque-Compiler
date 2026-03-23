@@ -326,12 +326,13 @@
   (require rackunit
            cpsc411/langs/v4
            cpsc411/langs/v5
-           cpsc411/langs/v6)
+           cpsc411/langs/v6
+           cpsc411/langs/v7)
 
   (current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate))
 
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-paren-x64-v6 p) (execute (generate-x64 p))))
+    (check-equal? (interp-paren-x64-v7 p) (execute (generate-x64 p))))
 
   (define (test-success fun case)
     (check-equal? (fun case) case))

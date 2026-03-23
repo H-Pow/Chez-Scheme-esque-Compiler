@@ -1,12 +1,8 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-<<<<<<< HEAD
-         cpsc411/ptr-run-time)
-=======
          cpsc411/ptr-run-time
          "common.rkt")
->>>>>>> m7-ex7
 
 (require rackunit)
 

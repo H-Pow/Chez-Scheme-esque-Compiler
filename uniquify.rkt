@@ -44,8 +44,8 @@
        (let-values ([(env/updated aloc* unique-val*) (for/fold ([env/updated env]
                                                                 [aloc* '()]
                                                                 [unique-val* '()])
-                                                               ([x x*]
-                                                                [val val*])
+                                                               ([x (reverse x*)]
+                                                                [val (reverse val*)])
                                                        (define aloc (fresh x))
                                                        (values (dict-set env/updated x aloc)
                                                                (cons aloc aloc*)
@@ -105,7 +105,7 @@
                                     (call + (call fib (call - n 1)) (call fib (call - n 2))))))
                       (call fib 5)
                       ))
-  (check-by-interp `(module (define fact
+  (check-by-interp '(module (define fact
                               (lambda (p)
                                 (if (call <= (call car p) 1)
                                     (call cdr p)
@@ -127,4 +127,49 @@
                               (_1 (call vector-set! v 1 1))]
                           (call fact v)
                           ))))
+  (check-match (uniquify '(module (define fact
+                                    (lambda (p)
+                                      (if (call <= (call car p) 1)
+                                          (call cdr p)
+                                          (call fact (call cons (call - (call car p) 1)
+                                                           (call * (call cdr p) (call car p)))))))
+                            (call fact (call cons 5 1))))
+                `(module (define ,fact
+                              (lambda (,p)
+                                (if (call <= (call car ,p) 1)
+                                    (call cdr ,p)
+                                    (call ,fact (call cons (call - (call car ,p) 1)
+                                                           (call * (call cdr ,p) (call car ,p)))))))
+                      (call ,fact (call cons 5 1)))
+                (and (aloc? p)
+                     (label? fact)))
+  (check-match (uniquify '(module (define fact
+                                    (lambda (v)
+                                      (let [(n (call vector-ref v 0))
+                                            (acc (call vector-ref v 1))]
+                                        (if (call <= n 1)
+                                            acc
+                                            (let [(_0 (call vector-set! v 1 (call * acc n)))
+                                                  (_1 (call vector-set! v 0 (call - n 1)))]
+                                              (call fact v))))))
+                            (let [(v (call make-vector 2))]
+                              (let [(_0 (call vector-set! v 0 5))
+                                    (_1 (call vector-set! v 1 1))]
+                                (call fact v)
+                                ))))
+               `(module (define ,fact
+                          (lambda (,v)
+                            (let [(,n (call vector-ref ,v 0))
+                                  (,acc (call vector-ref ,v 1))]
+                              (if (call <= ,n 1)
+                                  ,acc
+                                  (let [(,_0 (call vector-set! ,v 1 (call * ,acc ,n)))
+                                        (,_1 (call vector-set! ,v 0 (call - ,n 1)))]
+                                    (call ,fact ,v))))))
+                  (let [(,v0 (call make-vector 2))]
+                    (let [(,_00 (call vector-set! ,v0 0 5))
+                          (,_10 (call vector-set! ,v0 1 1))]
+                      (call ,fact ,v0))))
+               (and (andmap aloc? (list v n acc _0 _1 v0 _00 _10))
+                    (label? fact)))
   )

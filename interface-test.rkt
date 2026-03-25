@@ -1,8 +1,7 @@
 #lang racket/base
 
 (module+ test
-  (require
-   cpsc411/test-suite/utils)
+  (require cpsc411/test-suite/utils)
 
   (check-import-list
    "compiler.rkt"

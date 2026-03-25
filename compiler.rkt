@@ -35,64 +35,37 @@
 ;; You'll want to merge milestone-7 code in
 
 ;; Stubs; remove or replace with your definitions.
-(define-values (uniquify
-                implement-safe-primops
-                specify-representation
-                remove-complex-opera*
-                sequentialize-let
-                normalize-bind
-                impose-calling-conventions
-                select-instructions
-                expose-allocation-pointer
-                uncover-locals
-                undead-analysis
-                conflict-analysis
-                assign-call-undead-variables
-                allocate-frames
-                assign-registers
-                assign-frame-variables
-                replace-locations
-                implement-fvars
-                optimize-predicates
-                expose-basic-blocks
-                resolve-predicates
-                flatten-program
-                patch-instructions
-                implement-mops
-                generate-x64)
-  (values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values))
+
+(define implement-mops values)
+(define expose-allocation-pointer values)
+
+(require "uniquify.rkt")
+(require "implement-safe-primops.rkt")
+(require "sequentialize-let.rkt")
+(require "normalize-bind.rkt")
+(require "select-instructions.rkt")
+(require "target-nested-asm-lang-v2/all-exports.rkt")
+(require "flatten-begins.rkt")
+(require "patch-instructions.rkt")
+(require "expose-basic-blocks.rkt")
+(require "assign-frame-variables.rkt")
+(require "implement-fvars.rkt")
+(require "resolve-predicates.rkt")
+(require "generate-x64.rkt")
+(require "expose-basic-blocks.rkt")
+
+(require "specify-representation.rkt")
+(require "remove-complex-opera.rkt")
+(require "flatten-program.rkt")
+(require "impose-calling-conventions.rkt")
 
 (module+ test
   (require
-   rackunit
-   rackunit/text-ui
-   cpsc411/langs/v8
-   cpsc411/test-suite/public/v8)
+    rackunit
+    rackunit/text-ui
+    cpsc411/langs/v8
+    cpsc411/test-suite/public/v8
+    file/glob)
 
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.

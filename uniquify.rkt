@@ -127,6 +127,24 @@
                               (_1 (call vector-set! v 1 1))]
                           (call fact v)
                           ))))
+  (check-by-interp '(module (define foo
+                              (lambda ()
+                                (let [(+ bar)]
+                                  (call + 1 2))))
+                      (define bar
+                        (lambda (a b)
+                          (call * a b)))
+                      (call foo)))
+  (check-match (uniquify '(module (define +
+                                    (lambda (a)
+                                      (call + a 1)))
+                            (call + 1)))
+               `(module (define ,+
+                          (lambda (,a)
+                            (call ,+ ,a 1)))
+                  (call ,+ 1))
+               (and (label? +)
+                    (aloc? a)))
   (check-match (uniquify '(module (define fact
                                     (lambda (p)
                                       (if (call <= (call car p) 1)
@@ -134,15 +152,15 @@
                                           (call fact (call cons (call - (call car p) 1)
                                                            (call * (call cdr p) (call car p)))))))
                             (call fact (call cons 5 1))))
-                `(module (define ,fact
-                              (lambda (,p)
-                                (if (call <= (call car ,p) 1)
-                                    (call cdr ,p)
-                                    (call ,fact (call cons (call - (call car ,p) 1)
-                                                           (call * (call cdr ,p) (call car ,p)))))))
-                      (call ,fact (call cons 5 1)))
-                (and (aloc? p)
-                     (label? fact)))
+               `(module (define ,fact
+                          (lambda (,p)
+                            (if (call <= (call car ,p) 1)
+                                (call cdr ,p)
+                                (call ,fact (call cons (call - (call car ,p) 1)
+                                                  (call * (call cdr ,p) (call car ,p)))))))
+                  (call ,fact (call cons 5 1)))
+               (and (aloc? p)
+                    (label? fact)))
   (check-match (uniquify '(module (define fact
                                     (lambda (v)
                                       (let [(n (call vector-ref v 0))

@@ -78,16 +78,16 @@
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v7)
+           cpsc411/langs/v8)
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-exprs-lang-v7 p) (interp-exprs-unique-lang-v7 (uniquify p))))
+    (check-equal? (interp-exprs-lang-v8 p) (interp-exprs-unique-lang-v8 (uniquify p))))
 
   (check-by-interp `(module (define fact
                               (lambda (n)
                                 (if (call <= n 1)
                                     1
                                     (call * n (call fact (call - n 1))))))
-                            (call fact 5)
+                      (call fact 5)
                       ))
 
   (check-by-interp `(module (define fact
@@ -95,7 +95,7 @@
                                 (if (call <= n 1)
                                     acc
                                     (call fact (call - n 1) (call * acc n)))))
-                            (call fact 5 1)
+                      (call fact 5 1)
                       ))
 
   (check-by-interp `(module (define fib
@@ -103,5 +103,28 @@
                                 (if (call <= n 1)
                                     n
                                     (call + (call fib (call - n 1)) (call fib (call - n 2))))))
-                            (call fib 5)
-                      )))
+                      (call fib 5)
+                      ))
+  (check-by-interp `(module (define fact
+                              (lambda (p)
+                                (if (call <= (call car p) 1)
+                                    (call cdr p)
+                                    (call fact (call cons (call - (call car p) 1)
+                                                     (call * (call cdr p) (call car p)))))))
+                      (call fact (call cons 5 1))))
+  ; "implicit" factorial with accumulator... what have I done
+  (check-by-interp `(module (define fact
+                              (lambda (v)
+                                (let [(n (call vector-ref v 0))
+                                      (acc (call vector-ref v 1))]
+                                  (if (call <= n 1)
+                                      acc
+                                      (let [(_0 (call vector-set! v 1 (call * acc n)))
+                                            (_1 (call vector-set! v 0 (call - n 1)))]
+                                        (call fact v))))))
+                      (let [(v (call make-vector 2))]
+                        (let [(_0 (call vector-set! v 0 5))
+                              (_1 (call vector-set! v 1 1))]
+                          (call fact v)
+                          ))))
+  )

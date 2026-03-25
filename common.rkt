@@ -2,6 +2,8 @@
 (require cpsc411/compiler-lib)
 (provide binop
          binop?
+         structop
+         structop?
          binop->fun
          binop/unsafe
          binop/unsafe?
@@ -26,6 +28,10 @@
 (define binop? (compose not false? (curryr memq binop)))
 ; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't
 ;    break implement-safe-primop
+; represent an operation with a structured data
+(define structop '(pair? vector? cons car cdr make-vector vector-length vector-set! vector-ref))
+(define structop? (compose not false? (curry memq structop)))
+
 (define binop/unsafe
   '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
 (define binop/unsafe? (compose not false? (curryr memq binop/unsafe)))
@@ -37,7 +43,7 @@
 (define unop '(fixnum? boolean? empty? void? ascii-char? error? not))
 (define unop? (compose not false? (curryr memq unop)))
 
-(define prim-f `(,@binop ,@unop))
+(define prim-f `(,@binop ,@unop ,@structop))
 (define prim-f? (compose not false? (curryr memq prim-f)))
 
 (define (binop->fun op)

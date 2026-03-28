@@ -23,7 +23,9 @@
                                 (string->symbol (~a trg-lang '?))
                                 #t)])
         (displayln "#lang racket" file)
-        (pretty-write `(require cpsc411/compiler-lib
+        (pretty-write `(require rackunit
+                                cpsc411/compiler-lib
+                                cpsc411/ptr-run-time
                                 ,(string->symbol (~a "cpsc411/langs/v" current-milestone))
                                 ,(~a "../" pass-name ".rkt")) file)
         (pretty-write `(define (fail-if-invalid p)
@@ -31,9 +33,9 @@
                            (error (~a (pretty-format p)
                                       "\n is not a semantically valid " ,(~a trg-lang) " program")))
                          p) file)
-        (pretty-write `(define (check-by-interp p)
-                         (,src-interp/sym p)
-                         (,trg-interp/sym (fail-if-invalid (,pass-name p)))) file)
+        (pretty-write `(define-syntax-rule (check-by-interp p)
+                         (check-equal? (,src-interp/sym p)
+                                       (,trg-interp/sym (fail-if-invalid (,pass-name p))))) file)
         (displayln "" file)
         file)
       (open-output-file filepath #:mode 'text #:exists 'append)))

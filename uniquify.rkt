@@ -25,7 +25,7 @@
     (match triv
       [(? (or/c int61? #t #f 'empty ascii-char-literal?)) triv]
       ['(void) triv]
-      [`(error (? uint8?)) triv]
+      [`(error ,(? uint8?)) triv]
       [(? (or/c name? prim-f?)) (dict-ref env triv)]))
   ;; value env -> unique-value
   ; value	 	::=	 	triv

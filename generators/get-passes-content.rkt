@@ -5,7 +5,8 @@
 (provide (all-defined-out))
 
 (define (get-passes-content milestone-num prog allowed-passes)
-  (define xexpr (interrogator-get milestone-num prog #t))
+  ; (define xexpr (interrogator-get milestone-num prog #t))
+  (define xexpr (interrogator-post milestone-num prog #t))
   ;   (pretty-display webexpr)
   (define passes/raw (let loop ([expr xexpr])
                        (match expr

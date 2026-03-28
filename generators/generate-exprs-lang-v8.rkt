@@ -4,8 +4,10 @@
          cpsc411/langs/v8)
 (provide generate/p
          pass-map
+         pass-lang-map
          allowed-passes
-         interpretors/sym)
+         interpretors/sym
+         langs)
 ; p	 	::=	 	(module (define x (lambda (x ...) value)) ... value)
 ;   value	 	::=	 	triv
 ;  	 	|	 	(let ([x value] ...) value)
@@ -138,13 +140,13 @@
 (define VECTOR-DEF-SIZE 8)
 (define (generate-triv env expected-type)
   (match expected-type
-    ['fixnum? 42]
+    ['fixnum? (random 0 255)]
     ['boolean? (random-ref '(#t #f))]
     ['empty? 'empty]
     ['void? '(void)]
     ['ascii-char? #\c]
     ['error? `(error ,(random 0 255))]
-    ['pair? '(call cons 6 7)]
+    ['pair? '(call cons (generate-triv env (random-ref type-check)) (generate-triv env (random-ref type-check)))]
     ['vector? `(call make-vector ,VECTOR-DEF-SIZE)]
     ['any? (generate-triv env (random-ref type-check))])
   )
@@ -322,10 +324,39 @@
     (cons 'patch-instructions 'interp-para-asm-lang-v8)
     (cons 'implement-mops 'interp-paren-x64-mops-v8)
     (cons 'generate-x64 'interp-paren-x64-v8)
-    (cons #f '(compose nasm-run/print-number wrap-x64-runtime wrap-x64-boilerplate))))
-
+    (cons #f '(compose nasm-run/print-number wrap-x64-run-time wrap-x64-boilerplate))))
+(define pass-lang-map
+  (list
+    #;(cons 'check-exprs-lang #f)
+    (cons 'uniquify 'exprs-lang-v8)
+    (cons 'implement-safe-primops 'exprs-unique-lang-v8)
+    (cons 'specify-representation 'exprs-unsafe-data-lang-v8)
+    (cons 'remove-complex-opera* 'exprs-bits-lang-v8)
+    (cons 'sequentialize-let 'values-bits-lang-v8)
+    (cons 'normalize-bind 'imp-mf-lang-v8)
+    (cons 'impose-calling-conventions 'proc-imp-cmf-lang-v8)
+    (cons 'select-instructions 'imp-cmf-lang-v8)
+    (cons 'expose-allocation-pointer 'asm-alloc-lang-v8)
+    (cons 'uncover-locals 'asm-pred-lang-v8)
+    (cons 'undead-analysis 'asm-pred-lang-v8/locals)
+    (cons 'conflict-analysis 'asm-pred-lang-v8/undead)
+    (cons 'assign-call-undead-variables 'asm-pred-lang-v8/conflicts)
+    (cons 'allocate-frames 'asm-pred-lang-v8/pre-framed)
+    (cons 'assign-registers 'asm-pred-lang-v8/framed)
+    (cons 'assign-frame-variables 'asm-pred-lang-v8/spilled)
+    (cons 'replace-locations 'asm-pred-lang-v8/assignments)
+    (cons 'optimize-predicates 'nested-asm-lang-fvars-v8)
+    (cons 'implement-fvars 'nested-asm-lang-fvars-v8)
+    (cons 'expose-basic-blocks 'nested-asm-lang-v8)
+    (cons 'resolve-predicates 'block-pred-lang-v8)
+    (cons 'flatten-program 'block-asm-lang-v8)
+    (cons 'patch-instructions 'para-asm-lang-v8)
+    (cons 'implement-mops 'paren-x64-mops-v8)
+    (cons 'generate-x64 'paren-x64-v8)
+    (cons #f #f)))
 (define allowed-passes (filter-map car pass-map))
 (define interpretors/sym (map cdr pass-map))
+(define langs (map cdr pass-lang-map))
 
 (module+ test
   (define (interp/catch-error x)

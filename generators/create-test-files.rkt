@@ -25,7 +25,7 @@
         (displayln "#lang racket" file)
         (pretty-write `(require cpsc411/compiler-lib
                                 ,(string->symbol (~a "cpsc411/langs/v" current-milestone))
-                                (only-in ,(~a "../" pass-name ".rkt"))) file)
+                                ,(~a "../" pass-name ".rkt")) file)
         (pretty-write `(define (fail-if-invalid p)
                          (when (not (,trg-lang?/sym p))
                            (error (~a (pretty-format p)

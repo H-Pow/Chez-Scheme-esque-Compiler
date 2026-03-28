@@ -2,6 +2,10 @@
 (require cpsc411/compiler-lib
          racket/random
          cpsc411/langs/v8)
+(provide generate/p
+         pass-map
+         allowed-passes
+         interpretors/sym)
 ; p	 	::=	 	(module (define x (lambda (x ...) value)) ... value)
 ;   value	 	::=	 	triv
 ;  	 	|	 	(let ([x value] ...) value)
@@ -113,7 +117,6 @@
   (filter (λ(entry) (eq? (cddr entry) expected-type)) env))
 
 (define (entry-fun/expr? entry)
-  (displayln entry)
   (pair? (car entry)))
 ;; int int -> expr-p
 ;; recur-depth represent the maximum amount of recursion happening
@@ -125,7 +128,7 @@
                   DEFAULT-ENV
                   (λ (def* val)
                     `(module ,@(set->list def*) ,val))
-                  'fixnum?)
+                  (random-ref type-check))
   )
 (define (random/zero k)
   (if (<= k)
@@ -244,8 +247,8 @@
 (define (generate-value recur-depth iter-depth env k expected-type)
   ; (pretty-display (list recur-depth iter-depth))
   (define options (list 'newfun 'let 'if 'oldvar))
-  (when (<= iter-depth 0) (set! options (list 'triv 'oldvar)))
-  (when (<= recur-depth 0) (set! options (list 'triv)))
+  (when (<= iter-depth 0) (set! options (list 'oldvar)))
+  (when (<= recur-depth 0) (set! options (list 'triv 'oldvar)))
   (define def* (mutable-seteq))
   ;; (listof type-check?) -> (listof expr-value)
   (define (generate-param* param-type* [env env])
@@ -276,6 +279,7 @@
        ;; represent both function call and referencing old variable...
        ;;    excellent naming, i know.
        (define available-vars (select-var/returns env expected-type))
+       (when (<= recur-depth 0) (set! available-vars (filter (not/c entry-fun/expr?) available-vars)))
        (if (empty? available-vars)
            (if (> recur-depth 0)
                (gen-value 'newfun (sub1 recur-depth))
@@ -290,7 +294,38 @@
   (gen-value (random-ref options))
   )
 
-; (displayln (pretty-format (generate/p 4 3)))
+(define pass-map
+  (list
+    #;(cons 'check-exprs-lang #f)
+    (cons 'uniquify 'interp-exprs-lang-v8)
+    (cons 'implement-safe-primops 'interp-exprs-unique-lang-v8)
+    (cons 'specify-representation 'interp-exprs-unsafe-data-lang-v8)
+    (cons 'remove-complex-opera* 'interp-exprs-bits-lang-v8)
+    (cons 'sequentialize-let 'interp-values-bits-lang-v8)
+    (cons 'normalize-bind 'interp-imp-mf-lang-v8)
+    (cons 'impose-calling-conventions 'interp-proc-imp-cmf-lang-v8)
+    (cons 'select-instructions 'interp-imp-cmf-lang-v8)
+    (cons 'expose-allocation-pointer 'interp-asm-alloc-lang-v8)
+    (cons 'uncover-locals 'interp-asm-pred-lang-v8)
+    (cons 'undead-analysis 'interp-asm-pred-lang-v8/locals)
+    (cons 'conflict-analysis 'interp-asm-pred-lang-v8/undead)
+    (cons 'assign-call-undead-variables 'interp-asm-pred-lang-v8/conflicts)
+    (cons 'allocate-frames 'interp-asm-pred-lang-v8/pre-framed)
+    (cons 'assign-registers 'interp-asm-pred-lang-v8/framed)
+    (cons 'assign-frame-variables 'interp-asm-pred-lang-v8/spilled)
+    (cons 'replace-locations 'interp-asm-pred-lang-v8/assignments)
+    (cons 'optimize-predicates 'interp-nested-asm-lang-fvars-v8)
+    (cons 'implement-fvars 'interp-nested-asm-lang-fvars-v8)
+    (cons 'expose-basic-blocks 'interp-nested-asm-lang-v8)
+    (cons 'resolve-predicates 'interp-block-pred-lang-v8)
+    (cons 'flatten-program 'interp-block-asm-lang-v8)
+    (cons 'patch-instructions 'interp-para-asm-lang-v8)
+    (cons 'implement-mops 'interp-paren-x64-mops-v8)
+    (cons 'generate-x64 'interp-paren-x64-v8)
+    (cons #f '(compose nasm-run/print-number wrap-x64-runtime wrap-x64-boilerplate))))
+
+(define allowed-passes (filter-map car pass-map))
+(define interpretors/sym (map cdr pass-map))
 
 (module+ test
   (define (interp/catch-error x)

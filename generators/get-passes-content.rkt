@@ -2,6 +2,8 @@
 (require "interrogator-get.rkt"
          "get-available-passes.rkt")
 
+(provide (all-defined-out))
+
 (define (get-passes-content milestone-num prog allowed-passes)
   (define xexpr (interrogator-get milestone-num prog #t))
   ;   (pretty-display webexpr)
@@ -28,4 +30,4 @@
        ]
       [`("<" ,_output ,rest ...) (loop rest passes)]
       ['() passes])))
-(get-passes-content 8 '(module 1) (get-available-passes 8))
+; (get-passes-content 8 '(module 1) (get-available-passes 8))

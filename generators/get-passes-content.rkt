@@ -1,12 +1,12 @@
 #lang racket
-(require "interrogator-utils.rkt"
-         )
+(require "interrogator-get.rkt"
+         "get-available-passes.rkt")
 
-(define (get-available-passes milestone-num)
-  (define webexpr (interrogator-get milestone-num '(module 1) #t))
+(define (get-passes-content milestone-num prog allowed-passes)
+  (define xexpr (interrogator-get milestone-num prog #t))
   ;   (pretty-display webexpr)
-  (define passes/raw (let loop ([webexpr webexpr])
-                       (match webexpr
+  (define passes/raw (let loop ([expr xexpr])
+                       (match expr
                          [`(pre ,_ ,content ...) content]
                          [`(,_elem ,_ ,child* ...) (define result (filter-map loop child*))
                                                    (if (pair? result) (car result)
@@ -21,9 +21,11 @@
       [`(">" ,do-something ,rest ...)
        (with-handlers ([exn:fail? (λ (_) (loop rest passes))])
          (let ([pass (read (open-input-string do-something))])
-           (when (eq? (car pass) 'quote) (error pass))
-           (loop rest (cons (car pass) passes))))
+           (if (member (car pass) allowed-passes symbol=?) 
+               (begin
+                  (loop rest (dict-set passes (car pass) (cadr pass))))
+               (loop rest passes))))
        ]
       [`("<" ,_output ,rest ...) (loop rest passes)]
-      ['() (reverse passes)])))
-(get-available-passes 8)
+      ['() passes])))
+(get-passes-content 8 '(module 1) (get-available-passes 8))

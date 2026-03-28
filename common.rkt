@@ -20,21 +20,43 @@
          void/tagged?
          ascii-char/tagged?
          error/tagged?
-         pair/tagged?)
+         pair/tagged?
+         imperative-primop?)
 
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))
 ; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't
 ;    break implement-safe-primop
 (define binop/unsafe
-  '(unsafe-fx+ unsafe-fx- unsafe-fx* eq? unsafe-fx< unsafe-fx<= unsafe-fx> unsafe-fx>=))
+  '(unsafe-fx+ unsafe-fx-
+               unsafe-fx*
+               eq?
+               unsafe-fx<
+               unsafe-fx<=
+               unsafe-fx>
+               unsafe-fx>=
+               cons
+               unsafe-vector-set!
+               unsafe-vector-ref))
 (define binop/unsafe? (compose not false? (curryr memq binop/unsafe)))
 
 (define binop/ptr '(+ - * bitwise-and bitwise-ior bitwise-xor arithmetic-shift-right))
 
 (define binop/ptr? (compose not false? (curryr memq binop/ptr)))
 
-(define unop '(fixnum? boolean? empty? void? ascii-char? error? not))
+(define unop
+  '(fixnum? boolean?
+            empty?
+            void?
+            ascii-char?
+            error?
+            not
+            unsafe-car
+            unsafe-cdr
+            unsafe-vector-length
+            unsafe-make-vector
+            pair?
+            vector?))
 (define unop? (compose not false? (curryr memq unop)))
 
 (define prim-f `(,@binop ,@unop))
@@ -77,6 +99,8 @@
 (define primop `(,@binop/unsafe ,@unop))
 (define primop? (compose not false? (curryr memq primop)))
 
+(define (imperative-primop? primop)
+  (curryr memq `(unsafe-vector-set!)))
 (module+ test
   (require rackunit)
   (check-true (binop? '+))

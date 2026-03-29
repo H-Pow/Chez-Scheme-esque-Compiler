@@ -117,3 +117,21 @@
           ,(select-tail tail))]))
 
   (select-p p))
+
+(module+ test
+  (require rackunit
+           cpsc411/langs/v8
+           cpsc411/test-suite/public/v8
+           cpsc411/compiler-lib)
+  (define-syntax-rule (check-by-interp p)
+    (check-equal? p p))
+  (v8-public-test-suite '(select-instructions) '(interp-imp-cmf-lang-v8))
+
+;   (check-match (select-instructions '(module ((new-frames ())) 
+;                         (begin (set! ))
+;                 ))
+;                 `(module ((new-frames ()))
+;                     )
+
+;   )
+)

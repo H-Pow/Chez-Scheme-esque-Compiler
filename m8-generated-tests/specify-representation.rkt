@@ -3,6 +3,7 @@
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          cpsc411/langs/v8
+         cpsc411/test-suite/utils
          "../specify-representation.rkt")
 (define (fail-if-invalid p)
   (when (not (exprs-bits-lang-v8? p))
@@ -17,7 +18,7 @@
  (check-by-interp p)
  (check-equal?
   (interp-exprs-unsafe-data-lang-v8 p)
-  (interp-exprs-bits-lang-v8 (fail-if-invalid (specify-representation p)))))
+  (ptr->v (interp-exprs-bits-lang-v8 (fail-if-invalid (specify-representation p))))))
 
 (check-by-interp '(module 105))
 (check-by-interp '(module (error 105)))

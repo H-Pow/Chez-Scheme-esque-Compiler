@@ -25,7 +25,7 @@
     (match triv
       [(? (or/c int61? #t #f 'empty ascii-char-literal?)) triv]
       ['(void) triv]
-      [`(error (? uint8?)) triv]
+      [`(error ,(? uint8?)) triv]
       [(? (or/c name? prim-f?)) (dict-ref env triv)]))
   ;; value env -> unique-value
   ; value	 	::=	 	triv
@@ -44,8 +44,8 @@
        (let-values ([(env/updated aloc* unique-val*) (for/fold ([env/updated env]
                                                                 [aloc* '()]
                                                                 [unique-val* '()])
-                                                               ([x x*]
-                                                                [val val*])
+                                                               ([x (reverse x*)]
+                                                                [val (reverse val*)])
                                                        (define aloc (fresh x))
                                                        (values (dict-set env/updated x aloc)
                                                                (cons aloc aloc*)
@@ -78,16 +78,16 @@
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v7)
+           cpsc411/langs/v8)
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-exprs-lang-v7 p) (interp-exprs-unique-lang-v7 (uniquify p))))
+    (check-equal? (interp-exprs-lang-v8 p) (interp-exprs-unique-lang-v8 (uniquify p))))
 
   (check-by-interp `(module (define fact
                               (lambda (n)
                                 (if (call <= n 1)
                                     1
                                     (call * n (call fact (call - n 1))))))
-                            (call fact 5)
+                      (call fact 5)
                       ))
 
   (check-by-interp `(module (define fact
@@ -95,7 +95,7 @@
                                 (if (call <= n 1)
                                     acc
                                     (call fact (call - n 1) (call * acc n)))))
-                            (call fact 5 1)
+                      (call fact 5 1)
                       ))
 
   (check-by-interp `(module (define fib
@@ -103,5 +103,91 @@
                                 (if (call <= n 1)
                                     n
                                     (call + (call fib (call - n 1)) (call fib (call - n 2))))))
-                            (call fib 5)
-                      )))
+                      (call fib 5)
+                      ))
+  (check-by-interp '(module (define fact
+                              (lambda (p)
+                                (if (call <= (call car p) 1)
+                                    (call cdr p)
+                                    (call fact (call cons (call - (call car p) 1)
+                                                     (call * (call cdr p) (call car p)))))))
+                      (call fact (call cons 5 1))))
+  ; "implicit" factorial with accumulator... what have I done
+  (check-by-interp `(module (define fact
+                              (lambda (v)
+                                (let [(n (call vector-ref v 0))
+                                      (acc (call vector-ref v 1))]
+                                  (if (call <= n 1)
+                                      acc
+                                      (let [(_0 (call vector-set! v 1 (call * acc n)))
+                                            (_1 (call vector-set! v 0 (call - n 1)))]
+                                        (call fact v))))))
+                      (let [(v (call make-vector 2))]
+                        (let [(_0 (call vector-set! v 0 5))
+                              (_1 (call vector-set! v 1 1))]
+                          (call fact v)
+                          ))))
+  (check-by-interp '(module (define foo
+                              (lambda ()
+                                (let [(+ bar)]
+                                  (call + 1 2))))
+                      (define bar
+                        (lambda (a b)
+                          (call * a b)))
+                      (call foo)))
+  (check-match (uniquify '(module (define +
+                                    (lambda (a)
+                                      (call + a 1)))
+                            (call + 1)))
+               `(module (define ,+
+                          (lambda (,a)
+                            (call ,+ ,a 1)))
+                  (call ,+ 1))
+               (and (label? +)
+                    (aloc? a)))
+  (check-match (uniquify '(module (define fact
+                                    (lambda (p)
+                                      (if (call <= (call car p) 1)
+                                          (call cdr p)
+                                          (call fact (call cons (call - (call car p) 1)
+                                                           (call * (call cdr p) (call car p)))))))
+                            (call fact (call cons 5 1))))
+               `(module (define ,fact
+                          (lambda (,p)
+                            (if (call <= (call car ,p) 1)
+                                (call cdr ,p)
+                                (call ,fact (call cons (call - (call car ,p) 1)
+                                                  (call * (call cdr ,p) (call car ,p)))))))
+                  (call ,fact (call cons 5 1)))
+               (and (aloc? p)
+                    (label? fact)))
+  (check-match (uniquify '(module (define fact
+                                    (lambda (v)
+                                      (let [(n (call vector-ref v 0))
+                                            (acc (call vector-ref v 1))]
+                                        (if (call <= n 1)
+                                            acc
+                                            (let [(_0 (call vector-set! v 1 (call * acc n)))
+                                                  (_1 (call vector-set! v 0 (call - n 1)))]
+                                              (call fact v))))))
+                            (let [(v (call make-vector 2))]
+                              (let [(_0 (call vector-set! v 0 5))
+                                    (_1 (call vector-set! v 1 1))]
+                                (call fact v)
+                                ))))
+               `(module (define ,fact
+                          (lambda (,v)
+                            (let [(,n (call vector-ref ,v 0))
+                                  (,acc (call vector-ref ,v 1))]
+                              (if (call <= ,n 1)
+                                  ,acc
+                                  (let [(,_0 (call vector-set! ,v 1 (call * ,acc ,n)))
+                                        (,_1 (call vector-set! ,v 0 (call - ,n 1)))]
+                                    (call ,fact ,v))))))
+                  (let [(,v0 (call make-vector 2))]
+                    (let [(,_00 (call vector-set! ,v0 0 5))
+                          (,_10 (call vector-set! ,v0 1 1))]
+                      (call ,fact ,v0))))
+               (and (andmap aloc? (list v n acc _0 _1 v0 _00 _10))
+                    (label? fact)))
+  )

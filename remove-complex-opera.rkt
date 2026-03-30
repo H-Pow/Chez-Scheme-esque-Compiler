@@ -24,7 +24,6 @@
     (match pred
       [`(true) pred]
       [`(false) pred]
-
       [`(not ,pred)
        `(not ,(rco-pred pred))]
       [`(let ([,alocs ,values] ...) ,pred)
@@ -68,17 +67,17 @@
   
   (define (rco-effect effect)
     (match effect
-      [`(mset! ,v1 ,v2 ,v3)
-      (rco-triv v1
-        (λ (a1)
-          (rco-triv v2
-            (λ (o2)
-              `(mset! ,a1 ,o2 ,(rco-value v3))))))]
-      
+      [`(mset! ,value1 ,value2 ,value3)
+        (rco-triv value1
+          (λ (value1^)
+            (rco-triv value2
+              (λ (value2^)
+                (rco-triv value3
+                  (λ (value3^)
+                    `(mset! ,value1^ ,value2^ ,value3^)))))))]  
       [`(begin ,effects ... ,last)
       `(begin ,@(map rco-effect effects)
               ,(rco-effect last))]
-
       [`(let ([,alocs ,values] ...) ,effect)
       `(let ,(for/list ([aloc alocs] [value values])
                 `[,aloc ,(rco-value value)])
@@ -101,14 +100,14 @@
           ,(rco-value value-body))]
       [`(alloc ,value)
         (rco-triv value
-          (λ (triv)
-            `(alloc ,triv)))]
+          (λ (value^)
+            `(alloc ,value^)))]
       [`(mref ,value1 ,value2)
         (rco-triv value1
-          (λ (triv1)
+          (λ (value1^)
             (rco-triv value2
-              (λ (triv2)
-                `(mref ,triv1 ,triv2)))))]
+              (λ (value2^)
+                `(mref ,value1^ ,value2^)))))]
       [`(,binop ,value1 ,value2)
        (rco-triv value1
          (λ (value1^)
@@ -171,11 +170,12 @@
         (mset! (+ 1 2) (+ 3 4) (+ 5 6))
         0)))
   `(module
-      (begin
-        (let ((,t1 (+ 1 2)))
-          (let ((,t2 (+ 3 4)))
-            (mset! ,t1 ,t2 (+ 5 6))))
-        0)))
+   (begin
+     (let ((,t1 (+ 1 2)))
+       (let ((,t2 (+ 3 4)))
+         (let ((,t3 (+ 5 6))) 
+          (mset! ,t1 ,t2 ,t3))))
+     0)))
   
   (check-match (remove-complex-opera*
     '(module
@@ -187,6 +187,7 @@
         (mset! 1 2 3)
         (+ 4 5))))
 
+  ;; interrogator the goat
   (check-match (remove-complex-opera*
   '(module
      (mref (alloc (+ 1 2)) (+ 3 4))))

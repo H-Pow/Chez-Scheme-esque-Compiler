@@ -3,7 +3,7 @@
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          cpsc411/langs/v8
-         "../assign-call-undead-variables.rkt")
+         "../target-nested-asm-lang-v2/assign-call-undead-variables.rkt")
 (define (fail-if-invalid p)
   (when (not (asm-pred-lang-v8/pre-framed? p))
     (error

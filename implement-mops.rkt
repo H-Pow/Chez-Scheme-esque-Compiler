@@ -13,7 +13,7 @@
     (match s
       [`(with-label ,label ,labelled-s) `(with-label ,label ,(implement-s labelled-s))]
       [`(mset! ,reg1 ,index ,trg-or-int) `(set! (,reg1 + ,index) ,trg-or-int)]
-      [`(set! ,(? register? ,reg1) (mref (? register? ,reg2) ,index)) `(set! ,reg1 (,reg2 + ,index))]
+      [`(set! ,(? register? reg1) (mref ,(? register? reg2) ,index)) `(set! ,reg1 (,reg2 + ,index))]
       [_ s]))
 
   (define (implement-p p)

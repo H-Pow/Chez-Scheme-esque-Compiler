@@ -36,8 +36,8 @@
 
 ;; Stubs; remove or replace with your definitions.
 
-(define implement-mops values)
-(define expose-allocation-pointer values)
+; (define implement-mops values)
+; (define expose-allocation-pointer values)
 
 (require "uniquify.rkt")
 (require "implement-safe-primops.rkt")
@@ -52,7 +52,8 @@
 (require "implement-fvars.rkt")
 (require "resolve-predicates.rkt")
 (require "generate-x64.rkt")
-(require "expose-basic-blocks.rkt")
+(require "expose-allocation-pointer.rkt")
+(require "implement-mops.rkt")
 
 (require "specify-representation.rkt")
 (require "remove-complex-opera.rkt")
@@ -66,7 +67,22 @@
     cpsc411/langs/v8
     cpsc411/test-suite/public/v8
     file/glob)
+  (require (submod "uniquify.rkt" test))
 
+  (require (submod "implement-safe-primops.rkt" test))
+  (require (submod "sequentialize-let.rkt" test))
+  (require (submod "normalize-bind.rkt" test))
+  (require (submod "impose-calling-conventions.rkt" test))
+  (require (submod "select-instructions.rkt" test))
+  ; (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
+  (require (submod "implement-fvars.rkt" test))
+  (require (submod "expose-basic-blocks.rkt" test))
+  (require (submod "resolve-predicates.rkt" test))
+;   (require (submod "specify-representation.rkt" test))
+  (require (submod "flatten-program.rkt" test))
+;   (require (submod "patch-instructions.rkt" test))
+  ; (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "m8-generated-tests/**.rkt"))
   ;; You can modify this pass list, e.g., by adding other
   ;; optimization, debugging, or validation passes.
   ;; Doing this may provide additional debugging info when running the rest

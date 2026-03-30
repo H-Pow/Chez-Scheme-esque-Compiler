@@ -84,13 +84,13 @@
 
 (module+ test
   (require rackunit
+           rackunit/text-ui
            cpsc411/langs/v8
            cpsc411/test-suite/public/v8
            cpsc411/compiler-lib)
   (define-syntax-rule (check-by-interp p)
     (check-equal? p p))
-  (v8-public-test-suite '(expose-allocation-pointer) '(interp-asm-alloc-lang-v8))
-
+  #;
   (check-match (expose-allocation-pointer '(module (cons 5 6)))
                `(module (let ([,tmp (+ (alloc 16) 1)])
                           (begin

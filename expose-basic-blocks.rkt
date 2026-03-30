@@ -189,6 +189,9 @@
                       `(begin
                          ,fx
                          (jump ,next)))]
+      [`(mset! ,_ ,_ ,_)
+       (create-block! label
+                      `(begin ,fx (jump ,next)))]
       [`(begin
           ,fx* ...
           ,fx)

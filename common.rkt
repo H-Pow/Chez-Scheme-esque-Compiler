@@ -1,6 +1,16 @@
 #lang racket
 (require cpsc411/compiler-lib)
-(provide binop
+(provide addr?
+         reg?
+         loc?
+         opand?
+         triv?
+         trg?
+         paren-x64-mops-trg?
+         paren-x64-mops-triv?
+         paren-x64-mops-opand?
+         paren-x64-v8-addr?
+         binop
          binop?
          structop
          structop?
@@ -24,6 +34,35 @@
          error/tagged?
          pair/tagged?
          imperative-primop?)
+
+(define (addr? addr)
+  (match addr
+    [`(,(? frame-base-pointer-register?) - ,(? dispoffset?)) #t]
+    [_ #f]))
+(define reg? register?)
+(define loc? (or/c reg? addr?))
+(define opand? (or/c int64? loc?))
+(define triv? (or/c opand? label?))
+(define trg? (or/c label? loc?))
+
+;;;;;
+
+(define paren-x64-mops-trg? (or/c label? register?))
+(define paren-x64-mops-triv? (or/c trg? int64?))
+(define paren-x64-mops-opand? (or/c int64? register?))
+(define (paren-x64-v8-addr? addr)
+  (match addr
+    [`(,(? frame-base-pointer-register?) - ,(? dispoffset?)) #t]
+    [`(,(? register?) + ,(? int32?)) #t]
+    [`(,(? register?) + ,(? register?)) #t]
+    [_ #f]))
+
+
+
+
+
+
+;;;
 
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))

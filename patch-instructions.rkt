@@ -1,150 +1,12 @@
 #lang racket
 (require cpsc411/compiler-lib
-         cpsc411/langs/v4)
+         cpsc411/langs/v8
+         "common.rkt")
+
 (provide patch-instructions)
-;para-asm-lang-v7
-;   p	 	::=	 	(begin s ...)
 
-;   s	 	::=	 	(set! loc triv)
-;  	 	|	 	(set! loc_1 (binop loc_1 opand))
-;  	 	|	 	(jump trg)
-;  	 	|	 	(with-label label s)
-;  	 	|	 	(compare loc opand)
-;  	 	|	 	(jump-if relop trg)
-
-;   triv	 	::=	 	opand
-;  	 	|	 	label
-
-;   opand	 	::=	 	int64
-;  	 	|	 	loc
-
-;   trg	 	::=	 	label
-;  	 	|	 	loc
-
-;   loc	 	::=	 	reg
-;  	 	|	 	addr
-
-;   reg	 	::=	 	rsp
-;  	 	|	 	rbp
-;  	 	|	 	rax
-;  	 	|	 	rbx
-;  	 	|	 	rcx
-;  	 	|	 	rdx
-;  	 	|	 	rsi
-;  	 	|	 	rdi
-;  	 	|	 	r8
-;  	 	|	 	r9
-;  	 	|	 	r12
-;  	 	|	 	r13
-;  	 	|	 	r14
-;  	 	|	 	r15
-
-;   binop	 	::=	 	*
-;  	 	|	 	+
-;  	 	|	 	-
-;     |   bitwise-and
-; 	 	|	 	bitwise-ior
-; 	 	|	 	bitwise-xor
-; 	 	|	 	arithmetic-shift-right
-
-;   relop	 	::=	 	<
-;  	 	|	 	<=
-;  	 	|	 	=
-;  	 	|	 	>=
-;  	 	|	 	>
-;  	 	|	 	!=
-
-;   addr	 	::=	 	(fbp - dispoffset)
-
-;   fbp	 	::=	 	frame-base-pointer-register?
-
-;   int64	 	::=	 	int64?
-
-;   dispoffset	 	::=	 	dispoffset?
-
-;   label	 	::=	 	label?
-; -----------------------
-; paren-x64-v7
-;   p	 	::=	 	(begin s ...)
-
-;   s	 	::=	 	(set! addr int32)
-;  	 	|	 	(set! addr trg)
-;  	 	|	 	(set! reg loc)
-;  	 	|	 	(set! reg triv)
-;  	 	|	 	(set! reg_1 (binop reg_1 int32))
-;  	 	|	 	(set! reg_1 (binop reg_1 loc))
-;  	 	|	 	(with-label label s)
-;  	 	|	 	(jump trg)
-;  	 	|	 	(compare reg opand)
-;  	 	|	 	(jump-if relop label)
-
-;   trg	 	::=	 	reg
-;  	 	|	 	label
-
-;   triv	 	::=	 	trg
-;  	 	|	 	int64
-
-;   opand	 	::=	 	int64
-;  	 	|	 	reg
-
-;   loc	 	::=	 	reg
-;  	 	|	 	addr
-
-;   reg	 	::=	 	rsp
-;  	 	|	 	rbp
-;  	 	|	 	rax
-;  	 	|	 	rbx
-;  	 	|	 	rcx
-;  	 	|	 	rdx
-;  	 	|	 	rsi
-;  	 	|	 	rdi
-;  	 	|	 	r8
-;  	 	|	 	r9
-;  	 	|	 	r10
-;  	 	|	 	r11
-;  	 	|	 	r12
-;  	 	|	 	r13
-;  	 	|	 	r14
-;  	 	|	 	r15
-
-;   addr	 	::=	 	(fbp - dispoffset)
-
-;   fbp	 	::=	 	frame-base-pointer-register?
-
-;   binop	 	::=	 	*
-;  	 	|	 	+
-;  	 	|	 	-
-;     |   bitwise-and
-; 	 	|	 	bitwise-ior
-; 	 	|	 	bitwise-xor
-; 	 	|	 	arithmetic-shift-right
-
-;   relop	 	::=	 	<
-;  	 	|	 	<=
-;  	 	|	 	=
-;  	 	|	 	>=
-;  	 	|	 	>
-;  	 	|	 	!=
-
-;   int64	 	::=	 	int64?
-
-;   int32	 	::=	 	int32?
-
-;   dispoffset	 	::=	 	dispoffset?
-
-;   label	 	::=	 	label?
-
-;; (any/c) -> boolean
-;; returns #t if addr is a para-asm-lang-v6 addr, otherwise returns #f
-(define (addr? addr)
-  (match addr
-    [`(,fbp - ,dispoffset)
-     #:when (and (frame-base-pointer-register? fbp) (dispoffset? dispoffset))
-     #t]
-    [_ #f]))
-
-;; para-asm-lang-v6 -> paren-x64-v6
-;; Compiles Para-asm-lang-v6 to Paren-x64-v6 by patching each instruction that has no x64
+;; para-asm-lang-v8 -> paren-x64-mops-v8
+;; Compiles para-asm-lang-v8 to paren-x64-mops-v8 by patching each instruction that has no x64
 ;; analogue into a sequence of instructions using auxiliary
 ;; registers from current-patch-instruction-registers
 (define (patch-instructions p)
@@ -152,7 +14,7 @@
   (define first-reg (first (aux-reg)))
   (define second-reg (second (aux-reg)))
 
-  ;; (para-asm-lang-v6 s)-> (paren-x64-v6 s)
+  ;; (para-asm-lang-v8 s)-> (paren-x64-mops-v8 s)
   ;; patches set! instructions where the id is a register
   (define (patch-set-reg s)
     (match s
@@ -161,7 +23,7 @@
        `((set! ,first-reg ,triv) (set! ,reg1 (,binop ,reg1 ,first-reg)))]
       [_ `(,s)]))
 
-  ;; (para-asm-lang-v6 s)-> (paren-x64-v6 s)
+  ;; (para-asm-lang-v8 s)-> (paren-x64-mops-v8 s)
   ;; patches set! instructions where the id is a register
   (define (patch-set-addr s)
     (match s
@@ -173,8 +35,34 @@
        `((set! ,first-reg ,triv) (set! ,addr1 ,first-reg))]
       [_ `(,s)]))
 
+  ;; (set! loc1 (mref loc2 index))
+  ;; if loc1 is an addr, we need to patch that to a register
+  ;; if loc1 is an addr and loc2 is an addr, we need to patch both to registers
+  ;; if
+
+  (define (patch-mref s)
+    (match s
+      []))
+
+  ;; mset! loc1 index triv
+  ;; loc1 must be a register, else it needs to be patched
+  ;; if index is an addr, or an int64 and not an int32, then it must be patched
+  ;; triv can be int32, reg, label. cannot be int64 and not int32, cannot be addr
+  (define (patch-mset s)
+    (match s
+      ;; may add one more instruction than necessary, but collapses cases
+      [`(mset! ,loc ,index ,triv)
+       #:when (register? loc)
+       `((set! ,first-reg ,index) (set! ,second-reg ,triv) (mset! ,loc ,first-reg ,second-reg))]
+      [`(mset! ,addr ,index ,triv)
+       (match addr
+         [`((,? ?frame-base-pointer-register? fbp) - ,offset) ((set! ,first-reg))])
+       `((set! ,second-reg ,addr) (set! ,first-reg ,index) (mset!))]))
+
   (define (patch-s s)
     (match s
+      [`(mset! ,loc1 ,index ,triv) (patch-mset s)]
+      [`(set! ,loc1 (mref ,loc2 ,index)) (patch-mref s)]
       [`(set! ,loc ,rest)
        #:when (register? loc)
        (patch-set-reg s)]
@@ -200,4 +88,3 @@
           ,@(apply append (map patch-s ss)))]))
 
   (patch-p p))
-

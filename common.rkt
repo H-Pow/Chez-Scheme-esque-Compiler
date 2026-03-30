@@ -1,37 +1,10 @@
 #lang racket
 (require cpsc411/compiler-lib)
-(provide binop
-         binop?
-         structop
-         structop?
-         binop->fun
-         binop/unsafe
-         binop/unsafe?
-         binop/ptr
-         binop/ptr?
-         unop
-         unop?
-         prim-f
-         prim-f?
-         primop
-         primop?
-         fixnum?
-         fixnum/tagged?
-         boolean/tagged?
-         empty/tagged?
-         void/tagged?
-         ascii-char/tagged?
-         error/tagged?
-         pair/tagged?
-         imperative-primop?)
+
+(provide (all-defined-out))
 
 (define binop '(+ - * eq? < <= > >=))
 (define binop? (compose not false? (curryr memq binop)))
-; NOTE: please make sure the unsafe variants are at the same order as the safe ones so it doesn't
-;    break implement-safe-primop
-; represent an operation with a structured data
-(define structop '(pair? vector? cons car cdr make-vector vector-length vector-set! vector-ref))
-(define structop? (compose not false? (curry memq structop)))
 
 (define binop/unsafe
   '(unsafe-fx+ unsafe-fx-
@@ -49,6 +22,9 @@
 (define binop/ptr '(+ - * bitwise-and bitwise-ior bitwise-xor arithmetic-shift-right))
 
 (define binop/ptr? (compose not false? (curryr memq binop/ptr)))
+
+(define structop '(cons car cdr make-vector vector-length vector-set! vector-ref))
+(define structop? (compose not false? (curry memq structop)))
 
 (define unop
   '(fixnum? boolean?
@@ -105,7 +81,7 @@
 (define primop `(,@binop/unsafe ,@unop))
 (define primop? (compose not false? (curryr memq primop)))
 
-(define (imperative-primop? primop)
+(define imperative-primop?
   (curryr memq `(unsafe-vector-set!)))
 (module+ test
   (require rackunit)

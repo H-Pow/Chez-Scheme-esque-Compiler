@@ -10,6 +10,7 @@
          paren-x64-mops-triv?
          paren-x64-mops-opand?
          paren-x64-v8-addr?
+         paren-x64-v8-loc?
          binop
          binop?
          structop
@@ -56,11 +57,8 @@
     [`(,(? register?) + ,(? int32?)) #t]
     [`(,(? register?) + ,(? register?)) #t]
     [_ #f]))
-
-
-
-
-
+(define (paren-x64-v8-loc? loc)
+  (or/c register? paren-x64-v8-addr?))
 
 ;;;
 

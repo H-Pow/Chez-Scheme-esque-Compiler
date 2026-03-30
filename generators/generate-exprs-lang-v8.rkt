@@ -147,7 +147,7 @@
     ['boolean? (random-ref '(#t #f))]
     ['empty? 'empty]
     ['void? '(void)]
-    ['ascii-char? (integer->char (random 33 127))]
+    ['ascii-char? (integer->char (random 65 123))]
     ['error? `(error ,(random 0 255))]
     ['pair? `(call cons ,(random 0 255) ,(random 256 512))]
     ['vector? `(call make-vector ,VECTOR-DEF-SIZE)]

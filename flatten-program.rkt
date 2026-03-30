@@ -5,15 +5,7 @@
 
 (provide flatten-program)
 
-(define (addr? addr)
-  (match addr
-    [`(,(? frame-base-pointer-register?) - ,(? dispoffset?)) #t]
-    [_ #f]))
-(define reg? register?)
-(define loc? (or/c reg? addr?))
-(define opand? (or/c int64? loc?))
-(define triv? (or/c opand? label?))
-(define trg? (or/c label? loc?))
+
 
 ;; block-asm-lang-v6 -> para-asm-lang-v6
 ;; Compile Block-asm-lang v6 to Para-asm-lang v6 by flattening basic blocks into labeled instructions.

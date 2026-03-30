@@ -119,7 +119,9 @@
          [else
           `(if ,optimized-cond
                ,(optimize-effect then env-then)
-               ,(optimize-effect else env-else))])]))
+               ,(optimize-effect else env-else))])]
+      ;; not really extending m8
+      [_ effect]))
 
   (define (optimize-tail tail env)
     (match tail

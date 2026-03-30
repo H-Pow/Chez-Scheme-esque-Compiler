@@ -3,7 +3,7 @@
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          cpsc411/langs/v8
-         "../conflict-analysis.rkt")
+         "../target-nested-asm-lang-v2/conflict-analysis.rkt")
 (define (fail-if-invalid p)
   (when (not (asm-pred-lang-v8/conflicts? p))
     (error

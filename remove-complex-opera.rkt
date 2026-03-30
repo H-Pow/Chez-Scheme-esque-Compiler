@@ -72,9 +72,7 @@
           (λ (value1^)
             (rco-triv value2
               (λ (value2^)
-                (rco-triv value3
-                  (λ (value3^)
-                    `(mset! ,value1^ ,value2^ ,value3^)))))))]  
+                 `(mset! ,value1^ ,value2^ ,value3)))))]  
       [`(begin ,effects ... ,last)
       `(begin ,@(map rco-effect effects)
               ,(rco-effect last))]
@@ -170,12 +168,9 @@
         (mset! (+ 1 2) (+ 3 4) (+ 5 6))
         0)))
   `(module
-   (begin
-     (let ((,t1 (+ 1 2)))
-       (let ((,t2 (+ 3 4)))
-         (let ((,t3 (+ 5 6))) 
-          (mset! ,t1 ,t2 ,t3))))
-     0)))
+  (begin
+    (let ((,tmp.1 (+ 1 2))) (let ((,tmp.2 (+ 3 4))) (mset! ,tmp.1 ,tmp.2 (+ 5 6))))
+    0)))
   
   (check-match (remove-complex-opera*
     '(module

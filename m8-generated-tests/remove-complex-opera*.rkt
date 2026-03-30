@@ -3,7 +3,7 @@
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          cpsc411/langs/v8
-         "../remove-complex-opera*.rkt")
+         "../remove-complex-opera.rkt")
 (define (fail-if-invalid p)
   (when (not (values-bits-lang-v8? p))
     (error

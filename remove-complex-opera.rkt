@@ -40,7 +40,10 @@
          (λ (opand1)
            (rco-triv value2
              (λ (opand2)
-               `(,relop ,opand1 ,opand2)))))]))
+               `(,relop ,opand1 ,opand2)))))]
+      [`(begin ,effects ... ,pred)
+        `(begin ,@(map rco-effect effects)
+                ,(rco-pred pred))]))
 
   (define (rco-tail tail)
     (match tail
@@ -50,6 +53,9 @@
            (rco-trivs opands
              (λ (opands^)
                `(call ,label^ ,@opands^)))))]
+      [`(begin ,effects ... ,tail)
+        `(begin ,@(map rco-effect effects)
+                ,(rco-tail tail))]
       [`(let ([,alocs ,values] ...) ,tail)
        `(let ,(for/list ([aloc alocs] [value values])
                 `(,aloc ,(rco-value value)))
@@ -59,32 +65,61 @@
             ,(rco-tail tail1)
             ,(rco-tail tail2))]
       [value (rco-value value)]))
+  
+  (define (rco-effect effect)
+    (match effect
+      [`(mset! ,v1 ,v2 ,v3)
+      (rco-triv v1
+        (λ (a1)
+          (rco-triv v2
+            (λ (o2)
+              `(mset! ,a1 ,o2 ,(rco-value v3))))))]
+      
+      [`(begin ,effects ... ,last)
+      `(begin ,@(map rco-effect effects)
+              ,(rco-effect last))]
+
+      [`(let ([,alocs ,values] ...) ,effect)
+      `(let ,(for/list ([aloc alocs] [value values])
+                `[,aloc ,(rco-value value)])
+          ,(rco-effect effect))]))
 
   (define (rco-value value)
     (match value
-      [(? int64?) value]
-      [(? aloc?) value]
-      [(? label?) value]
-      [`(,binop ,value1 ,value2)
-       (rco-triv value1
-         (λ (value1^)
-           (rco-triv value2
-             (λ (value2^)
-               `(,binop ,value1^ ,value2^)))))]
       [`(call ,label ,opands ...)
        (rco-triv label
          (λ (label^)
            (rco-trivs opands
              (λ (opands^)
                `(call ,label^ ,@opands^)))))]
+      [`(begin ,effects ... ,value)
+        `(begin ,@(map rco-effect effects)
+                ,(rco-value value))]
       [`(let ([,alocs ,values] ...) ,value-body)
        `(let ,(for/list ([aloc alocs] [value values])
-                `(,aloc ,(rco-value value)))
+                `[,aloc ,(rco-value value)])
           ,(rco-value value-body))]
+      [`(alloc ,value)
+        (rco-triv value
+          (λ (triv)
+            `(alloc ,triv)))]
+      [`(mref ,value1 ,value2)
+        (rco-triv value1
+          (λ (triv1)
+            (rco-triv value2
+              (λ (triv2)
+                `(mref ,triv1 ,triv2)))))]
+      [`(,binop ,value1 ,value2)
+       (rco-triv value1
+         (λ (value1^)
+           (rco-triv value2
+             (λ (value2^)
+               `(,binop ,value1^ ,value2^)))))]
       [`(if ,pred ,value1 ,value2)
        `(if ,(rco-pred pred)
             ,(rco-value value1)
-            ,(rco-value value2))]))
+            ,(rco-value value2))]
+      [triv (rco-triv triv)]))
 
   ;; for/list but with continuations
   (define (rco-trivs trivs k)
@@ -96,7 +131,7 @@
               (λ (rest)
                 (k (cons triv^ rest))))))))
   
-  (define (rco-triv triv k)
+  (define (rco-triv triv [k identity])
     (match triv
       [(? int64?) (k triv)]
       [(? aloc?) (k triv)]
@@ -111,55 +146,51 @@
      `(module ,@(map rco-def defs)
         ,(rco-tail tail))]))
 
-#;
+
 (module+ test
   (require rackunit
-           cpsc411/langs/v7)
-  (check-match (remove-complex-opera* '(module (define L.<=.2
-                            (lambda (tmp.10 tmp.11)
-                              (if (!= (if (= (bitwise-and tmp.11 7) 0) 14 6) 6)
-                                  (if (!= (if (= (bitwise-and tmp.10 7) 0) 14 6) 6)
-                                      (if (<= tmp.10 tmp.11) 14 6)
-                                      1342)
-                                  1342)))
-                          (define L.tmp.0.1 (lambda (foo.9.1) 14))
-                    (call L.<=.2 0 0)))
-`(module
-  (define L.<=.2
-    (lambda (tmp.10 tmp.11)
-      (if (let ((tmp.1
-                 (if (let ((tmp.2 (bitwise-and tmp.11 7))) (= tmp.2 0)) 14 6)))
-            (!= tmp.1 6))
-        (if (let ((tmp.3
-                   (if (let ((tmp.4 (bitwise-and tmp.10 7))) (= tmp.4 0))
-                     14
-                     6)))
-              (!= tmp.3 6))
-          (if (<= tmp.10 tmp.11) 14 6)
-          1342)
-        1342)))
-  (define L.tmp.0.1 (lambda (foo.9.1) 14))
-  (call L.<=.2 0 0)))
+           cpsc411/langs/v8)
+  (check-match (remove-complex-opera*
+    '(module
+      (mref (+ 1 2) (+ 3 4))))
+  `(module
+      (let ((,t1 (+ 1 2)))
+        (let ((,t2 (+ 3 4)))
+          (mref ,t1 ,t2)))))
 
-  (check-match (remove-complex-opera* '(module (define L.error?.1
-                            (lambda (tmp.22) (if (= (bitwise-and tmp.22 255) 62) 14 6)))
-                          (call L.error?.1 30)
-                    ))
-            `(module
-  (define L.error?.1
-    (lambda (tmp.22)
-      (if (let ((tmp.1 (bitwise-and tmp.22 255))) (= tmp.1 62)) 14 6)))
-  (call L.error?.1 30)) )
-
-
- (check-match (remove-complex-opera* `(module (* x.1 (arithmetic-shift-right opand2.6 3))))
-  `(module (let ((tmp.1 (arithmetic-shift-right opand2.6 3))) (* x.1 tmp.1)))
- 
- )
-
- (check-match (remove-complex-opera* `(module (let ([x.2 (* x.1 (arithmetic-shift-right opand2.6 3))]) x.2)))
+  (check-match (remove-complex-opera*
+  '(module
+     (alloc (+ 1 2))))
  `(module
-  (let ((x.2
-         (let ((tmp.1 (arithmetic-shift-right opand2.6 3))) (* x.1 tmp.1))))
-    x.2)))
+    (let ((,t1 (+ 1 2)))
+      (alloc ,t1))))
+
+  (check-match (remove-complex-opera*
+    '(module
+      (begin
+        (mset! (+ 1 2) (+ 3 4) (+ 5 6))
+        0)))
+  `(module
+      (begin
+        (let ((,t1 (+ 1 2)))
+          (let ((,t2 (+ 3 4)))
+            (mset! ,t1 ,t2 (+ 5 6))))
+        0)))
+  
+  (check-match (remove-complex-opera*
+    '(module
+      (begin
+        (mset! 1 2 3)
+        (+ 4 5))))
+  `(module
+      (begin
+        (mset! 1 2 3)
+        (+ 4 5))))
+
+  (check-match (remove-complex-opera*
+  '(module
+     (mref (alloc (+ 1 2)) (+ 3 4))))
+ `(module
+  (let ((,tmp.1 (let ((,tmp.2 (+ 1 2))) (alloc ,tmp.2))))
+    (let ((,tmp.3 (+ 3 4))) (mref ,tmp.1 ,tmp.3)))))
 )

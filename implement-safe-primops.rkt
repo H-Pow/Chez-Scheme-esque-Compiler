@@ -10,6 +10,9 @@
 (define ERROR-NEGATIVE-FIXNUM '(error 12))
 (define ERROR-VECTOR-REF-OOB '(error 11))
 
+
+; represents dependcies of a label and its underlying function labels
+
 (define fill0-lab (fresh-label 'fill0))
 (define fill0-def
   (let ([vec (fresh 'vec)]
@@ -33,6 +36,7 @@
                (let ([,(fresh 'ignored) (call ,fill0-lab ,vec 0 ,n)])
                  ,vec))
              ,ERROR-NEGATIVE-FIXNUM)))))
+
 (define unsafe-vector-set!-label (fresh-label 'vector-set!u))
 (define unsafe-vector-set!-def
   (let ([vec (fresh 'vec)]
@@ -59,28 +63,30 @@
              (unsafe-vector-ref ,vec ,off)
              ,ERROR-VECTOR-REF-OOB)))
     ))
-; prim-f (or primop label 'passthrough) (listof (type or 'any?))
+
+;; prim-f (or primop label 'passthrough) (listof (type or 'any?)) (listof unsafe-def)
+;; interp. table of prim-f to primop/label (listof type-requirement) (listof definition-dependencies)
 (define prim-f-specs
-  `((* unsafe-fx* (fixnum? fixnum?))
-    (+ unsafe-fx+ (fixnum? fixnum?))
-    (- unsafe-fx- (fixnum? fixnum?))
-    (< unsafe-fx< (fixnum? fixnum?))
-    (<= unsafe-fx<= (fixnum? fixnum?))
-    (> unsafe-fx> (fixnum? fixnum?))
-    (>= unsafe-fx>= (fixnum? fixnum?))
+  `((* unsafe-fx* (fixnum? fixnum?) ())
+    (+ unsafe-fx+ (fixnum? fixnum?) ())
+    (- unsafe-fx- (fixnum? fixnum?) ())
+    (< unsafe-fx< (fixnum? fixnum?) ())
+    (<= unsafe-fx<= (fixnum? fixnum?) ())
+    (> unsafe-fx> (fixnum? fixnum?) ())
+    (>= unsafe-fx>= (fixnum? fixnum?) ())
 
-    (make-vector ,make-init-vector-label (fixnum?))
-    (vector-length unsafe-vector-length (vector?))
-    (vector-set! ,unsafe-vector-set!-label (vector? fixnum? any?))
-    (vector-ref ,unsafe-vector-ref-label (vector? fixnum?))
+    (make-vector ,make-init-vector-label (fixnum?) (,fill0-def ,make-init-vector-def))
+    (vector-length unsafe-vector-length (vector?) ())
+    (vector-set! ,unsafe-vector-set!-label (vector? fixnum? any?) (,unsafe-vector-set!-def))
+    (vector-ref ,unsafe-vector-ref-label (vector? fixnum?) (,unsafe-vector-ref-def))
 
-    (car unsafe-car (pair?))
-    (cdr unsafe-cdr (pair?))
+    (car unsafe-car (pair?) ())
+    (cdr unsafe-cdr (pair?) ())
 
-    ,@(map (lambda (x) `(,x 'passthrough '(any?)))
+    ,@(map (lambda (x) `(,x 'passthrough '(any?) ()))
            '(fixnum? boolean? empty? void? ascii-char? error? pair?
                      vector? not))
-    ,@(map (lambda (x) `(,x 'passthrough '(any? any?)))
+    ,@(map (lambda (x) `(,x 'passthrough '(any? any?) ()))
            '(cons eq?))))
 
 ;; make an if expr using the given parameter
@@ -101,11 +107,11 @@
                    #f)]))
 
 
-;; (list prim-f (or primop label 'passthrough)) -> (listof ((list primop #f) or (list (call label) def)))
+;; (list prim-f (or primop label 'passthrough)) -> (listof ((list primop '()) or (list (call label) (listof def))))
 (define (gen-defs entry)
   (match entry
-    [`(,prim-f 'passthrough ,_) (list prim-f #f)]
-    [`(,prim-f ,inner ,type*)
+    [`(,prim-f 'passthrough ,_ ,_) (list prim-f '())]
+    [`(,prim-f ,inner ,type* ,def*)
      (let* ([i* (range (length type*))]
             [lab (fresh-label prim-f)]
             [param* (map (λ(i type)
@@ -115,22 +121,28 @@
                               #t
                               `(,type? ,param)))
                         type* param*)])
-       (list lab `(define ,lab
-                    (lambda ,param*
-                    ,(make-if (apply make-and pred*)
-                              (if (label? inner)
-                                  `(call ,inner ,@param*)
-                                  `(,inner ,@param*))
-                              ERROR-BAD-TYPE-CHECK)))))]))
+       (list lab
+             (cons `(define ,lab
+                      (lambda ,param*
+                        ,(make-if (apply make-and pred*)
+                                  (if (label? inner)
+                                      `(call ,inner ,@param*)
+                                      `(,inner ,@param*))
+                                  ERROR-BAD-TYPE-CHECK)))
+                   def*)))]))
 
-;; association list mapping prim-f to (list (primop or label) (unsafe-def or #f))
+;; association list mapping prim-f to (list (primop or label) (listof unsafe-def))
+;; interp. it is a dict that maps the prim-f to its corresponding primop or label
+;;            alongside the label's needed definitions, if it exists 
 (define DEF-ENV (filter cdr (map cons (map car prim-f-specs)
                                  (map gen-defs prim-f-specs))))
 (define (implement-safe-primops p)
 
+  ; usage is a a set of all prim-f referenced in this program p
   (define usage (mutable-seteq))
+  ; usage is a a set of all label referenced by primops corresponding to the prim-fs in usage set
   ;  triv -> (unsafe-triv or label or primop)
-  ;; EFFECT: adds referenced binop to usage
+  ;; EFFECT: adds referenced prim-f to usage
   (define (implement-triv! triv)
     (match triv
       [(? (or/c label? aloc? int61? boolean? 'empty ascii-char-literal?)) triv]
@@ -138,6 +150,7 @@
       ['(void) triv]
       [prim-f (set-add! usage prim-f)
               (car (dict-ref DEF-ENV prim-f))]))
+
   (define (implement-value! value [k identity])
     (match value
       [`(if ,val0 ,val1 ,val2)
@@ -154,7 +167,7 @@
                                   `(call ,triv ,@(map implement-value! opand*))))))]
       [_ (k (implement-triv! value))]))
   ;   p	 	::=	 	(module (define label (lambda (aloc ...) value)) ... value)
-  ;; EFFECT: adds referenced binop to usage
+  ;; EFFECT: adds referenced prim-fs to usage
   (define (implement-def! def)
     (match def
       [`(define ,label (lambda (,aloc* ...) ,value))
@@ -164,15 +177,16 @@
         ,value)
      (define def/unsafe* (map implement-def! def*))
      (define value/unsafe (implement-value! value))
-     (define primop-def* (filter-map (compose cadr (curry (curryr dict-ref #f) DEF-ENV)) (set->list usage)))
+     (define primop-def*
+       (for/fold ([def* '()])
+                 ([primop (set->list usage)])
+         (append (cadr (dict-ref DEF-ENV primop)) def*)))
      `(module
-          ,fill0-def ,make-init-vector-def ,unsafe-vector-set!-def ,unsafe-vector-ref-def
-        ,@primop-def* ,@def/unsafe*
+          ,@primop-def* ,@def/unsafe*
         ,value/unsafe)]))
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v7
            cpsc411/langs/v8)
   (define (peek x)
     ; (pretty-display x)

@@ -5,74 +5,152 @@
 
 (provide implement-safe-primops)
 
-(define ERROR-NOT-FIXNUM '(error 2))
+(define ERROR-BAD-TYPE-CHECK '(error 2))
+(define ERROR-VECTOR-SET-OOB '(error 10))
+(define ERROR-NEGATIVE-FIXNUM '(error 12))
+(define ERROR-VECTOR-REF-OOB '(error 11))
 
-;; BINOP-ENV is a mutable dict matching binop to (label or primop)
-;; since we have already uniquify the functions we shouldn't have to worry about shadowing
-(define BINOP-ENV (make-hasheq))
-;; DEF-ENV is a mutable dict matching binop to either #f or a definition block in expr-unsafe
-(define DEF-ENV (make-hasheq))
-;; usage is (setof binop), a mutable state acculator storing
-;;    which binop is actually used
-(define usage (weak-seteq))
 
-;; binop -> (values (#f or unsafe-def) (label or primop))
-;; creates relevant definition for given binop and
-;; ASSUMES that the order of the binop and binop/unsafe is the same
-(define (binop->def bo)
-  (if (eq? bo 'eq?)
-      (values #f 'eq?)
-      (let ([lab (fresh-label bo)]
-            [aloc/a (fresh 'opand1)]
-            [aloc/b (fresh 'opand2)]
-            [unsafe-fx (list-ref binop/unsafe (index-of binop bo))])
-        (values `(define ,lab
-                   (lambda (,aloc/a ,aloc/b)
-                     (if (fixnum? ,aloc/a)
-                         (if (fixnum? ,aloc/b)
-                             (,unsafe-fx ,aloc/a ,aloc/b)
-                             ,ERROR-NOT-FIXNUM)
-                         ,ERROR-NOT-FIXNUM)))
-                lab))))
+; represents dependcies of a label and its underlying function labels
 
-(for ([bo binop])
-  (let-values ([(def label-or-primop) (binop->def bo)])
-    (dict-set! BINOP-ENV bo label-or-primop)
-    (dict-set! DEF-ENV bo def)))
+(define fill0-lab (fresh-label 'fill0))
+(define fill0-def
+  (let ([vec (fresh 'vec)]
+        [off (fresh 'off)]
+        [len (fresh 'len)])
+    ; only will be called by us so no need to type check
+    `(define ,fill0-lab
+       (lambda (,vec ,off ,len)
+         (if (unsafe-fx< ,off ,len)
+             (let ([,(fresh 'ignored) (unsafe-vector-set! ,vec ,off 0)])
+               (call ,fill0-lab ,vec (unsafe-fx+ ,off 1) ,len))
+             (void))))))
+(define make-init-vector-label (fresh-label 'make-init-vector))
+(define make-init-vector-def
+  (let ([n (fresh 'n)]
+        [vec (fresh 'vec)])
+    `(define ,make-init-vector-label
+       (lambda (,n)
+         (if (unsafe-fx>= ,n 0)
+             (let ([,vec (unsafe-make-vector ,n)])
+               (let ([,(fresh 'ignored) (call ,fill0-lab ,vec 0 ,n)])
+                 ,vec))
+             ,ERROR-NEGATIVE-FIXNUM)))))
 
-;; exprs-unique-lang-v7 ->  exprs-unsafe-data-lang v7
-;; Implement safe primitive operations by inserting procedure definitions
-;;    for each primitive operation which perform dynamic tag checking, to ensure type safety.
+(define unsafe-vector-set!-label (fresh-label 'vector-set!u))
+(define unsafe-vector-set!-def
+  (let ([vec (fresh 'vec)]
+        [off (fresh 'off)]
+        [val (fresh 'val)])
+    `(define ,unsafe-vector-set!-label
+       (lambda (,vec ,off ,val)
+         (if (if (unsafe-fx>= ,off 0)
+                 (unsafe-fx< ,off (unsafe-vector-length ,vec))
+                 #f)
+             (unsafe-vector-set! ,vec ,off ,val)
+             ,ERROR-VECTOR-SET-OOB)))
+    ))
+
+(define unsafe-vector-ref-label (fresh-label 'vector-refu))
+(define unsafe-vector-ref-def
+  (let ([vec (fresh 'vec)]
+        [off (fresh 'off)])
+    `(define ,unsafe-vector-ref-label
+       (lambda (,vec ,off)
+         (if (if (unsafe-fx>= ,off 0)
+                 (unsafe-fx< ,off (unsafe-vector-length ,vec))
+                 #f)
+             (unsafe-vector-ref ,vec ,off)
+             ,ERROR-VECTOR-REF-OOB)))
+    ))
+
+;; prim-f (or primop label 'passthrough) (listof (type or 'any?)) (listof unsafe-def)
+;; interp. table of prim-f to primop/label (listof type-requirement) (listof definition-dependencies)
+(define prim-f-specs
+  `((* unsafe-fx* (fixnum? fixnum?) ())
+    (+ unsafe-fx+ (fixnum? fixnum?) ())
+    (- unsafe-fx- (fixnum? fixnum?) ())
+    (< unsafe-fx< (fixnum? fixnum?) ())
+    (<= unsafe-fx<= (fixnum? fixnum?) ())
+    (> unsafe-fx> (fixnum? fixnum?) ())
+    (>= unsafe-fx>= (fixnum? fixnum?) ())
+
+    (make-vector ,make-init-vector-label (fixnum?) (,fill0-def ,make-init-vector-def))
+    (vector-length unsafe-vector-length (vector?) ())
+    (vector-set! ,unsafe-vector-set!-label (vector? fixnum? any?) (,unsafe-vector-set!-def))
+    (vector-ref ,unsafe-vector-ref-label (vector? fixnum?) (,unsafe-vector-ref-def))
+
+    (car unsafe-car (pair?) ())
+    (cdr unsafe-cdr (pair?) ())
+
+    ,@(map (lambda (x) `(,x 'passthrough '(any?) ()))
+           '(fixnum? boolean? empty? void? ascii-char? error? pair?
+                     vector? not))
+    ,@(map (lambda (x) `(,x 'passthrough '(any? any?) ()))
+           '(cons eq?))))
+
+;; make an if expr using the given parameter
+(define (make-if pred truecase falsecase)
+  `(if ,pred ,truecase ,falsecase))
+
+;; make an if expr representing and logic using the given predicates
+;;     skips over #t to save on number of if generated
+;;     shortcircuits and produce #f immediately on encoutering and #f in the chain
+(define (make-and . pred)
+  (cond
+    [(empty? pred) #t]
+    [(empty? (rest pred))
+     (first pred)]
+    [(eq? #t (first pred)) (apply make-and (rest pred))]
+    [(false? (first pred)) #f]
+    [else (make-if (first pred) (apply make-and (rest pred))
+                   #f)]))
+
+
+;; (list prim-f (or primop label 'passthrough)) -> (listof ((list primop '()) or (list (call label) (listof def))))
+(define (gen-defs entry)
+  (match entry
+    [`(,prim-f 'passthrough ,_ ,_) (list prim-f '())]
+    [`(,prim-f ,inner ,type* ,def*)
+     (let* ([i* (range (length type*))]
+            [lab (fresh-label prim-f)]
+            [param* (map (λ(i type)
+                           (fresh (~a type i))) i* type*)]
+            [pred* (map (λ (type? param)
+                          (if (eq? type? 'any?)
+                              #t
+                              `(,type? ,param)))
+                        type* param*)])
+       (list lab
+             (cons `(define ,lab
+                      (lambda ,param*
+                        ,(make-if (apply make-and pred*)
+                                  (if (label? inner)
+                                      `(call ,inner ,@param*)
+                                      `(,inner ,@param*))
+                                  ERROR-BAD-TYPE-CHECK)))
+                   def*)))]))
+
+;; association list mapping prim-f to (list (primop or label) (listof unsafe-def))
+;; interp. it is a dict that maps the prim-f to its corresponding primop or label
+;;            alongside the label's needed definitions, if it exists 
+(define DEF-ENV (filter cdr (map cons (map car prim-f-specs)
+                                 (map gen-defs prim-f-specs))))
 (define (implement-safe-primops p)
-  ;could just inline every prim-f instead of tracking usage... maybe
-  ;  triv	 	::=	 	label
-  ;  	 	|	 	aloc
-  ;  	 	|	 	-prim-f
-  ;  	 	|	 	fixnum
-  ;  	 	|	 	#t
-  ;  	 	|	 	#f
-  ;  	 	|	 	empty
-  ;  	 	|	 	(void)
-  ;  	 	|	 	(error uint8)
-  ;  	 	|	 	ascii-char-literal
-  ;   triv -> (unsafe-triv or primop)
-  ;; EFFECT: adds referenced binop to usage
+
+  ; usage is a a set of all prim-f referenced in this program p
+  (define usage (mutable-seteq))
+  ; usage is a a set of all label referenced by primops corresponding to the prim-fs in usage set
+  ;  triv -> (unsafe-triv or label or primop)
+  ;; EFFECT: adds referenced prim-f to usage
   (define (implement-triv! triv)
     (match triv
       [(? (or/c label? aloc? int61? boolean? 'empty ascii-char-literal?)) triv]
       [`(error ,(? uint8?)) triv]
       ['(void) triv]
-      [(? binop?)
-       (set-add! usage triv)
-       (dict-ref BINOP-ENV triv)]
-      [(? unop?) triv]))
-  ; value	 	::=	 	triv
-  ;  	|	 	+(primop value ...)
-  ;  	|	 	(call value value ...)
-  ;  	|	 	(let ([aloc value] ...) value)
-  ;  	|	 	(if value value value)
-  ;; value ((unsafe-triv or primop) -> unsafe-value) -> unsafe-value
-  ;; EFFECT: adds referenced binop to usage
+      [prim-f (set-add! usage prim-f)
+              (car (dict-ref DEF-ENV prim-f))]))
+
   (define (implement-value! value [k identity])
     (match value
       [`(if ,val0 ,val1 ,val2)
@@ -84,12 +162,12 @@
       [`(call ,val0 ,opand* ...)
        (implement-value! val0
                          (λ (triv)
-                           (if (primop? triv)
-                               `(,triv ,@(map implement-value! opand*))
-                               `(call ,triv ,@(map implement-value! opand*)))))]
+                           (k (if (primop? triv)
+                                  `(,triv ,@(map implement-value! opand*))
+                                  `(call ,triv ,@(map implement-value! opand*))))))]
       [_ (k (implement-triv! value))]))
   ;   p	 	::=	 	(module (define label (lambda (aloc ...) value)) ... value)
-  ;; EFFECT: adds referenced binop to usage
+  ;; EFFECT: adds referenced prim-fs to usage
   (define (implement-def! def)
     (match def
       [`(define ,label (lambda (,aloc* ...) ,value))
@@ -99,16 +177,24 @@
         ,value)
      (define def/unsafe* (map implement-def! def*))
      (define value/unsafe (implement-value! value))
-     (define binop-defs (filter-map (curry dict-ref DEF-ENV) (set->list usage)))
-     `(module ,@binop-defs ,@def/unsafe*
+     (define primop-def*
+       (for/fold ([def* '()])
+                 ([primop (set->list usage)])
+         (append (cadr (dict-ref DEF-ENV primop)) def*)))
+     `(module
+          ,@primop-def* ,@def/unsafe*
         ,value/unsafe)]))
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v7)
+           cpsc411/langs/v8)
+  (define (peek x)
+    ; (pretty-display x)
+    x)
+
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-exprs-unique-lang-v7 p)
-                  (interp-exprs-unsafe-data-lang-v7 (implement-safe-primops p))))
+    (check-equal? (peek (interp-exprs-unique-lang-v8 p))
+                  (interp-exprs-unsafe-data-lang-v8 (peek (implement-safe-primops p)))))
   (check-by-interp `(module 1))
   (check-by-interp `(module #t))
   (check-by-interp `(module #f))
@@ -119,7 +205,7 @@
                                 (if (call <= x.0 1)
                                     1
                                     (call * x.0 (call L.fact.0 (call - x.0 1))))))
-                            (call L.fact.0 5)
+                      (call L.fact.0 5)
                       ))
 
   (check-by-interp `(module (define L.fact.0
@@ -127,7 +213,7 @@
                                 (if (call <= x.0 1)
                                     a.0
                                     (call L.fact.0 (call - x.0 1) (call * x.0 a.0)))))
-                            (call L.fact.0 5 1)
+                      (call L.fact.0 5 1)
                       ))
 
   (check-by-interp
@@ -136,5 +222,5 @@
                 (if (call <= x.0 1)
                     x.0
                     (call + (call L.fib.0 (call - x.0 1)) (call L.fib.0 (call - x.0 2))))))
-            (call L.fib.0 5)
+      (call L.fib.0 5)
       )))

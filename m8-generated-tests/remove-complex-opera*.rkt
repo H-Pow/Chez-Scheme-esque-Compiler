@@ -3,7 +3,7 @@
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          cpsc411/langs/v8
-         "../remove-complex-opera*.rkt")
+         "../remove-complex-opera.rkt")
 (define (fail-if-invalid p)
   (when (not (values-bits-lang-v8? p))
     (error
@@ -19,100 +19,142 @@
   (interp-exprs-bits-lang-v8 p)
   (interp-values-bits-lang-v8 (fail-if-invalid (remove-complex-opera* p)))))
 
-(check-by-interp '(module 840))
-(check-by-interp '(module 26942))
-(check-by-interp '(module (if (!= 14 6) 17214 9790)))
-(check-by-interp '(module (let ((error0.1 28478)) 1128)))
-(check-by-interp
- '(module (define L.fun/empty8385.4 (lambda () 22)) (call L.fun/empty8385.4)))
-(check-by-interp '(module (if (!= 14 6) 25390 25390)))
-(check-by-interp '(module (if (!= 14 6) 50238 14398)))
+(check-by-interp '(module 30))
 (check-by-interp
  '(module
-    (define L.-.6
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (- tmp.19 tmp.20)
-            830)
-          830)))
-    (define L.fun/fixnum8420.4 (lambda (oprand0.1) 400))
-    (call L.-.6 (call L.fun/fixnum8420.4 25390) (call L.-.6 168 2024))))
-(check-by-interp '(module (if (!= 14 6) 61502 13118)))
+    (define L.cons.5
+      (lambda (tmp.46 tmp.47)
+        (let ((tmp.50 (+ (alloc 16) 1)))
+          (begin (mset! tmp.50 -1 tmp.46) (mset! tmp.50 7 tmp.47) tmp.50))))
+    (call L.cons.5 1808 3816)))
+(check-by-interp '(module (let ((ascii-char0.1 27438)) 22)))
+(check-by-interp '(module (let ((void0.1 30)) 31790)))
 (check-by-interp
  '(module
-    (define L.fun/ascii-char8428.4 (lambda (oprand0.1) 25390))
-    (define L.fun/empty8427.5 (lambda (oprand0.2) 22))
-    (call L.fun/empty8427.5 (call L.fun/ascii-char8428.4 22))))
+    (define L.cons.5
+      (lambda (tmp.47 tmp.48)
+        (let ((tmp.51 (+ (alloc 16) 1)))
+          (begin (mset! tmp.51 -1 tmp.47) (mset! tmp.51 7 tmp.48) tmp.51))))
+    (let ((void0.1 30)) (call L.cons.5 1624 3704))))
 (check-by-interp
  '(module
-    (define L.fun/ascii-char8442.4 (lambda (oprand0.2 oprand1.1) 25390))
-    (if (if (!= 14 6) (!= 14 6) (!= 14 6))
-      (call L.fun/ascii-char8442.4 25390 22)
-      (let ((fixnum0.5 832) (fixnum1.4 608) (void2.3 30)) 25390))))
+    (define L.fun/fixnum8389.4 (lambda () 1672))
+    (call L.fun/fixnum8389.4)))
+(check-by-interp '(module (let ((boolean0.2 6) (void1.1 30)) 30)))
 (check-by-interp
  '(module
-    (define L.*.8
-      (lambda (tmp.17 tmp.18)
-        (if (!= (if (= (bitwise-and tmp.18 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.17 7) 0) 14 6) 6)
-            (* tmp.17 (arithmetic-shift-right tmp.18 3))
-            318)
-          318)))
-    (define L.fun/ascii-char8498.4 (lambda () 25390))
-    (define L.fun/void8499.5 (lambda () 30))
-    (define L.fun/empty8500.6 (lambda () 22))
-    (let ((fixnum0.3 (call L.*.8 1856 272))
-          (ascii-char1.2 (call L.fun/ascii-char8498.4))
-          (void2.1 (call L.fun/void8499.5)))
-      (call L.fun/empty8500.6))))
+    (define L.fun/fixnum8394.4 (lambda (oprand0.1) 312))
+    (call L.fun/fixnum8394.4 (if (!= 14 6) 15934 45118))))
 (check-by-interp
  '(module
-    (define L.-.7
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (- tmp.21 tmp.22)
-            830)
-          830)))
-    (define L.fun/empty8553.4 (lambda () 22))
-    (define L.fun/error8554.5 (lambda () 43326))
-    (let ((empty0.3 (call L.fun/empty8553.4))
-          (error1.2 (call L.fun/error8554.5))
-          (fixnum2.1 (call L.-.7 1768 144)))
-      error1.2)))
+    (define L.fun/error8401.4 (lambda (oprand0.1) 1854))
+    (define L.fun/void8402.5 (lambda (oprand0.2) 30))
+    (call L.fun/error8401.4 (call L.fun/void8402.5 22))))
 (check-by-interp
  '(module
-    (define L.fun/boolean8597.4 (lambda (oprand0.2 oprand1.1) 6))
-    (define L.fun/ascii-char8598.5 (lambda (oprand0.4 oprand1.3) 25390))
-    (if (!= (call L.fun/boolean8597.4 22 25390) 6)
-      (if (!= 6 6) 25390 25390)
-      (call L.fun/ascii-char8598.5 624 22))))
+    (define L.cons.5
+      (lambda (tmp.48 tmp.49)
+        (let ((tmp.52 (+ (alloc 16) 1)))
+          (begin (mset! tmp.52 -1 tmp.48) (mset! tmp.52 7 tmp.49) tmp.52))))
+    (let ((ascii-char0.2 18222) (pair1.1 (call L.cons.5 832 2272)))
+      ascii-char0.2)))
+(check-by-interp
+ '(module
+    (define L.cons.6
+      (lambda (tmp.47 tmp.48)
+        (let ((tmp.51 (+ (alloc 16) 1)))
+          (begin (mset! tmp.51 -1 tmp.47) (mset! tmp.51 7 tmp.48) tmp.51))))
+    (define L.fun/pair8407.4 (lambda (oprand0.1) (call L.cons.6 400 3872)))
+    (call L.fun/pair8407.4 (if (!= 14 6) 17454 17966))))
+(check-by-interp '(module (let ((fixnum0.2 1712) (boolean1.1 14)) 1864)))
+(check-by-interp '(module (let ((error0.2 13118) (boolean1.1 14)) boolean1.1)))
+(check-by-interp
+ '(module
+    (define L.cons.8
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/error8419.4 (lambda (oprand0.2 oprand1.1) 47678))
+    (define L.fun/boolean8418.5 (lambda (oprand0.4 oprand1.3) 6))
+    (define L.fun/error8420.6 (lambda (oprand0.6 oprand1.5) 39998))
+    (if (!= (call L.fun/boolean8418.5 14 456) 6)
+      (call L.fun/error8419.4 14 22)
+      (call L.fun/error8420.6 22 (call L.cons.8 208 3240)))))
 (check-by-interp
  '(module
     (define L.+.9
-      (lambda (tmp.32 tmp.33)
-        (if (!= (if (= (bitwise-and tmp.33 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.32 7) 0) 14 6) 6)
-            (+ tmp.32 tmp.33)
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (+ tmp.19 tmp.20)
             574)
           574)))
-    (define L.fun/fixnum9203.4 (lambda (oprand0.3 oprand1.2 oprand2.1) 1368))
-    (define L.fun/fixnum9202.5 (lambda (oprand0.6 oprand1.5 oprand2.4) 568))
-    (define L.fun/fixnum9204.6
-      (lambda (oprand0.9 oprand1.8 oprand2.7) oprand2.7))
-    (define L.fun/boolean9201.7 (lambda (oprand0.12 oprand1.11 oprand2.10) 14))
-    (call
-     L.+.9
-     (if (!= (call L.fun/boolean9201.7 2878 25390 22) 6)
-       (call L.fun/fixnum9202.5 30 22 30)
-       (call L.fun/fixnum9203.4 22 6 6))
-     (if (if (!= 14 6) (!= 6 6) (!= 6 6))
-       (let ((boolean0.16 6) (error1.15 59198) (fixnum2.14 216) (void3.13 30))
-         fixnum2.14)
-       (call L.fun/fixnum9204.6 30 25390 1776)))))
+    (define L.cons.8
+      (lambda (tmp.49 tmp.50)
+        (let ((tmp.53 (+ (alloc 16) 1)))
+          (begin (mset! tmp.53 -1 tmp.49) (mset! tmp.53 7 tmp.50) tmp.53))))
+    (define L.fun/ascii-char8439.4 (lambda () 22318))
+    (define L.fun/error8440.5 (lambda () 4670))
+    (define L.fun/pair8441.6 (lambda () (call L.cons.8 704 2392)))
+    (let ((ascii-char0.3 (call L.fun/ascii-char8439.4))
+          (error1.2 (call L.fun/error8440.5))
+          (pair2.1 (call L.fun/pair8441.6)))
+      (call L.+.9 2024 1064))))
 (check-by-interp
  '(module
+    (define L.empty?.8
+      (lambda (tmp.41) (if (= (bitwise-and tmp.41 255) 22) 14 6)))
+    (define L.cons.7
+      (lambda (tmp.48 tmp.49)
+        (let ((tmp.52 (+ (alloc 16) 1)))
+          (begin (mset! tmp.52 -1 tmp.48) (mset! tmp.52 7 tmp.49) tmp.52))))
+    (define L.fun/pair8459.4 (lambda () (call L.cons.7 704 2824)))
+    (define L.fun/pair8458.5
+      (lambda (oprand0.2 oprand1.1) (call L.fun/pair8459.4)))
+    (call
+     L.fun/pair8458.5
+     (call L.empty?.8 (if (!= 6 6) 54078 38718))
+     (if (!= 6 6) 30 30))))
+(check-by-interp
+ '(module
+    (define L.pair?.8 (lambda (tmp.46) (if (= (bitwise-and tmp.46 7) 1) 14 6)))
+    (define L.fun/ascii-char8463.4 (lambda () 22574))
+    (define L.fun/ascii-char8462.5 (lambda () 10286))
+    (define L.fun/error8464.6 (lambda () 5694))
+    (let ((ascii-char0.3 (call L.fun/ascii-char8462.5))
+          (ascii-char1.2 (call L.fun/ascii-char8463.4))
+          (boolean2.1 (call L.pair?.8 14)))
+      (call L.fun/error8464.6))))
+(check-by-interp
+ '(module
+    (if (let ((boolean0.3 6) (fixnum1.2 1448) (boolean2.1 6))
+          (!= boolean0.3 6))
+      (let ((fixnum0.6 1104) (boolean1.5 14) (error2.4 64318)) fixnum0.6)
+      (if (!= 14 6) 416 664))))
+(check-by-interp
+ '(module
+    (define L.cons.9
+      (lambda (tmp.50 tmp.51)
+        (let ((tmp.54 (+ (alloc 16) 1)))
+          (begin (mset! tmp.54 -1 tmp.50) (mset! tmp.54 7 tmp.51) tmp.54))))
+    (define L.fun/void8484.4 (lambda () 30))
+    (define L.fun/empty8485.5 (lambda () 22))
+    (define L.fun/pair8483.6 (lambda () (call L.cons.9 712 2640)))
+    (define L.fun/empty8482.7 (lambda () 22))
+    (let ((empty0.4 (call L.fun/empty8482.7))
+          (pair1.3 (call L.fun/pair8483.6))
+          (void2.2 (call L.fun/void8484.4))
+          (empty3.1 (call L.fun/empty8485.5)))
+      pair1.3)))
+(check-by-interp
+ '(module
+    (define L.+.12
+      (lambda (tmp.20 tmp.21)
+        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+            (+ tmp.20 tmp.21)
+            574)
+          574)))
     (define L.-.11
       (lambda (tmp.22 tmp.23)
         (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
@@ -120,181 +162,305 @@
             (- tmp.22 tmp.23)
             830)
           830)))
-    (define L.+.10
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (+ tmp.20 tmp.21)
-            574)
-          574)))
-    (define L.*.9
+    (define L.*.10
       (lambda (tmp.18 tmp.19)
         (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
           (if (!= (if (= (bitwise-and tmp.18 7) 0) 14 6) 6)
             (* tmp.18 (arithmetic-shift-right tmp.19 3))
             318)
           318)))
-    (define L.fun/ascii-char9328.4 (lambda () 25390))
-    (define L.fun/void9330.5 (lambda () 30))
-    (define L.fun/error9331.6 (lambda () 27198))
-    (define L.fun/ascii-char9329.7 (lambda () 25390))
-    (let ((fixnum0.4 (call L.-.11 (call L.*.9 440 1800) (call L.+.10 416 224)))
-          (ascii-char1.3 (call L.fun/ascii-char9328.4))
-          (ascii-char2.2 (call L.fun/ascii-char9329.7))
-          (void3.1 (call L.fun/void9330.5)))
-      (call L.fun/error9331.6))))
+    (define L.cons.9
+      (lambda (tmp.50 tmp.51)
+        (let ((tmp.54 (+ (alloc 16) 1)))
+          (begin (mset! tmp.54 -1 tmp.50) (mset! tmp.54 7 tmp.51) tmp.54))))
+    (define L.fun/error8501.4 (lambda () 1342))
+    (define L.fun/pair8499.5 (lambda () (call L.cons.9 592 2072)))
+    (define L.fun/void8500.6 (lambda () 30))
+    (define L.fun/void8498.7 (lambda () 30))
+    (let ((fixnum0.4
+           (call L.+.12 (call L.*.10 1400 1784) (call L.-.11 1776 2024)))
+          (void1.3 (call L.fun/void8498.7))
+          (pair2.2 (call L.fun/pair8499.5))
+          (void3.1 (call L.fun/void8500.6)))
+      (call L.fun/error8501.4))))
 (check-by-interp
  '(module
-    (define L.*.8
-      (lambda (tmp.18 tmp.19)
-        (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.18 7) 0) 14 6) 6)
-            (* tmp.18 (arithmetic-shift-right tmp.19 3))
-            318)
-          318)))
-    (define L.-.7
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (- tmp.22 tmp.23)
-            830)
-          830)))
-    (define L.fun/ascii-char9350.4 (lambda () 25390))
-    (define L.fun/error9349.5 (lambda () 34878))
-    (let ((fixnum0.4 (call L.-.7 (call L.-.7 1200 1608) (call L.-.7 760 936)))
-          (fixnum1.3 (call L.-.7 (call L.*.8 1024 856) (call L.*.8 712 776)))
-          (error2.2 (call L.fun/error9349.5))
-          (fixnum3.1 (call L.*.8 (call L.-.7 1064 32) (call L.-.7 1088 1200))))
-      (call L.fun/ascii-char9350.4))))
+    (define L.pair?.10
+      (lambda (tmp.59) (if (= (bitwise-and tmp.59 7) 1) 14 6)))
+    (define L.cons.9
+      (lambda (tmp.62 tmp.63)
+        (let ((tmp.66 (+ (alloc 16) 1)))
+          (begin (mset! tmp.66 -1 tmp.62) (mset! tmp.66 7 tmp.63) tmp.66))))
+    (define L.fun/ascii-char8512.4
+      (lambda (oprand0.3 oprand1.2 oprand2.1) 18734))
+    (define L.fun/ascii-char8510.5
+      (lambda (oprand0.6 oprand1.5 oprand2.4) oprand0.6))
+    (define L.fun/ascii-char8511.6
+      (lambda (oprand0.9 oprand1.8 oprand2.7) 12334))
+    (define L.fun/boolean8513.7 (lambda (oprand0.12 oprand1.11 oprand2.10) 6))
+    (call
+     L.fun/ascii-char8510.5
+     (if (let ((ascii-char0.16 30510)
+               (void1.15 30)
+               (empty2.14 22)
+               (error3.13 28222))
+           (!= 14 6))
+       (call L.fun/ascii-char8511.6 28974 23870 12078)
+       (call L.fun/ascii-char8512.4 25134 13102 11838))
+     (if (!= (call L.pair?.10 (call L.cons.9 688 3600)) 6)
+       (if (!= 14 6) 58942 23102)
+       (if (!= 6 6) 54078 19774))
+     (if (!= (call L.fun/boolean8513.7 416 1968 320) 6)
+       (if (!= 6 6) 18478 19246)
+       (if (!= 14 6) 26414 18990)))))
 (check-by-interp
  '(module
-    (define L.-.10
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (- tmp.22 tmp.23)
-            830)
-          830)))
-    (define L.*.9
-      (lambda (tmp.18 tmp.19)
-        (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.18 7) 0) 14 6) 6)
-            (* tmp.18 (arithmetic-shift-right tmp.19 3))
-            318)
-          318)))
-    (define L.+.8
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (+ tmp.20 tmp.21)
-            574)
-          574)))
-    (define L.fun/empty9463.4 (lambda () 22))
-    (define L.fun/empty9462.5 (lambda () 22))
-    (define L.fun/void9461.6 (lambda () 30))
-    (let ((void0.4 (call L.fun/void9461.6))
-          (fixnum1.3
-           (call L.-.10 (call L.+.8 1464 1440) (call L.*.9 1904 944)))
-          (empty2.2 (call L.fun/empty9462.5))
-          (empty3.1 (call L.fun/empty9463.4)))
-      void0.4)))
+    (define L.fun/ascii-char8546.4 (lambda () 29486))
+    (define L.fun/empty8547.5 (lambda () 22))
+    (define L.fun/error8544.6 (lambda () 17982))
+    (define L.fun/ascii-char8545.7 (lambda () 12334))
+    (let ((error0.4 (call L.fun/error8544.6))
+          (ascii-char1.3 (call L.fun/ascii-char8545.7))
+          (ascii-char2.2 (call L.fun/ascii-char8546.4))
+          (empty3.1 (call L.fun/empty8547.5)))
+      ascii-char1.3)))
 (check-by-interp
  '(module
-    (define L.-.6
-      (lambda (tmp.33 tmp.34)
-        (if (!= (if (= (bitwise-and tmp.34 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.33 7) 0) 14 6) 6)
-            (- tmp.33 tmp.34)
-            830)
-          830)))
-    (define L.fun/ascii-char9530.4
-      (lambda (oprand0.3 oprand1.2 oprand2.1) 25390))
-    (if (let ((fixnum0.7 1064) (empty1.6 22) (fixnum2.5 680) (error3.4 28222))
-          (!= 6 6))
-      (call
-       L.fun/ascii-char9530.4
-       (let ((void0.11 30) (error1.10 40510) (void2.9 30) (boolean3.8 6)) 1440)
-       (call L.-.6 1288 32)
-       (if (!= 14 6) 30 30))
-      (let ((ascii-char0.15 25390)
-            (fixnum1.14 1560)
-            (empty2.13 22)
-            (void3.12 30))
-        25390))))
-(check-by-interp
- '(module
-    (if (if (!= 14 6) (!= 6 6) (!= 14 6))
-      (if (!= 6 6) 46654 42046)
-      (if (!= 14 6) 33598 58174))))
-(check-by-interp
- '(module
-    (define L.*.9
-      (lambda (tmp.18 tmp.19)
-        (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.18 7) 0) 14 6) 6)
-            (* tmp.18 (arithmetic-shift-right tmp.19 3))
-            318)
-          318)))
-    (define L.-.8
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (- tmp.22 tmp.23)
-            830)
-          830)))
-    (define L.fun/error9595.4 (lambda () 9022))
-    (define L.fun/void9594.5 (lambda () 30))
-    (define L.fun/empty9593.6 (lambda () 22))
-    (let ((empty0.4 (call L.fun/empty9593.6))
-          (void1.3 (call L.fun/void9594.5))
-          (error2.2 (call L.fun/error9595.4))
-          (fixnum3.1
-           (call L.*.9 (call L.-.8 1368 1392) (call L.*.9 1288 400))))
-      void1.3)))
-(check-by-interp
- '(module
-    (define L.void?.10
+    (define L.void?.11
       (lambda (tmp.44) (if (= (bitwise-and tmp.44 255) 30) 14 6)))
-    (define L.fun/error9648.4 (lambda () 2622))
-    (define L.fun/error9646.5 (lambda () 58430))
-    (define L.fun/any9647.6 (lambda () 6))
-    (define L.fun/error9649.7 (lambda () 28222))
-    (define L.fun/void9650.8 (lambda () 30))
-    (let ((error0.4 (call L.fun/error9646.5))
-          (boolean1.3 (call L.void?.10 (call L.fun/any9647.6)))
-          (error2.2 (call L.fun/error9648.4))
-          (error3.1 (call L.fun/error9649.7)))
-      (call L.fun/void9650.8))))
+    (define L.cons.10
+      (lambda (tmp.50 tmp.51)
+        (let ((tmp.54 (+ (alloc 16) 1)))
+          (begin (mset! tmp.54 -1 tmp.50) (mset! tmp.54 7 tmp.51) tmp.54))))
+    (define L.fun/any8685.4 (lambda () 30))
+    (define L.fun/pair8681.5 (lambda () (call L.cons.10 856 3104)))
+    (define L.fun/error8683.6 (lambda () 21310))
+    (define L.fun/pair8684.7 (lambda () (call L.cons.10 936 2576)))
+    (define L.fun/error8682.8 (lambda () 51774))
+    (call
+     L.void?.11
+     (let ((pair0.4 (call L.fun/pair8681.5))
+           (error1.3 (call L.fun/error8682.8))
+           (error2.2 (call L.fun/error8683.6))
+           (pair3.1 (call L.fun/pair8684.7)))
+       (call L.fun/any8685.4)))))
 (check-by-interp
  '(module
-    (define L.ascii-char?.10
-      (lambda (tmp.46) (if (= (bitwise-and tmp.46 255) 46) 14 6)))
-    (define L.fun/error10696.4 (lambda () 55102))
-    (define L.fun/ascii-char10693.5 (lambda () 25390))
-    (define L.fun/void10697.6 (lambda () 30))
-    (define L.fun/any10694.7 (lambda () 22))
-    (define L.fun/void10695.8 (lambda () 30))
-    (let ((ascii-char0.5 (call L.fun/ascii-char10693.5))
-          (boolean1.4 (call L.ascii-char?.10 (call L.fun/any10694.7)))
-          (void2.3 (call L.fun/void10695.8))
-          (error3.2 (call L.fun/error10696.4))
-          (void4.1 (call L.fun/void10697.6)))
-      void4.1)))
+    (define L.+.12
+      (lambda (tmp.21 tmp.22)
+        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+            (+ tmp.21 tmp.22)
+            574)
+          574)))
+    (define L.-.11
+      (lambda (tmp.23 tmp.24)
+        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+            (- tmp.23 tmp.24)
+            830)
+          830)))
+    (define L.*.10
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (* tmp.19 (arithmetic-shift-right tmp.20 3))
+            318)
+          318)))
+    (define L.cons.9
+      (lambda (tmp.51 tmp.52)
+        (let ((tmp.55 (+ (alloc 16) 1)))
+          (begin (mset! tmp.55 -1 tmp.51) (mset! tmp.55 7 tmp.52) tmp.55))))
+    (define L.fun/empty8893.4 (lambda () 22))
+    (define L.fun/empty8894.5 (lambda () 22))
+    (define L.fun/pair8895.6 (lambda () (call L.cons.9 1160 2344)))
+    (define L.fun/void8896.7 (lambda () 30))
+    (let ((empty0.5 (call L.fun/empty8893.4))
+          (empty1.4 (call L.fun/empty8894.5))
+          (fixnum2.3
+           (call
+            L.-.11
+            (call L.*.10 (call L.*.10 1632 200) (call L.*.10 320 904))
+            (call L.-.11 (call L.-.11 712 320) (call L.+.12 896 928))))
+          (pair3.2 (call L.fun/pair8895.6))
+          (void4.1 (call L.fun/void8896.7)))
+      pair3.2)))
 (check-by-interp
  '(module
-    (define L.fun/empty12161.4 (lambda () 22))
-    (define L.fun/error12159.5 (lambda () 1854))
-    (define L.fun/ascii-char12162.6 (lambda () 25390))
-    (define L.fun/error12163.7 (lambda () 10814))
-    (define L.fun/error12160.8 (lambda () 27198))
-    (let ((error0.5 (call L.fun/error12159.5))
-          (error1.4 (call L.fun/error12160.8))
-          (empty2.3 (call L.fun/empty12161.4))
-          (ascii-char3.2 (call L.fun/ascii-char12162.6))
-          (error4.1 (call L.fun/error12163.7)))
-      empty2.3)))
+    (define L.*.12
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (* tmp.19 (arithmetic-shift-right tmp.20 3))
+            318)
+          318)))
+    (define L.-.11
+      (lambda (tmp.23 tmp.24)
+        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+            (- tmp.23 tmp.24)
+            830)
+          830)))
+    (define L.+.10
+      (lambda (tmp.21 tmp.22)
+        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+            (+ tmp.21 tmp.22)
+            574)
+          574)))
+    (define L.cons.9
+      (lambda (tmp.51 tmp.52)
+        (let ((tmp.55 (+ (alloc 16) 1)))
+          (begin (mset! tmp.55 -1 tmp.51) (mset! tmp.55 7 tmp.52) tmp.55))))
+    (define L.fun/empty8907.4 (lambda () 22))
+    (define L.fun/error8906.5 (lambda () 18238))
+    (define L.fun/pair8908.6 (lambda () (call L.cons.9 1360 3040)))
+    (define L.fun/void8909.7 (lambda () 30))
+    (let ((fixnum0.5
+           (call
+            L.-.11
+            (call L.*.12 (call L.+.10 864 1560) (call L.-.11 1632 1832))
+            (call L.*.12 (call L.+.10 408 408) (call L.+.10 1168 88))))
+          (error1.4 (call L.fun/error8906.5))
+          (fixnum2.3
+           (call
+            L.+.10
+            (call L.*.12 (call L.+.10 1752 512) (call L.-.11 1728 1392))
+            (call L.-.11 (call L.*.12 136 560) (call L.-.11 176 984))))
+          (empty3.2 (call L.fun/empty8907.4))
+          (pair4.1 (call L.fun/pair8908.6)))
+      (call L.fun/void8909.7))))
 (check-by-interp
  '(module
+    (define L.*.12
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (* tmp.19 (arithmetic-shift-right tmp.20 3))
+            318)
+          318)))
+    (define L.-.11
+      (lambda (tmp.23 tmp.24)
+        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+            (- tmp.23 tmp.24)
+            830)
+          830)))
+    (define L.+.10
+      (lambda (tmp.21 tmp.22)
+        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+            (+ tmp.21 tmp.22)
+            574)
+          574)))
+    (define L.cons.9
+      (lambda (tmp.51 tmp.52)
+        (let ((tmp.55 (+ (alloc 16) 1)))
+          (begin (mset! tmp.55 -1 tmp.51) (mset! tmp.55 7 tmp.52) tmp.55))))
+    (define L.fun/pair9174.4 (lambda () (call L.cons.9 1016 3672)))
+    (define L.fun/ascii-char9175.5 (lambda () 23598))
+    (define L.fun/empty9176.6 (lambda () 22))
+    (define L.fun/error9177.7 (lambda () 17470))
+    (let ((pair0.5 (call L.fun/pair9174.4))
+          (ascii-char1.4 (call L.fun/ascii-char9175.5))
+          (empty2.3 (call L.fun/empty9176.6))
+          (error3.2 (call L.fun/error9177.7))
+          (fixnum4.1
+           (call
+            L.*.12
+            (call L.+.10 (call L.+.10 1312 256) (call L.-.11 1592 320))
+            (call L.-.11 (call L.*.12 1512 456) (call L.+.10 280 1776)))))
+      error3.2)))
+(check-by-interp
+ '(module
+    (define L.*.11
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (* tmp.19 (arithmetic-shift-right tmp.20 3))
+            318)
+          318)))
+    (define L.-.10
+      (lambda (tmp.23 tmp.24)
+        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+            (- tmp.23 tmp.24)
+            830)
+          830)))
+    (define L.+.9
+      (lambda (tmp.21 tmp.22)
+        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+            (+ tmp.21 tmp.22)
+            574)
+          574)))
+    (define L.fun/error9704.4 (lambda () 56382))
+    (define L.fun/void9703.5 (lambda () 30))
+    (define L.fun/void9702.6 (lambda () 30))
+    (define L.fun/empty9705.7 (lambda () 22))
+    (let ((fixnum0.5
+           (call
+            L.-.10
+            (call L.-.10 (call L.+.9 904 992) (call L.-.10 1656 1512))
+            (call L.+.9 (call L.+.9 1080 1624) (call L.*.11 296 240))))
+          (void1.4 (call L.fun/void9702.6))
+          (void2.3 (call L.fun/void9703.5))
+          (error3.2 (call L.fun/error9704.4))
+          (empty4.1 (call L.fun/empty9705.7)))
+      error3.2)))
+(check-by-interp
+ '(module
+    (define L.*.11
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (* tmp.19 (arithmetic-shift-right tmp.20 3))
+            318)
+          318)))
+    (define L.+.10
+      (lambda (tmp.21 tmp.22)
+        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+            (+ tmp.21 tmp.22)
+            574)
+          574)))
+    (define L.-.9
+      (lambda (tmp.23 tmp.24)
+        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+            (- tmp.23 tmp.24)
+            830)
+          830)))
+    (define L.cons.8
+      (lambda (tmp.51 tmp.52)
+        (let ((tmp.55 (+ (alloc 16) 1)))
+          (begin (mset! tmp.55 -1 tmp.51) (mset! tmp.55 7 tmp.52) tmp.55))))
+    (define L.fun/pair9710.4 (lambda () (call L.cons.8 792 2640)))
+    (define L.fun/error9708.5 (lambda () 54846))
+    (define L.fun/void9709.6 (lambda () 30))
+    (let ((error0.5 (call L.fun/error9708.5))
+          (void1.4 (call L.fun/void9709.6))
+          (fixnum2.3
+           (call
+            L.+.10
+            (call L.-.9 (call L.-.9 2000 152) (call L.-.9 784 416))
+            (call L.+.10 (call L.-.9 1824 240) (call L.+.10 320 312))))
+          (fixnum3.2
+           (call
+            L.*.11
+            (call L.+.10 (call L.*.11 216 992) (call L.*.11 168 568))
+            (call L.+.10 (call L.+.10 1248 1352) (call L.-.9 168 1632))))
+          (pair4.1 (call L.fun/pair9710.4)))
+      void1.4)))
+(check-by-interp
+ '(module
+    (define L.*.13
+      (lambda (tmp.19 tmp.20)
+        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
+            (* tmp.19 (arithmetic-shift-right tmp.20 3))
+            318)
+          318)))
     (define L.-.12
       (lambda (tmp.23 tmp.24)
         (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
@@ -309,667 +475,101 @@
             (+ tmp.21 tmp.22)
             574)
           574)))
-    (define L.*.10
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.empty?.9
-      (lambda (tmp.44) (if (= (bitwise-and tmp.44 255) 22) 14 6)))
-    (define L.fun/void12536.4 (lambda () 30))
-    (define L.fun/any12537.5 (lambda () 22))
-    (define L.fun/error12539.6 (lambda () 29502))
-    (define L.fun/error12538.7 (lambda () 24894))
-    (let ((void0.5 (call L.fun/void12536.4))
-          (boolean1.4 (call L.empty?.9 (call L.fun/any12537.5)))
-          (fixnum2.3
+    (define L.cons.10
+      (lambda (tmp.51 tmp.52)
+        (let ((tmp.55 (+ (alloc 16) 1)))
+          (begin (mset! tmp.55 -1 tmp.51) (mset! tmp.55 7 tmp.52) tmp.55))))
+    (define L.fun/void9976.4 (lambda () 30))
+    (define L.fun/pair9973.5 (lambda () (call L.cons.10 1352 3448)))
+    (define L.fun/empty9975.6 (lambda () 22))
+    (define L.fun/void9974.7 (lambda () 30))
+    (define L.fun/ascii-char9977.8 (lambda () 20782))
+    (let ((pair0.5 (call L.fun/pair9973.5))
+          (void1.4 (call L.fun/void9974.7))
+          (empty2.3 (call L.fun/empty9975.6))
+          (void3.2 (call L.fun/void9976.4))
+          (fixnum4.1
            (call
             L.-.12
-            (call L.+.11 (call L.*.10 784 384) (call L.+.11 104 912))
-            (call L.-.12 (call L.-.12 1776 1288) (call L.*.10 792 760))))
-          (error3.2 (call L.fun/error12538.7))
-          (error4.1 (call L.fun/error12539.6)))
-      error4.1)))
+            (call L.+.11 (call L.+.11 1608 1288) (call L.-.12 1992 1528))
+            (call L.+.11 (call L.-.12 688 1152) (call L.*.13 1048 1848)))))
+      (call L.fun/ascii-char9977.8))))
 (check-by-interp
  '(module
-    (define L.pair?.12
-      (lambda (tmp.48) (if (= (bitwise-and tmp.48 7) 1) 14 6)))
-    (define L.+.11
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.-.10
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.*.9
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.fun/any13289.4 (lambda () 6))
-    (define L.fun/empty13290.5 (lambda () 22))
-    (define L.fun/error13288.6 (lambda () 48958))
-    (define L.fun/ascii-char13291.7 (lambda () 25390))
-    (let ((fixnum0.5
-           (call
-            L.+.11
-            (call L.-.10 (call L.*.9 1360 1576) (call L.-.10 1888 296))
-            (call L.-.10 (call L.-.10 1880 1808) (call L.*.9 2008 704))))
-          (error1.4 (call L.fun/error13288.6))
-          (fixnum2.3
-           (call
-            L.-.10
-            (call L.-.10 (call L.-.10 1488 1192) (call L.-.10 1160 1480))
-            (call L.*.9 (call L.*.9 24 1240) (call L.+.11 1808 1752))))
-          (boolean3.2 (call L.pair?.12 (call L.fun/any13289.4)))
-          (empty4.1 (call L.fun/empty13290.5)))
-      (call L.fun/ascii-char13291.7))))
-(check-by-interp
- '(module
-    (define L.fixnum?.12
-      (lambda (tmp.42) (if (= (bitwise-and tmp.42 7) 0) 14 6)))
-    (define L.+.11
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.*.10
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.-.9
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.fun/ascii-char13294.4 (lambda () 25390))
-    (define L.fun/any13295.5 (lambda () 6))
-    (define L.fun/error13297.6 (lambda () 46910))
-    (define L.fun/ascii-char13296.7 (lambda () 25390))
-    (let ((ascii-char0.5 (call L.fun/ascii-char13294.4))
-          (fixnum1.4
-           (call
-            L.+.11
-            (call L.-.9 (call L.-.9 272 920) (call L.*.10 1312 1528))
-            (call L.+.11 (call L.+.11 928 608) (call L.-.9 224 1288))))
-          (boolean2.3 (call L.fixnum?.12 (call L.fun/any13295.5)))
-          (ascii-char3.2 (call L.fun/ascii-char13296.7))
-          (error4.1 (call L.fun/error13297.6)))
-      ascii-char0.5)))
-(check-by-interp
- '(module
-    (define L.ascii-char?.10
-      (lambda (tmp.46) (if (= (bitwise-and tmp.46 255) 46) 14 6)))
-    (define L.fun/ascii-char13919.4 (lambda () 25390))
-    (define L.fun/error13917.5 (lambda () 34878))
-    (define L.fun/any13918.6 (lambda () 14))
-    (define L.fun/void13916.7 (lambda () 30))
-    (define L.fun/ascii-char13915.8 (lambda () 25390))
-    (let ((ascii-char0.5 (call L.fun/ascii-char13915.8))
-          (void1.4 (call L.fun/void13916.7))
-          (error2.3 (call L.fun/error13917.5))
-          (boolean3.2 (call L.ascii-char?.10 (call L.fun/any13918.6)))
-          (ascii-char4.1 (call L.fun/ascii-char13919.4)))
-      void1.4)))
-(check-by-interp
- '(module
-    (define L.+.10
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.-.9
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.*.8
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.fun/empty14259.4 (lambda () 22))
-    (define L.fun/ascii-char14257.5 (lambda () 25390))
-    (define L.fun/error14258.6 (lambda () 21310))
-    (let ((ascii-char0.5 (call L.fun/ascii-char14257.5))
-          (fixnum1.4
-           (call
-            L.*.8
-            (call L.-.9 (call L.*.8 1648 1776) (call L.*.8 1808 1328))
-            (call L.-.9 (call L.-.9 1456 1872) (call L.+.10 432 624))))
-          (error2.3 (call L.fun/error14258.6))
-          (empty3.2 (call L.fun/empty14259.4))
-          (fixnum4.1
-           (call
-            L.-.9
-            (call L.-.9 (call L.+.10 1448 544) (call L.+.10 504 1936))
-            (call L.+.10 (call L.*.8 832 624) (call L.*.8 816 256)))))
-      empty3.2)))
-(check-by-interp
- '(module
-    (define L.fun/empty15571.4 (lambda () 22))
-    (define L.fun/ascii-char15572.5 (lambda () 25390))
-    (define L.fun/ascii-char15569.6 (lambda () 25390))
-    (define L.fun/empty15570.7 (lambda () 22))
-    (define L.fun/void15568.8 (lambda () 30))
-    (let ((void0.5 (call L.fun/void15568.8))
-          (ascii-char1.4 (call L.fun/ascii-char15569.6))
-          (empty2.3 (call L.fun/empty15570.7))
-          (empty3.2 (call L.fun/empty15571.4))
-          (ascii-char4.1 (call L.fun/ascii-char15572.5)))
-      empty3.2)))
-(check-by-interp
- '(module
-    (define L.+.12
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.-.11
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.*.10
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.fun/ascii-char15704.4 (lambda () 25390))
-    (define L.fun/void15705.5 (lambda () 30))
-    (define L.fun/ascii-char15707.6 (lambda () 25390))
-    (define L.fun/error15708.7 (lambda () 36158))
-    (define L.fun/empty15706.8 (lambda () 22))
-    (let ((ascii-char0.5 (call L.fun/ascii-char15704.4))
-          (void1.4 (call L.fun/void15705.5))
-          (fixnum2.3
-           (call
-            L.*.10
-            (call L.*.10 (call L.*.10 1192 424) (call L.-.11 1600 1368))
-            (call L.*.10 (call L.+.12 1936 536) (call L.*.10 112 1704))))
-          (empty3.2 (call L.fun/empty15706.8))
-          (ascii-char4.1 (call L.fun/ascii-char15707.6)))
-      (call L.fun/error15708.7))))
-(check-by-interp
- '(module
-    (define L.empty?.13
-      (lambda (tmp.44) (if (= (bitwise-and tmp.44 255) 22) 14 6)))
-    (define L.ascii-char?.12
-      (lambda (tmp.46) (if (= (bitwise-and tmp.46 255) 46) 14 6)))
-    (define L.*.11
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.-.10
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.+.9
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.fun/void15911.4 (lambda () 30))
-    (define L.fun/any15910.5 (lambda () 25390))
-    (define L.fun/any15908.6 (lambda () 25390))
-    (define L.fun/ascii-char15909.7 (lambda () 25390))
-    (let ((fixnum0.5
-           (call
-            L.*.11
-            (call L.+.9 (call L.+.9 1608 152) (call L.+.9 1064 256))
-            (call L.-.10 (call L.-.10 2032 1016) (call L.-.10 544 1496))))
-          (boolean1.4 (call L.ascii-char?.12 (call L.fun/any15908.6)))
-          (ascii-char2.3 (call L.fun/ascii-char15909.7))
-          (boolean3.2 (call L.empty?.13 (call L.fun/any15910.5)))
-          (void4.1 (call L.fun/void15911.4)))
-      void4.1)))
-(check-by-interp
- '(module
-    (define L.fun/error16257.4 (lambda () 57150))
-    (define L.fun/ascii-char16255.5 (lambda () 25390))
-    (define L.fun/empty16258.6 (lambda () 22))
-    (define L.fun/empty16256.7 (lambda () 22))
-    (define L.fun/ascii-char16259.8 (lambda () 25390))
-    (let ((ascii-char0.5 (call L.fun/ascii-char16255.5))
-          (empty1.4 (call L.fun/empty16256.7))
-          (error2.3 (call L.fun/error16257.4))
-          (empty3.2 (call L.fun/empty16258.6))
-          (ascii-char4.1 (call L.fun/ascii-char16259.8)))
-      error2.3)))
-(check-by-interp
- '(module
-    (define L.-.10
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.+.9
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.*.8
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.fun/void17748.4 (lambda () 30))
-    (define L.fun/ascii-char17750.5 (lambda () 25390))
-    (define L.fun/error17749.6 (lambda () 36158))
-    (let ((void0.5 (call L.fun/void17748.4))
-          (fixnum1.4
-           (call
-            L.+.9
-            (call L.+.9 (call L.*.8 2000 1496) (call L.+.9 1416 464))
-            (call L.+.9 (call L.*.8 912 1352) (call L.+.9 1176 1184))))
-          (error2.3 (call L.fun/error17749.6))
-          (ascii-char3.2 (call L.fun/ascii-char17750.5))
-          (fixnum4.1
-           (call
-            L.-.10
-            (call L.-.10 (call L.*.8 1920 608) (call L.+.9 1400 1456))
-            (call L.+.9 (call L.*.8 1480 400) (call L.-.10 848 1320)))))
-      void0.5)))
-(check-by-interp
- '(module
-    (define L.+.12
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.*.11
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.-.10
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.fun/empty17803.4 (lambda () 22))
-    (define L.fun/error17806.5 (lambda () 38462))
-    (define L.fun/void17802.6 (lambda () 30))
-    (define L.fun/void17805.7 (lambda () 30))
-    (define L.fun/empty17804.8 (lambda () 22))
-    (let ((void0.5 (call L.fun/void17802.6))
-          (empty1.4 (call L.fun/empty17803.4))
-          (empty2.3 (call L.fun/empty17804.8))
-          (void3.2 (call L.fun/void17805.7))
-          (fixnum4.1
-           (call
-            L.-.10
-            (call L.*.11 (call L.-.10 936 992) (call L.*.11 792 416))
-            (call L.*.11 (call L.+.12 1936 792) (call L.*.11 472 1904)))))
-      (call L.fun/error17806.5))))
-(check-by-interp
- '(module
-    (define L.*.6
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.void?.5
-      (lambda (tmp.45) (if (= (bitwise-and tmp.45 255) 30) 14 6)))
-    (if (!=
-         (call
-          L.void?.5
-          (let ((boolean0.5 14)
-                (error1.4 830)
-                (void2.3 30)
-                (fixnum3.2 1512)
-                (fixnum4.1 88))
-            30))
-         6)
-      (call L.*.6 (if (!= 14 6) 400 1200) (if (!= 14 6) 1000 1256))
-      (call L.*.6 (if (!= 6 6) 1464 360) (if (!= 14 6) 72 816)))))
-(check-by-interp
- '(module
-    (define L.+.11
-      (lambda (tmp.21 tmp.22)
-        (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-            (+ tmp.21 tmp.22)
-            574)
-          574)))
-    (define L.-.10
-      (lambda (tmp.23 tmp.24)
-        (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-            (- tmp.23 tmp.24)
-            830)
-          830)))
-    (define L.*.9
-      (lambda (tmp.19 tmp.20)
-        (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.19 7) 0) 14 6) 6)
-            (* tmp.19 (arithmetic-shift-right tmp.20 3))
-            318)
-          318)))
-    (define L.fun/void20503.4 (lambda () 30))
-    (define L.fun/empty20501.5 (lambda () 22))
-    (define L.fun/ascii-char20504.6 (lambda () 25390))
-    (define L.fun/void20502.7 (lambda () 30))
-    (let ((empty0.5 (call L.fun/empty20501.5))
-          (void1.4 (call L.fun/void20502.7))
-          (void2.3 (call L.fun/void20503.4))
-          (ascii-char3.2 (call L.fun/ascii-char20504.6))
-          (fixnum4.1
-           (call
-            L.*.9
-            (call L.-.10 (call L.*.9 144 1000) (call L.*.9 1248 1840))
-            (call L.*.9 (call L.*.9 88 1216) (call L.+.11 512 784)))))
-      ascii-char3.2)))
-(check-by-interp
- '(module
-    (define L.-.17
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.+.16
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.15
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.fun/error28491.4 (lambda () 45118))
-    (define L.fun/empty28492.5 (lambda () (call L.fun/empty28493.6)))
-    (define L.fun/empty28493.6 (lambda () 22))
-    (define L.fun/empty28494.7 (lambda () (call L.fun/empty28495.12)))
-    (define L.fun/ascii-char28488.8
-      (lambda () (call L.fun/ascii-char28489.13)))
-    (define L.fun/error28490.9 (lambda () (call L.fun/error28491.4)))
-    (define L.fun/void28497.10 (lambda () 30))
-    (define L.fun/void28496.11 (lambda () (call L.fun/void28497.10)))
-    (define L.fun/empty28495.12 (lambda () 22))
-    (define L.fun/ascii-char28489.13 (lambda () 25390))
-    (let ((fixnum0.6
-           (call
-            L.-.17
-            (call
-             L.+.16
-             (call L.-.17 (call L.*.15 456 1616) (call L.+.16 912 144))
-             (call L.-.17 (call L.*.15 1048 928) (call L.*.15 1272 224)))
-            (call
-             L.-.17
-             (call L.*.15 (call L.*.15 1872 224) (call L.+.16 912 1528))
-             (call L.+.16 (call L.+.16 1672 320) (call L.-.17 1352 1280)))))
-          (ascii-char1.5 (call L.fun/ascii-char28488.8))
-          (error2.4 (call L.fun/error28490.9))
-          (empty3.3 (call L.fun/empty28492.5))
-          (empty4.2 (call L.fun/empty28494.7))
-          (void5.1 (call L.fun/void28496.11)))
-      error2.4)))
-(check-by-interp
- '(module
-    (define L.fun/ascii-char28930.4
-      (lambda () (call L.fun/ascii-char28931.10)))
-    (define L.fun/error28940.5 (lambda () (call L.fun/error28941.15)))
-    (define L.fun/ascii-char28935.6 (lambda () 25390))
-    (define L.fun/void28936.7 (lambda () (call L.fun/void28937.11)))
-    (define L.fun/void28938.8 (lambda () (call L.fun/void28939.14)))
-    (define L.fun/error28933.9 (lambda () 44606))
-    (define L.fun/ascii-char28931.10 (lambda () 25390))
-    (define L.fun/void28937.11 (lambda () 30))
-    (define L.fun/ascii-char28934.12
-      (lambda () (call L.fun/ascii-char28935.6)))
-    (define L.fun/error28932.13 (lambda () (call L.fun/error28933.9)))
-    (define L.fun/void28939.14 (lambda () 30))
-    (define L.fun/error28941.15 (lambda () 62526))
-    (let ((ascii-char0.6 (call L.fun/ascii-char28930.4))
-          (error1.5 (call L.fun/error28932.13))
-          (ascii-char2.4 (call L.fun/ascii-char28934.12))
-          (void3.3 (call L.fun/void28936.7))
-          (void4.2 (call L.fun/void28938.8))
-          (error5.1 (call L.fun/error28940.5)))
-      void4.2)))
-(check-by-interp
- '(module
-    (define L.+.17
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.16
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.-.15
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.fun/empty30828.4 (lambda () 22))
-    (define L.fun/empty30827.5 (lambda () (call L.fun/empty30828.4)))
-    (define L.fun/void30829.6 (lambda () (call L.fun/void30830.12)))
-    (define L.fun/error30825.7 (lambda () (call L.fun/error30826.11)))
-    (define L.fun/error30824.8 (lambda () 31294))
-    (define L.fun/empty30822.9 (lambda () 22))
-    (define L.fun/error30823.10 (lambda () (call L.fun/error30824.8)))
-    (define L.fun/error30826.11 (lambda () 28734))
-    (define L.fun/void30830.12 (lambda () 30))
-    (define L.fun/empty30821.13 (lambda () (call L.fun/empty30822.9)))
-    (let ((empty0.6 (call L.fun/empty30821.13))
-          (error1.5 (call L.fun/error30823.10))
-          (error2.4 (call L.fun/error30825.7))
-          (empty3.3 (call L.fun/empty30827.5))
-          (fixnum4.2
-           (call
-            L.-.15
-            (call
-             L.+.17
-             (call L.*.16 (call L.-.15 1560 1424) (call L.-.15 488 1440))
-             (call L.*.16 (call L.+.17 1008 432) (call L.+.17 760 664)))
-            (call
-             L.+.17
-             (call L.+.17 (call L.+.17 1368 408) (call L.*.16 552 2016))
-             (call L.+.17 (call L.*.16 528 1168) (call L.+.17 1872 1424)))))
-          (void5.1 (call L.fun/void30829.6)))
+    (define L.fun/void15785.4 (lambda () (call L.fun/void15786.9)))
+    (define L.fun/empty15784.5 (lambda () 22))
+    (define L.fun/error15778.6 (lambda () 4670))
+    (define L.fun/ascii-char15782.7 (lambda () 29742))
+    (define L.fun/error15777.8 (lambda () (call L.fun/error15778.6)))
+    (define L.fun/void15786.9 (lambda () 30))
+    (define L.fun/ascii-char15781.10
+      (lambda () (call L.fun/ascii-char15782.7)))
+    (define L.fun/ascii-char15779.11
+      (lambda () (call L.fun/ascii-char15780.14)))
+    (define L.fun/empty15775.12 (lambda () (call L.fun/empty15776.15)))
+    (define L.fun/empty15783.13 (lambda () (call L.fun/empty15784.5)))
+    (define L.fun/ascii-char15780.14 (lambda () 21038))
+    (define L.fun/empty15776.15 (lambda () 22))
+    (let ((empty0.6 (call L.fun/empty15775.12))
+          (error1.5 (call L.fun/error15777.8))
+          (ascii-char2.4 (call L.fun/ascii-char15779.11))
+          (ascii-char3.3 (call L.fun/ascii-char15781.10))
+          (empty4.2 (call L.fun/empty15783.13))
+          (void5.1 (call L.fun/void15785.4)))
       void5.1)))
 (check-by-interp
  '(module
-    (define L.-.13
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.*.12
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.+.11
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.fun/void31698.4 (lambda () (call L.fun/void31699.8)))
-    (define L.fun/void31701.5 (lambda () 30))
-    (define L.fun/void31700.6 (lambda () (call L.fun/void31701.5)))
-    (define L.fun/empty31697.7 (lambda () 22))
-    (define L.fun/void31699.8 (lambda () 30))
-    (define L.fun/empty31696.9 (lambda () (call L.fun/empty31697.7)))
-    (let ((fixnum0.6
-           (call
-            L.*.12
-            (call
-             L.*.12
-             (call L.+.11 (call L.+.11 608 1264) (call L.*.12 800 1424))
-             (call L.*.12 (call L.-.13 1392 360) (call L.*.12 1416 1936)))
-            (call
-             L.+.11
-             (call L.*.12 (call L.+.11 760 1840) (call L.*.12 1616 1968))
-             (call L.+.11 (call L.+.11 360 1792) (call L.*.12 896 1480)))))
-          (fixnum1.5
-           (call
-            L.+.11
-            (call
-             L.*.12
-             (call L.*.12 (call L.*.12 1584 968) (call L.+.11 928 1624))
-             (call L.-.13 (call L.*.12 656 1432) (call L.+.11 784 208)))
-            (call
-             L.*.12
-             (call L.-.13 (call L.-.13 192 1192) (call L.-.13 1424 1872))
-             (call L.-.13 (call L.*.12 176 88) (call L.*.12 912 1120)))))
-          (empty2.4 (call L.fun/empty31696.9))
-          (void3.3 (call L.fun/void31698.4))
-          (void4.2 (call L.fun/void31700.6))
-          (fixnum5.1
-           (call
-            L.*.12
-            (call
-             L.+.11
-             (call L.+.11 (call L.-.13 640 896) (call L.-.13 1112 88))
-             (call L.+.11 (call L.+.11 1952 1928) (call L.*.12 1552 1384)))
-            (call
-             L.*.12
-             (call L.+.11 (call L.-.13 272 960) (call L.*.12 1216 1392))
-             (call L.+.11 (call L.*.12 1152 1432) (call L.-.13 1216 832))))))
-      void3.3)))
+    (define L.void?.16
+      (lambda (tmp.46) (if (= (bitwise-and tmp.46 255) 30) 14 6)))
+    (define L.boolean?.15
+      (lambda (tmp.44) (if (= (bitwise-and tmp.44 247) 6) 14 6)))
+    (define L.fun/any18974.4 (lambda () 30))
+    (define L.fun/void18977.5 (lambda () (call L.fun/void18978.12)))
+    (define L.fun/ascii-char18970.6 (lambda () 23854))
+    (define L.fun/ascii-char18969.7 (lambda () (call L.fun/ascii-char18970.6)))
+    (define L.fun/error18976.8 (lambda () 39742))
+    (define L.fun/void18971.9 (lambda () (call L.fun/void18972.10)))
+    (define L.fun/void18972.10 (lambda () 30))
+    (define L.fun/error18975.11 (lambda () (call L.fun/error18976.8)))
+    (define L.fun/void18978.12 (lambda () 30))
+    (define L.fun/any18973.13 (lambda () 60990))
+    (let ((ascii-char0.6 (call L.fun/ascii-char18969.7))
+          (void1.5 (call L.fun/void18971.9))
+          (boolean2.4 (call L.boolean?.15 (call L.fun/any18973.13)))
+          (boolean3.3 (call L.void?.16 (call L.fun/any18974.4)))
+          (error4.2 (call L.fun/error18975.11))
+          (void5.1 (call L.fun/void18977.5)))
+      ascii-char0.6)))
 (check-by-interp
  '(module
-    (define L.pair?.15
-      (lambda (tmp.49) (if (= (bitwise-and tmp.49 7) 1) 14 6)))
-    (define L.-.14
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.+.13
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.12
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.fun/void46565.4 (lambda () (call L.fun/void46566.6)))
-    (define L.fun/error46563.5 (lambda () (call L.fun/error46564.8)))
-    (define L.fun/void46566.6 (lambda () 30))
-    (define L.fun/empty46562.7 (lambda () 22))
-    (define L.fun/error46564.8 (lambda () 49982))
-    (define L.fun/empty46561.9 (lambda () (call L.fun/empty46562.7)))
-    (define L.fun/any46567.10 (lambda () 1696))
-    (let ((empty0.6 (call L.fun/empty46561.9))
-          (error1.5 (call L.fun/error46563.5))
-          (fixnum2.4
-           (call
-            L.*.12
-            (call
-             L.-.14
-             (call L.+.13 (call L.*.12 152 1432) (call L.+.13 640 288))
-             (call L.*.12 (call L.-.14 608 424) (call L.*.12 1656 1016)))
-            (call
-             L.+.13
-             (call L.-.14 (call L.*.12 1392 600) (call L.-.14 280 856))
-             (call L.+.13 (call L.-.14 760 344) (call L.+.13 704 1496)))))
-          (void3.3 (call L.fun/void46565.4))
-          (fixnum4.2
-           (call
-            L.*.12
-            (call
-             L.-.14
-             (call L.-.14 (call L.*.12 1784 544) (call L.-.14 1800 352))
-             (call L.-.14 (call L.+.13 592 392) (call L.-.14 1544 520)))
-            (call
-             L.*.12
-             (call L.-.14 (call L.*.12 1288 896) (call L.*.12 912 384))
-             (call L.-.14 (call L.*.12 680 400) (call L.+.13 664 480)))))
-          (boolean5.1 (call L.pair?.15 (call L.fun/any46567.10))))
-      void3.3)))
+    (define L.cons.17
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/error19375.4 (lambda () 5438))
+    (define L.fun/empty19379.5 (lambda () 22))
+    (define L.fun/error19373.6 (lambda () 1086))
+    (define L.fun/pair19383.7 (lambda () (call L.cons.17 1696 3048)))
+    (define L.fun/ascii-char19377.8 (lambda () 28718))
+    (define L.fun/pair19382.9 (lambda () (call L.fun/pair19383.7)))
+    (define L.fun/ascii-char19376.10
+      (lambda () (call L.fun/ascii-char19377.8)))
+    (define L.fun/empty19378.11 (lambda () (call L.fun/empty19379.5)))
+    (define L.fun/empty19381.12 (lambda () 22))
+    (define L.fun/empty19380.13 (lambda () (call L.fun/empty19381.12)))
+    (define L.fun/error19372.14 (lambda () (call L.fun/error19373.6)))
+    (define L.fun/error19374.15 (lambda () (call L.fun/error19375.4)))
+    (let ((error0.6 (call L.fun/error19372.14))
+          (error1.5 (call L.fun/error19374.15))
+          (ascii-char2.4 (call L.fun/ascii-char19376.10))
+          (empty3.3 (call L.fun/empty19378.11))
+          (empty4.2 (call L.fun/empty19380.13))
+          (pair5.1 (call L.fun/pair19382.9)))
+      pair5.1)))
 (check-by-interp
  '(module
-    (define L.+.15
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
+    (define L.boolean?.15
+      (lambda (tmp.44) (if (= (bitwise-and tmp.44 247) 6) 14 6)))
     (define L.-.14
       (lambda (tmp.24 tmp.25)
         (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
@@ -984,578 +584,60 @@
             (* tmp.20 (arithmetic-shift-right tmp.21 3))
             318)
           318)))
-    (define L.fun/error50281.4 (lambda () 16446))
-    (define L.fun/error50280.5 (lambda () (call L.fun/error50281.4)))
-    (define L.fun/void50283.6 (lambda () 30))
-    (define L.fun/ascii-char50284.7 (lambda () (call L.fun/ascii-char50285.9)))
-    (define L.fun/void50278.8 (lambda () (call L.fun/void50279.10)))
-    (define L.fun/ascii-char50285.9 (lambda () 25390))
-    (define L.fun/void50279.10 (lambda () 30))
-    (define L.fun/void50282.11 (lambda () (call L.fun/void50283.6)))
-    (let ((void0.6 (call L.fun/void50278.8))
-          (error1.5 (call L.fun/error50280.5))
-          (fixnum2.4
+    (define L.+.12
+      (lambda (tmp.22 tmp.23)
+        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+            (+ tmp.22 tmp.23)
+            574)
+          574)))
+    (define L.fun/void20855.4 (lambda () 30))
+    (define L.fun/ascii-char20850.5 (lambda () (call L.fun/ascii-char20851.8)))
+    (define L.fun/void20854.6 (lambda () (call L.fun/void20855.4)))
+    (define L.fun/any20856.7 (lambda () 14))
+    (define L.fun/ascii-char20851.8 (lambda () 29742))
+    (define L.fun/ascii-char20853.9 (lambda () 24366))
+    (define L.fun/ascii-char20852.10
+      (lambda () (call L.fun/ascii-char20853.9)))
+    (let ((ascii-char0.6 (call L.fun/ascii-char20850.5))
+          (fixnum1.5
            (call
-            L.+.15
-            (call
-             L.*.13
-             (call L.-.14 (call L.*.13 616 1120) (call L.-.14 1456 192))
-             (call L.-.14 (call L.+.15 1400 424) (call L.+.15 1416 1392)))
+            L.+.12
             (call
              L.-.14
-             (call L.-.14 (call L.-.14 1960 1424) (call L.-.14 336 128))
-             (call L.-.14 (call L.+.15 1152 1640) (call L.+.15 1088 312)))))
-          (void3.3 (call L.fun/void50282.11))
-          (fixnum4.2
+             (call L.+.12 (call L.+.12 1200 456) (call L.+.12 336 616))
+             (call L.-.14 (call L.*.13 352 480) (call L.-.14 456 1240)))
+            (call
+             L.-.14
+             (call L.*.13 (call L.+.12 1264 640) (call L.-.14 504 400))
+             (call L.-.14 (call L.+.12 1024 664) (call L.-.14 112 936)))))
+          (ascii-char2.4 (call L.fun/ascii-char20852.10))
+          (fixnum3.3
+           (call
+            L.-.14
+            (call
+             L.+.12
+             (call L.-.14 (call L.*.13 376 672) (call L.*.13 1128 352))
+             (call L.+.12 (call L.-.14 1360 1896) (call L.+.12 1848 1680)))
+            (call
+             L.*.13
+             (call L.-.14 (call L.+.12 248 440) (call L.-.14 960 1952))
+             (call L.+.12 (call L.+.12 504 248) (call L.-.14 696 1768)))))
+          (void4.2 (call L.fun/void20854.6))
+          (fixnum5.1
            (call
             L.*.13
             (call
              L.-.14
-             (call L.-.14 (call L.-.14 1672 608) (call L.+.15 1736 400))
-             (call L.-.14 (call L.+.15 1496 1520) (call L.-.14 304 1136)))
+             (call L.-.14 (call L.-.14 424 1552) (call L.-.14 1264 144))
+             (call L.*.13 (call L.-.14 640 1256) (call L.+.12 712 1904)))
             (call
-             L.+.15
-             (call L.-.14 (call L.-.14 1640 192) (call L.-.14 1816 1224))
-             (call L.-.14 (call L.-.14 520 1312) (call L.*.13 120 1176)))))
-          (ascii-char5.1 (call L.fun/ascii-char50284.7)))
-      fixnum2.4)))
+             L.+.12
+             (call L.+.12 (call L.+.12 1080 1304) (call L.*.13 1000 1928))
+             (call L.-.14 (call L.*.13 1720 416) (call L.-.14 1344 1112))))))
+      (call L.boolean?.15 (call L.fun/any20856.7)))))
 (check-by-interp
  '(module
-    (define L.+.15
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.14
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.-.13
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.fun/ascii-char51656.4 (lambda () (call L.fun/ascii-char51657.5)))
-    (define L.fun/ascii-char51657.5 (lambda () 25390))
-    (define L.fun/error51658.6 (lambda () (call L.fun/error51659.11)))
-    (define L.fun/void51654.7 (lambda () (call L.fun/void51655.9)))
-    (define L.fun/error51653.8 (lambda () 20030))
-    (define L.fun/void51655.9 (lambda () 30))
-    (define L.fun/error51652.10 (lambda () (call L.fun/error51653.8)))
-    (define L.fun/error51659.11 (lambda () 45374))
-    (let ((fixnum0.6
-           (call
-            L.*.14
-            (call
-             L.*.14
-             (call L.-.13 (call L.-.13 696 32) (call L.*.14 1576 1768))
-             (call L.-.13 (call L.+.15 1632 408) (call L.-.13 632 976)))
-            (call
-             L.*.14
-             (call L.+.15 (call L.+.15 168 608) (call L.+.15 1912 400))
-             (call L.+.15 (call L.*.14 992 1256) (call L.*.14 1144 424)))))
-          (error1.5 (call L.fun/error51652.10))
-          (void2.4 (call L.fun/void51654.7))
-          (fixnum3.3
-           (call
-            L.*.14
-            (call
-             L.-.13
-             (call L.*.14 (call L.*.14 1472 1560) (call L.*.14 592 1624))
-             (call L.*.14 (call L.*.14 536 1352) (call L.*.14 888 848)))
-            (call
-             L.-.13
-             (call L.-.13 (call L.*.14 1120 56) (call L.+.15 824 1016))
-             (call L.+.15 (call L.*.14 16 1056) (call L.+.15 904 144)))))
-          (ascii-char4.2 (call L.fun/ascii-char51656.4))
-          (error5.1 (call L.fun/error51658.6)))
-      void2.4)))
-(check-by-interp
- '(module
-    (define L.vector?.16
-      (lambda (tmp.50) (if (= (bitwise-and tmp.50 7) 3) 14 6)))
-    (define L.fun/error54326.4 (lambda () (call L.fun/error54327.8)))
-    (define L.fun/error54322.5 (lambda () 18238))
-    (define L.fun/empty54331.6 (lambda () 22))
-    (define L.fun/void54329.7 (lambda () 30))
-    (define L.fun/error54327.8 (lambda () 17214))
-    (define L.fun/error54325.9 (lambda () 8766))
-    (define L.fun/error54321.10 (lambda () (call L.fun/error54322.5)))
-    (define L.fun/any54323.11 (lambda () 25390))
-    (define L.fun/void54328.12 (lambda () (call L.fun/void54329.7)))
-    (define L.fun/error54324.13 (lambda () (call L.fun/error54325.9)))
-    (define L.fun/empty54330.14 (lambda () (call L.fun/empty54331.6)))
-    (let ((error0.6 (call L.fun/error54321.10))
-          (boolean1.5 (call L.vector?.16 (call L.fun/any54323.11)))
-          (error2.4 (call L.fun/error54324.13))
-          (error3.3 (call L.fun/error54326.4))
-          (void4.2 (call L.fun/void54328.12))
-          (empty5.1 (call L.fun/empty54330.14)))
-      void4.2)))
-(check-by-interp
- '(module
-    (define L.*.19
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.+.18
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.-.17
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.boolean?.16
-      (lambda (tmp.44) (if (= (bitwise-and tmp.44 247) 6) 14 6)))
-    (define L.fun/ascii-char64319.4 (lambda () 25390))
-    (define L.fun/error64313.5 (lambda () 26430))
-    (define L.fun/empty64317.6 (lambda () 22))
-    (define L.fun/ascii-char64318.7 (lambda () (call L.fun/ascii-char64319.4)))
-    (define L.fun/void64310.8 (lambda () 30))
-    (define L.fun/empty64315.9 (lambda () 22))
-    (define L.fun/any64311.10 (lambda () 40766))
-    (define L.fun/error64312.11 (lambda () (call L.fun/error64313.5)))
-    (define L.fun/empty64316.12 (lambda () (call L.fun/empty64317.6)))
-    (define L.fun/empty64314.13 (lambda () (call L.fun/empty64315.9)))
-    (define L.fun/void64309.14 (lambda () (call L.fun/void64310.8)))
-    (let ((void0.6 (call L.fun/void64309.14))
-          (boolean1.5 (call L.boolean?.16 (call L.fun/any64311.10)))
-          (error2.4 (call L.fun/error64312.11))
-          (empty3.3 (call L.fun/empty64314.13))
-          (empty4.2 (call L.fun/empty64316.12))
-          (fixnum5.1
-           (call
-            L.+.18
-            (call
-             L.-.17
-             (call L.+.18 (call L.-.17 1160 1520) (call L.+.18 1104 512))
-             (call L.-.17 (call L.*.19 1440 1808) (call L.-.17 696 1592)))
-            (call
-             L.*.19
-             (call L.*.19 (call L.-.17 184 976) (call L.*.19 8 880))
-             (call L.-.17 (call L.*.19 1112 1104) (call L.+.18 992 1528))))))
-      (call L.fun/ascii-char64318.7))))
-(check-by-interp
- '(module
-    (define L.*.17
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.+.16
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.-.15
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.fun/void75654.4 (lambda () 30))
-    (define L.fun/empty75657.5 (lambda () (call L.fun/empty75658.10)))
-    (define L.fun/ascii-char75662.6 (lambda () 25390))
-    (define L.fun/ascii-char75660.7 (lambda () 25390))
-    (define L.fun/empty75656.8 (lambda () 22))
-    (define L.fun/ascii-char75661.9 (lambda () (call L.fun/ascii-char75662.6)))
-    (define L.fun/empty75658.10 (lambda () 22))
-    (define L.fun/empty75655.11 (lambda () (call L.fun/empty75656.8)))
-    (define L.fun/void75653.12 (lambda () (call L.fun/void75654.4)))
-    (define L.fun/ascii-char75659.13
-      (lambda () (call L.fun/ascii-char75660.7)))
-    (let ((fixnum0.6
-           (call
-            L.-.15
-            (call
-             L.+.16
-             (call L.+.16 (call L.-.15 1632 8) (call L.-.15 824 448))
-             (call L.+.16 (call L.-.15 1680 8) (call L.*.17 1912 1232)))
-            (call
-             L.*.17
-             (call L.+.16 (call L.+.16 552 1320) (call L.-.15 1744 1840))
-             (call L.-.15 (call L.-.15 1744 1096) (call L.*.17 1680 408)))))
-          (void1.5 (call L.fun/void75653.12))
-          (empty2.4 (call L.fun/empty75655.11))
-          (empty3.3 (call L.fun/empty75657.5))
-          (ascii-char4.2 (call L.fun/ascii-char75659.13))
-          (ascii-char5.1 (call L.fun/ascii-char75661.9)))
-      ascii-char5.1)))
-(check-by-interp
- '(module
-    (define L.+.17
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.16
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.-.15
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.error?.14
-      (lambda (tmp.48) (if (= (bitwise-and tmp.48 255) 62) 14 6)))
-    (define L.fun/error83230.4 (lambda () (call L.fun/error83231.10)))
-    (define L.fun/empty83233.5 (lambda () (call L.fun/empty83234.9)))
-    (define L.fun/void83236.6 (lambda () 30))
-    (define L.fun/ascii-char83229.7 (lambda () 25390))
-    (define L.fun/void83235.8 (lambda () (call L.fun/void83236.6)))
-    (define L.fun/empty83234.9 (lambda () 22))
-    (define L.fun/error83231.10 (lambda () 6974))
-    (define L.fun/any83232.11 (lambda () 25390))
-    (define L.fun/ascii-char83228.12
-      (lambda () (call L.fun/ascii-char83229.7)))
-    (let ((ascii-char0.6 (call L.fun/ascii-char83228.12))
-          (error1.5 (call L.fun/error83230.4))
-          (boolean2.4 (call L.error?.14 (call L.fun/any83232.11)))
-          (empty3.3 (call L.fun/empty83233.5))
-          (void4.2 (call L.fun/void83235.8))
-          (fixnum5.1
-           (call
-            L.-.15
-            (call
-             L.*.16
-             (call L.+.17 (call L.-.15 72 1816) (call L.*.16 1344 440))
-             (call L.*.16 (call L.-.15 912 192) (call L.-.15 608 88)))
-            (call
-             L.+.17
-             (call L.+.17 (call L.+.17 1432 136) (call L.+.17 824 984))
-             (call L.*.16 (call L.+.17 208 504) (call L.+.17 1128 720))))))
-      void4.2)))
-(check-by-interp
- '(module
-    (define L.error?.16
-      (lambda (tmp.48) (if (= (bitwise-and tmp.48 255) 62) 14 6)))
-    (define L.fun/ascii-char87923.4
-      (lambda () (call L.fun/ascii-char87924.13)))
-    (define L.fun/empty87931.5 (lambda () 22))
-    (define L.fun/ascii-char87928.6 (lambda () (call L.fun/ascii-char87929.7)))
-    (define L.fun/ascii-char87929.7 (lambda () 25390))
-    (define L.fun/ascii-char87926.8 (lambda () 25390))
-    (define L.fun/empty87930.9 (lambda () (call L.fun/empty87931.5)))
-    (define L.fun/void87922.10 (lambda () 30))
-    (define L.fun/any87927.11 (lambda () 30))
-    (define L.fun/ascii-char87925.12
-      (lambda () (call L.fun/ascii-char87926.8)))
-    (define L.fun/ascii-char87924.13 (lambda () 25390))
-    (define L.fun/void87921.14 (lambda () (call L.fun/void87922.10)))
-    (let ((void0.6 (call L.fun/void87921.14))
-          (ascii-char1.5 (call L.fun/ascii-char87923.4))
-          (ascii-char2.4 (call L.fun/ascii-char87925.12))
-          (boolean3.3 (call L.error?.16 (call L.fun/any87927.11)))
-          (ascii-char4.2 (call L.fun/ascii-char87928.6))
-          (empty5.1 (call L.fun/empty87930.9)))
-      empty5.1)))
-(check-by-interp
- '(module
-    (define L.*.17
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.-.16
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.+.15
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.fun/void88023.4 (lambda () 30))
-    (define L.fun/empty88027.5 (lambda () 22))
-    (define L.fun/error88024.6 (lambda () (call L.fun/error88025.11)))
-    (define L.fun/error88021.7 (lambda () 56894))
-    (define L.fun/empty88026.8 (lambda () (call L.fun/empty88027.5)))
-    (define L.fun/error88029.9 (lambda () 50494))
-    (define L.fun/error88020.10 (lambda () (call L.fun/error88021.7)))
-    (define L.fun/error88025.11 (lambda () 54334))
-    (define L.fun/void88022.12 (lambda () (call L.fun/void88023.4)))
-    (define L.fun/error88028.13 (lambda () (call L.fun/error88029.9)))
-    (let ((error0.6 (call L.fun/error88020.10))
-          (void1.5 (call L.fun/void88022.12))
-          (error2.4 (call L.fun/error88024.6))
-          (fixnum3.3
-           (call
-            L.+.15
-            (call
-             L.-.16
-             (call L.-.16 (call L.+.15 440 608) (call L.+.15 184 0))
-             (call L.*.17 (call L.+.15 144 168) (call L.+.15 1224 1448)))
-            (call
-             L.-.16
-             (call L.-.16 (call L.-.16 32 864) (call L.+.15 752 872))
-             (call L.+.15 (call L.-.16 1912 1912) (call L.*.17 1704 784)))))
-          (empty4.2 (call L.fun/empty88026.8))
-          (error5.1 (call L.fun/error88028.13)))
-      error0.6)))
-(check-by-interp
- '(module
-    (define L.+.15
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.14
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.-.13
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.pair?.12
-      (lambda (tmp.49) (if (= (bitwise-and tmp.49 7) 1) 14 6)))
-    (define L.fun/ascii-char95245.4 (lambda () 25390))
-    (define L.fun/empty95247.5 (lambda () 22))
-    (define L.fun/void95242.6 (lambda () 30))
-    (define L.fun/void95241.7 (lambda () (call L.fun/void95242.6)))
-    (define L.fun/any95243.8 (lambda () 30))
-    (define L.fun/ascii-char95244.9 (lambda () (call L.fun/ascii-char95245.4)))
-    (define L.fun/empty95246.10 (lambda () (call L.fun/empty95247.5)))
-    (let ((void0.6 (call L.fun/void95241.7))
-          (boolean1.5 (call L.pair?.12 (call L.fun/any95243.8)))
-          (ascii-char2.4 (call L.fun/ascii-char95244.9))
-          (fixnum3.3
-           (call
-            L.*.14
-            (call
-             L.-.13
-             (call L.-.13 (call L.-.13 336 1928) (call L.*.14 776 1904))
-             (call L.-.13 (call L.*.14 1720 376) (call L.*.14 912 256)))
-            (call
-             L.*.14
-             (call L.*.14 (call L.-.13 136 1400) (call L.-.13 1472 1648))
-             (call L.+.15 (call L.-.13 1240 528) (call L.+.15 1200 728)))))
-          (empty4.2 (call L.fun/empty95246.10))
-          (fixnum5.1
-           (call
-            L.-.13
-            (call
-             L.+.15
-             (call L.*.14 (call L.-.13 168 1368) (call L.+.15 1368 1400))
-             (call L.*.14 (call L.*.14 696 72) (call L.*.14 1616 128)))
-            (call
-             L.-.13
-             (call L.*.14 (call L.+.15 360 896) (call L.*.14 1968 1472))
-             (call L.*.14 (call L.+.15 1360 1136) (call L.*.14 1096 728))))))
-      ascii-char2.4)))
-(check-by-interp
- '(module
-    (define L.*.17
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.+.16
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.-.15
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.fun/ascii-char101002.4 (lambda () 25390))
-    (define L.fun/void101005.5 (lambda () (call L.fun/void101006.12)))
-    (define L.fun/ascii-char101007.6
-      (lambda () (call L.fun/ascii-char101008.10)))
-    (define L.fun/ascii-char101000.7 (lambda () 25390))
-    (define L.fun/void101004.8 (lambda () 30))
-    (define L.fun/ascii-char100999.9
-      (lambda () (call L.fun/ascii-char101000.7)))
-    (define L.fun/ascii-char101008.10 (lambda () 25390))
-    (define L.fun/void101003.11 (lambda () (call L.fun/void101004.8)))
-    (define L.fun/void101006.12 (lambda () 30))
-    (define L.fun/ascii-char101001.13
-      (lambda () (call L.fun/ascii-char101002.4)))
-    (let ((ascii-char0.6 (call L.fun/ascii-char100999.9))
-          (fixnum1.5
-           (call
-            L.+.16
-            (call
-             L.+.16
-             (call L.+.16 (call L.-.15 1032 720) (call L.-.15 1368 1568))
-             (call L.-.15 (call L.*.17 576 952) (call L.*.17 112 976)))
-            (call
-             L.+.16
-             (call L.*.17 (call L.*.17 1704 1048) (call L.+.16 728 16))
-             (call L.*.17 (call L.+.16 784 1072) (call L.*.17 1656 1152)))))
-          (ascii-char2.4 (call L.fun/ascii-char101001.13))
-          (void3.3 (call L.fun/void101003.11))
-          (void4.2 (call L.fun/void101005.5))
-          (ascii-char5.1 (call L.fun/ascii-char101007.6)))
-      ascii-char5.1)))
-(check-by-interp
- '(module
-    (define L.-.17
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.+.16
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.15
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.fun/error102221.4 (lambda () 2110))
-    (define L.fun/void102218.5 (lambda () (call L.fun/void102219.11)))
-    (define L.fun/empty102216.6 (lambda () (call L.fun/empty102217.9)))
-    (define L.fun/ascii-char102223.7 (lambda () 25390))
-    (define L.fun/void102214.8 (lambda () (call L.fun/void102215.13)))
-    (define L.fun/empty102217.9 (lambda () 22))
-    (define L.fun/error102220.10 (lambda () (call L.fun/error102221.4)))
-    (define L.fun/void102219.11 (lambda () 30))
-    (define L.fun/ascii-char102222.12
-      (lambda () (call L.fun/ascii-char102223.7)))
-    (define L.fun/void102215.13 (lambda () 30))
-    (let ((void0.6 (call L.fun/void102214.8))
-          (empty1.5 (call L.fun/empty102216.6))
-          (void2.4 (call L.fun/void102218.5))
-          (error3.3 (call L.fun/error102220.10))
-          (fixnum4.2
-           (call
-            L.-.17
-            (call
-             L.+.16
-             (call L.*.15 (call L.*.15 1688 184) (call L.*.15 1192 936))
-             (call L.*.15 (call L.*.15 1264 1936) (call L.*.15 656 1968)))
-            (call
-             L.-.17
-             (call L.*.15 (call L.*.15 632 1256) (call L.+.16 1456 520))
-             (call L.+.16 (call L.*.15 568 1832) (call L.-.17 1672 24)))))
-          (ascii-char5.1 (call L.fun/ascii-char102222.12)))
-      error3.3)))
-(check-by-interp
- '(module
-    (define L.-.19
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.*.18
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.+.17
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.vector?.16
-      (lambda (tmp.50) (if (= (bitwise-and tmp.50 7) 3) 14 6)))
-    (define L.fun/void102243.4 (lambda () (call L.fun/void102244.10)))
-    (define L.fun/any102238.5 (lambda () 6))
-    (define L.fun/ascii-char102236.6
-      (lambda () (call L.fun/ascii-char102237.13)))
-    (define L.fun/void102241.7 (lambda () (call L.fun/void102242.11)))
-    (define L.fun/ascii-char102239.8
-      (lambda () (call L.fun/ascii-char102240.12)))
-    (define L.fun/ascii-char102234.9
-      (lambda () (call L.fun/ascii-char102235.14)))
-    (define L.fun/void102244.10 (lambda () 30))
-    (define L.fun/void102242.11 (lambda () 30))
-    (define L.fun/ascii-char102240.12 (lambda () 25390))
-    (define L.fun/ascii-char102237.13 (lambda () 25390))
-    (define L.fun/ascii-char102235.14 (lambda () 25390))
-    (let ((ascii-char0.6 (call L.fun/ascii-char102234.9))
-          (ascii-char1.5 (call L.fun/ascii-char102236.6))
-          (boolean2.4 (call L.vector?.16 (call L.fun/any102238.5)))
-          (ascii-char3.3 (call L.fun/ascii-char102239.8))
-          (void4.2 (call L.fun/void102241.7))
-          (void5.1 (call L.fun/void102243.4)))
-      (call
-       L.*.18
-       (call
-        L.*.18
-        (call L.*.18 (call L.+.17 1848 1032) (call L.+.17 488 1088))
-        (call L.*.18 (call L.-.19 1440 264) (call L.+.17 1976 1248)))
-       (call
-        L.-.19
-        (call L.-.19 (call L.+.17 1904 1616) (call L.+.17 576 312))
-        (call L.-.19 (call L.+.17 784 1400) (call L.*.18 592 1936)))))))
-(check-by-interp
- '(module
-    (define L.+.19
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
     (define L.-.18
       (lambda (tmp.24 tmp.25)
         (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
@@ -1570,143 +652,54 @@
             (* tmp.20 (arithmetic-shift-right tmp.21 3))
             318)
           318)))
-    (define L.fun/empty104399.4 (lambda () (call L.fun/empty104400.8)))
-    (define L.fun/void104397.5 (lambda () (call L.fun/void104398.12)))
-    (define L.fun/error104406.6 (lambda () 52798))
-    (define L.fun/empty104404.7 (lambda () 22))
-    (define L.fun/empty104400.8 (lambda () 22))
-    (define L.fun/error104405.9 (lambda () (call L.fun/error104406.6)))
-    (define L.fun/empty104395.10 (lambda () (call L.fun/empty104396.14)))
-    (define L.fun/void104401.11 (lambda () (call L.fun/void104402.13)))
-    (define L.fun/void104398.12 (lambda () 30))
-    (define L.fun/void104402.13 (lambda () 30))
-    (define L.fun/empty104396.14 (lambda () 22))
-    (define L.fun/empty104403.15 (lambda () (call L.fun/empty104404.7)))
-    (let ((empty0.6 (call L.fun/empty104395.10))
-          (void1.5 (call L.fun/void104397.5))
-          (empty2.4 (call L.fun/empty104399.4))
-          (void3.3 (call L.fun/void104401.11))
-          (fixnum4.2
-           (call
-            L.*.17
-            (call
-             L.*.17
-             (call L.-.18 (call L.*.17 1080 984) (call L.*.17 128 1576))
-             (call L.*.17 (call L.-.18 1344 576) (call L.*.17 832 560)))
-            (call
-             L.*.17
-             (call L.-.18 (call L.+.19 1424 568) (call L.+.19 1512 776))
-             (call L.+.19 (call L.*.17 208 1344) (call L.-.18 608 1296)))))
-          (empty5.1 (call L.fun/empty104403.15)))
-      (call L.fun/error104405.9))))
-(check-by-interp
- '(module
-    (define L.boolean?.16
-      (lambda (tmp.44) (if (= (bitwise-and tmp.44 247) 6) 14 6)))
-    (define L.fun/any105578.4 (lambda () 1504))
-    (define L.fun/error105579.5 (lambda () (call L.fun/error105580.11)))
-    (define L.fun/error105575.6 (lambda () 18494))
-    (define L.fun/ascii-char105573.7 (lambda () 25390))
-    (define L.fun/error105576.8 (lambda () (call L.fun/error105577.13)))
-    (define L.fun/ascii-char105572.9
-      (lambda () (call L.fun/ascii-char105573.7)))
-    (define L.fun/void105581.10 (lambda () (call L.fun/void105582.14)))
-    (define L.fun/error105580.11 (lambda () 31038))
-    (define L.fun/error105574.12 (lambda () (call L.fun/error105575.6)))
-    (define L.fun/error105577.13 (lambda () 55358))
-    (define L.fun/void105582.14 (lambda () 30))
-    (let ((ascii-char0.6 (call L.fun/ascii-char105572.9))
-          (error1.5 (call L.fun/error105574.12))
-          (error2.4 (call L.fun/error105576.8))
-          (boolean3.3 (call L.boolean?.16 (call L.fun/any105578.4)))
-          (error4.2 (call L.fun/error105579.5))
-          (void5.1 (call L.fun/void105581.10)))
-      void5.1)))
-(check-by-interp
- '(module
-    (define L.ascii-char?.16
-      (lambda (tmp.47) (if (= (bitwise-and tmp.47 255) 46) 14 6)))
-    (define L.fun/void121813.4 (lambda () 30))
-    (define L.fun/ascii-char121818.5
-      (lambda () (call L.fun/ascii-char121819.11)))
-    (define L.fun/void121814.6 (lambda () (call L.fun/void121815.12)))
-    (define L.fun/ascii-char121816.7
-      (lambda () (call L.fun/ascii-char121817.9)))
-    (define L.fun/void121812.8 (lambda () (call L.fun/void121813.4)))
-    (define L.fun/ascii-char121817.9 (lambda () 25390))
-    (define L.fun/ascii-char121811.10 (lambda () 25390))
-    (define L.fun/ascii-char121819.11 (lambda () 25390))
-    (define L.fun/void121815.12 (lambda () 30))
-    (define L.fun/ascii-char121810.13
-      (lambda () (call L.fun/ascii-char121811.10)))
-    (define L.fun/any121809.14 (lambda () 6))
-    (let ((boolean0.6 (call L.ascii-char?.16 (call L.fun/any121809.14)))
-          (ascii-char1.5 (call L.fun/ascii-char121810.13))
-          (void2.4 (call L.fun/void121812.8))
-          (void3.3 (call L.fun/void121814.6))
-          (ascii-char4.2 (call L.fun/ascii-char121816.7))
-          (ascii-char5.1 (call L.fun/ascii-char121818.5)))
-      ascii-char4.2)))
-(check-by-interp
- '(module
-    (define L.+.15
+    (define L.+.16
       (lambda (tmp.22 tmp.23)
         (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
           (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
             (+ tmp.22 tmp.23)
             574)
           574)))
-    (define L.*.14
+    (define L.cons.15
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/ascii-char22195.4 (lambda () 31278))
+    (define L.fun/empty22197.5 (lambda () 22))
+    (define L.fun/pair22193.6 (lambda () (call L.cons.15 640 2320)))
+    (define L.fun/pair22192.7 (lambda () (call L.fun/pair22193.6)))
+    (define L.fun/empty22199.8 (lambda () 22))
+    (define L.fun/empty22198.9 (lambda () (call L.fun/empty22199.8)))
+    (define L.fun/empty22196.10 (lambda () (call L.fun/empty22197.5)))
+    (define L.fun/error22191.11 (lambda () 19262))
+    (define L.fun/error22190.12 (lambda () (call L.fun/error22191.11)))
+    (define L.fun/ascii-char22194.13
+      (lambda () (call L.fun/ascii-char22195.4)))
+    (let ((error0.6 (call L.fun/error22190.12))
+          (pair1.5 (call L.fun/pair22192.7))
+          (ascii-char2.4 (call L.fun/ascii-char22194.13))
+          (empty3.3 (call L.fun/empty22196.10))
+          (empty4.2 (call L.fun/empty22198.9))
+          (fixnum5.1
+           (call
+            L.+.16
+            (call
+             L.*.17
+             (call L.-.18 (call L.+.16 1072 1408) (call L.*.17 1232 784))
+             (call L.-.18 (call L.*.17 1496 1688) (call L.+.16 832 824)))
+            (call
+             L.-.18
+             (call L.+.16 (call L.*.17 392 880) (call L.*.17 312 192))
+             (call L.*.17 (call L.*.17 1728 576) (call L.-.18 160 848))))))
+      error0.6)))
+(check-by-interp
+ '(module
+    (define L.*.20
       (lambda (tmp.20 tmp.21)
         (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
           (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
             (* tmp.20 (arithmetic-shift-right tmp.21 3))
             318)
           318)))
-    (define L.-.13
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.fun/error128005.4 (lambda () (call L.fun/error128006.9)))
-    (define L.fun/empty128002.5 (lambda () 22))
-    (define L.fun/void128004.6 (lambda () 30))
-    (define L.fun/empty128001.7 (lambda () (call L.fun/empty128002.5)))
-    (define L.fun/empty128008.8 (lambda () 22))
-    (define L.fun/error128006.9 (lambda () 9278))
-    (define L.fun/empty128007.10 (lambda () (call L.fun/empty128008.8)))
-    (define L.fun/void128003.11 (lambda () (call L.fun/void128004.6)))
-    (let ((fixnum0.6
-           (call
-            L.-.13
-            (call
-             L.*.14
-             (call L.*.14 (call L.-.13 1312 1144) (call L.*.14 1080 2016))
-             (call L.*.14 (call L.+.15 40 1384) (call L.*.14 1872 1832)))
-            (call
-             L.*.14
-             (call L.*.14 (call L.-.13 1008 264) (call L.-.13 1376 952))
-             (call L.*.14 (call L.-.13 1376 464) (call L.-.13 776 656)))))
-          (empty1.5 (call L.fun/empty128001.7))
-          (void2.4 (call L.fun/void128003.11))
-          (error3.3 (call L.fun/error128005.4))
-          (fixnum4.2
-           (call
-            L.-.13
-            (call
-             L.+.15
-             (call L.*.14 (call L.*.14 816 928) (call L.+.15 1728 824))
-             (call L.*.14 (call L.+.15 1480 1736) (call L.*.14 1816 776)))
-            (call
-             L.-.13
-             (call L.-.13 (call L.+.15 1272 1104) (call L.-.13 1912 1264))
-             (call L.*.14 (call L.-.13 1968 848) (call L.-.13 1560 8)))))
-          (empty5.1 (call L.fun/empty128007.10)))
-      empty5.1)))
-(check-by-interp
- '(module
     (define L.+.19
       (lambda (tmp.22 tmp.23)
         (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
@@ -1714,180 +707,69 @@
             (+ tmp.22 tmp.23)
             574)
           574)))
-    (define L.*.18
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.-.17
+    (define L.-.18
       (lambda (tmp.24 tmp.25)
         (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
           (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
             (- tmp.24 tmp.25)
             830)
           830)))
-    (define L.fun/ascii-char138303.4 (lambda () 25390))
-    (define L.fun/empty138301.5 (lambda () 22))
-    (define L.fun/empty138304.6 (lambda () (call L.fun/empty138305.13)))
-    (define L.fun/empty138307.7 (lambda () 22))
-    (define L.fun/empty138306.8 (lambda () (call L.fun/empty138307.7)))
-    (define L.fun/ascii-char138302.9
-      (lambda () (call L.fun/ascii-char138303.4)))
-    (define L.fun/ascii-char138308.10
-      (lambda () (call L.fun/ascii-char138309.12)))
-    (define L.fun/error138310.11 (lambda () (call L.fun/error138311.15)))
-    (define L.fun/ascii-char138309.12 (lambda () 25390))
-    (define L.fun/empty138305.13 (lambda () 22))
-    (define L.fun/empty138300.14 (lambda () (call L.fun/empty138301.5)))
-    (define L.fun/error138311.15 (lambda () 28990))
-    (let ((empty0.6 (call L.fun/empty138300.14))
-          (ascii-char1.5 (call L.fun/ascii-char138302.9))
-          (empty2.4 (call L.fun/empty138304.6))
-          (empty3.3 (call L.fun/empty138306.8))
-          (fixnum4.2
+    (define L.vector?.17
+      (lambda (tmp.50) (if (= (bitwise-and tmp.50 7) 3) 14 6)))
+    (define L.cons.16
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/pair23550.4 (lambda () (call L.fun/pair23551.8)))
+    (define L.fun/void23549.5 (lambda () 30))
+    (define L.fun/void23541.6 (lambda () (call L.fun/void23542.14)))
+    (define L.fun/void23548.7 (lambda () (call L.fun/void23549.5)))
+    (define L.fun/pair23551.8 (lambda () (call L.cons.16 664 3872)))
+    (define L.fun/error23546.9 (lambda () (call L.fun/error23547.11)))
+    (define L.fun/empty23544.10 (lambda () 22))
+    (define L.fun/error23547.11 (lambda () 53822))
+    (define L.fun/any23545.12 (lambda () 6))
+    (define L.fun/empty23543.13 (lambda () (call L.fun/empty23544.10)))
+    (define L.fun/void23542.14 (lambda () 30))
+    (let ((void0.6 (call L.fun/void23541.6))
+          (empty1.5 (call L.fun/empty23543.13))
+          (boolean2.4 (call L.vector?.17 (call L.fun/any23545.12)))
+          (fixnum3.3
            (call
-            L.*.18
+            L.+.19
             (call
-             L.*.18
-             (call L.+.19 (call L.-.17 2024 1600) (call L.*.18 1728 376))
-             (call L.-.17 (call L.*.18 1504 272) (call L.*.18 360 72)))
+             L.-.18
+             (call L.+.19 (call L.-.18 1448 368) (call L.-.18 672 1528))
+             (call L.*.20 (call L.+.19 1808 464) (call L.-.18 104 520)))
             (call
-             L.+.19
-             (call L.*.18 (call L.-.17 1984 1448) (call L.*.18 1992 24))
-             (call L.*.18 (call L.+.19 856 1576) (call L.-.17 1424 256)))))
-          (ascii-char5.1 (call L.fun/ascii-char138308.10)))
-      (call L.fun/error138310.11))))
+             L.*.20
+             (call L.+.19 (call L.*.20 1264 104) (call L.-.18 448 448))
+             (call L.+.19 (call L.+.19 1664 320) (call L.*.20 1296 112)))))
+          (error4.2 (call L.fun/error23546.9))
+          (void5.1 (call L.fun/void23548.7)))
+      (call L.fun/pair23550.4))))
 (check-by-interp
  '(module
-    (define L.boolean?.19
-      (lambda (tmp.44) (if (= (bitwise-and tmp.44 247) 6) 14 6)))
-    (define L.+.18
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.-.17
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.*.16
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.fixnum?.15
-      (lambda (tmp.43) (if (= (bitwise-and tmp.43 7) 0) 14 6)))
-    (define L.fun/error139284.4 (lambda () 15934))
-    (define L.fun/ascii-char139281.5
-      (lambda () (call L.fun/ascii-char139282.10)))
-    (define L.fun/error139283.6 (lambda () (call L.fun/error139284.4)))
-    (define L.fun/void139290.7 (lambda () 30))
-    (define L.fun/any139288.8 (lambda () 13886))
-    (define L.fun/empty139287.9 (lambda () 22))
-    (define L.fun/ascii-char139282.10 (lambda () 25390))
-    (define L.fun/any139285.11 (lambda () 22))
-    (define L.fun/void139289.12 (lambda () (call L.fun/void139290.7)))
-    (define L.fun/empty139286.13 (lambda () (call L.fun/empty139287.9)))
-    (let ((ascii-char0.6 (call L.fun/ascii-char139281.5))
-          (error1.5 (call L.fun/error139283.6))
-          (boolean2.4 (call L.fixnum?.15 (call L.fun/any139285.11)))
-          (empty3.3 (call L.fun/empty139286.13))
-          (fixnum4.2
-           (call
-            L.+.18
-            (call
-             L.+.18
-             (call L.-.17 (call L.*.16 1960 1832) (call L.-.17 1680 768))
-             (call L.-.17 (call L.-.17 856 1520) (call L.*.16 1264 1096)))
-            (call
-             L.+.18
-             (call L.*.16 (call L.+.18 160 96) (call L.-.17 696 240))
-             (call L.-.17 (call L.*.16 880 1704) (call L.*.16 1696 1640)))))
-          (boolean5.1 (call L.boolean?.19 (call L.fun/any139288.8))))
-      (call L.fun/void139289.12))))
-(check-by-interp
- '(module
-    (define L.-.11
-      (lambda (tmp.24 tmp.25)
-        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
-            (- tmp.24 tmp.25)
-            830)
-          830)))
-    (define L.+.10
-      (lambda (tmp.22 tmp.23)
-        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
-            (+ tmp.22 tmp.23)
-            574)
-          574)))
-    (define L.*.9
-      (lambda (tmp.20 tmp.21)
-        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
-          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
-            (* tmp.20 (arithmetic-shift-right tmp.21 3))
-            318)
-          318)))
-    (define L.fun/void140574.4 (lambda () 30))
-    (define L.fun/empty140576.5 (lambda () 22))
-    (define L.fun/empty140575.6 (lambda () (call L.fun/empty140576.5)))
-    (define L.fun/void140573.7 (lambda () (call L.fun/void140574.4)))
-    (let ((fixnum0.6
-           (call
-            L.*.9
-            (call
-             L.-.11
-             (call L.*.9 (call L.*.9 1776 336) (call L.+.10 728 728))
-             (call L.*.9 (call L.+.10 1176 1264) (call L.-.11 496 984)))
-            (call
-             L.-.11
-             (call L.+.10 (call L.+.10 1520 1616) (call L.+.10 24 1392))
-             (call L.-.11 (call L.+.10 824 1456) (call L.+.10 1952 240)))))
-          (fixnum1.5
-           (call
-            L.+.10
-            (call
-             L.*.9
-             (call L.+.10 (call L.*.9 1424 816) (call L.-.11 784 1520))
-             (call L.+.10 (call L.-.11 2032 1680) (call L.*.9 1776 328)))
-            (call
-             L.+.10
-             (call L.-.11 (call L.+.10 2000 1216) (call L.+.10 1928 1280))
-             (call L.-.11 (call L.-.11 120 488) (call L.-.11 1032 280)))))
-          (fixnum2.4
-           (call
-            L.*.9
-            (call
-             L.-.11
-             (call L.*.9 (call L.+.10 888 1984) (call L.-.11 1024 888))
-             (call L.+.10 (call L.+.10 504 8) (call L.*.9 512 1544)))
-            (call
-             L.-.11
-             (call L.+.10 (call L.*.9 288 760) (call L.-.11 880 960))
-             (call L.*.9 (call L.+.10 1000 1288) (call L.+.10 1744 48)))))
-          (void3.3 (call L.fun/void140573.7))
-          (fixnum4.2
-           (call
-            L.-.11
-            (call
-             L.-.11
-             (call L.-.11 (call L.-.11 1272 1960) (call L.-.11 1632 648))
-             (call L.-.11 (call L.-.11 712 1632) (call L.*.9 216 552)))
-            (call
-             L.-.11
-             (call L.+.10 (call L.-.11 1944 1296) (call L.+.10 1872 1872))
-             (call L.-.11 (call L.+.10 1128 1744) (call L.*.9 944 480)))))
-          (empty5.1 (call L.fun/empty140575.6)))
-      void3.3)))
+    (define L.fun/error24539.4 (lambda () 15934))
+    (define L.fun/ascii-char24535.5 (lambda () 18734))
+    (define L.fun/ascii-char24529.6 (lambda () 24622))
+    (define L.fun/empty24537.7 (lambda () 22))
+    (define L.fun/ascii-char24534.8 (lambda () (call L.fun/ascii-char24535.5)))
+    (define L.fun/error24531.9 (lambda () 2622))
+    (define L.fun/error24538.10 (lambda () (call L.fun/error24539.4)))
+    (define L.fun/empty24536.11 (lambda () (call L.fun/empty24537.7)))
+    (define L.fun/void24532.12 (lambda () (call L.fun/void24533.14)))
+    (define L.fun/error24530.13 (lambda () (call L.fun/error24531.9)))
+    (define L.fun/void24533.14 (lambda () 30))
+    (define L.fun/ascii-char24528.15
+      (lambda () (call L.fun/ascii-char24529.6)))
+    (let ((ascii-char0.6 (call L.fun/ascii-char24528.15))
+          (error1.5 (call L.fun/error24530.13))
+          (void2.4 (call L.fun/void24532.12))
+          (ascii-char3.3 (call L.fun/ascii-char24534.8))
+          (empty4.2 (call L.fun/empty24536.11))
+          (error5.1 (call L.fun/error24538.10)))
+      empty4.2)))
 (check-by-interp
  '(module
     (define L.-.15
@@ -1911,49 +793,237 @@
             (+ tmp.22 tmp.23)
             574)
           574)))
-    (define L.fun/error143927.4 (lambda () (call L.fun/error143928.6)))
-    (define L.fun/ascii-char143929.5
-      (lambda () (call L.fun/ascii-char143930.11)))
-    (define L.fun/error143928.6 (lambda () 10814))
-    (define L.fun/void143926.7 (lambda () 30))
-    (define L.fun/void143924.8 (lambda () 30))
-    (define L.fun/void143923.9 (lambda () (call L.fun/void143924.8)))
-    (define L.fun/void143925.10 (lambda () (call L.fun/void143926.7)))
-    (define L.fun/ascii-char143930.11 (lambda () 25390))
-    (let ((fixnum0.6
+    (define L.fun/empty24788.4 (lambda () 22))
+    (define L.fun/error24789.5 (lambda () (call L.fun/error24790.10)))
+    (define L.fun/error24786.6 (lambda () 34622))
+    (define L.fun/error24785.7 (lambda () (call L.fun/error24786.6)))
+    (define L.fun/empty24792.8 (lambda () 22))
+    (define L.fun/empty24787.9 (lambda () (call L.fun/empty24788.4)))
+    (define L.fun/error24790.10 (lambda () 11070))
+    (define L.fun/empty24791.11 (lambda () (call L.fun/empty24792.8)))
+    (let ((error0.6 (call L.fun/error24785.7))
+          (fixnum1.5
+           (call
+            L.-.15
+            (call
+             L.-.15
+             (call L.+.13 (call L.+.13 1392 1112) (call L.*.14 1104 1584))
+             (call L.-.15 (call L.*.14 88 1024) (call L.+.13 680 32)))
+            (call
+             L.+.13
+             (call L.+.13 (call L.-.15 1648 1672) (call L.*.14 2016 1616))
+             (call L.*.14 (call L.-.15 1040 1512) (call L.+.13 2024 1256)))))
+          (empty2.4 (call L.fun/empty24787.9))
+          (error3.3 (call L.fun/error24789.5))
+          (fixnum4.2
            (call
             L.*.14
             (call
-             L.*.14
-             (call L.-.15 (call L.+.13 544 1392) (call L.*.14 360 1344))
-             (call L.*.14 (call L.-.15 1888 288) (call L.-.15 968 800)))
+             L.-.15
+             (call L.-.15 (call L.*.14 640 608) (call L.*.14 88 1840))
+             (call L.+.13 (call L.+.13 1992 2008) (call L.*.14 632 1960)))
             (call
-             L.+.13
-             (call L.-.15 (call L.*.14 32 912) (call L.+.13 688 1744))
-             (call L.*.14 (call L.-.15 304 568) (call L.*.14 1344 256)))))
+             L.*.14
+             (call L.+.13 (call L.*.14 744 1392) (call L.*.14 808 440))
+             (call L.*.14 (call L.-.15 1368 920) (call L.-.15 912 920)))))
+          (empty5.1 (call L.fun/empty24791.11)))
+      (call
+       L.+.13
+       (call
+        L.+.13
+        (call L.-.15 (call L.-.15 56 fixnum4.2) fixnum4.2)
+        (call L.*.14 fixnum1.5 (call L.*.14 144 fixnum1.5)))
+       (call L.-.15 fixnum4.2 fixnum1.5)))))
+(check-by-interp
+ '(module
+    (define L.error?.19
+      (lambda (tmp.48) (if (= (bitwise-and tmp.48 255) 62) 14 6)))
+    (define L.cons.18
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/pair24832.4 (lambda () (call L.fun/pair24833.15)))
+    (define L.fun/error24829.5 (lambda () 2110))
+    (define L.fun/pair24835.6 (lambda () (call L.fun/pair24836.7)))
+    (define L.fun/pair24836.7 (lambda () (call L.cons.18 1040 4056)))
+    (define L.fun/any24834.8 (lambda () 40766))
+    (define L.fun/ascii-char24839.9
+      (lambda () (call L.fun/ascii-char24840.12)))
+    (define L.fun/void24831.10 (lambda () 30))
+    (define L.fun/void24830.11 (lambda () (call L.fun/void24831.10)))
+    (define L.fun/ascii-char24840.12 (lambda () 26414))
+    (define L.fun/empty24838.13 (lambda () 22))
+    (define L.fun/empty24837.14 (lambda () (call L.fun/empty24838.13)))
+    (define L.fun/pair24833.15 (lambda () (call L.cons.18 1856 3544)))
+    (define L.fun/error24828.16 (lambda () (call L.fun/error24829.5)))
+    (let ((error0.6 (call L.fun/error24828.16))
+          (void1.5 (call L.fun/void24830.11))
+          (pair2.4 (call L.fun/pair24832.4))
+          (boolean3.3 (call L.error?.19 (call L.fun/any24834.8)))
+          (pair4.2 (call L.fun/pair24835.6))
+          (empty5.1 (call L.fun/empty24837.14)))
+      (call L.fun/ascii-char24839.9))))
+(check-by-interp
+ '(module
+    (define L.+.16
+      (lambda (tmp.22 tmp.23)
+        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+            (+ tmp.22 tmp.23)
+            574)
+          574)))
+    (define L.-.15
+      (lambda (tmp.24 tmp.25)
+        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+            (- tmp.24 tmp.25)
+            830)
+          830)))
+    (define L.*.14
+      (lambda (tmp.20 tmp.21)
+        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+            (* tmp.20 (arithmetic-shift-right tmp.21 3))
+            318)
+          318)))
+    (define L.cons.13
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/empty27006.4 (lambda () (call L.fun/empty27007.9)))
+    (define L.fun/pair27009.5 (lambda () (call L.cons.13 1768 2952)))
+    (define L.fun/void27004.6 (lambda () (call L.fun/void27005.11)))
+    (define L.fun/ascii-char27003.7 (lambda () 29998))
+    (define L.fun/pair27008.8 (lambda () (call L.fun/pair27009.5)))
+    (define L.fun/empty27007.9 (lambda () 22))
+    (define L.fun/ascii-char27002.10
+      (lambda () (call L.fun/ascii-char27003.7)))
+    (define L.fun/void27005.11 (lambda () 30))
+    (let ((fixnum0.6
+           (call
+            L.-.15
+            (call
+             L.+.16
+             (call L.-.15 (call L.*.14 264 1480) (call L.-.15 1256 408))
+             (call L.+.16 (call L.-.15 384 1408) (call L.-.15 2016 1384)))
+            (call
+             L.-.15
+             (call L.*.14 (call L.-.15 168 1384) (call L.*.14 872 808))
+             (call L.-.15 (call L.+.16 560 608) (call L.-.15 520 872)))))
           (fixnum1.5
            (call
             L.*.14
             (call
-             L.+.13
-             (call L.*.14 (call L.+.13 1648 1384) (call L.*.14 1664 488))
-             (call L.+.13 (call L.+.13 1624 192) (call L.*.14 1080 416)))
-            (call
-             L.+.13
-             (call L.-.15 (call L.+.13 1936 1496) (call L.+.13 344 80))
-             (call L.-.15 (call L.*.14 1728 1656) (call L.*.14 1040 1408)))))
-          (void2.4 (call L.fun/void143923.9))
-          (void3.3 (call L.fun/void143925.10))
-          (error4.2 (call L.fun/error143927.4))
-          (fixnum5.1
-           (call
-            L.+.13
+             L.*.14
+             (call L.+.16 (call L.+.16 776 488) (call L.*.14 704 1368))
+             (call L.+.16 (call L.-.15 1880 1592) (call L.*.14 1080 1824)))
             (call
              L.-.15
-             (call L.-.15 (call L.-.15 464 1064) (call L.*.14 664 1200))
-             (call L.+.13 (call L.*.14 1152 848) (call L.*.14 448 1976)))
+             (call L.-.15 (call L.-.15 1312 1800) (call L.*.14 792 1856))
+             (call L.-.15 (call L.*.14 608 408) (call L.-.15 16 904)))))
+          (ascii-char2.4 (call L.fun/ascii-char27002.10))
+          (void3.3 (call L.fun/void27004.6))
+          (empty4.2 (call L.fun/empty27006.4))
+          (fixnum5.1
+           (call
+            L.+.16
             (call
-             L.+.13
-             (call L.-.15 (call L.+.13 16 128) (call L.+.13 1704 88))
-             (call L.-.15 (call L.*.14 1280 472) (call L.+.13 472 752))))))
-      (call L.fun/ascii-char143929.5))))
+             L.*.14
+             (call L.*.14 (call L.*.14 704 48) (call L.-.15 1448 1168))
+             (call L.-.15 (call L.-.15 1016 784) (call L.*.14 240 2016)))
+            (call
+             L.*.14
+             (call L.-.15 (call L.-.15 496 1968) (call L.+.16 1672 1688))
+             (call L.-.15 (call L.*.14 880 992) (call L.-.15 1176 1000))))))
+      (call L.fun/pair27008.8))))
+(check-by-interp
+ '(module
+    (define L.*.17
+      (lambda (tmp.20 tmp.21)
+        (if (!= (if (= (bitwise-and tmp.21 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.20 7) 0) 14 6) 6)
+            (* tmp.20 (arithmetic-shift-right tmp.21 3))
+            318)
+          318)))
+    (define L.+.16
+      (lambda (tmp.22 tmp.23)
+        (if (!= (if (= (bitwise-and tmp.23 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.22 7) 0) 14 6) 6)
+            (+ tmp.22 tmp.23)
+            574)
+          574)))
+    (define L.-.15
+      (lambda (tmp.24 tmp.25)
+        (if (!= (if (= (bitwise-and tmp.25 7) 0) 14 6) 6)
+          (if (!= (if (= (bitwise-and tmp.24 7) 0) 14 6) 6)
+            (- tmp.24 tmp.25)
+            830)
+          830)))
+    (define L.fun/ascii-char27114.4 (lambda () (call L.fun/ascii-char27115.8)))
+    (define L.fun/empty27120.5 (lambda () (call L.fun/empty27121.11)))
+    (define L.fun/error27116.6 (lambda () (call L.fun/error27117.7)))
+    (define L.fun/error27117.7 (lambda () 34622))
+    (define L.fun/ascii-char27115.8 (lambda () 23342))
+    (define L.fun/ascii-char27123.9 (lambda () 27694))
+    (define L.fun/ascii-char27122.10
+      (lambda () (call L.fun/ascii-char27123.9)))
+    (define L.fun/empty27121.11 (lambda () 22))
+    (define L.fun/empty27118.12 (lambda () (call L.fun/empty27119.13)))
+    (define L.fun/empty27119.13 (lambda () 22))
+    (let ((ascii-char0.6 (call L.fun/ascii-char27114.4))
+          (error1.5 (call L.fun/error27116.6))
+          (empty2.4 (call L.fun/empty27118.12))
+          (empty3.3 (call L.fun/empty27120.5))
+          (fixnum4.2
+           (call
+            L.+.16
+            (call
+             L.+.16
+             (call L.-.15 (call L.-.15 608 584) (call L.-.15 1776 1304))
+             (call L.+.16 (call L.+.16 1456 1824) (call L.+.16 1832 312)))
+            (call
+             L.*.17
+             (call L.*.17 (call L.-.15 1536 8) (call L.-.15 648 912))
+             (call L.+.16 (call L.+.16 688 1304) (call L.-.15 1544 1096)))))
+          (ascii-char5.1 (call L.fun/ascii-char27122.10)))
+      (call
+       L.-.15
+       (call
+        L.*.17
+        (call L.-.15 fixnum4.2 (call L.*.17 fixnum4.2 1928))
+        (call L.+.16 fixnum4.2 (call L.+.16 184 fixnum4.2)))
+       (call
+        L.-.15
+        (call L.+.16 (call L.-.15 920 912) fixnum4.2)
+        (call L.-.15 (call L.-.15 792 1752) fixnum4.2))))))
+(check-by-interp
+ '(module
+    (define L.pair?.19
+      (lambda (tmp.49) (if (= (bitwise-and tmp.49 7) 1) 14 6)))
+    (define L.cons.18
+      (lambda (tmp.52 tmp.53)
+        (let ((tmp.56 (+ (alloc 16) 1)))
+          (begin (mset! tmp.56 -1 tmp.52) (mset! tmp.56 7 tmp.53) tmp.56))))
+    (define L.fun/pair27447.4 (lambda () (call L.fun/pair27448.11)))
+    (define L.fun/ascii-char27445.5
+      (lambda () (call L.fun/ascii-char27446.13)))
+    (define L.fun/ascii-char27438.6 (lambda () 18222))
+    (define L.fun/error27440.7 (lambda () 33342))
+    (define L.fun/ascii-char27443.8
+      (lambda () (call L.fun/ascii-char27444.14)))
+    (define L.fun/void27441.9 (lambda () (call L.fun/void27442.12)))
+    (define L.fun/error27439.10 (lambda () (call L.fun/error27440.7)))
+    (define L.fun/pair27448.11 (lambda () (call L.cons.18 1488 3512)))
+    (define L.fun/void27442.12 (lambda () 30))
+    (define L.fun/ascii-char27446.13 (lambda () 29230))
+    (define L.fun/ascii-char27444.14 (lambda () 25134))
+    (define L.fun/ascii-char27437.15
+      (lambda () (call L.fun/ascii-char27438.6)))
+    (define L.fun/any27436.16 (lambda () (call L.cons.18 1488 3104)))
+    (let ((boolean0.6 (call L.pair?.19 (call L.fun/any27436.16)))
+          (ascii-char1.5 (call L.fun/ascii-char27437.15))
+          (error2.4 (call L.fun/error27439.10))
+          (void3.3 (call L.fun/void27441.9))
+          (ascii-char4.2 (call L.fun/ascii-char27443.8))
+          (ascii-char5.1 (call L.fun/ascii-char27445.5)))
+      (call L.fun/pair27447.4))))

@@ -82,6 +82,7 @@
           ,@(map impose-effect! fx*)
           ,(impose-effect! fx2))]
       [`(set! ,aloc ,value) (value->fx^! value (λ (trg-val) `(set! ,aloc ,trg-val)))]
+      [`(mset! ,_ ,_ ,_) fx]
       [`(if ,pred ,fx1 ,fx2)
        `(if ,(impose-pred! pred)
             ,(impose-effect! fx1)

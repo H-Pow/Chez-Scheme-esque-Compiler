@@ -1,6 +1,6 @@
 #lang racket
 
-(require "generate-exprs-lang-v8.rkt"
+(require "generate-exprs-lang-v9.rkt"
          "get-passes-content.rkt"
          "testable.rkt"
          cpsc411/langs/v9)
@@ -51,8 +51,16 @@
           (close-output-port file)
           ))))
 
-(for [(complexity (range 5 7))]
-  (for [(ntests (range (arithmetic-shift 2 complexity)))]
+; (for [(complexity (range 7))]
+;   (for [(ntests (range (arithmetic-shift 2 complexity)))]
+;     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
+;     (generate/file complexity complexity)
+;     )
+
+;   )
+
+(for [(complexity (range 6 7))]
+  (for [(ntests (range 92 (arithmetic-shift 2 complexity)))]
     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
     (generate/file complexity complexity)
     )

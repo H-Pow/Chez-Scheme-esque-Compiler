@@ -1,0 +1,216 @@
+#lang racket
+(require rackunit
+         cpsc411/langs/v7
+         (only-in "../uniquify.rkt" uniquify))
+
+(define (check-exprs-lang-v7 p)
+  (if (exprs-lang-v7? p) p #f))
+
+(define (check-exprs-unique-lang-v7 p)
+  (if (exprs-unique-lang-v7? p) p #f))
+
+(define-syntax-rule (check-by-interp p)
+  (check-equal? (interp-exprs-lang-v7 (check-exprs-lang-v7 p))
+                (interp-exprs-unique-lang-v7 (check-exprs-unique-lang-v7 (uniquify p)))))
+
+;;; Added by Trevor on 2026-03-19
+
+(check-by-interp '(module 0))
+(check-by-interp '(module 1))
+(check-by-interp '(module #f))
+(check-by-interp '(module #t))
+(check-by-interp '(module #\3))
+(check-by-interp '(module #\J))
+(check-by-interp '(module (void)))
+(check-by-interp '(module (call + 0 0)))
+(check-by-interp '(module (call not #f)))
+(check-by-interp '(module (call not #t)))
+(check-by-interp '(module (if #f empty 0)))
+(check-by-interp '(module (call fixnum? #t)))
+(check-by-interp '(module (call error? (void))))
+(check-by-interp '(module (call fixnum? empty)))
+(check-by-interp '(module (call ascii-char? #t)))
+(check-by-interp '(module (call boolean? (void))))
+(check-by-interp '(module (call ascii-char? (void))))
+(check-by-interp '(module (let ([foobar.8 #f]) foobar.8)))
+(check-by-interp '(module (let ([foobar.2 #\d]
+                                [bat.1 #\n])
+                            foobar.2)))
+(check-by-interp '(module (define proc.0 (lambda () #t)) (call void? 1)
+                    ))
+(check-by-interp '(module (define tmp.0 (lambda (foo.9) #t)) (call <= 0 0)
+                    ))
+(check-by-interp '(module (let ([foobar.1 #f]
+                                [foo.2 empty]
+                                [foo.5 135803637])
+                            empty)))
+(check-by-interp '(module (define x.0 (lambda (foo.4 ball.9 foo.8 ball.3 ball.5) -495192066)) #t
+                    ))
+(check-by-interp '(module (define func.0 (lambda (foobar.2 foobar.9 bat.5 bar.8 ball.0 foo.1) 1)) #f
+                    ))
+(check-by-interp '(module (define fn.0 (lambda (foo.5) (void))) (define tmp.1 (lambda () empty))
+                    #\L))
+(check-by-interp '(module (define func.0 (lambda (bar.9 foobar.0 bar.7 ball.1) #f))
+                          (if #\K
+                              #t
+                              (void))
+                    ))
+(check-by-interp '(module (define proc.0 (lambda (foobar.7 bar.4 bat.2 foo.8) bar.4)) (call eq? #\a 1)
+                    ))
+(check-by-interp '(module (define func.0 (lambda (bat.7 ball.3 bat.4 ball.0 bar.2) ball.0))
+                          (call * 1 0)
+                    ))
+(check-by-interp
+ '(module (define proc.0 (lambda (bar.6 foo.7 foo.5 ball.1 foobar.8 bat.4 foobar.0) foobar.0)) empty
+    ))
+(check-by-interp '(module (define fn.0 (lambda (bat.3 bar.9) #f))
+                          (define func.1 (lambda (foobar.4 bar.8) bar.8))
+                    #t))
+(check-by-interp '(module (define proc.0 (lambda (foobar.4 foo.8 bar.0 foobar.3 bar.9 bat.7) #t))
+                          (call eq? #\m 233919391)
+                    ))
+(check-by-interp '(module (define x.0 (lambda (bat.7 foobar.0) 1))
+                          (define func.1 (lambda (bat.6 bar.1 foobar.2) #t))
+                    (void)))
+(check-by-interp '(module (define func.0 (lambda (foobar.0 ball.4 foo.8) ball.4))
+                          (let ([bar.3 #f]
+                                [ball.4 empty]
+                                [foo.1 empty])
+                            0)
+                    ))
+(check-by-interp '(module (define func.0 (lambda (foobar.8 foo.9 foobar.2 bar.6 foobar.0) #f))
+                          (define proc.1 (lambda (bar.6) bar.6))
+                    #f))
+(check-by-interp '(module (define fn.0 (lambda (bat.7 foobar.4) foobar.4))
+                          (let ([bar.3 (void)]
+                                [bar.9 empty]
+                                [foobar.2 0]
+                                [foo.5 0])
+                            #t)
+                    ))
+(check-by-interp '(module (define x.0 (lambda () empty))
+                          (define proc.1
+                            (lambda (bat.2 bat.4 ball.0 foobar.9 foo.3 ball.1 foobar.8) #t))
+                    #\r))
+(check-by-interp '(module (define proc.0 (lambda (bat.3 bat.0 foobar.6 foobar.9 foobar.1) bat.0))
+                          (define proc.1 (lambda (bar.7 bat.0) #f))
+                    empty))
+(check-by-interp '(module (define tmp.0 (lambda (ball.2 foobar.3 foo.9 foo.6 bat.4) foobar.3))
+                          (define x.1 (lambda (bat.8) #f))
+                    (if #\e
+                        (void)
+                        empty)))
+(check-by-interp '(module (define x.0 (lambda (ball.0) ball.0))
+                          (define tmp.1 (lambda (foo.1 bat.2 bat.9 foo.4 ball.5 bat.6 bat.7) 0))
+                    (call void? #\3)))
+(check-by-interp '(module (define fn.0 (lambda () (void)))
+                          (define fn.1 (lambda (ball.8 foo.1 bar.7 foo.4) foo.4))
+                    (define tmp.2 (lambda (bat.2) bat.2))
+                    #t))
+(check-by-interp '(module (define func.0 (lambda (foobar.3 ball.2 ball.1 foobar.8 ball.9) #f))
+                          (define func.1 (lambda (ball.0 foobar.8 ball.5) #\X))
+                    (void)))
+(check-by-interp '(module (define proc.0 (lambda (ball.8 ball.9) #\l))
+                          (define fn.1 (lambda (bar.0 ball.3 ball.8 ball.9 foobar.5) #t))
+                    (call boolean? empty)))
+(check-by-interp '(module (let ([foo.4 (call eq? empty 0)]
+                                [foobar.1 #f]
+                                [ball.5 253953304])
+                            (let ([ball.5 (if #t
+                                              (void)
+                                              foo.4)])
+                              (call ascii-char? ball.5)))))
+(check-by-interp '(module (define fn.0 (lambda (foo.4 bat.8 bat.6) bat.8))
+                          (define x.1 (lambda (foobar.3) empty))
+                    (define func.2 (lambda () #f))
+                    (if (void)
+                        (void)
+                        #\r)))
+(check-by-interp '(module (define func.0 (lambda (foobar.8 ball.0 foobar.2 foobar.6 bat.9) #f))
+                          (define func.1 (lambda (foobar.2 foo.1) foobar.2))
+                    (call ascii-char? #f)))
+(check-by-interp '(module (define proc.0
+                            (lambda (ball.4 foobar.7 foo.6 bar.9 bat.3 foobar.0 ball.8) #t))
+                          (define x.1 (lambda (bat.3 bar.9 foo.1 ball.4 bar.5) foo.1))
+                    #f))
+(check-by-interp '(module (define func.0 (lambda (foobar.4 bar.8 bat.7 bar.1 foo.9) #t))
+                          (define func.1 (lambda (foobar.3 foo.6 foobar.4 bar.1) #f))
+                    (call ascii-char? #\P)))
+(check-by-interp '(module (define x.0 (lambda (ball.3) 0))
+                          (define proc.1 (lambda (bat.1 foobar.8 foobar.5 ball.3 bat.7) foobar.5))
+                    (let ([bat.7 empty]
+                          [foobar.2 #f])
+                      empty)))
+(check-by-interp '(module (define tmp.0 (lambda (ball.3 bat.8 foobar.7 bar.6 bar.5) bar.5))
+                          (define tmp.1 (lambda (bat.2 foobar.4 bar.6 foobar.7 bar.5 ball.3 foo.9) 0))
+                    (call boolean? (void))))
+(check-by-interp '(module (define x.0 (lambda (foo.8 foobar.6 bat.0 ball.7) ball.7))
+                          (define fn.1
+                            (lambda (bat.3 foobar.9 foobar.5 foo.8 bat.4 ball.7 foo.2) -441245769))
+                    (call ascii-char? (void))))
+(check-by-interp '(module (define proc.0 (lambda (foo.9 foo.0) #t))
+                          (define fn.1 (lambda (bat.3 bat.1 bat.7) bat.1))
+                    (define func.2 (lambda (foo.2 foo.9) 0))
+                    (let ([foo.9 #t]) (call * 513154086 1))))
+(check-by-interp '(module (define proc.0 (lambda (foobar.1 foo.5 bat.4 foo.2 bat.0) #t))
+                          (define tmp.1 (lambda (bat.0) #t))
+                    (define x.2 (lambda (ball.9 bar.7 bat.4 foo.2 foobar.1 foo.3 foo.6) #f))
+                    0))
+(check-by-interp '(module (define fn.0 (lambda (foobar.4 foo.3 bar.0 foo.7 bar.8 foobar.2) empty))
+                          (define proc.1 (lambda (foo.7 foo.3 bar.0) #t))
+                    (define x.2 (lambda (foobar.2 bar.8) foobar.2))
+                    empty))
+(check-by-interp '(module (define tmp.0
+                            (lambda (bar.2 foobar.0 foobar.9 ball.1 bat.3 bar.4 ball.8) foobar.0))
+                          (define x.1 (lambda (foobar.0 bar.2 bar.4 ball.6 ball.5 bat.3 foobar.9) #f))
+                    (call empty? 1)))
+(check-by-interp '(module (define proc.0
+                            (lambda (foobar.8 foobar.2 bat.9 bar.6 bar.3 foobar.0 bar.4) 1))
+                          (define func.1 (lambda () #t))
+                    (define fn.2 (lambda (foobar.7 ball.1 foobar.0) ball.1))
+                    (if #f #t empty)))
+(check-by-interp '(module (define fn.0
+                            (lambda (foobar.3 bar.4 bat.6 foo.9 ball.0 foobar.5 foobar.8) bat.6))
+                          (define tmp.1 (lambda (ball.1) ball.1))
+                    (define tmp.2 (lambda (foobar.8 foobar.5 ball.0) #f))
+                    (call ascii-char? 1)))
+(check-by-interp '(module (define tmp.0 (lambda (foo.4 bar.6 foobar.0) bar.6))
+                          (define fn.1 (lambda (foo.1 ball.9 foobar.3 bat.2) foo.1))
+                    (define x.2 (lambda (bar.6 bat.2 foobar.7 foo.1 ball.9 foobar.0) 1))
+                    (call boolean? #f)))
+(check-by-interp '(module (define tmp.0 (lambda (bat.9 bar.0 bat.4 bar.8 bar.2 bar.5 ball.3) bar.5))
+                          (define x.1 (lambda (ball.3 bar.0 foo.7 bar.8 bar.5) 0))
+                    (define func.2 (lambda (foo.7 bar.2 bar.8 foobar.1) 1))
+                    (call ascii-char? empty)))
+(check-by-interp '(module (define proc.0 (lambda (bat.2 ball.8 foobar.7 foo.1) #t))
+                          (define proc.1 (lambda (bat.5 foo.6 foobar.3 foobar.7 bat.0) #f))
+                    (define x.2 (lambda (bar.4 foobar.3 bar.9) 0))
+                    (let ([bat.5 (call eq? 1 #f)]) (call < -278642811 1))))
+(check-by-interp '(module (define proc.0 (lambda (foo.9 ball.5 ball.4 bar.8 ball.1 bat.7) #f))
+                          (define proc.1 (lambda (bar.0 foo.6) #f))
+                    (define fn.2 (lambda (ball.5 bar.8 foo.9 bat.7 ball.1 foo.6 bar.0) #t))
+                    (if (void)
+                        (let ([ball.1 (call empty? #f)]) ball.1)
+                        1)))
+(check-by-interp '(module (define x.0
+                            (lambda (bar.0 foobar.1 bat.4 foobar.5 foo.8 bat.9 bat.2) bar.0))
+                          (define tmp.1 (lambda (foobar.3 foobar.1 bat.9 foobar.5 bar.6 bat.4) 0))
+                    (define tmp.2 (lambda (bat.2 foobar.3 bar.0 foobar.5 bar.6 ball.7 foo.8) #f))
+                    (call fixnum? #f)))
+(check-by-interp '(module (define tmp.0 (lambda (foo.3 foo.0 ball.9 ball.1 ball.6 foobar.5) foo.3))
+                          (define x.1 (lambda (foobar.5 ball.7 foo.3 ball.1 ball.6) 296261657))
+                    (define tmp.2 (lambda (ball.6 ball.7 foo.2 foobar.5) ball.6))
+                    (let ([foobar.8 empty]
+                          [ball.6 empty]
+                          [foo.0 #\L])
+                      #\r)))
+(check-by-interp '(module (define fn.0 (lambda (ball.6 bar.9 bat.8 ball.7 bat.4 bar.1 foobar.5) 1))
+                          (define proc.1
+                            (lambda (foobar.5 bar.1 ball.7 bat.8 bat.4 ball.3 ball.6) ball.7))
+                    (define x.2 (lambda (ball.6 bar.9 ball.3 foobar.5 ball.7 bat.8) #f))
+                    (let ([ball.3 (void)]
+                          [foobar.5 #\T]
+                          [foo.2 empty]
+                          [ball.6 empty])
+                      ball.6)))
+;;; Added by Trevor on 2026-03-19

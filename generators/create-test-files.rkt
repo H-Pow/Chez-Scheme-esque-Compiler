@@ -3,10 +3,10 @@
 (require "generate-exprs-lang-v8.rkt"
          "get-passes-content.rkt"
          "testable.rkt"
-         cpsc411/langs/v8)
+         cpsc411/langs/v9)
 
-(define current-milestone 8)
-(define interpretor interp-exprs-lang-v8)
+(define current-milestone 9)
+(define interpretor interp-exprs-lang-v9)
 (define out-folder (~a "m" current-milestone "-generated-tests" ))
 (when (not (directory-exists? out-folder)) (make-directory out-folder))
 

@@ -52,6 +52,10 @@
 (define structop '(cons car cdr make-vector vector-length vector-set! vector-ref))
 (define structop? (compose not false? (curry memq structop)))
 
+(define procedureop '(procedure? procedure-arity))
+(define procedureop? (compose not false? (curry memq procedureop)))
+
+
 (define unop
   '(fixnum? boolean?
             empty?

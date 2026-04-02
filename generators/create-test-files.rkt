@@ -43,7 +43,7 @@
 (define (generate/file max-recur max-iter [override? #f])
   (define prog (generate/p max-recur max-iter))
   (if (not (testable? prog interpretor))
-      (generate/file max-recur max-iter)
+      (generate/file max-recur max-iter override?)
       (let ([passes (get-passes-content current-milestone prog allowed-passes)])
         (for ([entry passes])
           (define file (open-test-file (car entry) #:override? override?))

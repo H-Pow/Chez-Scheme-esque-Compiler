@@ -5,13 +5,12 @@
 
 (provide uniquify)
 
-; exprs-lang-v7 -> exprs-unique-lang-v7
+; exprs-lang-v9 -> exprs-unique-lang-v9
 (define (uniquify p)
-  ;; env is an immutable association list that maps x to label/aloc/prim-f
+  ;; env is an immutable association list that maps x to aloc or prim-f
   (define DEFAULT-ENV (map cons prim-f prim-f))
   ;; triv env -> unique-triv
-  ; triv	 	::=	 	+label
-  ; |	 	+aloc
+  ; triv	 	::= +aloc
   ; |	 	+prim-f
   ; |	 	-x
   ; |	 	fixnum
@@ -26,6 +25,14 @@
       [(? (or/c int61? #t #f 'empty ascii-char-literal?)) triv]
       ['(void) triv]
       [`(error ,(? uint8?)) triv]
+      [`(lambda (,x* ...) ,value)
+       (define aloc* (map fresh x*))
+       (define env/updated (for/foldr ([env/updated env])
+                             ([x x*]
+                              [aloc aloc*])
+                              (dict-set! env/updated x aloc) 
+                             ))
+      `(lambda ,aloc* ,(uniquify-value value env/updated))]
       [(? (or/c name? prim-f?)) (dict-ref env triv)]))
   ;; value env -> unique-value
   ; value	 	::=	 	triv
@@ -56,11 +63,11 @@
       [_ (uniquify-triv value env)]))
   ;  p	 	::=	 	(module (define x (lambda (x ...) value)) ... value)
   ;; (define x (lambda (x ...) value)) env -> env
-  ;; returns an updated env with the definition's x as a new label
+  ;; returns an updated env with the definition's x as a new aloc
   ;; this step is necessary for mutual recursion
   (define (mark-def def env)
     (match def
-      [`(define ,x (lambda (,_ ...) ,_)) (dict-set env x (fresh-label x))]))
+      [`(define ,x (lambda (,_ ...) ,_)) (dict-set env x (fresh x))]))
 
   ;; (define x (lambda (x ...) value)) env -> (define label (lambda (aloc ...) unique-value))
   (define (uniquify-def def env)

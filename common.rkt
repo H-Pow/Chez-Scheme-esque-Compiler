@@ -71,7 +71,7 @@
             vector?))
 (define unop? (compose not false? (curryr memq unop)))
 
-(define prim-f `(,@binop ,@unop ,@structop))
+(define prim-f `(,@binop ,@unop ,@structop ,@procedureop))
 (define prim-f? (compose not false? (curryr memq prim-f)))
 
 (define (binop->fun op)

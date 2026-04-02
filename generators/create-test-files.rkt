@@ -59,8 +59,8 @@
 
 ;   )
 
-(for [(complexity (range 6 7))]
-  (for [(ntests (range 92 (arithmetic-shift 2 complexity)))]
+(for [(complexity (range 4 7))]
+  (for [(ntests (range (arithmetic-shift 2 complexity)))]
     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
     (generate/file complexity complexity)
     )

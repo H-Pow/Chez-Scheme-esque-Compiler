@@ -750,3 +750,788 @@
           (error4.17 (call fun/error12094.14))
           (empty5.16 (call fun/empty12096.7)))
       (call fun/void12098.15))))
+(check-by-interp
+ '(module
+    (define pair?.65 (lambda (tmp.56) (pair? tmp.56)))
+    (define fun/void8617.4 (lambda () (void)))
+    (define fun/void8621.5 (lambda () (void)))
+    (define fun/ascii-char8619.6 (lambda () #\g))
+    (define fun/any8618.7 (lambda () #\M))
+    (define fun/void8620.8 (lambda () (void)))
+    (let ((void0.12 (call fun/void8617.4))
+          (boolean1.11 (call pair?.65 (call fun/any8618.7)))
+          (ascii-char2.10 (call fun/ascii-char8619.6))
+          (void3.9 (call fun/void8620.8)))
+      (call fun/void8621.5))))
+(check-by-interp
+ '(module
+    (define |+.74|
+      (lambda (tmp.35 tmp.36)
+        (if (fixnum? tmp.36)
+          (if (fixnum? tmp.35) (unsafe-fx+ tmp.35 tmp.36) (error 2))
+          (error 2))))
+    (define *.73
+      (lambda (tmp.33 tmp.34)
+        (if (fixnum? tmp.34)
+          (if (fixnum? tmp.33) (unsafe-fx* tmp.33 tmp.34) (error 1))
+          (error 1))))
+    (define |-.72|
+      (lambda (tmp.37 tmp.38)
+        (if (fixnum? tmp.38)
+          (if (fixnum? tmp.37) (unsafe-fx- tmp.37 tmp.38) (error 3))
+          (error 3))))
+    (define vector-init-loop.21
+      (lambda (len.22 i.24 vec.23)
+        (if (eq? len.22 i.24)
+          vec.23
+          (begin
+            (unsafe-vector-set! vec.23 i.24 0)
+            (call vector-init-loop.21 len.22 (unsafe-fx+ i.24 1) vec.23)))))
+    (define make-init-vector.1
+      (lambda (tmp.19)
+        (let ((tmp.20 (unsafe-make-vector tmp.19)))
+          (call vector-init-loop.21 tmp.19 0 tmp.20))))
+    (define make-vector.71
+      (lambda (tmp.47)
+        (if (fixnum? tmp.47) (call make-init-vector.1 tmp.47) (error 8))))
+    (define fun/vector9289.4 (lambda () (call fun/vector9290.6)))
+    (define fun/error9287.5 (lambda () (call fun/error9288.7)))
+    (define fun/vector9290.6 (lambda () (call make-vector.71 8)))
+    (define fun/error9288.7 (lambda () (error 238)))
+    (define fun/vector9292.8 (lambda () (call make-vector.71 8)))
+    (define fun/empty9296.9 (lambda () empty))
+    (define fun/empty9295.10 (lambda () (call fun/empty9296.9)))
+    (define fun/vector9291.11 (lambda () (call fun/vector9292.8)))
+    (define fun/ascii-char9294.12 (lambda () #\V))
+    (define fun/ascii-char9293.13 (lambda () (call fun/ascii-char9294.12)))
+    (let ((error0.18 (call fun/error9287.5))
+          (fixnum1.17
+           (call
+            *.73
+            (call |+.74| (call |-.72| 10 182) (call *.73 226 247))
+            (call *.73 (call |+.74| 35 137) (call |+.74| 166 53))))
+          (vector2.16 (call fun/vector9289.4))
+          (vector3.15 (call fun/vector9291.11))
+          (ascii-char4.14 (call fun/ascii-char9293.13)))
+      (call fun/empty9295.10))))
+(check-by-interp
+ '(module
+    (define vector?.72 (lambda (tmp.64) (vector? tmp.64)))
+    (define fun/void9337.4 (lambda () (call fun/void9338.11)))
+    (define fun/any9339.5 (lambda () 1))
+    (define fun/ascii-char9340.6 (lambda () (call fun/ascii-char9341.9)))
+    (define fun/void9345.7 (lambda () (void)))
+    (define fun/empty9342.8 (lambda () (call fun/empty9343.14)))
+    (define fun/ascii-char9341.9 (lambda () #\X))
+    (define fun/void9344.10 (lambda () (call fun/void9345.7)))
+    (define fun/void9338.11 (lambda () (void)))
+    (define fun/ascii-char9347.12 (lambda () #\g))
+    (define fun/ascii-char9346.13 (lambda () (call fun/ascii-char9347.12)))
+    (define fun/empty9343.14 (lambda () empty))
+    (let ((void0.19 (call fun/void9337.4))
+          (boolean1.18 (call vector?.72 (call fun/any9339.5)))
+          (ascii-char2.17 (call fun/ascii-char9340.6))
+          (empty3.16 (call fun/empty9342.8))
+          (void4.15 (call fun/void9344.10)))
+      (call fun/ascii-char9346.13))))
+(check-by-interp
+ '(module
+    (define vector?.73 (lambda (tmp.63) (vector? tmp.63)))
+    (define void?.72 (lambda (tmp.59) (void? tmp.59)))
+    (define vector-init-loop.21
+      (lambda (len.22 i.24 vec.23)
+        (if (eq? len.22 i.24)
+          vec.23
+          (begin
+            (unsafe-vector-set! vec.23 i.24 0)
+            (call vector-init-loop.21 len.22 (unsafe-fx+ i.24 1) vec.23)))))
+    (define make-init-vector.1
+      (lambda (tmp.19)
+        (let ((tmp.20 (unsafe-make-vector tmp.19)))
+          (call vector-init-loop.21 tmp.19 0 tmp.20))))
+    (define make-vector.71
+      (lambda (tmp.47)
+        (if (fixnum? tmp.47) (call make-init-vector.1 tmp.47) (error 8))))
+    (define fun/empty10247.4 (lambda () empty))
+    (define fun/vector10251.5 (lambda () (call make-vector.71 8)))
+    (define fun/vector10250.6 (lambda () (call fun/vector10251.5)))
+    (define fun/empty10246.7 (lambda () (call fun/empty10247.4)))
+    (define fun/empty10248.8 (lambda () (call fun/empty10249.10)))
+    (define fun/error10245.9 (lambda () (error 53)))
+    (define fun/empty10249.10 (lambda () empty))
+    (define fun/error10244.11 (lambda () (call fun/error10245.9)))
+    (define fun/any10242.12 (lambda () (error 110)))
+    (define fun/any10243.13 (lambda () #t))
+    (let ((boolean0.18 (call void?.72 (call fun/any10242.12)))
+          (procedure1.17 (lambda () (call vector?.73 (call fun/any10243.13))))
+          (error2.16 (call fun/error10244.11))
+          (empty3.15 (call fun/empty10246.7))
+          (empty4.14 (call fun/empty10248.8)))
+      (call fun/vector10250.6))))
+(check-by-interp
+ '(module
+    (define vector-init-loop.23
+      (lambda (len.24 i.26 vec.25)
+        (if (eq? len.24 i.26)
+          vec.25
+          (begin
+            (unsafe-vector-set! vec.25 i.26 0)
+            (call vector-init-loop.23 len.24 (unsafe-fx+ i.26 1) vec.25)))))
+    (define make-init-vector.1
+      (lambda (tmp.21)
+        (let ((tmp.22 (unsafe-make-vector tmp.21)))
+          (call vector-init-loop.23 tmp.21 0 tmp.22))))
+    (define make-vector.73
+      (lambda (tmp.49)
+        (if (fixnum? tmp.49) (call make-init-vector.1 tmp.49) (error 8))))
+    (define fun/void10770.4 (lambda () (call fun/void10771.10)))
+    (define fun/void10777.5 (lambda () (void)))
+    (define fun/void10776.6 (lambda () (call fun/void10777.5)))
+    (define fun/void10772.7 (lambda () (call fun/void10773.9)))
+    (define fun/void10775.8 (lambda () (void)))
+    (define fun/void10773.9 (lambda () (void)))
+    (define fun/void10771.10 (lambda () (void)))
+    (define fun/void10774.11 (lambda () (call fun/void10775.8)))
+    (define fun/ascii-char10778.12 (lambda () (call fun/ascii-char10779.13)))
+    (define fun/ascii-char10779.13 (lambda () #\c))
+    (define fun/vector10781.14 (lambda () (call make-vector.73 8)))
+    (define fun/vector10780.15 (lambda () (call fun/vector10781.14)))
+    (let ((void0.20 (call fun/void10770.4))
+          (void1.19 (call fun/void10772.7))
+          (void2.18 (call fun/void10774.11))
+          (void3.17 (call fun/void10776.6))
+          (ascii-char4.16 (call fun/ascii-char10778.12)))
+      (call fun/vector10780.15))))
+(check-by-interp
+ '(module
+    (define *.76
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+          (error 1))))
+    (define |+.75|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+          (error 2))))
+    (define |-.74|
+      (lambda (tmp.40 tmp.41)
+        (if (fixnum? tmp.41)
+          (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+          (error 3))))
+    (define fun/void11006.4 (lambda () (call fun/void11007.6)))
+    (define fun/void11010.5 (lambda () (call fun/void11011.8)))
+    (define fun/void11007.6 (lambda () (void)))
+    (define fun/empty11017.7 (lambda () empty))
+    (define fun/void11011.8 (lambda () (void)))
+    (define fun/empty11016.9 (lambda () (call fun/empty11017.7)))
+    (define fun/error11009.10 (lambda () (error 242)))
+    (define fun/void11014.11 (lambda () (call fun/void11015.13)))
+    (define fun/error11008.12 (lambda () (call fun/error11009.10)))
+    (define fun/void11015.13 (lambda () (void)))
+    (define fun/ascii-char11013.14 (lambda () #\k))
+    (define fun/ascii-char11012.15 (lambda () (call fun/ascii-char11013.14)))
+    (let ((fixnum0.21
+           (call
+            |+.75|
+            (call
+             |-.74|
+             (call |-.74| (call |-.74| 169 4) (call |+.75| 213 92))
+             (call |-.74| (call *.76 180 13) (call *.76 208 214)))
+            (call
+             |+.75|
+             (call |-.74| (call *.76 0 191) (call |+.75| 206 116))
+             (call *.76 (call |-.74| 199 135) (call |-.74| 16 95)))))
+          (void1.20 (call fun/void11006.4))
+          (procedure2.19 (lambda () (call fun/error11008.12)))
+          (void3.18 (call fun/void11010.5))
+          (ascii-char4.17 (call fun/ascii-char11012.15))
+          (void5.16 (call fun/void11014.11)))
+      (call fun/empty11016.9))))
+(check-by-interp
+ '(module
+    (define |+.74|
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx+ tmp.36 tmp.37) (error 2))
+          (error 2))))
+    (define *.73
+      (lambda (tmp.34 tmp.35)
+        (if (fixnum? tmp.35)
+          (if (fixnum? tmp.34) (unsafe-fx* tmp.34 tmp.35) (error 1))
+          (error 1))))
+    (define |-.72|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx- tmp.38 tmp.39) (error 3))
+          (error 3))))
+    (define fun/error11878.4 (lambda () (error 64)))
+    (define fun/error11879.5 (lambda () (call fun/error11880.7)))
+    (define fun/ascii-char11876.6 (lambda () #\m))
+    (define fun/error11880.7 (lambda () (error 168)))
+    (define fun/ascii-char11873.8 (lambda () (call fun/ascii-char11874.9)))
+    (define fun/ascii-char11874.9 (lambda () #\r))
+    (define fun/error11877.10 (lambda () (call fun/error11878.4)))
+    (define fun/void11872.11 (lambda () (void)))
+    (define fun/void11871.12 (lambda () (call fun/void11872.11)))
+    (define fun/ascii-char11875.13 (lambda () (call fun/ascii-char11876.6)))
+    (let ((procedure0.19
+           (lambda ()
+             (call
+              *.73
+              (call
+               |+.74|
+               (call *.73 (call |-.72| 150 41) (call |-.72| 173 100))
+               (call |+.74| (call |+.74| 213 92) (call |+.74| 41 60)))
+              (call
+               *.73
+               (call |+.74| (call |+.74| 2 4) (call |+.74| 78 239))
+               (call |-.72| (call *.73 228 169) (call |+.74| 198 43))))))
+          (void1.18 (call fun/void11871.12))
+          (ascii-char2.17 (call fun/ascii-char11873.8))
+          (ascii-char3.16 (call fun/ascii-char11875.13))
+          (error4.15 (call fun/error11877.10))
+          (error5.14 (call fun/error11879.5)))
+      (call
+       *.73
+       (call
+        |-.72|
+        (call |+.74| (call |-.72| 71 30) (call procedure0.19))
+        (call procedure0.19))
+       (call procedure0.19)))))
+(check-by-interp
+ '(module
+    (define empty?.77 (lambda (tmp.63) (empty? tmp.63)))
+    (define cons.76 (lambda (tmp.71 tmp.72) (cons tmp.71 tmp.72)))
+    (define fun/ascii-char12698.4 (lambda () (call fun/ascii-char12699.5)))
+    (define fun/ascii-char12699.5 (lambda () #\[))
+    (define fun/any12703.6 (lambda () (call cons.76 139 388)))
+    (define fun/empty12692.7 (lambda () (call fun/empty12693.13)))
+    (define fun/error12696.8 (lambda () (call fun/error12697.10)))
+    (define fun/void12701.9 (lambda () (void)))
+    (define fun/error12697.10 (lambda () (error 95)))
+    (define fun/any12702.11 (lambda () (call fun/any12703.6)))
+    (define fun/void12700.12 (lambda () (call fun/void12701.9)))
+    (define fun/empty12693.13 (lambda () empty))
+    (define fun/ascii-char12705.14 (lambda () #\]))
+    (define fun/empty12695.15 (lambda () empty))
+    (define fun/ascii-char12704.16 (lambda () (call fun/ascii-char12705.14)))
+    (define fun/empty12694.17 (lambda () (call fun/empty12695.15)))
+    (let ((empty0.23 (call fun/empty12692.7))
+          (empty1.22 (call fun/empty12694.17))
+          (error2.21 (call fun/error12696.8))
+          (ascii-char3.20 (call fun/ascii-char12698.4))
+          (void4.19 (call fun/void12700.12))
+          (boolean5.18 (call empty?.77 (call fun/any12702.11))))
+      (call fun/ascii-char12704.16))))
+(check-by-interp
+ '(module
+    (define |+.76|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+          (error 2))))
+    (define *.75
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+          (error 1))))
+    (define |-.74|
+      (lambda (tmp.40 tmp.41)
+        (if (fixnum? tmp.41)
+          (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+          (error 3))))
+    (define fun/ascii-char12715.4 (lambda () #\i))
+    (define fun/ascii-char12714.5 (lambda () (call fun/ascii-char12715.4)))
+    (define fun/ascii-char12713.6 (lambda () #\E))
+    (define fun/ascii-char12710.7 (lambda () (call fun/ascii-char12711.14)))
+    (define fun/error12717.8 (lambda () (error 129)))
+    (define fun/error12716.9 (lambda () (call fun/error12717.8)))
+    (define fun/error12709.10 (lambda () (error 67)))
+    (define fun/ascii-char12719.11 (lambda () #\[))
+    (define fun/ascii-char12718.12 (lambda () (call fun/ascii-char12719.11)))
+    (define fun/ascii-char12712.13 (lambda () (call fun/ascii-char12713.6)))
+    (define fun/ascii-char12711.14 (lambda () #\u))
+    (define fun/error12708.15 (lambda () (call fun/error12709.10)))
+    (let ((error0.21 (call fun/error12708.15))
+          (procedure1.20
+           (lambda ()
+             (call
+              |-.74|
+              (call
+               |+.76|
+               (call *.75 (call |-.74| 170 108) (call *.75 124 91))
+               (call |-.74| (call |+.76| 196 124) (call |-.74| 29 207)))
+              (call
+               *.75
+               (call |+.76| (call |-.74| 74 25) (call *.75 40 225))
+               (call |-.74| (call |+.76| 92 174) (call *.75 221 197))))))
+          (ascii-char2.19 (call fun/ascii-char12710.7))
+          (ascii-char3.18 (call fun/ascii-char12712.13))
+          (ascii-char4.17 (call fun/ascii-char12714.5))
+          (error5.16 (call fun/error12716.9)))
+      (call fun/ascii-char12718.12))))
+(check-by-interp
+ '(module
+    (define |+.74|
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx+ tmp.36 tmp.37) (error 2))
+          (error 2))))
+    (define |-.73|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx- tmp.38 tmp.39) (error 3))
+          (error 3))))
+    (define *.72
+      (lambda (tmp.34 tmp.35)
+        (if (fixnum? tmp.35)
+          (if (fixnum? tmp.34) (unsafe-fx* tmp.34 tmp.35) (error 1))
+          (error 1))))
+    (define fun/ascii-char14511.4 (lambda () #\E))
+    (define fun/ascii-char14516.5 (lambda () (call fun/ascii-char14517.9)))
+    (define fun/error14514.6 (lambda () (call fun/error14515.7)))
+    (define fun/error14515.7 (lambda () (error 218)))
+    (define fun/ascii-char14510.8 (lambda () (call fun/ascii-char14511.4)))
+    (define fun/ascii-char14517.9 (lambda () #\c))
+    (define fun/error14508.10 (lambda () (call fun/error14509.11)))
+    (define fun/error14509.11 (lambda () (error 191)))
+    (define fun/error14512.12 (lambda () (call fun/error14513.13)))
+    (define fun/error14513.13 (lambda () (error 19)))
+    (let ((error0.19 (call fun/error14508.10))
+          (fixnum1.18
+           (call
+            |+.74|
+            (call
+             |+.74|
+             (call |+.74| (call *.72 245 103) (call |-.73| 14 91))
+             (call *.72 (call *.72 122 65) (call *.72 59 49)))
+            (call
+             |-.73|
+             (call *.72 (call |+.74| 170 243) (call |+.74| 227 62))
+             (call |-.73| (call *.72 165 152) (call *.72 34 234)))))
+          (fixnum2.17
+           (call
+            |-.73|
+            (call
+             |-.73|
+             (call *.72 (call |-.73| 28 218) (call |+.74| 219 163))
+             (call *.72 (call |-.73| 33 43) (call *.72 234 231)))
+            (call
+             |+.74|
+             (call |-.73| (call |-.73| 62 212) (call |-.73| 164 217))
+             (call |-.73| (call *.72 209 38) (call |-.73| 224 233)))))
+          (ascii-char3.16 (call fun/ascii-char14510.8))
+          (error4.15 (call fun/error14512.12))
+          (error5.14 (call fun/error14514.6)))
+      (call fun/ascii-char14516.5))))
+(check-by-interp
+ '(module
+    (define fun/error14883.4 (lambda () (error 146)))
+    (define fun/error14880.5 (lambda () (call fun/error14881.8)))
+    (define fun/empty14886.6 (lambda () (call fun/empty14887.10)))
+    (define fun/error14882.7 (lambda () (call fun/error14883.4)))
+    (define fun/error14881.8 (lambda () (error 44)))
+    (define fun/error14879.9 (lambda () (error 114)))
+    (define fun/empty14887.10 (lambda () empty))
+    (define fun/ascii-char14884.11 (lambda () (call fun/ascii-char14885.12)))
+    (define fun/ascii-char14885.12 (lambda () #\b))
+    (define fun/empty14876.13 (lambda () (call fun/empty14877.15)))
+    (define fun/error14878.14 (lambda () (call fun/error14879.9)))
+    (define fun/empty14877.15 (lambda () empty))
+    (let ((empty0.21 (call fun/empty14876.13))
+          (error1.20 (call fun/error14878.14))
+          (error2.19 (call fun/error14880.5))
+          (procedure3.18 (lambda () (call fun/error14882.7)))
+          (ascii-char4.17 (call fun/ascii-char14884.11))
+          (empty5.16 (call fun/empty14886.6)))
+      (call procedure3.18))))
+(check-by-interp
+ '(module
+    (define ascii-char?.77 (lambda (tmp.65) (ascii-char? tmp.65)))
+    (define vector-init-loop.26
+      (lambda (len.27 i.29 vec.28)
+        (if (eq? len.27 i.29)
+          vec.28
+          (begin
+            (unsafe-vector-set! vec.28 i.29 0)
+            (call vector-init-loop.26 len.27 (unsafe-fx+ i.29 1) vec.28)))))
+    (define make-init-vector.1
+      (lambda (tmp.24)
+        (let ((tmp.25 (unsafe-make-vector tmp.24)))
+          (call vector-init-loop.26 tmp.24 0 tmp.25))))
+    (define make-vector.76
+      (lambda (tmp.52)
+        (if (fixnum? tmp.52) (call make-init-vector.1 tmp.52) (error 8))))
+    (define fun/empty15196.4 (lambda () (call fun/empty15197.10)))
+    (define fun/empty15206.5 (lambda () (call fun/empty15207.7)))
+    (define fun/ascii-char15202.6 (lambda () (call fun/ascii-char15203.9)))
+    (define fun/empty15207.7 (lambda () empty))
+    (define fun/vector15208.8 (lambda () (call fun/vector15209.11)))
+    (define fun/ascii-char15203.9 (lambda () #\r))
+    (define fun/empty15197.10 (lambda () empty))
+    (define fun/vector15209.11 (lambda () (call make-vector.76 8)))
+    (define fun/empty15204.12 (lambda () (call fun/empty15205.17)))
+    (define fun/error15200.13 (lambda () (call fun/error15201.15)))
+    (define fun/any15199.14 (lambda () (void)))
+    (define fun/error15201.15 (lambda () (error 204)))
+    (define fun/any15198.16 (lambda () (call fun/any15199.14)))
+    (define fun/empty15205.17 (lambda () empty))
+    (let ((procedure0.23 (lambda () (call fun/empty15196.4)))
+          (procedure1.22
+           (lambda () (call ascii-char?.77 (call fun/any15198.16))))
+          (error2.21 (call fun/error15200.13))
+          (ascii-char3.20 (call fun/ascii-char15202.6))
+          (empty4.19 (call fun/empty15204.12))
+          (empty5.18 (call fun/empty15206.5)))
+      (call fun/vector15208.8))))
+(check-by-interp
+ '(module
+    (define vector-init-loop.26
+      (lambda (len.27 i.29 vec.28)
+        (if (eq? len.27 i.29)
+          vec.28
+          (begin
+            (unsafe-vector-set! vec.28 i.29 0)
+            (call vector-init-loop.26 len.27 (unsafe-fx+ i.29 1) vec.28)))))
+    (define make-init-vector.1
+      (lambda (tmp.24)
+        (let ((tmp.25 (unsafe-make-vector tmp.24)))
+          (call vector-init-loop.26 tmp.24 0 tmp.25))))
+    (define make-vector.76
+      (lambda (tmp.52)
+        (if (fixnum? tmp.52) (call make-init-vector.1 tmp.52) (error 8))))
+    (define fun/vector17408.4 (lambda () (call fun/vector17409.9)))
+    (define fun/vector17418.5 (lambda () (call fun/vector17419.7)))
+    (define fun/ascii-char17415.6 (lambda () #\e))
+    (define fun/vector17419.7 (lambda () (call make-vector.76 8)))
+    (define fun/error17410.8 (lambda () (call fun/error17411.15)))
+    (define fun/vector17409.9 (lambda () (call make-vector.76 8)))
+    (define fun/void17416.10 (lambda () (call fun/void17417.17)))
+    (define fun/error17413.11 (lambda () (error 54)))
+    (define fun/ascii-char17414.12 (lambda () (call fun/ascii-char17415.6)))
+    (define fun/error17412.13 (lambda () (call fun/error17413.11)))
+    (define fun/error17407.14 (lambda () (error 211)))
+    (define fun/error17411.15 (lambda () (error 42)))
+    (define fun/error17406.16 (lambda () (call fun/error17407.14)))
+    (define fun/void17417.17 (lambda () (void)))
+    (let ((error0.23 (call fun/error17406.16))
+          (vector1.22 (call fun/vector17408.4))
+          (error2.21 (call fun/error17410.8))
+          (error3.20 (call fun/error17412.13))
+          (ascii-char4.19 (call fun/ascii-char17414.12))
+          (void5.18 (call fun/void17416.10)))
+      (call fun/vector17418.5))))
+(check-by-interp
+ '(module
+    (define *.77
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+          (error 1))))
+    (define |+.76|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+          (error 2))))
+    (define |-.75|
+      (lambda (tmp.40 tmp.41)
+        (if (fixnum? tmp.41)
+          (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+          (error 3))))
+    (define vector-init-loop.24
+      (lambda (len.25 i.27 vec.26)
+        (if (eq? len.25 i.27)
+          vec.26
+          (begin
+            (unsafe-vector-set! vec.26 i.27 0)
+            (call vector-init-loop.24 len.25 (unsafe-fx+ i.27 1) vec.26)))))
+    (define make-init-vector.1
+      (lambda (tmp.22)
+        (let ((tmp.23 (unsafe-make-vector tmp.22)))
+          (call vector-init-loop.24 tmp.22 0 tmp.23))))
+    (define make-vector.74
+      (lambda (tmp.50)
+        (if (fixnum? tmp.50) (call make-init-vector.1 tmp.50) (error 8))))
+    (define fun/empty18594.4 (lambda () empty))
+    (define fun/error18587.5 (lambda () (call fun/error18588.6)))
+    (define fun/error18588.6 (lambda () (error 113)))
+    (define fun/empty18593.7 (lambda () (call fun/empty18594.4)))
+    (define fun/vector18596.8 (lambda () (call make-vector.74 8)))
+    (define fun/vector18595.9 (lambda () (call fun/vector18596.8)))
+    (define fun/empty18590.10 (lambda () empty))
+    (define fun/error18586.11 (lambda () (error 31)))
+    (define fun/error18585.12 (lambda () (call fun/error18586.11)))
+    (define fun/empty18589.13 (lambda () (call fun/empty18590.10)))
+    (define fun/ascii-char18592.14 (lambda () #\g))
+    (define fun/ascii-char18591.15 (lambda () (call fun/ascii-char18592.14)))
+    (let ((error0.21 (call fun/error18585.12))
+          (error1.20 (call fun/error18587.5))
+          (procedure2.19 (lambda () (call fun/empty18589.13)))
+          (fixnum3.18
+           (call
+            *.77
+            (call
+             |-.75|
+             (call |+.76| (call |-.75| 129 28) (call |-.75| 120 104))
+             (call |-.75| (call *.77 177 151) (call |+.76| 2 114)))
+            (call
+             |+.76|
+             (call |-.75| (call |-.75| 158 176) (call |-.75| 38 134))
+             (call |+.76| (call |+.76| 119 101) (call |+.76| 52 154)))))
+          (ascii-char4.17 (call fun/ascii-char18591.15))
+          (empty5.16 (call fun/empty18593.7)))
+      (call fun/vector18595.9))))
+(check-by-interp
+ '(module
+    (define *.77
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+          (error 1))))
+    (define |+.76|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+          (error 2))))
+    (define |-.75|
+      (lambda (tmp.40 tmp.41)
+        (if (fixnum? tmp.41)
+          (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+          (error 3))))
+    (define vector-init-loop.24
+      (lambda (len.25 i.27 vec.26)
+        (if (eq? len.25 i.27)
+          vec.26
+          (begin
+            (unsafe-vector-set! vec.26 i.27 0)
+            (call vector-init-loop.24 len.25 (unsafe-fx+ i.27 1) vec.26)))))
+    (define make-init-vector.1
+      (lambda (tmp.22)
+        (let ((tmp.23 (unsafe-make-vector tmp.22)))
+          (call vector-init-loop.24 tmp.22 0 tmp.23))))
+    (define make-vector.74
+      (lambda (tmp.50)
+        (if (fixnum? tmp.50) (call make-init-vector.1 tmp.50) (error 8))))
+    (define fun/empty19106.4 (lambda () empty))
+    (define fun/vector19107.5 (lambda () (call fun/vector19108.15)))
+    (define fun/void19116.6 (lambda () (void)))
+    (define fun/empty19105.7 (lambda () (call fun/empty19106.4)))
+    (define fun/void19115.8 (lambda () (call fun/void19116.6)))
+    (define fun/ascii-char19110.9 (lambda () #\Z))
+    (define fun/ascii-char19111.10 (lambda () (call fun/ascii-char19112.14)))
+    (define fun/error19113.11 (lambda () (call fun/error19114.12)))
+    (define fun/error19114.12 (lambda () (error 9)))
+    (define fun/ascii-char19109.13 (lambda () (call fun/ascii-char19110.9)))
+    (define fun/ascii-char19112.14 (lambda () #\p))
+    (define fun/vector19108.15 (lambda () (call make-vector.74 8)))
+    (let ((empty0.21 (call fun/empty19105.7))
+          (fixnum1.20
+           (call
+            *.77
+            (call
+             |+.76|
+             (call |-.75| (call |-.75| 1 111) (call |-.75| 118 140))
+             (call *.77 (call |-.75| 158 77) (call |+.76| 222 154)))
+            (call
+             |+.76|
+             (call |-.75| (call |+.76| 64 198) (call *.77 197 213))
+             (call *.77 (call *.77 206 230) (call |+.76| 117 189)))))
+          (procedure2.19 (lambda () (call fun/vector19107.5)))
+          (ascii-char3.18 (call fun/ascii-char19109.13))
+          (ascii-char4.17 (call fun/ascii-char19111.10))
+          (error5.16 (call fun/error19113.11)))
+      (call fun/void19115.8))))
+(check-by-interp
+ '(module
+    (define pair?.76 (lambda (tmp.67) (pair? tmp.67)))
+    (define fun/any20282.4 (lambda () (call fun/any20283.6)))
+    (define fun/void20271.5 (lambda () (void)))
+    (define fun/any20283.6 (lambda () (error 163)))
+    (define fun/void20270.7 (lambda () (call fun/void20271.5)))
+    (define fun/empty20278.8 (lambda () (call fun/empty20279.11)))
+    (define fun/empty20273.9 (lambda () empty))
+    (define fun/void20280.10 (lambda () (call fun/void20281.17)))
+    (define fun/empty20279.11 (lambda () empty))
+    (define fun/error20277.12 (lambda () (error 110)))
+    (define fun/error20276.13 (lambda () (call fun/error20277.12)))
+    (define fun/ascii-char20275.14 (lambda () #\Z))
+    (define fun/empty20272.15 (lambda () (call fun/empty20273.9)))
+    (define fun/ascii-char20274.16 (lambda () (call fun/ascii-char20275.14)))
+    (define fun/void20281.17 (lambda () (void)))
+    (let ((procedure0.23 (lambda () (call fun/void20270.7)))
+          (empty1.22 (call fun/empty20272.15))
+          (ascii-char2.21 (call fun/ascii-char20274.16))
+          (error3.20 (call fun/error20276.13))
+          (empty4.19 (call fun/empty20278.8))
+          (void5.18 (call fun/void20280.10)))
+      (call pair?.76 (call fun/any20282.4)))))
+(check-by-interp
+ '(module
+    (define vector?.79 (lambda (tmp.66) (vector? tmp.66)))
+    (define |+.78|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+          (error 2))))
+    (define *.77
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+          (error 1))))
+    (define |-.76|
+      (lambda (tmp.40 tmp.41)
+        (if (fixnum? tmp.41)
+          (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+          (error 3))))
+    (define empty?.75 (lambda (tmp.61) (empty? tmp.61)))
+    (define vector-init-loop.24
+      (lambda (len.25 i.27 vec.26)
+        (if (eq? len.25 i.27)
+          vec.26
+          (begin
+            (unsafe-vector-set! vec.26 i.27 0)
+            (call vector-init-loop.24 len.25 (unsafe-fx+ i.27 1) vec.26)))))
+    (define make-init-vector.1
+      (lambda (tmp.22)
+        (let ((tmp.23 (unsafe-make-vector tmp.22)))
+          (call vector-init-loop.24 tmp.22 0 tmp.23))))
+    (define make-vector.74
+      (lambda (tmp.50)
+        (if (fixnum? tmp.50) (call make-init-vector.1 tmp.50) (error 8))))
+    (define fun/empty21163.4 (lambda () empty))
+    (define fun/any21161.5 (lambda () 186))
+    (define fun/any21165.6 (lambda () (call make-vector.74 8)))
+    (define fun/any21164.7 (lambda () (call fun/any21165.6)))
+    (define fun/empty21162.8 (lambda () (call fun/empty21163.4)))
+    (define fun/void21166.9 (lambda () (call fun/void21167.12)))
+    (define fun/error21156.10 (lambda () (call fun/error21157.14)))
+    (define fun/vector21159.11 (lambda () (call make-vector.74 8)))
+    (define fun/void21167.12 (lambda () (void)))
+    (define fun/vector21158.13 (lambda () (call fun/vector21159.11)))
+    (define fun/error21157.14 (lambda () (error 103)))
+    (define fun/any21160.15 (lambda () (call fun/any21161.5)))
+    (let ((error0.21 (call fun/error21156.10))
+          (vector1.20 (call fun/vector21158.13))
+          (boolean2.19 (call empty?.75 (call fun/any21160.15)))
+          (fixnum3.18
+           (call
+            *.77
+            (call
+             |+.78|
+             (call *.77 (call |-.76| 26 52) (call |-.76| 136 64))
+             (call *.77 (call |-.76| 37 135) (call *.77 21 177)))
+            (call
+             |+.78|
+             (call |-.76| (call |-.76| 56 11) (call *.77 177 202))
+             (call |+.78| (call |-.76| 123 25) (call |-.76| 222 131)))))
+          (empty4.17 (call fun/empty21162.8))
+          (boolean5.16 (call vector?.79 (call fun/any21164.7))))
+      (call fun/void21166.9))))
+(check-by-interp
+ '(module
+    (define |-.79|
+      (lambda (tmp.40 tmp.41)
+        (if (fixnum? tmp.41)
+          (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+          (error 3))))
+    (define *.78
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+          (error 1))))
+    (define |+.77|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+          (error 2))))
+    (define boolean?.76 (lambda (tmp.60) (boolean? tmp.60)))
+    (define pair?.75 (lambda (tmp.65) (pair? tmp.65)))
+    (define cons.74 (lambda (tmp.69 tmp.70) (cons tmp.69 tmp.70)))
+    (define fun/any23222.4 (lambda () (call cons.74 40 437)))
+    (define fun/error23218.5 (lambda () (error 182)))
+    (define fun/void23223.6 (lambda () (call fun/void23224.7)))
+    (define fun/void23224.7 (lambda () (void)))
+    (define fun/void23220.8 (lambda () (void)))
+    (define fun/any23221.9 (lambda () (call fun/any23222.4)))
+    (define fun/void23219.10 (lambda () (call fun/void23220.8)))
+    (define fun/any23216.11 (lambda () (call cons.74 102 340)))
+    (define fun/ascii-char23225.12 (lambda () (call fun/ascii-char23226.14)))
+    (define fun/error23217.13 (lambda () (call fun/error23218.5)))
+    (define fun/ascii-char23226.14 (lambda () #\Y))
+    (define fun/any23215.15 (lambda () (call fun/any23216.11)))
+    (let ((boolean0.21 (call pair?.75 (call fun/any23215.15)))
+          (error1.20 (call fun/error23217.13))
+          (void2.19 (call fun/void23219.10))
+          (boolean3.18 (call boolean?.76 (call fun/any23221.9)))
+          (fixnum4.17
+           (call
+            *.78
+            (call
+             *.78
+             (call *.78 (call |+.77| 215 43) (call *.78 163 91))
+             (call |+.77| (call |+.77| 43 216) (call |+.77| 12 113)))
+            (call
+             |-.79|
+             (call |-.79| (call *.78 184 4) (call |+.77| 164 45))
+             (call |-.79| (call |+.77| 162 116) (call |-.79| 205 220)))))
+          (void5.16 (call fun/void23223.6)))
+      (call fun/ascii-char23225.12))))
+(check-by-interp
+ '(module
+    (define empty?.77 (lambda (tmp.59) (empty? tmp.59)))
+    (define |+.76|
+      (lambda (tmp.36 tmp.37)
+        (if (fixnum? tmp.37)
+          (if (fixnum? tmp.36) (unsafe-fx+ tmp.36 tmp.37) (error 2))
+          (error 2))))
+    (define *.75
+      (lambda (tmp.34 tmp.35)
+        (if (fixnum? tmp.35)
+          (if (fixnum? tmp.34) (unsafe-fx* tmp.34 tmp.35) (error 1))
+          (error 1))))
+    (define |-.74|
+      (lambda (tmp.38 tmp.39)
+        (if (fixnum? tmp.39)
+          (if (fixnum? tmp.38) (unsafe-fx- tmp.38 tmp.39) (error 3))
+          (error 3))))
+    (define procedure?.73 (lambda (tmp.66) (procedure? tmp.66)))
+    (define cons.72 (lambda (tmp.67 tmp.68) (cons tmp.67 tmp.68)))
+    (define fun/empty24035.4 (lambda () empty))
+    (define fun/empty24029.5 (lambda () empty))
+    (define fun/empty24028.6 (lambda () (call fun/empty24029.5)))
+    (define fun/pair24037.7 (lambda () (call cons.72 50 301)))
+    (define fun/any24031.8 (lambda () #f))
+    (define fun/any24030.9 (lambda () (call fun/any24031.8)))
+    (define fun/any24033.10 (lambda () #\X))
+    (define fun/pair24036.11 (lambda () (call fun/pair24037.7)))
+    (define fun/any24032.12 (lambda () (call fun/any24033.10)))
+    (define fun/empty24034.13 (lambda () (call fun/empty24035.4)))
+    (let ((empty0.19 (call fun/empty24028.6))
+          (procedure1.18
+           (lambda () (call procedure?.73 (call fun/any24030.9))))
+          (fixnum2.17
+           (call
+            *.75
+            (call
+             |+.76|
+             (call *.75 (call |-.74| 139 114) (call *.75 226 88))
+             (call |+.76| (call |+.76| 94 45) (call *.75 34 204)))
+            (call
+             |-.74|
+             (call |+.76| (call |-.74| 40 48) (call |+.76| 67 44))
+             (call *.75 (call |-.74| 121 46) (call |+.76| 5 152)))))
+          (fixnum3.16
+           (call
+            *.75
+            (call
+             |-.74|
+             (call |+.76| (call *.75 250 42) (call |+.76| 40 186))
+             (call |-.74| (call |+.76| 44 155) (call *.75 123 40)))
+            (call
+             *.75
+             (call |+.76| (call |-.74| 203 106) (call *.75 38 6))
+             (call *.75 (call |+.76| 77 100) (call |-.74| 66 58)))))
+          (boolean4.15 (call empty?.77 (call fun/any24032.12)))
+          (empty5.14 (call fun/empty24034.13)))
+      (call fun/pair24036.11))))

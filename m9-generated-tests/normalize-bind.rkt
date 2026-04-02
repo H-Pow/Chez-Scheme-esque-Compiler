@@ -4340,3 +4340,5011 @@
           (set! error4.17 (call L.fun/error12094.14.21 fun/error12094.14))
           (set! empty5.16 (call L.fun/empty12096.7.14 fun/empty12096.7))
           (call L.fun/void12098.15.22 fun/void12098.15))))))
+(check-by-interp
+ '(module
+    (define L.fun/void8620.8.12 (lambda (c.71) (begin 30)))
+    (define L.fun/any8618.7.11 (lambda (c.70) (begin 19758)))
+    (define L.fun/ascii-char8619.6.10 (lambda (c.69) (begin 26414)))
+    (define L.fun/void8621.5.9 (lambda (c.68) (begin 30)))
+    (define L.fun/void8617.4.8 (lambda (c.67) (begin 30)))
+    (define L.pair?.65.7
+      (lambda (c.66 tmp.56)
+        (begin
+          (if (begin (set! tmp.78 (bitwise-and tmp.56 7)) (= tmp.78 1))
+            14
+            6))))
+    (begin
+      (set! pair?.65
+        (begin
+          (set! tmp.72 (begin (set! tmp.79 (alloc 16)) (+ tmp.79 2)))
+          (begin (mset! tmp.72 -2 L.pair?.65.7) (mset! tmp.72 6 8) tmp.72)))
+      (set! fun/void8617.4
+        (begin
+          (set! tmp.73 (begin (set! tmp.80 (alloc 16)) (+ tmp.80 2)))
+          (begin
+            (mset! tmp.73 -2 L.fun/void8617.4.8)
+            (mset! tmp.73 6 0)
+            tmp.73)))
+      (set! fun/void8621.5
+        (begin
+          (set! tmp.74 (begin (set! tmp.81 (alloc 16)) (+ tmp.81 2)))
+          (begin
+            (mset! tmp.74 -2 L.fun/void8621.5.9)
+            (mset! tmp.74 6 0)
+            tmp.74)))
+      (set! fun/ascii-char8619.6
+        (begin
+          (set! tmp.75 (begin (set! tmp.82 (alloc 16)) (+ tmp.82 2)))
+          (begin
+            (mset! tmp.75 -2 L.fun/ascii-char8619.6.10)
+            (mset! tmp.75 6 0)
+            tmp.75)))
+      (set! fun/any8618.7
+        (begin
+          (set! tmp.76 (begin (set! tmp.83 (alloc 16)) (+ tmp.83 2)))
+          (begin
+            (mset! tmp.76 -2 L.fun/any8618.7.11)
+            (mset! tmp.76 6 0)
+            tmp.76)))
+      (set! fun/void8620.8
+        (begin
+          (set! tmp.77 (begin (set! tmp.84 (alloc 16)) (+ tmp.84 2)))
+          (begin
+            (mset! tmp.77 -2 L.fun/void8620.8.12)
+            (mset! tmp.77 6 0)
+            tmp.77)))
+      (begin
+        (set! void0.12 (call L.fun/void8617.4.8 fun/void8617.4))
+        (set! boolean1.11
+          (begin
+            (set! tmp.85 (call L.fun/any8618.7.11 fun/any8618.7))
+            (call L.pair?.65.7 pair?.65 tmp.85)))
+        (set! ascii-char2.10
+          (call L.fun/ascii-char8619.6.10 fun/ascii-char8619.6))
+        (set! void3.9 (call L.fun/void8620.8.12 fun/void8620.8))
+        (call L.fun/void8621.5.9 fun/void8621.5)))))
+(check-by-interp
+ '(module
+    (define L.fun/ascii-char9293.13.22
+      (lambda (c.90)
+        (begin
+          (set! fun/ascii-char9294.12 (mref c.90 14))
+          (call L.fun/ascii-char9294.12.21 fun/ascii-char9294.12))))
+    (define L.fun/ascii-char9294.12.21 (lambda (c.89) (begin 22062)))
+    (define L.fun/vector9291.11.20
+      (lambda (c.88)
+        (begin
+          (set! fun/vector9292.8 (mref c.88 14))
+          (call L.fun/vector9292.8.17 fun/vector9292.8))))
+    (define L.fun/empty9295.10.19
+      (lambda (c.87)
+        (begin
+          (set! fun/empty9296.9 (mref c.87 14))
+          (call L.fun/empty9296.9.18 fun/empty9296.9))))
+    (define L.fun/empty9296.9.18 (lambda (c.86) (begin 22)))
+    (define L.fun/vector9292.8.17
+      (lambda (c.85)
+        (begin
+          (set! make-vector.71 (mref c.85 14))
+          (call L.make-vector.71.12 make-vector.71 64))))
+    (define L.fun/error9288.7.16 (lambda (c.84) (begin 60990)))
+    (define L.fun/vector9290.6.15
+      (lambda (c.83)
+        (begin
+          (set! make-vector.71 (mref c.83 14))
+          (call L.make-vector.71.12 make-vector.71 64))))
+    (define L.fun/error9287.5.14
+      (lambda (c.82)
+        (begin
+          (set! fun/error9288.7 (mref c.82 14))
+          (call L.fun/error9288.7.16 fun/error9288.7))))
+    (define L.fun/vector9289.4.13
+      (lambda (c.81)
+        (begin
+          (set! fun/vector9290.6 (mref c.81 14))
+          (call L.fun/vector9290.6.15 fun/vector9290.6))))
+    (define L.make-vector.71.12
+      (lambda (c.80 tmp.47)
+        (begin
+          (set! make-init-vector.1 (mref c.80 14))
+          (if (begin
+                (set! tmp.108
+                  (if (begin
+                        (set! tmp.109 (bitwise-and tmp.47 7))
+                        (= tmp.109 0))
+                    14
+                    6))
+                (!= tmp.108 6))
+            (call L.make-init-vector.1.11 make-init-vector.1 tmp.47)
+            2110))))
+    (define L.make-init-vector.1.11
+      (lambda (c.79 tmp.19)
+        (begin
+          (set! vector-init-loop.21 (mref c.79 14))
+          (begin
+            (set! tmp.20
+              (begin
+                (set! tmp.91
+                  (begin
+                    (set! tmp.110
+                      (begin
+                        (set! tmp.111
+                          (begin
+                            (set! tmp.112
+                              (begin
+                                (set! tmp.113
+                                  (arithmetic-shift-right tmp.19 3))
+                                (+ 1 tmp.113)))
+                            (* tmp.112 8)))
+                        (alloc tmp.111)))
+                    (+ tmp.110 3)))
+                (begin (mset! tmp.91 -3 tmp.19) tmp.91)))
+            (call
+             L.vector-init-loop.21.10
+             vector-init-loop.21
+             tmp.19
+             0
+             tmp.20)))))
+    (define L.vector-init-loop.21.10
+      (lambda (c.78 len.22 i.24 vec.23)
+        (begin
+          (set! vector-init-loop.21 (mref c.78 14))
+          (if (begin (set! tmp.114 (if (= len.22 i.24) 14 6)) (!= tmp.114 6))
+            vec.23
+            (begin
+              (begin
+                (set! tmp.115
+                  (begin
+                    (set! tmp.116
+                      (begin
+                        (set! tmp.117 (arithmetic-shift-right i.24 3))
+                        (* tmp.117 8)))
+                    (+ tmp.116 5)))
+                (mset! vec.23 tmp.115 0))
+              (begin
+                (set! tmp.118 (+ i.24 8))
+                (call
+                 L.vector-init-loop.21.10
+                 vector-init-loop.21
+                 len.22
+                 tmp.118
+                 vec.23)))))))
+    (define L.-.72.9
+      (lambda (c.77 tmp.37 tmp.38)
+        (begin
+          (if (begin
+                (set! tmp.119
+                  (if (begin
+                        (set! tmp.120 (bitwise-and tmp.38 7))
+                        (= tmp.120 0))
+                    14
+                    6))
+                (!= tmp.119 6))
+            (if (begin
+                  (set! tmp.121
+                    (if (begin
+                          (set! tmp.122 (bitwise-and tmp.37 7))
+                          (= tmp.122 0))
+                      14
+                      6))
+                  (!= tmp.121 6))
+              (- tmp.37 tmp.38)
+              830)
+            830))))
+    (define L.*.73.8
+      (lambda (c.76 tmp.33 tmp.34)
+        (begin
+          (if (begin
+                (set! tmp.123
+                  (if (begin
+                        (set! tmp.124 (bitwise-and tmp.34 7))
+                        (= tmp.124 0))
+                    14
+                    6))
+                (!= tmp.123 6))
+            (if (begin
+                  (set! tmp.125
+                    (if (begin
+                          (set! tmp.126 (bitwise-and tmp.33 7))
+                          (= tmp.126 0))
+                      14
+                      6))
+                  (!= tmp.125 6))
+              (begin
+                (set! tmp.127 (arithmetic-shift-right tmp.34 3))
+                (* tmp.33 tmp.127))
+              318)
+            318))))
+    (define L.+.74.7
+      (lambda (c.75 tmp.35 tmp.36)
+        (begin
+          (if (begin
+                (set! tmp.128
+                  (if (begin
+                        (set! tmp.129 (bitwise-and tmp.36 7))
+                        (= tmp.129 0))
+                    14
+                    6))
+                (!= tmp.128 6))
+            (if (begin
+                  (set! tmp.130
+                    (if (begin
+                          (set! tmp.131 (bitwise-and tmp.35 7))
+                          (= tmp.131 0))
+                      14
+                      6))
+                  (!= tmp.130 6))
+              (+ tmp.35 tmp.36)
+              574)
+            574))))
+    (begin
+      (set! |+.74|
+        (begin
+          (set! tmp.92 (begin (set! tmp.132 (alloc 16)) (+ tmp.132 2)))
+          (begin (mset! tmp.92 -2 L.+.74.7) (mset! tmp.92 6 16) tmp.92)))
+      (set! *.73
+        (begin
+          (set! tmp.93 (begin (set! tmp.133 (alloc 16)) (+ tmp.133 2)))
+          (begin (mset! tmp.93 -2 L.*.73.8) (mset! tmp.93 6 16) tmp.93)))
+      (set! |-.72|
+        (begin
+          (set! tmp.94 (begin (set! tmp.134 (alloc 16)) (+ tmp.134 2)))
+          (begin (mset! tmp.94 -2 L.-.72.9) (mset! tmp.94 6 16) tmp.94)))
+      (set! vector-init-loop.21
+        (begin
+          (set! tmp.95 (begin (set! tmp.135 (alloc 24)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.95 -2 L.vector-init-loop.21.10)
+            (mset! tmp.95 6 24)
+            tmp.95)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.96 (begin (set! tmp.136 (alloc 24)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.96 -2 L.make-init-vector.1.11)
+            (mset! tmp.96 6 8)
+            tmp.96)))
+      (set! make-vector.71
+        (begin
+          (set! tmp.97 (begin (set! tmp.137 (alloc 24)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.97 -2 L.make-vector.71.12)
+            (mset! tmp.97 6 8)
+            tmp.97)))
+      (set! fun/vector9289.4
+        (begin
+          (set! tmp.98 (begin (set! tmp.138 (alloc 24)) (+ tmp.138 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/vector9289.4.13)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/error9287.5
+        (begin
+          (set! tmp.99 (begin (set! tmp.139 (alloc 24)) (+ tmp.139 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/error9287.5.14)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/vector9290.6
+        (begin
+          (set! tmp.100 (begin (set! tmp.140 (alloc 24)) (+ tmp.140 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/vector9290.6.15)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/error9288.7
+        (begin
+          (set! tmp.101 (begin (set! tmp.141 (alloc 16)) (+ tmp.141 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/error9288.7.16)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/vector9292.8
+        (begin
+          (set! tmp.102 (begin (set! tmp.142 (alloc 24)) (+ tmp.142 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/vector9292.8.17)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/empty9296.9
+        (begin
+          (set! tmp.103 (begin (set! tmp.143 (alloc 16)) (+ tmp.143 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/empty9296.9.18)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/empty9295.10
+        (begin
+          (set! tmp.104 (begin (set! tmp.144 (alloc 24)) (+ tmp.144 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/empty9295.10.19)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/vector9291.11
+        (begin
+          (set! tmp.105 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/vector9291.11.20)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/ascii-char9294.12
+        (begin
+          (set! tmp.106 (begin (set! tmp.146 (alloc 16)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/ascii-char9294.12.21)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/ascii-char9293.13
+        (begin
+          (set! tmp.107 (begin (set! tmp.147 (alloc 24)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/ascii-char9293.13.22)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (begin
+        (mset! vector-init-loop.21 14 vector-init-loop.21)
+        (mset! make-init-vector.1 14 vector-init-loop.21)
+        (mset! make-vector.71 14 make-init-vector.1)
+        (mset! fun/vector9289.4 14 fun/vector9290.6)
+        (mset! fun/error9287.5 14 fun/error9288.7)
+        (mset! fun/vector9290.6 14 make-vector.71)
+        (mset! fun/vector9292.8 14 make-vector.71)
+        (mset! fun/empty9295.10 14 fun/empty9296.9)
+        (mset! fun/vector9291.11 14 fun/vector9292.8)
+        (mset! fun/ascii-char9293.13 14 fun/ascii-char9294.12)
+        (begin
+          (set! error0.18 (call L.fun/error9287.5.14 fun/error9287.5))
+          (set! fixnum1.17
+            (begin
+              (set! tmp.148
+                (begin
+                  (set! tmp.149 (call L.-.72.9 |-.72| 80 1456))
+                  (begin
+                    (set! tmp.150 (call L.*.73.8 *.73 1808 1976))
+                    (call L.+.74.7 |+.74| tmp.149 tmp.150))))
+              (begin
+                (set! tmp.151
+                  (begin
+                    (set! tmp.152 (call L.+.74.7 |+.74| 280 1096))
+                    (begin
+                      (set! tmp.153 (call L.+.74.7 |+.74| 1328 424))
+                      (call L.*.73.8 *.73 tmp.152 tmp.153))))
+                (call L.*.73.8 *.73 tmp.148 tmp.151))))
+          (set! vector2.16 (call L.fun/vector9289.4.13 fun/vector9289.4))
+          (set! vector3.15 (call L.fun/vector9291.11.20 fun/vector9291.11))
+          (set! ascii-char4.14
+            (call L.fun/ascii-char9293.13.22 fun/ascii-char9293.13))
+          (call L.fun/empty9295.10.19 fun/empty9295.10))))))
+(check-by-interp
+ '(module
+    (define L.fun/empty9343.14.18 (lambda (c.84) (begin 22)))
+    (define L.fun/ascii-char9346.13.17
+      (lambda (c.83)
+        (begin
+          (set! fun/ascii-char9347.12 (mref c.83 14))
+          (call L.fun/ascii-char9347.12.16 fun/ascii-char9347.12))))
+    (define L.fun/ascii-char9347.12.16 (lambda (c.82) (begin 26414)))
+    (define L.fun/void9338.11.15 (lambda (c.81) (begin 30)))
+    (define L.fun/void9344.10.14
+      (lambda (c.80)
+        (begin
+          (set! fun/void9345.7 (mref c.80 14))
+          (call L.fun/void9345.7.11 fun/void9345.7))))
+    (define L.fun/ascii-char9341.9.13 (lambda (c.79) (begin 22574)))
+    (define L.fun/empty9342.8.12
+      (lambda (c.78)
+        (begin
+          (set! fun/empty9343.14 (mref c.78 14))
+          (call L.fun/empty9343.14.18 fun/empty9343.14))))
+    (define L.fun/void9345.7.11 (lambda (c.77) (begin 30)))
+    (define L.fun/ascii-char9340.6.10
+      (lambda (c.76)
+        (begin
+          (set! fun/ascii-char9341.9 (mref c.76 14))
+          (call L.fun/ascii-char9341.9.13 fun/ascii-char9341.9))))
+    (define L.fun/any9339.5.9 (lambda (c.75) (begin 8)))
+    (define L.fun/void9337.4.8
+      (lambda (c.74)
+        (begin
+          (set! fun/void9338.11 (mref c.74 14))
+          (call L.fun/void9338.11.15 fun/void9338.11))))
+    (define L.vector?.72.7
+      (lambda (c.73 tmp.64)
+        (begin
+          (if (begin (set! tmp.97 (bitwise-and tmp.64 7)) (= tmp.97 3))
+            14
+            6))))
+    (begin
+      (set! vector?.72
+        (begin
+          (set! tmp.85 (begin (set! tmp.98 (alloc 16)) (+ tmp.98 2)))
+          (begin (mset! tmp.85 -2 L.vector?.72.7) (mset! tmp.85 6 8) tmp.85)))
+      (set! fun/void9337.4
+        (begin
+          (set! tmp.86 (begin (set! tmp.99 (alloc 24)) (+ tmp.99 2)))
+          (begin
+            (mset! tmp.86 -2 L.fun/void9337.4.8)
+            (mset! tmp.86 6 0)
+            tmp.86)))
+      (set! fun/any9339.5
+        (begin
+          (set! tmp.87 (begin (set! tmp.100 (alloc 16)) (+ tmp.100 2)))
+          (begin
+            (mset! tmp.87 -2 L.fun/any9339.5.9)
+            (mset! tmp.87 6 0)
+            tmp.87)))
+      (set! fun/ascii-char9340.6
+        (begin
+          (set! tmp.88 (begin (set! tmp.101 (alloc 24)) (+ tmp.101 2)))
+          (begin
+            (mset! tmp.88 -2 L.fun/ascii-char9340.6.10)
+            (mset! tmp.88 6 0)
+            tmp.88)))
+      (set! fun/void9345.7
+        (begin
+          (set! tmp.89 (begin (set! tmp.102 (alloc 16)) (+ tmp.102 2)))
+          (begin
+            (mset! tmp.89 -2 L.fun/void9345.7.11)
+            (mset! tmp.89 6 0)
+            tmp.89)))
+      (set! fun/empty9342.8
+        (begin
+          (set! tmp.90 (begin (set! tmp.103 (alloc 24)) (+ tmp.103 2)))
+          (begin
+            (mset! tmp.90 -2 L.fun/empty9342.8.12)
+            (mset! tmp.90 6 0)
+            tmp.90)))
+      (set! fun/ascii-char9341.9
+        (begin
+          (set! tmp.91 (begin (set! tmp.104 (alloc 16)) (+ tmp.104 2)))
+          (begin
+            (mset! tmp.91 -2 L.fun/ascii-char9341.9.13)
+            (mset! tmp.91 6 0)
+            tmp.91)))
+      (set! fun/void9344.10
+        (begin
+          (set! tmp.92 (begin (set! tmp.105 (alloc 24)) (+ tmp.105 2)))
+          (begin
+            (mset! tmp.92 -2 L.fun/void9344.10.14)
+            (mset! tmp.92 6 0)
+            tmp.92)))
+      (set! fun/void9338.11
+        (begin
+          (set! tmp.93 (begin (set! tmp.106 (alloc 16)) (+ tmp.106 2)))
+          (begin
+            (mset! tmp.93 -2 L.fun/void9338.11.15)
+            (mset! tmp.93 6 0)
+            tmp.93)))
+      (set! fun/ascii-char9347.12
+        (begin
+          (set! tmp.94 (begin (set! tmp.107 (alloc 16)) (+ tmp.107 2)))
+          (begin
+            (mset! tmp.94 -2 L.fun/ascii-char9347.12.16)
+            (mset! tmp.94 6 0)
+            tmp.94)))
+      (set! fun/ascii-char9346.13
+        (begin
+          (set! tmp.95 (begin (set! tmp.108 (alloc 24)) (+ tmp.108 2)))
+          (begin
+            (mset! tmp.95 -2 L.fun/ascii-char9346.13.17)
+            (mset! tmp.95 6 0)
+            tmp.95)))
+      (set! fun/empty9343.14
+        (begin
+          (set! tmp.96 (begin (set! tmp.109 (alloc 16)) (+ tmp.109 2)))
+          (begin
+            (mset! tmp.96 -2 L.fun/empty9343.14.18)
+            (mset! tmp.96 6 0)
+            tmp.96)))
+      (begin
+        (mset! fun/void9337.4 14 fun/void9338.11)
+        (mset! fun/ascii-char9340.6 14 fun/ascii-char9341.9)
+        (mset! fun/empty9342.8 14 fun/empty9343.14)
+        (mset! fun/void9344.10 14 fun/void9345.7)
+        (mset! fun/ascii-char9346.13 14 fun/ascii-char9347.12)
+        (begin
+          (set! void0.19 (call L.fun/void9337.4.8 fun/void9337.4))
+          (set! boolean1.18
+            (begin
+              (set! tmp.110 (call L.fun/any9339.5.9 fun/any9339.5))
+              (call L.vector?.72.7 vector?.72 tmp.110)))
+          (set! ascii-char2.17
+            (call L.fun/ascii-char9340.6.10 fun/ascii-char9340.6))
+          (set! empty3.16 (call L.fun/empty9342.8.12 fun/empty9342.8))
+          (set! void4.15 (call L.fun/void9344.10.14 fun/void9344.10))
+          (call L.fun/ascii-char9346.13.17 fun/ascii-char9346.13))))))
+(check-by-interp
+ '(module
+    (define L.lam.74.22
+      (lambda (c.90)
+        (begin
+          (set! fun/any10243.13 (mref c.90 14))
+          (set! vector?.73 (mref c.90 22))
+          (begin
+            (set! tmp.108 (call L.fun/any10243.13.21 fun/any10243.13))
+            (call L.vector?.73.7 vector?.73 tmp.108)))))
+    (define L.fun/any10243.13.21 (lambda (c.89) (begin 14)))
+    (define L.fun/any10242.12.20 (lambda (c.88) (begin 28222)))
+    (define L.fun/error10244.11.19
+      (lambda (c.87)
+        (begin
+          (set! fun/error10245.9 (mref c.87 14))
+          (call L.fun/error10245.9.17 fun/error10245.9))))
+    (define L.fun/empty10249.10.18 (lambda (c.86) (begin 22)))
+    (define L.fun/error10245.9.17 (lambda (c.85) (begin 13630)))
+    (define L.fun/empty10248.8.16
+      (lambda (c.84)
+        (begin
+          (set! fun/empty10249.10 (mref c.84 14))
+          (call L.fun/empty10249.10.18 fun/empty10249.10))))
+    (define L.fun/empty10246.7.15
+      (lambda (c.83)
+        (begin
+          (set! fun/empty10247.4 (mref c.83 14))
+          (call L.fun/empty10247.4.12 fun/empty10247.4))))
+    (define L.fun/vector10250.6.14
+      (lambda (c.82)
+        (begin
+          (set! fun/vector10251.5 (mref c.82 14))
+          (call L.fun/vector10251.5.13 fun/vector10251.5))))
+    (define L.fun/vector10251.5.13
+      (lambda (c.81)
+        (begin
+          (set! make-vector.71 (mref c.81 14))
+          (call L.make-vector.71.11 make-vector.71 64))))
+    (define L.fun/empty10247.4.12 (lambda (c.80) (begin 22)))
+    (define L.make-vector.71.11
+      (lambda (c.79 tmp.47)
+        (begin
+          (set! make-init-vector.1 (mref c.79 14))
+          (if (begin
+                (set! tmp.109
+                  (if (begin
+                        (set! tmp.110 (bitwise-and tmp.47 7))
+                        (= tmp.110 0))
+                    14
+                    6))
+                (!= tmp.109 6))
+            (call L.make-init-vector.1.10 make-init-vector.1 tmp.47)
+            2110))))
+    (define L.make-init-vector.1.10
+      (lambda (c.78 tmp.19)
+        (begin
+          (set! vector-init-loop.21 (mref c.78 14))
+          (begin
+            (set! tmp.20
+              (begin
+                (set! tmp.91
+                  (begin
+                    (set! tmp.111
+                      (begin
+                        (set! tmp.112
+                          (begin
+                            (set! tmp.113
+                              (begin
+                                (set! tmp.114
+                                  (arithmetic-shift-right tmp.19 3))
+                                (+ 1 tmp.114)))
+                            (* tmp.113 8)))
+                        (alloc tmp.112)))
+                    (+ tmp.111 3)))
+                (begin (mset! tmp.91 -3 tmp.19) tmp.91)))
+            (call
+             L.vector-init-loop.21.9
+             vector-init-loop.21
+             tmp.19
+             0
+             tmp.20)))))
+    (define L.vector-init-loop.21.9
+      (lambda (c.77 len.22 i.24 vec.23)
+        (begin
+          (set! vector-init-loop.21 (mref c.77 14))
+          (if (begin (set! tmp.115 (if (= len.22 i.24) 14 6)) (!= tmp.115 6))
+            vec.23
+            (begin
+              (begin
+                (set! tmp.116
+                  (begin
+                    (set! tmp.117
+                      (begin
+                        (set! tmp.118 (arithmetic-shift-right i.24 3))
+                        (* tmp.118 8)))
+                    (+ tmp.117 5)))
+                (mset! vec.23 tmp.116 0))
+              (begin
+                (set! tmp.119 (+ i.24 8))
+                (call
+                 L.vector-init-loop.21.9
+                 vector-init-loop.21
+                 len.22
+                 tmp.119
+                 vec.23)))))))
+    (define L.void?.72.8
+      (lambda (c.76 tmp.59)
+        (begin
+          (if (begin (set! tmp.120 (bitwise-and tmp.59 255)) (= tmp.120 30))
+            14
+            6))))
+    (define L.vector?.73.7
+      (lambda (c.75 tmp.63)
+        (begin
+          (if (begin (set! tmp.121 (bitwise-and tmp.63 7)) (= tmp.121 3))
+            14
+            6))))
+    (begin
+      (set! vector?.73
+        (begin
+          (set! tmp.92 (begin (set! tmp.122 (alloc 16)) (+ tmp.122 2)))
+          (begin (mset! tmp.92 -2 L.vector?.73.7) (mset! tmp.92 6 8) tmp.92)))
+      (set! void?.72
+        (begin
+          (set! tmp.93 (begin (set! tmp.123 (alloc 16)) (+ tmp.123 2)))
+          (begin (mset! tmp.93 -2 L.void?.72.8) (mset! tmp.93 6 8) tmp.93)))
+      (set! vector-init-loop.21
+        (begin
+          (set! tmp.94 (begin (set! tmp.124 (alloc 24)) (+ tmp.124 2)))
+          (begin
+            (mset! tmp.94 -2 L.vector-init-loop.21.9)
+            (mset! tmp.94 6 24)
+            tmp.94)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.95 (begin (set! tmp.125 (alloc 24)) (+ tmp.125 2)))
+          (begin
+            (mset! tmp.95 -2 L.make-init-vector.1.10)
+            (mset! tmp.95 6 8)
+            tmp.95)))
+      (set! make-vector.71
+        (begin
+          (set! tmp.96 (begin (set! tmp.126 (alloc 24)) (+ tmp.126 2)))
+          (begin
+            (mset! tmp.96 -2 L.make-vector.71.11)
+            (mset! tmp.96 6 8)
+            tmp.96)))
+      (set! fun/empty10247.4
+        (begin
+          (set! tmp.97 (begin (set! tmp.127 (alloc 16)) (+ tmp.127 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/empty10247.4.12)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/vector10251.5
+        (begin
+          (set! tmp.98 (begin (set! tmp.128 (alloc 24)) (+ tmp.128 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/vector10251.5.13)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/vector10250.6
+        (begin
+          (set! tmp.99 (begin (set! tmp.129 (alloc 24)) (+ tmp.129 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/vector10250.6.14)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/empty10246.7
+        (begin
+          (set! tmp.100 (begin (set! tmp.130 (alloc 24)) (+ tmp.130 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/empty10246.7.15)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/empty10248.8
+        (begin
+          (set! tmp.101 (begin (set! tmp.131 (alloc 24)) (+ tmp.131 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/empty10248.8.16)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/error10245.9
+        (begin
+          (set! tmp.102 (begin (set! tmp.132 (alloc 16)) (+ tmp.132 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/error10245.9.17)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/empty10249.10
+        (begin
+          (set! tmp.103 (begin (set! tmp.133 (alloc 16)) (+ tmp.133 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/empty10249.10.18)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/error10244.11
+        (begin
+          (set! tmp.104 (begin (set! tmp.134 (alloc 24)) (+ tmp.134 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/error10244.11.19)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/any10242.12
+        (begin
+          (set! tmp.105 (begin (set! tmp.135 (alloc 16)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/any10242.12.20)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/any10243.13
+        (begin
+          (set! tmp.106 (begin (set! tmp.136 (alloc 16)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/any10243.13.21)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (begin
+        (mset! vector-init-loop.21 14 vector-init-loop.21)
+        (mset! make-init-vector.1 14 vector-init-loop.21)
+        (mset! make-vector.71 14 make-init-vector.1)
+        (mset! fun/vector10251.5 14 make-vector.71)
+        (mset! fun/vector10250.6 14 fun/vector10251.5)
+        (mset! fun/empty10246.7 14 fun/empty10247.4)
+        (mset! fun/empty10248.8 14 fun/empty10249.10)
+        (mset! fun/error10244.11 14 fun/error10245.9)
+        (begin
+          (set! boolean0.18
+            (begin
+              (set! tmp.137 (call L.fun/any10242.12.20 fun/any10242.12))
+              (call L.void?.72.8 void?.72 tmp.137)))
+          (set! procedure1.17
+            (begin
+              (set! lam.74
+                (begin
+                  (set! tmp.107
+                    (begin (set! tmp.138 (alloc 32)) (+ tmp.138 2)))
+                  (begin
+                    (mset! tmp.107 -2 L.lam.74.22)
+                    (mset! tmp.107 6 0)
+                    tmp.107)))
+              (begin
+                (mset! lam.74 14 fun/any10243.13)
+                (mset! lam.74 22 vector?.73)
+                lam.74)))
+          (set! error2.16 (call L.fun/error10244.11.19 fun/error10244.11))
+          (set! empty3.15 (call L.fun/empty10246.7.15 fun/empty10246.7))
+          (set! empty4.14 (call L.fun/empty10248.8.16 fun/empty10248.8))
+          (call L.fun/vector10250.6.14 fun/vector10250.6))))))
+(check-by-interp
+ '(module
+    (define L.fun/vector10780.15.21
+      (lambda (c.88)
+        (begin
+          (set! fun/vector10781.14 (mref c.88 14))
+          (call L.fun/vector10781.14.20 fun/vector10781.14))))
+    (define L.fun/vector10781.14.20
+      (lambda (c.87)
+        (begin
+          (set! make-vector.73 (mref c.87 14))
+          (call L.make-vector.73.9 make-vector.73 64))))
+    (define L.fun/ascii-char10779.13.19 (lambda (c.86) (begin 25390)))
+    (define L.fun/ascii-char10778.12.18
+      (lambda (c.85)
+        (begin
+          (set! fun/ascii-char10779.13 (mref c.85 14))
+          (call L.fun/ascii-char10779.13.19 fun/ascii-char10779.13))))
+    (define L.fun/void10774.11.17
+      (lambda (c.84)
+        (begin
+          (set! fun/void10775.8 (mref c.84 14))
+          (call L.fun/void10775.8.14 fun/void10775.8))))
+    (define L.fun/void10771.10.16 (lambda (c.83) (begin 30)))
+    (define L.fun/void10773.9.15 (lambda (c.82) (begin 30)))
+    (define L.fun/void10775.8.14 (lambda (c.81) (begin 30)))
+    (define L.fun/void10772.7.13
+      (lambda (c.80)
+        (begin
+          (set! fun/void10773.9 (mref c.80 14))
+          (call L.fun/void10773.9.15 fun/void10773.9))))
+    (define L.fun/void10776.6.12
+      (lambda (c.79)
+        (begin
+          (set! fun/void10777.5 (mref c.79 14))
+          (call L.fun/void10777.5.11 fun/void10777.5))))
+    (define L.fun/void10777.5.11 (lambda (c.78) (begin 30)))
+    (define L.fun/void10770.4.10
+      (lambda (c.77)
+        (begin
+          (set! fun/void10771.10 (mref c.77 14))
+          (call L.fun/void10771.10.16 fun/void10771.10))))
+    (define L.make-vector.73.9
+      (lambda (c.76 tmp.49)
+        (begin
+          (set! make-init-vector.1 (mref c.76 14))
+          (if (begin
+                (set! tmp.105
+                  (if (begin
+                        (set! tmp.106 (bitwise-and tmp.49 7))
+                        (= tmp.106 0))
+                    14
+                    6))
+                (!= tmp.105 6))
+            (call L.make-init-vector.1.8 make-init-vector.1 tmp.49)
+            2110))))
+    (define L.make-init-vector.1.8
+      (lambda (c.75 tmp.21)
+        (begin
+          (set! vector-init-loop.23 (mref c.75 14))
+          (begin
+            (set! tmp.22
+              (begin
+                (set! tmp.89
+                  (begin
+                    (set! tmp.107
+                      (begin
+                        (set! tmp.108
+                          (begin
+                            (set! tmp.109
+                              (begin
+                                (set! tmp.110
+                                  (arithmetic-shift-right tmp.21 3))
+                                (+ 1 tmp.110)))
+                            (* tmp.109 8)))
+                        (alloc tmp.108)))
+                    (+ tmp.107 3)))
+                (begin (mset! tmp.89 -3 tmp.21) tmp.89)))
+            (call
+             L.vector-init-loop.23.7
+             vector-init-loop.23
+             tmp.21
+             0
+             tmp.22)))))
+    (define L.vector-init-loop.23.7
+      (lambda (c.74 len.24 i.26 vec.25)
+        (begin
+          (set! vector-init-loop.23 (mref c.74 14))
+          (if (begin (set! tmp.111 (if (= len.24 i.26) 14 6)) (!= tmp.111 6))
+            vec.25
+            (begin
+              (begin
+                (set! tmp.112
+                  (begin
+                    (set! tmp.113
+                      (begin
+                        (set! tmp.114 (arithmetic-shift-right i.26 3))
+                        (* tmp.114 8)))
+                    (+ tmp.113 5)))
+                (mset! vec.25 tmp.112 0))
+              (begin
+                (set! tmp.115 (+ i.26 8))
+                (call
+                 L.vector-init-loop.23.7
+                 vector-init-loop.23
+                 len.24
+                 tmp.115
+                 vec.25)))))))
+    (begin
+      (set! vector-init-loop.23
+        (begin
+          (set! tmp.90 (begin (set! tmp.116 (alloc 24)) (+ tmp.116 2)))
+          (begin
+            (mset! tmp.90 -2 L.vector-init-loop.23.7)
+            (mset! tmp.90 6 24)
+            tmp.90)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.91 (begin (set! tmp.117 (alloc 24)) (+ tmp.117 2)))
+          (begin
+            (mset! tmp.91 -2 L.make-init-vector.1.8)
+            (mset! tmp.91 6 8)
+            tmp.91)))
+      (set! make-vector.73
+        (begin
+          (set! tmp.92 (begin (set! tmp.118 (alloc 24)) (+ tmp.118 2)))
+          (begin
+            (mset! tmp.92 -2 L.make-vector.73.9)
+            (mset! tmp.92 6 8)
+            tmp.92)))
+      (set! fun/void10770.4
+        (begin
+          (set! tmp.93 (begin (set! tmp.119 (alloc 24)) (+ tmp.119 2)))
+          (begin
+            (mset! tmp.93 -2 L.fun/void10770.4.10)
+            (mset! tmp.93 6 0)
+            tmp.93)))
+      (set! fun/void10777.5
+        (begin
+          (set! tmp.94 (begin (set! tmp.120 (alloc 16)) (+ tmp.120 2)))
+          (begin
+            (mset! tmp.94 -2 L.fun/void10777.5.11)
+            (mset! tmp.94 6 0)
+            tmp.94)))
+      (set! fun/void10776.6
+        (begin
+          (set! tmp.95 (begin (set! tmp.121 (alloc 24)) (+ tmp.121 2)))
+          (begin
+            (mset! tmp.95 -2 L.fun/void10776.6.12)
+            (mset! tmp.95 6 0)
+            tmp.95)))
+      (set! fun/void10772.7
+        (begin
+          (set! tmp.96 (begin (set! tmp.122 (alloc 24)) (+ tmp.122 2)))
+          (begin
+            (mset! tmp.96 -2 L.fun/void10772.7.13)
+            (mset! tmp.96 6 0)
+            tmp.96)))
+      (set! fun/void10775.8
+        (begin
+          (set! tmp.97 (begin (set! tmp.123 (alloc 16)) (+ tmp.123 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/void10775.8.14)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/void10773.9
+        (begin
+          (set! tmp.98 (begin (set! tmp.124 (alloc 16)) (+ tmp.124 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/void10773.9.15)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/void10771.10
+        (begin
+          (set! tmp.99 (begin (set! tmp.125 (alloc 16)) (+ tmp.125 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/void10771.10.16)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/void10774.11
+        (begin
+          (set! tmp.100 (begin (set! tmp.126 (alloc 24)) (+ tmp.126 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/void10774.11.17)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/ascii-char10778.12
+        (begin
+          (set! tmp.101 (begin (set! tmp.127 (alloc 24)) (+ tmp.127 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/ascii-char10778.12.18)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/ascii-char10779.13
+        (begin
+          (set! tmp.102 (begin (set! tmp.128 (alloc 16)) (+ tmp.128 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/ascii-char10779.13.19)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/vector10781.14
+        (begin
+          (set! tmp.103 (begin (set! tmp.129 (alloc 24)) (+ tmp.129 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/vector10781.14.20)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/vector10780.15
+        (begin
+          (set! tmp.104 (begin (set! tmp.130 (alloc 24)) (+ tmp.130 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/vector10780.15.21)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (begin
+        (mset! vector-init-loop.23 14 vector-init-loop.23)
+        (mset! make-init-vector.1 14 vector-init-loop.23)
+        (mset! make-vector.73 14 make-init-vector.1)
+        (mset! fun/void10770.4 14 fun/void10771.10)
+        (mset! fun/void10776.6 14 fun/void10777.5)
+        (mset! fun/void10772.7 14 fun/void10773.9)
+        (mset! fun/void10774.11 14 fun/void10775.8)
+        (mset! fun/ascii-char10778.12 14 fun/ascii-char10779.13)
+        (mset! fun/vector10781.14 14 make-vector.73)
+        (mset! fun/vector10780.15 14 fun/vector10781.14)
+        (begin
+          (set! void0.20 (call L.fun/void10770.4.10 fun/void10770.4))
+          (set! void1.19 (call L.fun/void10772.7.13 fun/void10772.7))
+          (set! void2.18 (call L.fun/void10774.11.17 fun/void10774.11))
+          (set! void3.17 (call L.fun/void10776.6.12 fun/void10776.6))
+          (set! ascii-char4.16
+            (call L.fun/ascii-char10778.12.18 fun/ascii-char10778.12))
+          (call L.fun/vector10780.15.21 fun/vector10780.15))))))
+(check-by-interp
+ '(module
+    (define L.lam.77.22
+      (lambda (c.93)
+        (begin
+          (set! fun/error11008.12 (mref c.93 14))
+          (call L.fun/error11008.12.18 fun/error11008.12))))
+    (define L.fun/ascii-char11012.15.21
+      (lambda (c.92)
+        (begin
+          (set! fun/ascii-char11013.14 (mref c.92 14))
+          (call L.fun/ascii-char11013.14.20 fun/ascii-char11013.14))))
+    (define L.fun/ascii-char11013.14.20 (lambda (c.91) (begin 27438)))
+    (define L.fun/void11015.13.19 (lambda (c.90) (begin 30)))
+    (define L.fun/error11008.12.18
+      (lambda (c.89)
+        (begin
+          (set! fun/error11009.10 (mref c.89 14))
+          (call L.fun/error11009.10.16 fun/error11009.10))))
+    (define L.fun/void11014.11.17
+      (lambda (c.88)
+        (begin
+          (set! fun/void11015.13 (mref c.88 14))
+          (call L.fun/void11015.13.19 fun/void11015.13))))
+    (define L.fun/error11009.10.16 (lambda (c.87) (begin 62014)))
+    (define L.fun/empty11016.9.15
+      (lambda (c.86)
+        (begin
+          (set! fun/empty11017.7 (mref c.86 14))
+          (call L.fun/empty11017.7.13 fun/empty11017.7))))
+    (define L.fun/void11011.8.14 (lambda (c.85) (begin 30)))
+    (define L.fun/empty11017.7.13 (lambda (c.84) (begin 22)))
+    (define L.fun/void11007.6.12 (lambda (c.83) (begin 30)))
+    (define L.fun/void11010.5.11
+      (lambda (c.82)
+        (begin
+          (set! fun/void11011.8 (mref c.82 14))
+          (call L.fun/void11011.8.14 fun/void11011.8))))
+    (define L.fun/void11006.4.10
+      (lambda (c.81)
+        (begin
+          (set! fun/void11007.6 (mref c.81 14))
+          (call L.fun/void11007.6.12 fun/void11007.6))))
+    (define L.-.74.9
+      (lambda (c.80 tmp.40 tmp.41)
+        (begin
+          (if (begin
+                (set! tmp.110
+                  (if (begin
+                        (set! tmp.111 (bitwise-and tmp.41 7))
+                        (= tmp.111 0))
+                    14
+                    6))
+                (!= tmp.110 6))
+            (if (begin
+                  (set! tmp.112
+                    (if (begin
+                          (set! tmp.113 (bitwise-and tmp.40 7))
+                          (= tmp.113 0))
+                      14
+                      6))
+                  (!= tmp.112 6))
+              (- tmp.40 tmp.41)
+              830)
+            830))))
+    (define L.+.75.8
+      (lambda (c.79 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.114
+                  (if (begin
+                        (set! tmp.115 (bitwise-and tmp.39 7))
+                        (= tmp.115 0))
+                    14
+                    6))
+                (!= tmp.114 6))
+            (if (begin
+                  (set! tmp.116
+                    (if (begin
+                          (set! tmp.117 (bitwise-and tmp.38 7))
+                          (= tmp.117 0))
+                      14
+                      6))
+                  (!= tmp.116 6))
+              (+ tmp.38 tmp.39)
+              574)
+            574))))
+    (define L.*.76.7
+      (lambda (c.78 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.118
+                  (if (begin
+                        (set! tmp.119 (bitwise-and tmp.37 7))
+                        (= tmp.119 0))
+                    14
+                    6))
+                (!= tmp.118 6))
+            (if (begin
+                  (set! tmp.120
+                    (if (begin
+                          (set! tmp.121 (bitwise-and tmp.36 7))
+                          (= tmp.121 0))
+                      14
+                      6))
+                  (!= tmp.120 6))
+              (begin
+                (set! tmp.122 (arithmetic-shift-right tmp.37 3))
+                (* tmp.36 tmp.122))
+              318)
+            318))))
+    (begin
+      (set! *.76
+        (begin
+          (set! tmp.94 (begin (set! tmp.123 (alloc 16)) (+ tmp.123 2)))
+          (begin (mset! tmp.94 -2 L.*.76.7) (mset! tmp.94 6 16) tmp.94)))
+      (set! |+.75|
+        (begin
+          (set! tmp.95 (begin (set! tmp.124 (alloc 16)) (+ tmp.124 2)))
+          (begin (mset! tmp.95 -2 L.+.75.8) (mset! tmp.95 6 16) tmp.95)))
+      (set! |-.74|
+        (begin
+          (set! tmp.96 (begin (set! tmp.125 (alloc 16)) (+ tmp.125 2)))
+          (begin (mset! tmp.96 -2 L.-.74.9) (mset! tmp.96 6 16) tmp.96)))
+      (set! fun/void11006.4
+        (begin
+          (set! tmp.97 (begin (set! tmp.126 (alloc 24)) (+ tmp.126 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/void11006.4.10)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/void11010.5
+        (begin
+          (set! tmp.98 (begin (set! tmp.127 (alloc 24)) (+ tmp.127 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/void11010.5.11)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/void11007.6
+        (begin
+          (set! tmp.99 (begin (set! tmp.128 (alloc 16)) (+ tmp.128 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/void11007.6.12)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/empty11017.7
+        (begin
+          (set! tmp.100 (begin (set! tmp.129 (alloc 16)) (+ tmp.129 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/empty11017.7.13)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/void11011.8
+        (begin
+          (set! tmp.101 (begin (set! tmp.130 (alloc 16)) (+ tmp.130 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/void11011.8.14)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/empty11016.9
+        (begin
+          (set! tmp.102 (begin (set! tmp.131 (alloc 24)) (+ tmp.131 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/empty11016.9.15)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/error11009.10
+        (begin
+          (set! tmp.103 (begin (set! tmp.132 (alloc 16)) (+ tmp.132 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/error11009.10.16)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/void11014.11
+        (begin
+          (set! tmp.104 (begin (set! tmp.133 (alloc 24)) (+ tmp.133 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/void11014.11.17)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/error11008.12
+        (begin
+          (set! tmp.105 (begin (set! tmp.134 (alloc 24)) (+ tmp.134 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/error11008.12.18)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/void11015.13
+        (begin
+          (set! tmp.106 (begin (set! tmp.135 (alloc 16)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/void11015.13.19)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/ascii-char11013.14
+        (begin
+          (set! tmp.107 (begin (set! tmp.136 (alloc 16)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/ascii-char11013.14.20)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/ascii-char11012.15
+        (begin
+          (set! tmp.108 (begin (set! tmp.137 (alloc 24)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/ascii-char11012.15.21)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (begin
+        (mset! fun/void11006.4 14 fun/void11007.6)
+        (mset! fun/void11010.5 14 fun/void11011.8)
+        (mset! fun/empty11016.9 14 fun/empty11017.7)
+        (mset! fun/void11014.11 14 fun/void11015.13)
+        (mset! fun/error11008.12 14 fun/error11009.10)
+        (mset! fun/ascii-char11012.15 14 fun/ascii-char11013.14)
+        (begin
+          (set! fixnum0.21
+            (begin
+              (set! tmp.138
+                (begin
+                  (set! tmp.139
+                    (begin
+                      (set! tmp.140 (call L.-.74.9 |-.74| 1352 32))
+                      (begin
+                        (set! tmp.141 (call L.+.75.8 |+.75| 1704 736))
+                        (call L.-.74.9 |-.74| tmp.140 tmp.141))))
+                  (begin
+                    (set! tmp.142
+                      (begin
+                        (set! tmp.143 (call L.*.76.7 *.76 1440 104))
+                        (begin
+                          (set! tmp.144 (call L.*.76.7 *.76 1664 1712))
+                          (call L.-.74.9 |-.74| tmp.143 tmp.144))))
+                    (call L.-.74.9 |-.74| tmp.139 tmp.142))))
+              (begin
+                (set! tmp.145
+                  (begin
+                    (set! tmp.146
+                      (begin
+                        (set! tmp.147 (call L.*.76.7 *.76 0 1528))
+                        (begin
+                          (set! tmp.148 (call L.+.75.8 |+.75| 1648 928))
+                          (call L.-.74.9 |-.74| tmp.147 tmp.148))))
+                    (begin
+                      (set! tmp.149
+                        (begin
+                          (set! tmp.150 (call L.-.74.9 |-.74| 1592 1080))
+                          (begin
+                            (set! tmp.151 (call L.-.74.9 |-.74| 128 760))
+                            (call L.*.76.7 *.76 tmp.150 tmp.151))))
+                      (call L.+.75.8 |+.75| tmp.146 tmp.149))))
+                (call L.+.75.8 |+.75| tmp.138 tmp.145))))
+          (set! void1.20 (call L.fun/void11006.4.10 fun/void11006.4))
+          (set! procedure2.19
+            (begin
+              (set! lam.77
+                (begin
+                  (set! tmp.109
+                    (begin (set! tmp.152 (alloc 24)) (+ tmp.152 2)))
+                  (begin
+                    (mset! tmp.109 -2 L.lam.77.22)
+                    (mset! tmp.109 6 0)
+                    tmp.109)))
+              (begin (mset! lam.77 14 fun/error11008.12) lam.77)))
+          (set! void3.18 (call L.fun/void11010.5.11 fun/void11010.5))
+          (set! ascii-char4.17
+            (call L.fun/ascii-char11012.15.21 fun/ascii-char11012.15))
+          (set! void5.16 (call L.fun/void11014.11.17 fun/void11014.11))
+          (call L.fun/empty11016.9.15 fun/empty11016.9))))))
+(check-by-interp
+ '(module
+    (define L.lam.75.20
+      (lambda (c.89)
+        (begin
+          (set! |-.72| (mref c.89 14))
+          (set! |+.74| (mref c.89 22))
+          (set! *.73 (mref c.89 30))
+          (begin
+            (set! tmp.104
+              (begin
+                (set! tmp.105
+                  (begin
+                    (set! tmp.106 (call L.-.72.9 |-.72| 1200 328))
+                    (begin
+                      (set! tmp.107 (call L.-.72.9 |-.72| 1384 800))
+                      (call L.*.73.8 *.73 tmp.106 tmp.107))))
+                (begin
+                  (set! tmp.108
+                    (begin
+                      (set! tmp.109 (call L.+.74.7 |+.74| 1704 736))
+                      (begin
+                        (set! tmp.110 (call L.+.74.7 |+.74| 328 480))
+                        (call L.+.74.7 |+.74| tmp.109 tmp.110))))
+                  (call L.+.74.7 |+.74| tmp.105 tmp.108))))
+            (begin
+              (set! tmp.111
+                (begin
+                  (set! tmp.112
+                    (begin
+                      (set! tmp.113 (call L.+.74.7 |+.74| 16 32))
+                      (begin
+                        (set! tmp.114 (call L.+.74.7 |+.74| 624 1912))
+                        (call L.+.74.7 |+.74| tmp.113 tmp.114))))
+                  (begin
+                    (set! tmp.115
+                      (begin
+                        (set! tmp.116 (call L.*.73.8 *.73 1824 1352))
+                        (begin
+                          (set! tmp.117 (call L.+.74.7 |+.74| 1584 344))
+                          (call L.-.72.9 |-.72| tmp.116 tmp.117))))
+                    (call L.*.73.8 *.73 tmp.112 tmp.115))))
+              (call L.*.73.8 *.73 tmp.104 tmp.111))))))
+    (define L.fun/ascii-char11875.13.19
+      (lambda (c.88)
+        (begin
+          (set! fun/ascii-char11876.6 (mref c.88 14))
+          (call L.fun/ascii-char11876.6.12 fun/ascii-char11876.6))))
+    (define L.fun/void11871.12.18
+      (lambda (c.87)
+        (begin
+          (set! fun/void11872.11 (mref c.87 14))
+          (call L.fun/void11872.11.17 fun/void11872.11))))
+    (define L.fun/void11872.11.17 (lambda (c.86) (begin 30)))
+    (define L.fun/error11877.10.16
+      (lambda (c.85)
+        (begin
+          (set! fun/error11878.4 (mref c.85 14))
+          (call L.fun/error11878.4.10 fun/error11878.4))))
+    (define L.fun/ascii-char11874.9.15 (lambda (c.84) (begin 29230)))
+    (define L.fun/ascii-char11873.8.14
+      (lambda (c.83)
+        (begin
+          (set! fun/ascii-char11874.9 (mref c.83 14))
+          (call L.fun/ascii-char11874.9.15 fun/ascii-char11874.9))))
+    (define L.fun/error11880.7.13 (lambda (c.82) (begin 43070)))
+    (define L.fun/ascii-char11876.6.12 (lambda (c.81) (begin 27950)))
+    (define L.fun/error11879.5.11
+      (lambda (c.80)
+        (begin
+          (set! fun/error11880.7 (mref c.80 14))
+          (call L.fun/error11880.7.13 fun/error11880.7))))
+    (define L.fun/error11878.4.10 (lambda (c.79) (begin 16446)))
+    (define L.-.72.9
+      (lambda (c.78 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.118
+                  (if (begin
+                        (set! tmp.119 (bitwise-and tmp.39 7))
+                        (= tmp.119 0))
+                    14
+                    6))
+                (!= tmp.118 6))
+            (if (begin
+                  (set! tmp.120
+                    (if (begin
+                          (set! tmp.121 (bitwise-and tmp.38 7))
+                          (= tmp.121 0))
+                      14
+                      6))
+                  (!= tmp.120 6))
+              (- tmp.38 tmp.39)
+              830)
+            830))))
+    (define L.*.73.8
+      (lambda (c.77 tmp.34 tmp.35)
+        (begin
+          (if (begin
+                (set! tmp.122
+                  (if (begin
+                        (set! tmp.123 (bitwise-and tmp.35 7))
+                        (= tmp.123 0))
+                    14
+                    6))
+                (!= tmp.122 6))
+            (if (begin
+                  (set! tmp.124
+                    (if (begin
+                          (set! tmp.125 (bitwise-and tmp.34 7))
+                          (= tmp.125 0))
+                      14
+                      6))
+                  (!= tmp.124 6))
+              (begin
+                (set! tmp.126 (arithmetic-shift-right tmp.35 3))
+                (* tmp.34 tmp.126))
+              318)
+            318))))
+    (define L.+.74.7
+      (lambda (c.76 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.127
+                  (if (begin
+                        (set! tmp.128 (bitwise-and tmp.37 7))
+                        (= tmp.128 0))
+                    14
+                    6))
+                (!= tmp.127 6))
+            (if (begin
+                  (set! tmp.129
+                    (if (begin
+                          (set! tmp.130 (bitwise-and tmp.36 7))
+                          (= tmp.130 0))
+                      14
+                      6))
+                  (!= tmp.129 6))
+              (+ tmp.36 tmp.37)
+              574)
+            574))))
+    (begin
+      (set! |+.74|
+        (begin
+          (set! tmp.90 (begin (set! tmp.131 (alloc 16)) (+ tmp.131 2)))
+          (begin (mset! tmp.90 -2 L.+.74.7) (mset! tmp.90 6 16) tmp.90)))
+      (set! *.73
+        (begin
+          (set! tmp.91 (begin (set! tmp.132 (alloc 16)) (+ tmp.132 2)))
+          (begin (mset! tmp.91 -2 L.*.73.8) (mset! tmp.91 6 16) tmp.91)))
+      (set! |-.72|
+        (begin
+          (set! tmp.92 (begin (set! tmp.133 (alloc 16)) (+ tmp.133 2)))
+          (begin (mset! tmp.92 -2 L.-.72.9) (mset! tmp.92 6 16) tmp.92)))
+      (set! fun/error11878.4
+        (begin
+          (set! tmp.93 (begin (set! tmp.134 (alloc 16)) (+ tmp.134 2)))
+          (begin
+            (mset! tmp.93 -2 L.fun/error11878.4.10)
+            (mset! tmp.93 6 0)
+            tmp.93)))
+      (set! fun/error11879.5
+        (begin
+          (set! tmp.94 (begin (set! tmp.135 (alloc 24)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.94 -2 L.fun/error11879.5.11)
+            (mset! tmp.94 6 0)
+            tmp.94)))
+      (set! fun/ascii-char11876.6
+        (begin
+          (set! tmp.95 (begin (set! tmp.136 (alloc 16)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.95 -2 L.fun/ascii-char11876.6.12)
+            (mset! tmp.95 6 0)
+            tmp.95)))
+      (set! fun/error11880.7
+        (begin
+          (set! tmp.96 (begin (set! tmp.137 (alloc 16)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.96 -2 L.fun/error11880.7.13)
+            (mset! tmp.96 6 0)
+            tmp.96)))
+      (set! fun/ascii-char11873.8
+        (begin
+          (set! tmp.97 (begin (set! tmp.138 (alloc 24)) (+ tmp.138 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/ascii-char11873.8.14)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/ascii-char11874.9
+        (begin
+          (set! tmp.98 (begin (set! tmp.139 (alloc 16)) (+ tmp.139 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/ascii-char11874.9.15)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/error11877.10
+        (begin
+          (set! tmp.99 (begin (set! tmp.140 (alloc 24)) (+ tmp.140 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/error11877.10.16)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/void11872.11
+        (begin
+          (set! tmp.100 (begin (set! tmp.141 (alloc 16)) (+ tmp.141 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/void11872.11.17)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/void11871.12
+        (begin
+          (set! tmp.101 (begin (set! tmp.142 (alloc 24)) (+ tmp.142 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/void11871.12.18)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/ascii-char11875.13
+        (begin
+          (set! tmp.102 (begin (set! tmp.143 (alloc 24)) (+ tmp.143 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/ascii-char11875.13.19)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (begin
+        (mset! fun/error11879.5 14 fun/error11880.7)
+        (mset! fun/ascii-char11873.8 14 fun/ascii-char11874.9)
+        (mset! fun/error11877.10 14 fun/error11878.4)
+        (mset! fun/void11871.12 14 fun/void11872.11)
+        (mset! fun/ascii-char11875.13 14 fun/ascii-char11876.6)
+        (begin
+          (set! procedure0.19
+            (begin
+              (set! lam.75
+                (begin
+                  (set! tmp.103
+                    (begin (set! tmp.144 (alloc 40)) (+ tmp.144 2)))
+                  (begin
+                    (mset! tmp.103 -2 L.lam.75.20)
+                    (mset! tmp.103 6 0)
+                    tmp.103)))
+              (begin
+                (mset! lam.75 14 |-.72|)
+                (mset! lam.75 22 |+.74|)
+                (mset! lam.75 30 *.73)
+                lam.75)))
+          (set! void1.18 (call L.fun/void11871.12.18 fun/void11871.12))
+          (set! ascii-char2.17
+            (call L.fun/ascii-char11873.8.14 fun/ascii-char11873.8))
+          (set! ascii-char3.16
+            (call L.fun/ascii-char11875.13.19 fun/ascii-char11875.13))
+          (set! error4.15 (call L.fun/error11877.10.16 fun/error11877.10))
+          (set! error5.14 (call L.fun/error11879.5.11 fun/error11879.5))
+          (begin
+            (set! tmp.145
+              (begin
+                (set! tmp.146
+                  (begin
+                    (set! tmp.147 (call L.-.72.9 |-.72| 568 240))
+                    (begin
+                      (set! tmp.148
+                        (if (begin
+                              (set! tmp.149
+                                (if (begin
+                                      (set! tmp.150
+                                        (bitwise-and procedure0.19 7))
+                                      (= tmp.150 2))
+                                  14
+                                  6))
+                              (!= tmp.149 6))
+                          (if (begin
+                                (set! tmp.151
+                                  (if (begin
+                                        (set! tmp.152 (mref procedure0.19 6))
+                                        (= tmp.152 0))
+                                    14
+                                    6))
+                                (!= tmp.151 6))
+                            (begin
+                              (set! tmp.153 (mref procedure0.19 -2))
+                              (call tmp.153 procedure0.19))
+                            10814)
+                          11070))
+                      (call L.+.74.7 |+.74| tmp.147 tmp.148))))
+                (begin
+                  (set! tmp.154
+                    (if (begin
+                          (set! tmp.155
+                            (if (begin
+                                  (set! tmp.156 (bitwise-and procedure0.19 7))
+                                  (= tmp.156 2))
+                              14
+                              6))
+                          (!= tmp.155 6))
+                      (if (begin
+                            (set! tmp.157
+                              (if (begin
+                                    (set! tmp.158 (mref procedure0.19 6))
+                                    (= tmp.158 0))
+                                14
+                                6))
+                            (!= tmp.157 6))
+                        (begin
+                          (set! tmp.159 (mref procedure0.19 -2))
+                          (call tmp.159 procedure0.19))
+                        10814)
+                      11070))
+                  (call L.-.72.9 |-.72| tmp.146 tmp.154))))
+            (begin
+              (set! tmp.160
+                (if (begin
+                      (set! tmp.161
+                        (if (begin
+                              (set! tmp.162 (bitwise-and procedure0.19 7))
+                              (= tmp.162 2))
+                          14
+                          6))
+                      (!= tmp.161 6))
+                  (if (begin
+                        (set! tmp.163
+                          (if (begin
+                                (set! tmp.164 (mref procedure0.19 6))
+                                (= tmp.164 0))
+                            14
+                            6))
+                        (!= tmp.163 6))
+                    (begin
+                      (set! tmp.165 (mref procedure0.19 -2))
+                      (call tmp.165 procedure0.19))
+                    10814)
+                  11070))
+              (call L.*.73.8 *.73 tmp.145 tmp.160))))))))
+(check-by-interp
+ '(module
+    (define L.fun/empty12694.17.22
+      (lambda (c.93)
+        (begin
+          (set! fun/empty12695.15 (mref c.93 14))
+          (call L.fun/empty12695.15.20 fun/empty12695.15))))
+    (define L.fun/ascii-char12704.16.21
+      (lambda (c.92)
+        (begin
+          (set! fun/ascii-char12705.14 (mref c.92 14))
+          (call L.fun/ascii-char12705.14.19 fun/ascii-char12705.14))))
+    (define L.fun/empty12695.15.20 (lambda (c.91) (begin 22)))
+    (define L.fun/ascii-char12705.14.19 (lambda (c.90) (begin 23854)))
+    (define L.fun/empty12693.13.18 (lambda (c.89) (begin 22)))
+    (define L.fun/void12700.12.17
+      (lambda (c.88)
+        (begin
+          (set! fun/void12701.9 (mref c.88 14))
+          (call L.fun/void12701.9.14 fun/void12701.9))))
+    (define L.fun/any12702.11.16
+      (lambda (c.87)
+        (begin
+          (set! fun/any12703.6 (mref c.87 14))
+          (call L.fun/any12703.6.11 fun/any12703.6))))
+    (define L.fun/error12697.10.15 (lambda (c.86) (begin 24382)))
+    (define L.fun/void12701.9.14 (lambda (c.85) (begin 30)))
+    (define L.fun/error12696.8.13
+      (lambda (c.84)
+        (begin
+          (set! fun/error12697.10 (mref c.84 14))
+          (call L.fun/error12697.10.15 fun/error12697.10))))
+    (define L.fun/empty12692.7.12
+      (lambda (c.83)
+        (begin
+          (set! fun/empty12693.13 (mref c.83 14))
+          (call L.fun/empty12693.13.18 fun/empty12693.13))))
+    (define L.fun/any12703.6.11
+      (lambda (c.82)
+        (begin
+          (set! cons.76 (mref c.82 14))
+          (call L.cons.76.8 cons.76 1112 3104))))
+    (define L.fun/ascii-char12699.5.10 (lambda (c.81) (begin 23342)))
+    (define L.fun/ascii-char12698.4.9
+      (lambda (c.80)
+        (begin
+          (set! fun/ascii-char12699.5 (mref c.80 14))
+          (call L.fun/ascii-char12699.5.10 fun/ascii-char12699.5))))
+    (define L.cons.76.8
+      (lambda (c.79 tmp.71 tmp.72)
+        (begin
+          (begin
+            (set! tmp.94 (begin (set! tmp.111 (alloc 16)) (+ tmp.111 1)))
+            (begin (mset! tmp.94 -1 tmp.71) (mset! tmp.94 7 tmp.72) tmp.94)))))
+    (define L.empty?.77.7
+      (lambda (c.78 tmp.63)
+        (begin
+          (if (begin (set! tmp.112 (bitwise-and tmp.63 255)) (= tmp.112 22))
+            14
+            6))))
+    (begin
+      (set! empty?.77
+        (begin
+          (set! tmp.95 (begin (set! tmp.113 (alloc 16)) (+ tmp.113 2)))
+          (begin (mset! tmp.95 -2 L.empty?.77.7) (mset! tmp.95 6 8) tmp.95)))
+      (set! cons.76
+        (begin
+          (set! tmp.96 (begin (set! tmp.114 (alloc 16)) (+ tmp.114 2)))
+          (begin (mset! tmp.96 -2 L.cons.76.8) (mset! tmp.96 6 16) tmp.96)))
+      (set! fun/ascii-char12698.4
+        (begin
+          (set! tmp.97 (begin (set! tmp.115 (alloc 24)) (+ tmp.115 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/ascii-char12698.4.9)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/ascii-char12699.5
+        (begin
+          (set! tmp.98 (begin (set! tmp.116 (alloc 16)) (+ tmp.116 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/ascii-char12699.5.10)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/any12703.6
+        (begin
+          (set! tmp.99 (begin (set! tmp.117 (alloc 24)) (+ tmp.117 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/any12703.6.11)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/empty12692.7
+        (begin
+          (set! tmp.100 (begin (set! tmp.118 (alloc 24)) (+ tmp.118 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/empty12692.7.12)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/error12696.8
+        (begin
+          (set! tmp.101 (begin (set! tmp.119 (alloc 24)) (+ tmp.119 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/error12696.8.13)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/void12701.9
+        (begin
+          (set! tmp.102 (begin (set! tmp.120 (alloc 16)) (+ tmp.120 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/void12701.9.14)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/error12697.10
+        (begin
+          (set! tmp.103 (begin (set! tmp.121 (alloc 16)) (+ tmp.121 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/error12697.10.15)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/any12702.11
+        (begin
+          (set! tmp.104 (begin (set! tmp.122 (alloc 24)) (+ tmp.122 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/any12702.11.16)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/void12700.12
+        (begin
+          (set! tmp.105 (begin (set! tmp.123 (alloc 24)) (+ tmp.123 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/void12700.12.17)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/empty12693.13
+        (begin
+          (set! tmp.106 (begin (set! tmp.124 (alloc 16)) (+ tmp.124 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/empty12693.13.18)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/ascii-char12705.14
+        (begin
+          (set! tmp.107 (begin (set! tmp.125 (alloc 16)) (+ tmp.125 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/ascii-char12705.14.19)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/empty12695.15
+        (begin
+          (set! tmp.108 (begin (set! tmp.126 (alloc 16)) (+ tmp.126 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/empty12695.15.20)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/ascii-char12704.16
+        (begin
+          (set! tmp.109 (begin (set! tmp.127 (alloc 24)) (+ tmp.127 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/ascii-char12704.16.21)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/empty12694.17
+        (begin
+          (set! tmp.110 (begin (set! tmp.128 (alloc 24)) (+ tmp.128 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/empty12694.17.22)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (begin
+        (mset! fun/ascii-char12698.4 14 fun/ascii-char12699.5)
+        (mset! fun/any12703.6 14 cons.76)
+        (mset! fun/empty12692.7 14 fun/empty12693.13)
+        (mset! fun/error12696.8 14 fun/error12697.10)
+        (mset! fun/any12702.11 14 fun/any12703.6)
+        (mset! fun/void12700.12 14 fun/void12701.9)
+        (mset! fun/ascii-char12704.16 14 fun/ascii-char12705.14)
+        (mset! fun/empty12694.17 14 fun/empty12695.15)
+        (begin
+          (set! empty0.23 (call L.fun/empty12692.7.12 fun/empty12692.7))
+          (set! empty1.22 (call L.fun/empty12694.17.22 fun/empty12694.17))
+          (set! error2.21 (call L.fun/error12696.8.13 fun/error12696.8))
+          (set! ascii-char3.20
+            (call L.fun/ascii-char12698.4.9 fun/ascii-char12698.4))
+          (set! void4.19 (call L.fun/void12700.12.17 fun/void12700.12))
+          (set! boolean5.18
+            (begin
+              (set! tmp.129 (call L.fun/any12702.11.16 fun/any12702.11))
+              (call L.empty?.77.7 empty?.77 tmp.129)))
+          (call L.fun/ascii-char12704.16.21 fun/ascii-char12704.16))))))
+(check-by-interp
+ '(module
+    (define L.lam.77.22
+      (lambda (c.93)
+        (begin
+          (set! *.75 (mref c.93 14))
+          (set! |+.76| (mref c.93 22))
+          (set! |-.74| (mref c.93 30))
+          (begin
+            (set! tmp.110
+              (begin
+                (set! tmp.111
+                  (begin
+                    (set! tmp.112 (call L.-.74.9 |-.74| 1360 864))
+                    (begin
+                      (set! tmp.113 (call L.*.75.8 *.75 992 728))
+                      (call L.*.75.8 *.75 tmp.112 tmp.113))))
+                (begin
+                  (set! tmp.114
+                    (begin
+                      (set! tmp.115 (call L.+.76.7 |+.76| 1568 992))
+                      (begin
+                        (set! tmp.116 (call L.-.74.9 |-.74| 232 1656))
+                        (call L.-.74.9 |-.74| tmp.115 tmp.116))))
+                  (call L.+.76.7 |+.76| tmp.111 tmp.114))))
+            (begin
+              (set! tmp.117
+                (begin
+                  (set! tmp.118
+                    (begin
+                      (set! tmp.119 (call L.-.74.9 |-.74| 592 200))
+                      (begin
+                        (set! tmp.120 (call L.*.75.8 *.75 320 1800))
+                        (call L.+.76.7 |+.76| tmp.119 tmp.120))))
+                  (begin
+                    (set! tmp.121
+                      (begin
+                        (set! tmp.122 (call L.+.76.7 |+.76| 736 1392))
+                        (begin
+                          (set! tmp.123 (call L.*.75.8 *.75 1768 1576))
+                          (call L.-.74.9 |-.74| tmp.122 tmp.123))))
+                    (call L.*.75.8 *.75 tmp.118 tmp.121))))
+              (call L.-.74.9 |-.74| tmp.110 tmp.117))))))
+    (define L.fun/error12708.15.21
+      (lambda (c.92)
+        (begin
+          (set! fun/error12709.10 (mref c.92 14))
+          (call L.fun/error12709.10.16 fun/error12709.10))))
+    (define L.fun/ascii-char12711.14.20 (lambda (c.91) (begin 29998)))
+    (define L.fun/ascii-char12712.13.19
+      (lambda (c.90)
+        (begin
+          (set! fun/ascii-char12713.6 (mref c.90 14))
+          (call L.fun/ascii-char12713.6.12 fun/ascii-char12713.6))))
+    (define L.fun/ascii-char12718.12.18
+      (lambda (c.89)
+        (begin
+          (set! fun/ascii-char12719.11 (mref c.89 14))
+          (call L.fun/ascii-char12719.11.17 fun/ascii-char12719.11))))
+    (define L.fun/ascii-char12719.11.17 (lambda (c.88) (begin 23342)))
+    (define L.fun/error12709.10.16 (lambda (c.87) (begin 17214)))
+    (define L.fun/error12716.9.15
+      (lambda (c.86)
+        (begin
+          (set! fun/error12717.8 (mref c.86 14))
+          (call L.fun/error12717.8.14 fun/error12717.8))))
+    (define L.fun/error12717.8.14 (lambda (c.85) (begin 33086)))
+    (define L.fun/ascii-char12710.7.13
+      (lambda (c.84)
+        (begin
+          (set! fun/ascii-char12711.14 (mref c.84 14))
+          (call L.fun/ascii-char12711.14.20 fun/ascii-char12711.14))))
+    (define L.fun/ascii-char12713.6.12 (lambda (c.83) (begin 17710)))
+    (define L.fun/ascii-char12714.5.11
+      (lambda (c.82)
+        (begin
+          (set! fun/ascii-char12715.4 (mref c.82 14))
+          (call L.fun/ascii-char12715.4.10 fun/ascii-char12715.4))))
+    (define L.fun/ascii-char12715.4.10 (lambda (c.81) (begin 26926)))
+    (define L.-.74.9
+      (lambda (c.80 tmp.40 tmp.41)
+        (begin
+          (if (begin
+                (set! tmp.124
+                  (if (begin
+                        (set! tmp.125 (bitwise-and tmp.41 7))
+                        (= tmp.125 0))
+                    14
+                    6))
+                (!= tmp.124 6))
+            (if (begin
+                  (set! tmp.126
+                    (if (begin
+                          (set! tmp.127 (bitwise-and tmp.40 7))
+                          (= tmp.127 0))
+                      14
+                      6))
+                  (!= tmp.126 6))
+              (- tmp.40 tmp.41)
+              830)
+            830))))
+    (define L.*.75.8
+      (lambda (c.79 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.128
+                  (if (begin
+                        (set! tmp.129 (bitwise-and tmp.37 7))
+                        (= tmp.129 0))
+                    14
+                    6))
+                (!= tmp.128 6))
+            (if (begin
+                  (set! tmp.130
+                    (if (begin
+                          (set! tmp.131 (bitwise-and tmp.36 7))
+                          (= tmp.131 0))
+                      14
+                      6))
+                  (!= tmp.130 6))
+              (begin
+                (set! tmp.132 (arithmetic-shift-right tmp.37 3))
+                (* tmp.36 tmp.132))
+              318)
+            318))))
+    (define L.+.76.7
+      (lambda (c.78 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.133
+                  (if (begin
+                        (set! tmp.134 (bitwise-and tmp.39 7))
+                        (= tmp.134 0))
+                    14
+                    6))
+                (!= tmp.133 6))
+            (if (begin
+                  (set! tmp.135
+                    (if (begin
+                          (set! tmp.136 (bitwise-and tmp.38 7))
+                          (= tmp.136 0))
+                      14
+                      6))
+                  (!= tmp.135 6))
+              (+ tmp.38 tmp.39)
+              574)
+            574))))
+    (begin
+      (set! |+.76|
+        (begin
+          (set! tmp.94 (begin (set! tmp.137 (alloc 16)) (+ tmp.137 2)))
+          (begin (mset! tmp.94 -2 L.+.76.7) (mset! tmp.94 6 16) tmp.94)))
+      (set! *.75
+        (begin
+          (set! tmp.95 (begin (set! tmp.138 (alloc 16)) (+ tmp.138 2)))
+          (begin (mset! tmp.95 -2 L.*.75.8) (mset! tmp.95 6 16) tmp.95)))
+      (set! |-.74|
+        (begin
+          (set! tmp.96 (begin (set! tmp.139 (alloc 16)) (+ tmp.139 2)))
+          (begin (mset! tmp.96 -2 L.-.74.9) (mset! tmp.96 6 16) tmp.96)))
+      (set! fun/ascii-char12715.4
+        (begin
+          (set! tmp.97 (begin (set! tmp.140 (alloc 16)) (+ tmp.140 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/ascii-char12715.4.10)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/ascii-char12714.5
+        (begin
+          (set! tmp.98 (begin (set! tmp.141 (alloc 24)) (+ tmp.141 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/ascii-char12714.5.11)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/ascii-char12713.6
+        (begin
+          (set! tmp.99 (begin (set! tmp.142 (alloc 16)) (+ tmp.142 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/ascii-char12713.6.12)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/ascii-char12710.7
+        (begin
+          (set! tmp.100 (begin (set! tmp.143 (alloc 24)) (+ tmp.143 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/ascii-char12710.7.13)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/error12717.8
+        (begin
+          (set! tmp.101 (begin (set! tmp.144 (alloc 16)) (+ tmp.144 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/error12717.8.14)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/error12716.9
+        (begin
+          (set! tmp.102 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/error12716.9.15)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/error12709.10
+        (begin
+          (set! tmp.103 (begin (set! tmp.146 (alloc 16)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/error12709.10.16)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/ascii-char12719.11
+        (begin
+          (set! tmp.104 (begin (set! tmp.147 (alloc 16)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/ascii-char12719.11.17)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/ascii-char12718.12
+        (begin
+          (set! tmp.105 (begin (set! tmp.148 (alloc 24)) (+ tmp.148 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/ascii-char12718.12.18)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/ascii-char12712.13
+        (begin
+          (set! tmp.106 (begin (set! tmp.149 (alloc 24)) (+ tmp.149 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/ascii-char12712.13.19)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/ascii-char12711.14
+        (begin
+          (set! tmp.107 (begin (set! tmp.150 (alloc 16)) (+ tmp.150 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/ascii-char12711.14.20)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/error12708.15
+        (begin
+          (set! tmp.108 (begin (set! tmp.151 (alloc 24)) (+ tmp.151 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/error12708.15.21)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (begin
+        (mset! fun/ascii-char12714.5 14 fun/ascii-char12715.4)
+        (mset! fun/ascii-char12710.7 14 fun/ascii-char12711.14)
+        (mset! fun/error12716.9 14 fun/error12717.8)
+        (mset! fun/ascii-char12718.12 14 fun/ascii-char12719.11)
+        (mset! fun/ascii-char12712.13 14 fun/ascii-char12713.6)
+        (mset! fun/error12708.15 14 fun/error12709.10)
+        (begin
+          (set! error0.21 (call L.fun/error12708.15.21 fun/error12708.15))
+          (set! procedure1.20
+            (begin
+              (set! lam.77
+                (begin
+                  (set! tmp.109
+                    (begin (set! tmp.152 (alloc 40)) (+ tmp.152 2)))
+                  (begin
+                    (mset! tmp.109 -2 L.lam.77.22)
+                    (mset! tmp.109 6 0)
+                    tmp.109)))
+              (begin
+                (mset! lam.77 14 *.75)
+                (mset! lam.77 22 |+.76|)
+                (mset! lam.77 30 |-.74|)
+                lam.77)))
+          (set! ascii-char2.19
+            (call L.fun/ascii-char12710.7.13 fun/ascii-char12710.7))
+          (set! ascii-char3.18
+            (call L.fun/ascii-char12712.13.19 fun/ascii-char12712.13))
+          (set! ascii-char4.17
+            (call L.fun/ascii-char12714.5.11 fun/ascii-char12714.5))
+          (set! error5.16 (call L.fun/error12716.9.15 fun/error12716.9))
+          (call L.fun/ascii-char12718.12.18 fun/ascii-char12718.12))))))
+(check-by-interp
+ '(module
+    (define L.fun/error14513.13.19 (lambda (c.87) (begin 4926)))
+    (define L.fun/error14512.12.18
+      (lambda (c.86)
+        (begin
+          (set! fun/error14513.13 (mref c.86 14))
+          (call L.fun/error14513.13.19 fun/error14513.13))))
+    (define L.fun/error14509.11.17 (lambda (c.85) (begin 48958)))
+    (define L.fun/error14508.10.16
+      (lambda (c.84)
+        (begin
+          (set! fun/error14509.11 (mref c.84 14))
+          (call L.fun/error14509.11.17 fun/error14509.11))))
+    (define L.fun/ascii-char14517.9.15 (lambda (c.83) (begin 25390)))
+    (define L.fun/ascii-char14510.8.14
+      (lambda (c.82)
+        (begin
+          (set! fun/ascii-char14511.4 (mref c.82 14))
+          (call L.fun/ascii-char14511.4.10 fun/ascii-char14511.4))))
+    (define L.fun/error14515.7.13 (lambda (c.81) (begin 55870)))
+    (define L.fun/error14514.6.12
+      (lambda (c.80)
+        (begin
+          (set! fun/error14515.7 (mref c.80 14))
+          (call L.fun/error14515.7.13 fun/error14515.7))))
+    (define L.fun/ascii-char14516.5.11
+      (lambda (c.79)
+        (begin
+          (set! fun/ascii-char14517.9 (mref c.79 14))
+          (call L.fun/ascii-char14517.9.15 fun/ascii-char14517.9))))
+    (define L.fun/ascii-char14511.4.10 (lambda (c.78) (begin 17710)))
+    (define L.*.72.9
+      (lambda (c.77 tmp.34 tmp.35)
+        (begin
+          (if (begin
+                (set! tmp.101
+                  (if (begin
+                        (set! tmp.102 (bitwise-and tmp.35 7))
+                        (= tmp.102 0))
+                    14
+                    6))
+                (!= tmp.101 6))
+            (if (begin
+                  (set! tmp.103
+                    (if (begin
+                          (set! tmp.104 (bitwise-and tmp.34 7))
+                          (= tmp.104 0))
+                      14
+                      6))
+                  (!= tmp.103 6))
+              (begin
+                (set! tmp.105 (arithmetic-shift-right tmp.35 3))
+                (* tmp.34 tmp.105))
+              318)
+            318))))
+    (define L.-.73.8
+      (lambda (c.76 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.106
+                  (if (begin
+                        (set! tmp.107 (bitwise-and tmp.39 7))
+                        (= tmp.107 0))
+                    14
+                    6))
+                (!= tmp.106 6))
+            (if (begin
+                  (set! tmp.108
+                    (if (begin
+                          (set! tmp.109 (bitwise-and tmp.38 7))
+                          (= tmp.109 0))
+                      14
+                      6))
+                  (!= tmp.108 6))
+              (- tmp.38 tmp.39)
+              830)
+            830))))
+    (define L.+.74.7
+      (lambda (c.75 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.110
+                  (if (begin
+                        (set! tmp.111 (bitwise-and tmp.37 7))
+                        (= tmp.111 0))
+                    14
+                    6))
+                (!= tmp.110 6))
+            (if (begin
+                  (set! tmp.112
+                    (if (begin
+                          (set! tmp.113 (bitwise-and tmp.36 7))
+                          (= tmp.113 0))
+                      14
+                      6))
+                  (!= tmp.112 6))
+              (+ tmp.36 tmp.37)
+              574)
+            574))))
+    (begin
+      (set! |+.74|
+        (begin
+          (set! tmp.88 (begin (set! tmp.114 (alloc 16)) (+ tmp.114 2)))
+          (begin (mset! tmp.88 -2 L.+.74.7) (mset! tmp.88 6 16) tmp.88)))
+      (set! |-.73|
+        (begin
+          (set! tmp.89 (begin (set! tmp.115 (alloc 16)) (+ tmp.115 2)))
+          (begin (mset! tmp.89 -2 L.-.73.8) (mset! tmp.89 6 16) tmp.89)))
+      (set! *.72
+        (begin
+          (set! tmp.90 (begin (set! tmp.116 (alloc 16)) (+ tmp.116 2)))
+          (begin (mset! tmp.90 -2 L.*.72.9) (mset! tmp.90 6 16) tmp.90)))
+      (set! fun/ascii-char14511.4
+        (begin
+          (set! tmp.91 (begin (set! tmp.117 (alloc 16)) (+ tmp.117 2)))
+          (begin
+            (mset! tmp.91 -2 L.fun/ascii-char14511.4.10)
+            (mset! tmp.91 6 0)
+            tmp.91)))
+      (set! fun/ascii-char14516.5
+        (begin
+          (set! tmp.92 (begin (set! tmp.118 (alloc 24)) (+ tmp.118 2)))
+          (begin
+            (mset! tmp.92 -2 L.fun/ascii-char14516.5.11)
+            (mset! tmp.92 6 0)
+            tmp.92)))
+      (set! fun/error14514.6
+        (begin
+          (set! tmp.93 (begin (set! tmp.119 (alloc 24)) (+ tmp.119 2)))
+          (begin
+            (mset! tmp.93 -2 L.fun/error14514.6.12)
+            (mset! tmp.93 6 0)
+            tmp.93)))
+      (set! fun/error14515.7
+        (begin
+          (set! tmp.94 (begin (set! tmp.120 (alloc 16)) (+ tmp.120 2)))
+          (begin
+            (mset! tmp.94 -2 L.fun/error14515.7.13)
+            (mset! tmp.94 6 0)
+            tmp.94)))
+      (set! fun/ascii-char14510.8
+        (begin
+          (set! tmp.95 (begin (set! tmp.121 (alloc 24)) (+ tmp.121 2)))
+          (begin
+            (mset! tmp.95 -2 L.fun/ascii-char14510.8.14)
+            (mset! tmp.95 6 0)
+            tmp.95)))
+      (set! fun/ascii-char14517.9
+        (begin
+          (set! tmp.96 (begin (set! tmp.122 (alloc 16)) (+ tmp.122 2)))
+          (begin
+            (mset! tmp.96 -2 L.fun/ascii-char14517.9.15)
+            (mset! tmp.96 6 0)
+            tmp.96)))
+      (set! fun/error14508.10
+        (begin
+          (set! tmp.97 (begin (set! tmp.123 (alloc 24)) (+ tmp.123 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/error14508.10.16)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/error14509.11
+        (begin
+          (set! tmp.98 (begin (set! tmp.124 (alloc 16)) (+ tmp.124 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/error14509.11.17)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/error14512.12
+        (begin
+          (set! tmp.99 (begin (set! tmp.125 (alloc 24)) (+ tmp.125 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/error14512.12.18)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/error14513.13
+        (begin
+          (set! tmp.100 (begin (set! tmp.126 (alloc 16)) (+ tmp.126 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/error14513.13.19)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (begin
+        (mset! fun/ascii-char14516.5 14 fun/ascii-char14517.9)
+        (mset! fun/error14514.6 14 fun/error14515.7)
+        (mset! fun/ascii-char14510.8 14 fun/ascii-char14511.4)
+        (mset! fun/error14508.10 14 fun/error14509.11)
+        (mset! fun/error14512.12 14 fun/error14513.13)
+        (begin
+          (set! error0.19 (call L.fun/error14508.10.16 fun/error14508.10))
+          (set! fixnum1.18
+            (begin
+              (set! tmp.127
+                (begin
+                  (set! tmp.128
+                    (begin
+                      (set! tmp.129 (call L.*.72.9 *.72 1960 824))
+                      (begin
+                        (set! tmp.130 (call L.-.73.8 |-.73| 112 728))
+                        (call L.+.74.7 |+.74| tmp.129 tmp.130))))
+                  (begin
+                    (set! tmp.131
+                      (begin
+                        (set! tmp.132 (call L.*.72.9 *.72 976 520))
+                        (begin
+                          (set! tmp.133 (call L.*.72.9 *.72 472 392))
+                          (call L.*.72.9 *.72 tmp.132 tmp.133))))
+                    (call L.+.74.7 |+.74| tmp.128 tmp.131))))
+              (begin
+                (set! tmp.134
+                  (begin
+                    (set! tmp.135
+                      (begin
+                        (set! tmp.136 (call L.+.74.7 |+.74| 1360 1944))
+                        (begin
+                          (set! tmp.137 (call L.+.74.7 |+.74| 1816 496))
+                          (call L.*.72.9 *.72 tmp.136 tmp.137))))
+                    (begin
+                      (set! tmp.138
+                        (begin
+                          (set! tmp.139 (call L.*.72.9 *.72 1320 1216))
+                          (begin
+                            (set! tmp.140 (call L.*.72.9 *.72 272 1872))
+                            (call L.-.73.8 |-.73| tmp.139 tmp.140))))
+                      (call L.-.73.8 |-.73| tmp.135 tmp.138))))
+                (call L.+.74.7 |+.74| tmp.127 tmp.134))))
+          (set! fixnum2.17
+            (begin
+              (set! tmp.141
+                (begin
+                  (set! tmp.142
+                    (begin
+                      (set! tmp.143 (call L.-.73.8 |-.73| 224 1744))
+                      (begin
+                        (set! tmp.144 (call L.+.74.7 |+.74| 1752 1304))
+                        (call L.*.72.9 *.72 tmp.143 tmp.144))))
+                  (begin
+                    (set! tmp.145
+                      (begin
+                        (set! tmp.146 (call L.-.73.8 |-.73| 264 344))
+                        (begin
+                          (set! tmp.147 (call L.*.72.9 *.72 1872 1848))
+                          (call L.*.72.9 *.72 tmp.146 tmp.147))))
+                    (call L.-.73.8 |-.73| tmp.142 tmp.145))))
+              (begin
+                (set! tmp.148
+                  (begin
+                    (set! tmp.149
+                      (begin
+                        (set! tmp.150 (call L.-.73.8 |-.73| 496 1696))
+                        (begin
+                          (set! tmp.151 (call L.-.73.8 |-.73| 1312 1736))
+                          (call L.-.73.8 |-.73| tmp.150 tmp.151))))
+                    (begin
+                      (set! tmp.152
+                        (begin
+                          (set! tmp.153 (call L.*.72.9 *.72 1672 304))
+                          (begin
+                            (set! tmp.154 (call L.-.73.8 |-.73| 1792 1864))
+                            (call L.-.73.8 |-.73| tmp.153 tmp.154))))
+                      (call L.+.74.7 |+.74| tmp.149 tmp.152))))
+                (call L.-.73.8 |-.73| tmp.141 tmp.148))))
+          (set! ascii-char3.16
+            (call L.fun/ascii-char14510.8.14 fun/ascii-char14510.8))
+          (set! error4.15 (call L.fun/error14512.12.18 fun/error14512.12))
+          (set! error5.14 (call L.fun/error14514.6.12 fun/error14514.6))
+          (call L.fun/ascii-char14516.5.11 fun/ascii-char14516.5))))))
+(check-by-interp
+ '(module
+    (define L.lam.74.19
+      (lambda (c.87)
+        (begin
+          (set! fun/error14882.7 (mref c.87 14))
+          (call L.fun/error14882.7.10 fun/error14882.7))))
+    (define L.fun/empty14877.15.18 (lambda (c.86) (begin 22)))
+    (define L.fun/error14878.14.17
+      (lambda (c.85)
+        (begin
+          (set! fun/error14879.9 (mref c.85 14))
+          (call L.fun/error14879.9.12 fun/error14879.9))))
+    (define L.fun/empty14876.13.16
+      (lambda (c.84)
+        (begin
+          (set! fun/empty14877.15 (mref c.84 14))
+          (call L.fun/empty14877.15.18 fun/empty14877.15))))
+    (define L.fun/ascii-char14885.12.15 (lambda (c.83) (begin 25134)))
+    (define L.fun/ascii-char14884.11.14
+      (lambda (c.82)
+        (begin
+          (set! fun/ascii-char14885.12 (mref c.82 14))
+          (call L.fun/ascii-char14885.12.15 fun/ascii-char14885.12))))
+    (define L.fun/empty14887.10.13 (lambda (c.81) (begin 22)))
+    (define L.fun/error14879.9.12 (lambda (c.80) (begin 29246)))
+    (define L.fun/error14881.8.11 (lambda (c.79) (begin 11326)))
+    (define L.fun/error14882.7.10
+      (lambda (c.78)
+        (begin
+          (set! fun/error14883.4 (mref c.78 14))
+          (call L.fun/error14883.4.7 fun/error14883.4))))
+    (define L.fun/empty14886.6.9
+      (lambda (c.77)
+        (begin
+          (set! fun/empty14887.10 (mref c.77 14))
+          (call L.fun/empty14887.10.13 fun/empty14887.10))))
+    (define L.fun/error14880.5.8
+      (lambda (c.76)
+        (begin
+          (set! fun/error14881.8 (mref c.76 14))
+          (call L.fun/error14881.8.11 fun/error14881.8))))
+    (define L.fun/error14883.4.7 (lambda (c.75) (begin 37438)))
+    (begin
+      (set! fun/error14883.4
+        (begin
+          (set! tmp.88 (begin (set! tmp.101 (alloc 16)) (+ tmp.101 2)))
+          (begin
+            (mset! tmp.88 -2 L.fun/error14883.4.7)
+            (mset! tmp.88 6 0)
+            tmp.88)))
+      (set! fun/error14880.5
+        (begin
+          (set! tmp.89 (begin (set! tmp.102 (alloc 24)) (+ tmp.102 2)))
+          (begin
+            (mset! tmp.89 -2 L.fun/error14880.5.8)
+            (mset! tmp.89 6 0)
+            tmp.89)))
+      (set! fun/empty14886.6
+        (begin
+          (set! tmp.90 (begin (set! tmp.103 (alloc 24)) (+ tmp.103 2)))
+          (begin
+            (mset! tmp.90 -2 L.fun/empty14886.6.9)
+            (mset! tmp.90 6 0)
+            tmp.90)))
+      (set! fun/error14882.7
+        (begin
+          (set! tmp.91 (begin (set! tmp.104 (alloc 24)) (+ tmp.104 2)))
+          (begin
+            (mset! tmp.91 -2 L.fun/error14882.7.10)
+            (mset! tmp.91 6 0)
+            tmp.91)))
+      (set! fun/error14881.8
+        (begin
+          (set! tmp.92 (begin (set! tmp.105 (alloc 16)) (+ tmp.105 2)))
+          (begin
+            (mset! tmp.92 -2 L.fun/error14881.8.11)
+            (mset! tmp.92 6 0)
+            tmp.92)))
+      (set! fun/error14879.9
+        (begin
+          (set! tmp.93 (begin (set! tmp.106 (alloc 16)) (+ tmp.106 2)))
+          (begin
+            (mset! tmp.93 -2 L.fun/error14879.9.12)
+            (mset! tmp.93 6 0)
+            tmp.93)))
+      (set! fun/empty14887.10
+        (begin
+          (set! tmp.94 (begin (set! tmp.107 (alloc 16)) (+ tmp.107 2)))
+          (begin
+            (mset! tmp.94 -2 L.fun/empty14887.10.13)
+            (mset! tmp.94 6 0)
+            tmp.94)))
+      (set! fun/ascii-char14884.11
+        (begin
+          (set! tmp.95 (begin (set! tmp.108 (alloc 24)) (+ tmp.108 2)))
+          (begin
+            (mset! tmp.95 -2 L.fun/ascii-char14884.11.14)
+            (mset! tmp.95 6 0)
+            tmp.95)))
+      (set! fun/ascii-char14885.12
+        (begin
+          (set! tmp.96 (begin (set! tmp.109 (alloc 16)) (+ tmp.109 2)))
+          (begin
+            (mset! tmp.96 -2 L.fun/ascii-char14885.12.15)
+            (mset! tmp.96 6 0)
+            tmp.96)))
+      (set! fun/empty14876.13
+        (begin
+          (set! tmp.97 (begin (set! tmp.110 (alloc 24)) (+ tmp.110 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/empty14876.13.16)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/error14878.14
+        (begin
+          (set! tmp.98 (begin (set! tmp.111 (alloc 24)) (+ tmp.111 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/error14878.14.17)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/empty14877.15
+        (begin
+          (set! tmp.99 (begin (set! tmp.112 (alloc 16)) (+ tmp.112 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/empty14877.15.18)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (begin
+        (mset! fun/error14880.5 14 fun/error14881.8)
+        (mset! fun/empty14886.6 14 fun/empty14887.10)
+        (mset! fun/error14882.7 14 fun/error14883.4)
+        (mset! fun/ascii-char14884.11 14 fun/ascii-char14885.12)
+        (mset! fun/empty14876.13 14 fun/empty14877.15)
+        (mset! fun/error14878.14 14 fun/error14879.9)
+        (begin
+          (set! empty0.21 (call L.fun/empty14876.13.16 fun/empty14876.13))
+          (set! error1.20 (call L.fun/error14878.14.17 fun/error14878.14))
+          (set! error2.19 (call L.fun/error14880.5.8 fun/error14880.5))
+          (set! procedure3.18
+            (begin
+              (set! lam.74
+                (begin
+                  (set! tmp.100
+                    (begin (set! tmp.113 (alloc 24)) (+ tmp.113 2)))
+                  (begin
+                    (mset! tmp.100 -2 L.lam.74.19)
+                    (mset! tmp.100 6 0)
+                    tmp.100)))
+              (begin (mset! lam.74 14 fun/error14882.7) lam.74)))
+          (set! ascii-char4.17
+            (call L.fun/ascii-char14884.11.14 fun/ascii-char14884.11))
+          (set! empty5.16 (call L.fun/empty14886.6.9 fun/empty14886.6))
+          (if (begin
+                (set! tmp.114
+                  (if (begin
+                        (set! tmp.115 (bitwise-and procedure3.18 7))
+                        (= tmp.115 2))
+                    14
+                    6))
+                (!= tmp.114 6))
+            (if (begin
+                  (set! tmp.116
+                    (if (begin
+                          (set! tmp.117 (mref procedure3.18 6))
+                          (= tmp.117 0))
+                      14
+                      6))
+                  (!= tmp.116 6))
+              (begin
+                (set! tmp.118 (mref procedure3.18 -2))
+                (call tmp.118 procedure3.18))
+              10814)
+            11070))))))
+(check-by-interp
+ '(module
+    (define L.lam.79.26
+      (lambda (c.99)
+        (begin
+          (set! fun/any15198.16 (mref c.99 14))
+          (set! ascii-char?.77 (mref c.99 22))
+          (begin
+            (set! tmp.121 (call L.fun/any15198.16.23 fun/any15198.16))
+            (call L.ascii-char?.77.7 ascii-char?.77 tmp.121)))))
+    (define L.lam.78.25
+      (lambda (c.98)
+        (begin
+          (set! fun/empty15196.4 (mref c.98 14))
+          (call L.fun/empty15196.4.11 fun/empty15196.4))))
+    (define L.fun/empty15205.17.24 (lambda (c.97) (begin 22)))
+    (define L.fun/any15198.16.23
+      (lambda (c.96)
+        (begin
+          (set! fun/any15199.14 (mref c.96 14))
+          (call L.fun/any15199.14.21 fun/any15199.14))))
+    (define L.fun/error15201.15.22 (lambda (c.95) (begin 52286)))
+    (define L.fun/any15199.14.21 (lambda (c.94) (begin 30)))
+    (define L.fun/error15200.13.20
+      (lambda (c.93)
+        (begin
+          (set! fun/error15201.15 (mref c.93 14))
+          (call L.fun/error15201.15.22 fun/error15201.15))))
+    (define L.fun/empty15204.12.19
+      (lambda (c.92)
+        (begin
+          (set! fun/empty15205.17 (mref c.92 14))
+          (call L.fun/empty15205.17.24 fun/empty15205.17))))
+    (define L.fun/vector15209.11.18
+      (lambda (c.91)
+        (begin
+          (set! make-vector.76 (mref c.91 14))
+          (call L.make-vector.76.10 make-vector.76 64))))
+    (define L.fun/empty15197.10.17 (lambda (c.90) (begin 22)))
+    (define L.fun/ascii-char15203.9.16 (lambda (c.89) (begin 29230)))
+    (define L.fun/vector15208.8.15
+      (lambda (c.88)
+        (begin
+          (set! fun/vector15209.11 (mref c.88 14))
+          (call L.fun/vector15209.11.18 fun/vector15209.11))))
+    (define L.fun/empty15207.7.14 (lambda (c.87) (begin 22)))
+    (define L.fun/ascii-char15202.6.13
+      (lambda (c.86)
+        (begin
+          (set! fun/ascii-char15203.9 (mref c.86 14))
+          (call L.fun/ascii-char15203.9.16 fun/ascii-char15203.9))))
+    (define L.fun/empty15206.5.12
+      (lambda (c.85)
+        (begin
+          (set! fun/empty15207.7 (mref c.85 14))
+          (call L.fun/empty15207.7.14 fun/empty15207.7))))
+    (define L.fun/empty15196.4.11
+      (lambda (c.84)
+        (begin
+          (set! fun/empty15197.10 (mref c.84 14))
+          (call L.fun/empty15197.10.17 fun/empty15197.10))))
+    (define L.make-vector.76.10
+      (lambda (c.83 tmp.52)
+        (begin
+          (set! make-init-vector.1 (mref c.83 14))
+          (if (begin
+                (set! tmp.122
+                  (if (begin
+                        (set! tmp.123 (bitwise-and tmp.52 7))
+                        (= tmp.123 0))
+                    14
+                    6))
+                (!= tmp.122 6))
+            (call L.make-init-vector.1.9 make-init-vector.1 tmp.52)
+            2110))))
+    (define L.make-init-vector.1.9
+      (lambda (c.82 tmp.24)
+        (begin
+          (set! vector-init-loop.26 (mref c.82 14))
+          (begin
+            (set! tmp.25
+              (begin
+                (set! tmp.100
+                  (begin
+                    (set! tmp.124
+                      (begin
+                        (set! tmp.125
+                          (begin
+                            (set! tmp.126
+                              (begin
+                                (set! tmp.127
+                                  (arithmetic-shift-right tmp.24 3))
+                                (+ 1 tmp.127)))
+                            (* tmp.126 8)))
+                        (alloc tmp.125)))
+                    (+ tmp.124 3)))
+                (begin (mset! tmp.100 -3 tmp.24) tmp.100)))
+            (call
+             L.vector-init-loop.26.8
+             vector-init-loop.26
+             tmp.24
+             0
+             tmp.25)))))
+    (define L.vector-init-loop.26.8
+      (lambda (c.81 len.27 i.29 vec.28)
+        (begin
+          (set! vector-init-loop.26 (mref c.81 14))
+          (if (begin (set! tmp.128 (if (= len.27 i.29) 14 6)) (!= tmp.128 6))
+            vec.28
+            (begin
+              (begin
+                (set! tmp.129
+                  (begin
+                    (set! tmp.130
+                      (begin
+                        (set! tmp.131 (arithmetic-shift-right i.29 3))
+                        (* tmp.131 8)))
+                    (+ tmp.130 5)))
+                (mset! vec.28 tmp.129 0))
+              (begin
+                (set! tmp.132 (+ i.29 8))
+                (call
+                 L.vector-init-loop.26.8
+                 vector-init-loop.26
+                 len.27
+                 tmp.132
+                 vec.28)))))))
+    (define L.ascii-char?.77.7
+      (lambda (c.80 tmp.65)
+        (begin
+          (if (begin (set! tmp.133 (bitwise-and tmp.65 255)) (= tmp.133 46))
+            14
+            6))))
+    (begin
+      (set! ascii-char?.77
+        (begin
+          (set! tmp.101 (begin (set! tmp.134 (alloc 16)) (+ tmp.134 2)))
+          (begin
+            (mset! tmp.101 -2 L.ascii-char?.77.7)
+            (mset! tmp.101 6 8)
+            tmp.101)))
+      (set! vector-init-loop.26
+        (begin
+          (set! tmp.102 (begin (set! tmp.135 (alloc 24)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.102 -2 L.vector-init-loop.26.8)
+            (mset! tmp.102 6 24)
+            tmp.102)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.103 (begin (set! tmp.136 (alloc 24)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.103 -2 L.make-init-vector.1.9)
+            (mset! tmp.103 6 8)
+            tmp.103)))
+      (set! make-vector.76
+        (begin
+          (set! tmp.104 (begin (set! tmp.137 (alloc 24)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.104 -2 L.make-vector.76.10)
+            (mset! tmp.104 6 8)
+            tmp.104)))
+      (set! fun/empty15196.4
+        (begin
+          (set! tmp.105 (begin (set! tmp.138 (alloc 24)) (+ tmp.138 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/empty15196.4.11)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/empty15206.5
+        (begin
+          (set! tmp.106 (begin (set! tmp.139 (alloc 24)) (+ tmp.139 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/empty15206.5.12)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/ascii-char15202.6
+        (begin
+          (set! tmp.107 (begin (set! tmp.140 (alloc 24)) (+ tmp.140 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/ascii-char15202.6.13)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/empty15207.7
+        (begin
+          (set! tmp.108 (begin (set! tmp.141 (alloc 16)) (+ tmp.141 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/empty15207.7.14)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/vector15208.8
+        (begin
+          (set! tmp.109 (begin (set! tmp.142 (alloc 24)) (+ tmp.142 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/vector15208.8.15)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/ascii-char15203.9
+        (begin
+          (set! tmp.110 (begin (set! tmp.143 (alloc 16)) (+ tmp.143 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/ascii-char15203.9.16)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/empty15197.10
+        (begin
+          (set! tmp.111 (begin (set! tmp.144 (alloc 16)) (+ tmp.144 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/empty15197.10.17)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (set! fun/vector15209.11
+        (begin
+          (set! tmp.112 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.112 -2 L.fun/vector15209.11.18)
+            (mset! tmp.112 6 0)
+            tmp.112)))
+      (set! fun/empty15204.12
+        (begin
+          (set! tmp.113 (begin (set! tmp.146 (alloc 24)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.113 -2 L.fun/empty15204.12.19)
+            (mset! tmp.113 6 0)
+            tmp.113)))
+      (set! fun/error15200.13
+        (begin
+          (set! tmp.114 (begin (set! tmp.147 (alloc 24)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.114 -2 L.fun/error15200.13.20)
+            (mset! tmp.114 6 0)
+            tmp.114)))
+      (set! fun/any15199.14
+        (begin
+          (set! tmp.115 (begin (set! tmp.148 (alloc 16)) (+ tmp.148 2)))
+          (begin
+            (mset! tmp.115 -2 L.fun/any15199.14.21)
+            (mset! tmp.115 6 0)
+            tmp.115)))
+      (set! fun/error15201.15
+        (begin
+          (set! tmp.116 (begin (set! tmp.149 (alloc 16)) (+ tmp.149 2)))
+          (begin
+            (mset! tmp.116 -2 L.fun/error15201.15.22)
+            (mset! tmp.116 6 0)
+            tmp.116)))
+      (set! fun/any15198.16
+        (begin
+          (set! tmp.117 (begin (set! tmp.150 (alloc 24)) (+ tmp.150 2)))
+          (begin
+            (mset! tmp.117 -2 L.fun/any15198.16.23)
+            (mset! tmp.117 6 0)
+            tmp.117)))
+      (set! fun/empty15205.17
+        (begin
+          (set! tmp.118 (begin (set! tmp.151 (alloc 16)) (+ tmp.151 2)))
+          (begin
+            (mset! tmp.118 -2 L.fun/empty15205.17.24)
+            (mset! tmp.118 6 0)
+            tmp.118)))
+      (begin
+        (mset! vector-init-loop.26 14 vector-init-loop.26)
+        (mset! make-init-vector.1 14 vector-init-loop.26)
+        (mset! make-vector.76 14 make-init-vector.1)
+        (mset! fun/empty15196.4 14 fun/empty15197.10)
+        (mset! fun/empty15206.5 14 fun/empty15207.7)
+        (mset! fun/ascii-char15202.6 14 fun/ascii-char15203.9)
+        (mset! fun/vector15208.8 14 fun/vector15209.11)
+        (mset! fun/vector15209.11 14 make-vector.76)
+        (mset! fun/empty15204.12 14 fun/empty15205.17)
+        (mset! fun/error15200.13 14 fun/error15201.15)
+        (mset! fun/any15198.16 14 fun/any15199.14)
+        (begin
+          (set! procedure0.23
+            (begin
+              (set! lam.78
+                (begin
+                  (set! tmp.119
+                    (begin (set! tmp.152 (alloc 24)) (+ tmp.152 2)))
+                  (begin
+                    (mset! tmp.119 -2 L.lam.78.25)
+                    (mset! tmp.119 6 0)
+                    tmp.119)))
+              (begin (mset! lam.78 14 fun/empty15196.4) lam.78)))
+          (set! procedure1.22
+            (begin
+              (set! lam.79
+                (begin
+                  (set! tmp.120
+                    (begin (set! tmp.153 (alloc 32)) (+ tmp.153 2)))
+                  (begin
+                    (mset! tmp.120 -2 L.lam.79.26)
+                    (mset! tmp.120 6 0)
+                    tmp.120)))
+              (begin
+                (mset! lam.79 14 fun/any15198.16)
+                (mset! lam.79 22 ascii-char?.77)
+                lam.79)))
+          (set! error2.21 (call L.fun/error15200.13.20 fun/error15200.13))
+          (set! ascii-char3.20
+            (call L.fun/ascii-char15202.6.13 fun/ascii-char15202.6))
+          (set! empty4.19 (call L.fun/empty15204.12.19 fun/empty15204.12))
+          (set! empty5.18 (call L.fun/empty15206.5.12 fun/empty15206.5))
+          (call L.fun/vector15208.8.15 fun/vector15208.8))))))
+(check-by-interp
+ '(module
+    (define L.fun/void17417.17.23 (lambda (c.93) (begin 30)))
+    (define L.fun/error17406.16.22
+      (lambda (c.92)
+        (begin
+          (set! fun/error17407.14 (mref c.92 14))
+          (call L.fun/error17407.14.20 fun/error17407.14))))
+    (define L.fun/error17411.15.21 (lambda (c.91) (begin 10814)))
+    (define L.fun/error17407.14.20 (lambda (c.90) (begin 54078)))
+    (define L.fun/error17412.13.19
+      (lambda (c.89)
+        (begin
+          (set! fun/error17413.11 (mref c.89 14))
+          (call L.fun/error17413.11.17 fun/error17413.11))))
+    (define L.fun/ascii-char17414.12.18
+      (lambda (c.88)
+        (begin
+          (set! fun/ascii-char17415.6 (mref c.88 14))
+          (call L.fun/ascii-char17415.6.12 fun/ascii-char17415.6))))
+    (define L.fun/error17413.11.17 (lambda (c.87) (begin 13886)))
+    (define L.fun/void17416.10.16
+      (lambda (c.86)
+        (begin
+          (set! fun/void17417.17 (mref c.86 14))
+          (call L.fun/void17417.17.23 fun/void17417.17))))
+    (define L.fun/vector17409.9.15
+      (lambda (c.85)
+        (begin
+          (set! make-vector.76 (mref c.85 14))
+          (call L.make-vector.76.9 make-vector.76 64))))
+    (define L.fun/error17410.8.14
+      (lambda (c.84)
+        (begin
+          (set! fun/error17411.15 (mref c.84 14))
+          (call L.fun/error17411.15.21 fun/error17411.15))))
+    (define L.fun/vector17419.7.13
+      (lambda (c.83)
+        (begin
+          (set! make-vector.76 (mref c.83 14))
+          (call L.make-vector.76.9 make-vector.76 64))))
+    (define L.fun/ascii-char17415.6.12 (lambda (c.82) (begin 25902)))
+    (define L.fun/vector17418.5.11
+      (lambda (c.81)
+        (begin
+          (set! fun/vector17419.7 (mref c.81 14))
+          (call L.fun/vector17419.7.13 fun/vector17419.7))))
+    (define L.fun/vector17408.4.10
+      (lambda (c.80)
+        (begin
+          (set! fun/vector17409.9 (mref c.80 14))
+          (call L.fun/vector17409.9.15 fun/vector17409.9))))
+    (define L.make-vector.76.9
+      (lambda (c.79 tmp.52)
+        (begin
+          (set! make-init-vector.1 (mref c.79 14))
+          (if (begin
+                (set! tmp.112
+                  (if (begin
+                        (set! tmp.113 (bitwise-and tmp.52 7))
+                        (= tmp.113 0))
+                    14
+                    6))
+                (!= tmp.112 6))
+            (call L.make-init-vector.1.8 make-init-vector.1 tmp.52)
+            2110))))
+    (define L.make-init-vector.1.8
+      (lambda (c.78 tmp.24)
+        (begin
+          (set! vector-init-loop.26 (mref c.78 14))
+          (begin
+            (set! tmp.25
+              (begin
+                (set! tmp.94
+                  (begin
+                    (set! tmp.114
+                      (begin
+                        (set! tmp.115
+                          (begin
+                            (set! tmp.116
+                              (begin
+                                (set! tmp.117
+                                  (arithmetic-shift-right tmp.24 3))
+                                (+ 1 tmp.117)))
+                            (* tmp.116 8)))
+                        (alloc tmp.115)))
+                    (+ tmp.114 3)))
+                (begin (mset! tmp.94 -3 tmp.24) tmp.94)))
+            (call
+             L.vector-init-loop.26.7
+             vector-init-loop.26
+             tmp.24
+             0
+             tmp.25)))))
+    (define L.vector-init-loop.26.7
+      (lambda (c.77 len.27 i.29 vec.28)
+        (begin
+          (set! vector-init-loop.26 (mref c.77 14))
+          (if (begin (set! tmp.118 (if (= len.27 i.29) 14 6)) (!= tmp.118 6))
+            vec.28
+            (begin
+              (begin
+                (set! tmp.119
+                  (begin
+                    (set! tmp.120
+                      (begin
+                        (set! tmp.121 (arithmetic-shift-right i.29 3))
+                        (* tmp.121 8)))
+                    (+ tmp.120 5)))
+                (mset! vec.28 tmp.119 0))
+              (begin
+                (set! tmp.122 (+ i.29 8))
+                (call
+                 L.vector-init-loop.26.7
+                 vector-init-loop.26
+                 len.27
+                 tmp.122
+                 vec.28)))))))
+    (begin
+      (set! vector-init-loop.26
+        (begin
+          (set! tmp.95 (begin (set! tmp.123 (alloc 24)) (+ tmp.123 2)))
+          (begin
+            (mset! tmp.95 -2 L.vector-init-loop.26.7)
+            (mset! tmp.95 6 24)
+            tmp.95)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.96 (begin (set! tmp.124 (alloc 24)) (+ tmp.124 2)))
+          (begin
+            (mset! tmp.96 -2 L.make-init-vector.1.8)
+            (mset! tmp.96 6 8)
+            tmp.96)))
+      (set! make-vector.76
+        (begin
+          (set! tmp.97 (begin (set! tmp.125 (alloc 24)) (+ tmp.125 2)))
+          (begin
+            (mset! tmp.97 -2 L.make-vector.76.9)
+            (mset! tmp.97 6 8)
+            tmp.97)))
+      (set! fun/vector17408.4
+        (begin
+          (set! tmp.98 (begin (set! tmp.126 (alloc 24)) (+ tmp.126 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/vector17408.4.10)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/vector17418.5
+        (begin
+          (set! tmp.99 (begin (set! tmp.127 (alloc 24)) (+ tmp.127 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/vector17418.5.11)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/ascii-char17415.6
+        (begin
+          (set! tmp.100 (begin (set! tmp.128 (alloc 16)) (+ tmp.128 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/ascii-char17415.6.12)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/vector17419.7
+        (begin
+          (set! tmp.101 (begin (set! tmp.129 (alloc 24)) (+ tmp.129 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/vector17419.7.13)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/error17410.8
+        (begin
+          (set! tmp.102 (begin (set! tmp.130 (alloc 24)) (+ tmp.130 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/error17410.8.14)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/vector17409.9
+        (begin
+          (set! tmp.103 (begin (set! tmp.131 (alloc 24)) (+ tmp.131 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/vector17409.9.15)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/void17416.10
+        (begin
+          (set! tmp.104 (begin (set! tmp.132 (alloc 24)) (+ tmp.132 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/void17416.10.16)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/error17413.11
+        (begin
+          (set! tmp.105 (begin (set! tmp.133 (alloc 16)) (+ tmp.133 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/error17413.11.17)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/ascii-char17414.12
+        (begin
+          (set! tmp.106 (begin (set! tmp.134 (alloc 24)) (+ tmp.134 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/ascii-char17414.12.18)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/error17412.13
+        (begin
+          (set! tmp.107 (begin (set! tmp.135 (alloc 24)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/error17412.13.19)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/error17407.14
+        (begin
+          (set! tmp.108 (begin (set! tmp.136 (alloc 16)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/error17407.14.20)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/error17411.15
+        (begin
+          (set! tmp.109 (begin (set! tmp.137 (alloc 16)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/error17411.15.21)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/error17406.16
+        (begin
+          (set! tmp.110 (begin (set! tmp.138 (alloc 24)) (+ tmp.138 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/error17406.16.22)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/void17417.17
+        (begin
+          (set! tmp.111 (begin (set! tmp.139 (alloc 16)) (+ tmp.139 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/void17417.17.23)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (begin
+        (mset! vector-init-loop.26 14 vector-init-loop.26)
+        (mset! make-init-vector.1 14 vector-init-loop.26)
+        (mset! make-vector.76 14 make-init-vector.1)
+        (mset! fun/vector17408.4 14 fun/vector17409.9)
+        (mset! fun/vector17418.5 14 fun/vector17419.7)
+        (mset! fun/vector17419.7 14 make-vector.76)
+        (mset! fun/error17410.8 14 fun/error17411.15)
+        (mset! fun/vector17409.9 14 make-vector.76)
+        (mset! fun/void17416.10 14 fun/void17417.17)
+        (mset! fun/ascii-char17414.12 14 fun/ascii-char17415.6)
+        (mset! fun/error17412.13 14 fun/error17413.11)
+        (mset! fun/error17406.16 14 fun/error17407.14)
+        (begin
+          (set! error0.23 (call L.fun/error17406.16.22 fun/error17406.16))
+          (set! vector1.22 (call L.fun/vector17408.4.10 fun/vector17408.4))
+          (set! error2.21 (call L.fun/error17410.8.14 fun/error17410.8))
+          (set! error3.20 (call L.fun/error17412.13.19 fun/error17412.13))
+          (set! ascii-char4.19
+            (call L.fun/ascii-char17414.12.18 fun/ascii-char17414.12))
+          (set! void5.18 (call L.fun/void17416.10.16 fun/void17416.10))
+          (call L.fun/vector17418.5.11 fun/vector17418.5))))))
+(check-by-interp
+ '(module
+    (define L.lam.78.25
+      (lambda (c.97)
+        (begin
+          (set! fun/empty18589.13 (mref c.97 14))
+          (call L.fun/empty18589.13.22 fun/empty18589.13))))
+    (define L.fun/ascii-char18591.15.24
+      (lambda (c.96)
+        (begin
+          (set! fun/ascii-char18592.14 (mref c.96 14))
+          (call L.fun/ascii-char18592.14.23 fun/ascii-char18592.14))))
+    (define L.fun/ascii-char18592.14.23 (lambda (c.95) (begin 26414)))
+    (define L.fun/empty18589.13.22
+      (lambda (c.94)
+        (begin
+          (set! fun/empty18590.10 (mref c.94 14))
+          (call L.fun/empty18590.10.19 fun/empty18590.10))))
+    (define L.fun/error18585.12.21
+      (lambda (c.93)
+        (begin
+          (set! fun/error18586.11 (mref c.93 14))
+          (call L.fun/error18586.11.20 fun/error18586.11))))
+    (define L.fun/error18586.11.20 (lambda (c.92) (begin 7998)))
+    (define L.fun/empty18590.10.19 (lambda (c.91) (begin 22)))
+    (define L.fun/vector18595.9.18
+      (lambda (c.90)
+        (begin
+          (set! fun/vector18596.8 (mref c.90 14))
+          (call L.fun/vector18596.8.17 fun/vector18596.8))))
+    (define L.fun/vector18596.8.17
+      (lambda (c.89)
+        (begin
+          (set! make-vector.74 (mref c.89 14))
+          (call L.make-vector.74.12 make-vector.74 64))))
+    (define L.fun/empty18593.7.16
+      (lambda (c.88)
+        (begin
+          (set! fun/empty18594.4 (mref c.88 14))
+          (call L.fun/empty18594.4.13 fun/empty18594.4))))
+    (define L.fun/error18588.6.15 (lambda (c.87) (begin 28990)))
+    (define L.fun/error18587.5.14
+      (lambda (c.86)
+        (begin
+          (set! fun/error18588.6 (mref c.86 14))
+          (call L.fun/error18588.6.15 fun/error18588.6))))
+    (define L.fun/empty18594.4.13 (lambda (c.85) (begin 22)))
+    (define L.make-vector.74.12
+      (lambda (c.84 tmp.50)
+        (begin
+          (set! make-init-vector.1 (mref c.84 14))
+          (if (begin
+                (set! tmp.118
+                  (if (begin
+                        (set! tmp.119 (bitwise-and tmp.50 7))
+                        (= tmp.119 0))
+                    14
+                    6))
+                (!= tmp.118 6))
+            (call L.make-init-vector.1.11 make-init-vector.1 tmp.50)
+            2110))))
+    (define L.make-init-vector.1.11
+      (lambda (c.83 tmp.22)
+        (begin
+          (set! vector-init-loop.24 (mref c.83 14))
+          (begin
+            (set! tmp.23
+              (begin
+                (set! tmp.98
+                  (begin
+                    (set! tmp.120
+                      (begin
+                        (set! tmp.121
+                          (begin
+                            (set! tmp.122
+                              (begin
+                                (set! tmp.123
+                                  (arithmetic-shift-right tmp.22 3))
+                                (+ 1 tmp.123)))
+                            (* tmp.122 8)))
+                        (alloc tmp.121)))
+                    (+ tmp.120 3)))
+                (begin (mset! tmp.98 -3 tmp.22) tmp.98)))
+            (call
+             L.vector-init-loop.24.10
+             vector-init-loop.24
+             tmp.22
+             0
+             tmp.23)))))
+    (define L.vector-init-loop.24.10
+      (lambda (c.82 len.25 i.27 vec.26)
+        (begin
+          (set! vector-init-loop.24 (mref c.82 14))
+          (if (begin (set! tmp.124 (if (= len.25 i.27) 14 6)) (!= tmp.124 6))
+            vec.26
+            (begin
+              (begin
+                (set! tmp.125
+                  (begin
+                    (set! tmp.126
+                      (begin
+                        (set! tmp.127 (arithmetic-shift-right i.27 3))
+                        (* tmp.127 8)))
+                    (+ tmp.126 5)))
+                (mset! vec.26 tmp.125 0))
+              (begin
+                (set! tmp.128 (+ i.27 8))
+                (call
+                 L.vector-init-loop.24.10
+                 vector-init-loop.24
+                 len.25
+                 tmp.128
+                 vec.26)))))))
+    (define L.-.75.9
+      (lambda (c.81 tmp.40 tmp.41)
+        (begin
+          (if (begin
+                (set! tmp.129
+                  (if (begin
+                        (set! tmp.130 (bitwise-and tmp.41 7))
+                        (= tmp.130 0))
+                    14
+                    6))
+                (!= tmp.129 6))
+            (if (begin
+                  (set! tmp.131
+                    (if (begin
+                          (set! tmp.132 (bitwise-and tmp.40 7))
+                          (= tmp.132 0))
+                      14
+                      6))
+                  (!= tmp.131 6))
+              (- tmp.40 tmp.41)
+              830)
+            830))))
+    (define L.+.76.8
+      (lambda (c.80 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.133
+                  (if (begin
+                        (set! tmp.134 (bitwise-and tmp.39 7))
+                        (= tmp.134 0))
+                    14
+                    6))
+                (!= tmp.133 6))
+            (if (begin
+                  (set! tmp.135
+                    (if (begin
+                          (set! tmp.136 (bitwise-and tmp.38 7))
+                          (= tmp.136 0))
+                      14
+                      6))
+                  (!= tmp.135 6))
+              (+ tmp.38 tmp.39)
+              574)
+            574))))
+    (define L.*.77.7
+      (lambda (c.79 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.137
+                  (if (begin
+                        (set! tmp.138 (bitwise-and tmp.37 7))
+                        (= tmp.138 0))
+                    14
+                    6))
+                (!= tmp.137 6))
+            (if (begin
+                  (set! tmp.139
+                    (if (begin
+                          (set! tmp.140 (bitwise-and tmp.36 7))
+                          (= tmp.140 0))
+                      14
+                      6))
+                  (!= tmp.139 6))
+              (begin
+                (set! tmp.141 (arithmetic-shift-right tmp.37 3))
+                (* tmp.36 tmp.141))
+              318)
+            318))))
+    (begin
+      (set! *.77
+        (begin
+          (set! tmp.99 (begin (set! tmp.142 (alloc 16)) (+ tmp.142 2)))
+          (begin (mset! tmp.99 -2 L.*.77.7) (mset! tmp.99 6 16) tmp.99)))
+      (set! |+.76|
+        (begin
+          (set! tmp.100 (begin (set! tmp.143 (alloc 16)) (+ tmp.143 2)))
+          (begin (mset! tmp.100 -2 L.+.76.8) (mset! tmp.100 6 16) tmp.100)))
+      (set! |-.75|
+        (begin
+          (set! tmp.101 (begin (set! tmp.144 (alloc 16)) (+ tmp.144 2)))
+          (begin (mset! tmp.101 -2 L.-.75.9) (mset! tmp.101 6 16) tmp.101)))
+      (set! vector-init-loop.24
+        (begin
+          (set! tmp.102 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.102 -2 L.vector-init-loop.24.10)
+            (mset! tmp.102 6 24)
+            tmp.102)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.103 (begin (set! tmp.146 (alloc 24)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.103 -2 L.make-init-vector.1.11)
+            (mset! tmp.103 6 8)
+            tmp.103)))
+      (set! make-vector.74
+        (begin
+          (set! tmp.104 (begin (set! tmp.147 (alloc 24)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.104 -2 L.make-vector.74.12)
+            (mset! tmp.104 6 8)
+            tmp.104)))
+      (set! fun/empty18594.4
+        (begin
+          (set! tmp.105 (begin (set! tmp.148 (alloc 16)) (+ tmp.148 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/empty18594.4.13)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/error18587.5
+        (begin
+          (set! tmp.106 (begin (set! tmp.149 (alloc 24)) (+ tmp.149 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/error18587.5.14)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/error18588.6
+        (begin
+          (set! tmp.107 (begin (set! tmp.150 (alloc 16)) (+ tmp.150 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/error18588.6.15)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/empty18593.7
+        (begin
+          (set! tmp.108 (begin (set! tmp.151 (alloc 24)) (+ tmp.151 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/empty18593.7.16)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/vector18596.8
+        (begin
+          (set! tmp.109 (begin (set! tmp.152 (alloc 24)) (+ tmp.152 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/vector18596.8.17)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/vector18595.9
+        (begin
+          (set! tmp.110 (begin (set! tmp.153 (alloc 24)) (+ tmp.153 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/vector18595.9.18)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/empty18590.10
+        (begin
+          (set! tmp.111 (begin (set! tmp.154 (alloc 16)) (+ tmp.154 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/empty18590.10.19)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (set! fun/error18586.11
+        (begin
+          (set! tmp.112 (begin (set! tmp.155 (alloc 16)) (+ tmp.155 2)))
+          (begin
+            (mset! tmp.112 -2 L.fun/error18586.11.20)
+            (mset! tmp.112 6 0)
+            tmp.112)))
+      (set! fun/error18585.12
+        (begin
+          (set! tmp.113 (begin (set! tmp.156 (alloc 24)) (+ tmp.156 2)))
+          (begin
+            (mset! tmp.113 -2 L.fun/error18585.12.21)
+            (mset! tmp.113 6 0)
+            tmp.113)))
+      (set! fun/empty18589.13
+        (begin
+          (set! tmp.114 (begin (set! tmp.157 (alloc 24)) (+ tmp.157 2)))
+          (begin
+            (mset! tmp.114 -2 L.fun/empty18589.13.22)
+            (mset! tmp.114 6 0)
+            tmp.114)))
+      (set! fun/ascii-char18592.14
+        (begin
+          (set! tmp.115 (begin (set! tmp.158 (alloc 16)) (+ tmp.158 2)))
+          (begin
+            (mset! tmp.115 -2 L.fun/ascii-char18592.14.23)
+            (mset! tmp.115 6 0)
+            tmp.115)))
+      (set! fun/ascii-char18591.15
+        (begin
+          (set! tmp.116 (begin (set! tmp.159 (alloc 24)) (+ tmp.159 2)))
+          (begin
+            (mset! tmp.116 -2 L.fun/ascii-char18591.15.24)
+            (mset! tmp.116 6 0)
+            tmp.116)))
+      (begin
+        (mset! vector-init-loop.24 14 vector-init-loop.24)
+        (mset! make-init-vector.1 14 vector-init-loop.24)
+        (mset! make-vector.74 14 make-init-vector.1)
+        (mset! fun/error18587.5 14 fun/error18588.6)
+        (mset! fun/empty18593.7 14 fun/empty18594.4)
+        (mset! fun/vector18596.8 14 make-vector.74)
+        (mset! fun/vector18595.9 14 fun/vector18596.8)
+        (mset! fun/error18585.12 14 fun/error18586.11)
+        (mset! fun/empty18589.13 14 fun/empty18590.10)
+        (mset! fun/ascii-char18591.15 14 fun/ascii-char18592.14)
+        (begin
+          (set! error0.21 (call L.fun/error18585.12.21 fun/error18585.12))
+          (set! error1.20 (call L.fun/error18587.5.14 fun/error18587.5))
+          (set! procedure2.19
+            (begin
+              (set! lam.78
+                (begin
+                  (set! tmp.117
+                    (begin (set! tmp.160 (alloc 24)) (+ tmp.160 2)))
+                  (begin
+                    (mset! tmp.117 -2 L.lam.78.25)
+                    (mset! tmp.117 6 0)
+                    tmp.117)))
+              (begin (mset! lam.78 14 fun/empty18589.13) lam.78)))
+          (set! fixnum3.18
+            (begin
+              (set! tmp.161
+                (begin
+                  (set! tmp.162
+                    (begin
+                      (set! tmp.163 (call L.-.75.9 |-.75| 1032 224))
+                      (begin
+                        (set! tmp.164 (call L.-.75.9 |-.75| 960 832))
+                        (call L.+.76.8 |+.76| tmp.163 tmp.164))))
+                  (begin
+                    (set! tmp.165
+                      (begin
+                        (set! tmp.166 (call L.*.77.7 *.77 1416 1208))
+                        (begin
+                          (set! tmp.167 (call L.+.76.8 |+.76| 16 912))
+                          (call L.-.75.9 |-.75| tmp.166 tmp.167))))
+                    (call L.-.75.9 |-.75| tmp.162 tmp.165))))
+              (begin
+                (set! tmp.168
+                  (begin
+                    (set! tmp.169
+                      (begin
+                        (set! tmp.170 (call L.-.75.9 |-.75| 1264 1408))
+                        (begin
+                          (set! tmp.171 (call L.-.75.9 |-.75| 304 1072))
+                          (call L.-.75.9 |-.75| tmp.170 tmp.171))))
+                    (begin
+                      (set! tmp.172
+                        (begin
+                          (set! tmp.173 (call L.+.76.8 |+.76| 952 808))
+                          (begin
+                            (set! tmp.174 (call L.+.76.8 |+.76| 416 1232))
+                            (call L.+.76.8 |+.76| tmp.173 tmp.174))))
+                      (call L.+.76.8 |+.76| tmp.169 tmp.172))))
+                (call L.*.77.7 *.77 tmp.161 tmp.168))))
+          (set! ascii-char4.17
+            (call L.fun/ascii-char18591.15.24 fun/ascii-char18591.15))
+          (set! empty5.16 (call L.fun/empty18593.7.16 fun/empty18593.7))
+          (call L.fun/vector18595.9.18 fun/vector18595.9))))))
+(check-by-interp
+ '(module
+    (define L.lam.78.25
+      (lambda (c.97)
+        (begin
+          (set! fun/vector19107.5 (mref c.97 14))
+          (call L.fun/vector19107.5.14 fun/vector19107.5))))
+    (define L.fun/vector19108.15.24
+      (lambda (c.96)
+        (begin
+          (set! make-vector.74 (mref c.96 14))
+          (call L.make-vector.74.12 make-vector.74 64))))
+    (define L.fun/ascii-char19112.14.23 (lambda (c.95) (begin 28718)))
+    (define L.fun/ascii-char19109.13.22
+      (lambda (c.94)
+        (begin
+          (set! fun/ascii-char19110.9 (mref c.94 14))
+          (call L.fun/ascii-char19110.9.18 fun/ascii-char19110.9))))
+    (define L.fun/error19114.12.21 (lambda (c.93) (begin 2366)))
+    (define L.fun/error19113.11.20
+      (lambda (c.92)
+        (begin
+          (set! fun/error19114.12 (mref c.92 14))
+          (call L.fun/error19114.12.21 fun/error19114.12))))
+    (define L.fun/ascii-char19111.10.19
+      (lambda (c.91)
+        (begin
+          (set! fun/ascii-char19112.14 (mref c.91 14))
+          (call L.fun/ascii-char19112.14.23 fun/ascii-char19112.14))))
+    (define L.fun/ascii-char19110.9.18 (lambda (c.90) (begin 23086)))
+    (define L.fun/void19115.8.17
+      (lambda (c.89)
+        (begin
+          (set! fun/void19116.6 (mref c.89 14))
+          (call L.fun/void19116.6.15 fun/void19116.6))))
+    (define L.fun/empty19105.7.16
+      (lambda (c.88)
+        (begin
+          (set! fun/empty19106.4 (mref c.88 14))
+          (call L.fun/empty19106.4.13 fun/empty19106.4))))
+    (define L.fun/void19116.6.15 (lambda (c.87) (begin 30)))
+    (define L.fun/vector19107.5.14
+      (lambda (c.86)
+        (begin
+          (set! fun/vector19108.15 (mref c.86 14))
+          (call L.fun/vector19108.15.24 fun/vector19108.15))))
+    (define L.fun/empty19106.4.13 (lambda (c.85) (begin 22)))
+    (define L.make-vector.74.12
+      (lambda (c.84 tmp.50)
+        (begin
+          (set! make-init-vector.1 (mref c.84 14))
+          (if (begin
+                (set! tmp.118
+                  (if (begin
+                        (set! tmp.119 (bitwise-and tmp.50 7))
+                        (= tmp.119 0))
+                    14
+                    6))
+                (!= tmp.118 6))
+            (call L.make-init-vector.1.11 make-init-vector.1 tmp.50)
+            2110))))
+    (define L.make-init-vector.1.11
+      (lambda (c.83 tmp.22)
+        (begin
+          (set! vector-init-loop.24 (mref c.83 14))
+          (begin
+            (set! tmp.23
+              (begin
+                (set! tmp.98
+                  (begin
+                    (set! tmp.120
+                      (begin
+                        (set! tmp.121
+                          (begin
+                            (set! tmp.122
+                              (begin
+                                (set! tmp.123
+                                  (arithmetic-shift-right tmp.22 3))
+                                (+ 1 tmp.123)))
+                            (* tmp.122 8)))
+                        (alloc tmp.121)))
+                    (+ tmp.120 3)))
+                (begin (mset! tmp.98 -3 tmp.22) tmp.98)))
+            (call
+             L.vector-init-loop.24.10
+             vector-init-loop.24
+             tmp.22
+             0
+             tmp.23)))))
+    (define L.vector-init-loop.24.10
+      (lambda (c.82 len.25 i.27 vec.26)
+        (begin
+          (set! vector-init-loop.24 (mref c.82 14))
+          (if (begin (set! tmp.124 (if (= len.25 i.27) 14 6)) (!= tmp.124 6))
+            vec.26
+            (begin
+              (begin
+                (set! tmp.125
+                  (begin
+                    (set! tmp.126
+                      (begin
+                        (set! tmp.127 (arithmetic-shift-right i.27 3))
+                        (* tmp.127 8)))
+                    (+ tmp.126 5)))
+                (mset! vec.26 tmp.125 0))
+              (begin
+                (set! tmp.128 (+ i.27 8))
+                (call
+                 L.vector-init-loop.24.10
+                 vector-init-loop.24
+                 len.25
+                 tmp.128
+                 vec.26)))))))
+    (define L.-.75.9
+      (lambda (c.81 tmp.40 tmp.41)
+        (begin
+          (if (begin
+                (set! tmp.129
+                  (if (begin
+                        (set! tmp.130 (bitwise-and tmp.41 7))
+                        (= tmp.130 0))
+                    14
+                    6))
+                (!= tmp.129 6))
+            (if (begin
+                  (set! tmp.131
+                    (if (begin
+                          (set! tmp.132 (bitwise-and tmp.40 7))
+                          (= tmp.132 0))
+                      14
+                      6))
+                  (!= tmp.131 6))
+              (- tmp.40 tmp.41)
+              830)
+            830))))
+    (define L.+.76.8
+      (lambda (c.80 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.133
+                  (if (begin
+                        (set! tmp.134 (bitwise-and tmp.39 7))
+                        (= tmp.134 0))
+                    14
+                    6))
+                (!= tmp.133 6))
+            (if (begin
+                  (set! tmp.135
+                    (if (begin
+                          (set! tmp.136 (bitwise-and tmp.38 7))
+                          (= tmp.136 0))
+                      14
+                      6))
+                  (!= tmp.135 6))
+              (+ tmp.38 tmp.39)
+              574)
+            574))))
+    (define L.*.77.7
+      (lambda (c.79 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.137
+                  (if (begin
+                        (set! tmp.138 (bitwise-and tmp.37 7))
+                        (= tmp.138 0))
+                    14
+                    6))
+                (!= tmp.137 6))
+            (if (begin
+                  (set! tmp.139
+                    (if (begin
+                          (set! tmp.140 (bitwise-and tmp.36 7))
+                          (= tmp.140 0))
+                      14
+                      6))
+                  (!= tmp.139 6))
+              (begin
+                (set! tmp.141 (arithmetic-shift-right tmp.37 3))
+                (* tmp.36 tmp.141))
+              318)
+            318))))
+    (begin
+      (set! *.77
+        (begin
+          (set! tmp.99 (begin (set! tmp.142 (alloc 16)) (+ tmp.142 2)))
+          (begin (mset! tmp.99 -2 L.*.77.7) (mset! tmp.99 6 16) tmp.99)))
+      (set! |+.76|
+        (begin
+          (set! tmp.100 (begin (set! tmp.143 (alloc 16)) (+ tmp.143 2)))
+          (begin (mset! tmp.100 -2 L.+.76.8) (mset! tmp.100 6 16) tmp.100)))
+      (set! |-.75|
+        (begin
+          (set! tmp.101 (begin (set! tmp.144 (alloc 16)) (+ tmp.144 2)))
+          (begin (mset! tmp.101 -2 L.-.75.9) (mset! tmp.101 6 16) tmp.101)))
+      (set! vector-init-loop.24
+        (begin
+          (set! tmp.102 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.102 -2 L.vector-init-loop.24.10)
+            (mset! tmp.102 6 24)
+            tmp.102)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.103 (begin (set! tmp.146 (alloc 24)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.103 -2 L.make-init-vector.1.11)
+            (mset! tmp.103 6 8)
+            tmp.103)))
+      (set! make-vector.74
+        (begin
+          (set! tmp.104 (begin (set! tmp.147 (alloc 24)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.104 -2 L.make-vector.74.12)
+            (mset! tmp.104 6 8)
+            tmp.104)))
+      (set! fun/empty19106.4
+        (begin
+          (set! tmp.105 (begin (set! tmp.148 (alloc 16)) (+ tmp.148 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/empty19106.4.13)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/vector19107.5
+        (begin
+          (set! tmp.106 (begin (set! tmp.149 (alloc 24)) (+ tmp.149 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/vector19107.5.14)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/void19116.6
+        (begin
+          (set! tmp.107 (begin (set! tmp.150 (alloc 16)) (+ tmp.150 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/void19116.6.15)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/empty19105.7
+        (begin
+          (set! tmp.108 (begin (set! tmp.151 (alloc 24)) (+ tmp.151 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/empty19105.7.16)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/void19115.8
+        (begin
+          (set! tmp.109 (begin (set! tmp.152 (alloc 24)) (+ tmp.152 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/void19115.8.17)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/ascii-char19110.9
+        (begin
+          (set! tmp.110 (begin (set! tmp.153 (alloc 16)) (+ tmp.153 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/ascii-char19110.9.18)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/ascii-char19111.10
+        (begin
+          (set! tmp.111 (begin (set! tmp.154 (alloc 24)) (+ tmp.154 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/ascii-char19111.10.19)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (set! fun/error19113.11
+        (begin
+          (set! tmp.112 (begin (set! tmp.155 (alloc 24)) (+ tmp.155 2)))
+          (begin
+            (mset! tmp.112 -2 L.fun/error19113.11.20)
+            (mset! tmp.112 6 0)
+            tmp.112)))
+      (set! fun/error19114.12
+        (begin
+          (set! tmp.113 (begin (set! tmp.156 (alloc 16)) (+ tmp.156 2)))
+          (begin
+            (mset! tmp.113 -2 L.fun/error19114.12.21)
+            (mset! tmp.113 6 0)
+            tmp.113)))
+      (set! fun/ascii-char19109.13
+        (begin
+          (set! tmp.114 (begin (set! tmp.157 (alloc 24)) (+ tmp.157 2)))
+          (begin
+            (mset! tmp.114 -2 L.fun/ascii-char19109.13.22)
+            (mset! tmp.114 6 0)
+            tmp.114)))
+      (set! fun/ascii-char19112.14
+        (begin
+          (set! tmp.115 (begin (set! tmp.158 (alloc 16)) (+ tmp.158 2)))
+          (begin
+            (mset! tmp.115 -2 L.fun/ascii-char19112.14.23)
+            (mset! tmp.115 6 0)
+            tmp.115)))
+      (set! fun/vector19108.15
+        (begin
+          (set! tmp.116 (begin (set! tmp.159 (alloc 24)) (+ tmp.159 2)))
+          (begin
+            (mset! tmp.116 -2 L.fun/vector19108.15.24)
+            (mset! tmp.116 6 0)
+            tmp.116)))
+      (begin
+        (mset! vector-init-loop.24 14 vector-init-loop.24)
+        (mset! make-init-vector.1 14 vector-init-loop.24)
+        (mset! make-vector.74 14 make-init-vector.1)
+        (mset! fun/vector19107.5 14 fun/vector19108.15)
+        (mset! fun/empty19105.7 14 fun/empty19106.4)
+        (mset! fun/void19115.8 14 fun/void19116.6)
+        (mset! fun/ascii-char19111.10 14 fun/ascii-char19112.14)
+        (mset! fun/error19113.11 14 fun/error19114.12)
+        (mset! fun/ascii-char19109.13 14 fun/ascii-char19110.9)
+        (mset! fun/vector19108.15 14 make-vector.74)
+        (begin
+          (set! empty0.21 (call L.fun/empty19105.7.16 fun/empty19105.7))
+          (set! fixnum1.20
+            (begin
+              (set! tmp.160
+                (begin
+                  (set! tmp.161
+                    (begin
+                      (set! tmp.162 (call L.-.75.9 |-.75| 8 888))
+                      (begin
+                        (set! tmp.163 (call L.-.75.9 |-.75| 944 1120))
+                        (call L.-.75.9 |-.75| tmp.162 tmp.163))))
+                  (begin
+                    (set! tmp.164
+                      (begin
+                        (set! tmp.165 (call L.-.75.9 |-.75| 1264 616))
+                        (begin
+                          (set! tmp.166 (call L.+.76.8 |+.76| 1776 1232))
+                          (call L.*.77.7 *.77 tmp.165 tmp.166))))
+                    (call L.+.76.8 |+.76| tmp.161 tmp.164))))
+              (begin
+                (set! tmp.167
+                  (begin
+                    (set! tmp.168
+                      (begin
+                        (set! tmp.169 (call L.+.76.8 |+.76| 512 1584))
+                        (begin
+                          (set! tmp.170 (call L.*.77.7 *.77 1576 1704))
+                          (call L.-.75.9 |-.75| tmp.169 tmp.170))))
+                    (begin
+                      (set! tmp.171
+                        (begin
+                          (set! tmp.172 (call L.*.77.7 *.77 1648 1840))
+                          (begin
+                            (set! tmp.173 (call L.+.76.8 |+.76| 936 1512))
+                            (call L.*.77.7 *.77 tmp.172 tmp.173))))
+                      (call L.+.76.8 |+.76| tmp.168 tmp.171))))
+                (call L.*.77.7 *.77 tmp.160 tmp.167))))
+          (set! procedure2.19
+            (begin
+              (set! lam.78
+                (begin
+                  (set! tmp.117
+                    (begin (set! tmp.174 (alloc 24)) (+ tmp.174 2)))
+                  (begin
+                    (mset! tmp.117 -2 L.lam.78.25)
+                    (mset! tmp.117 6 0)
+                    tmp.117)))
+              (begin (mset! lam.78 14 fun/vector19107.5) lam.78)))
+          (set! ascii-char3.18
+            (call L.fun/ascii-char19109.13.22 fun/ascii-char19109.13))
+          (set! ascii-char4.17
+            (call L.fun/ascii-char19111.10.19 fun/ascii-char19111.10))
+          (set! error5.16 (call L.fun/error19113.11.20 fun/error19113.11))
+          (call L.fun/void19115.8.17 fun/void19115.8))))))
+(check-by-interp
+ '(module
+    (define L.lam.77.22
+      (lambda (c.93)
+        (begin
+          (set! fun/void20270.7 (mref c.93 14))
+          (call L.fun/void20270.7.11 fun/void20270.7))))
+    (define L.fun/void20281.17.21 (lambda (c.92) (begin 30)))
+    (define L.fun/ascii-char20274.16.20
+      (lambda (c.91)
+        (begin
+          (set! fun/ascii-char20275.14 (mref c.91 14))
+          (call L.fun/ascii-char20275.14.18 fun/ascii-char20275.14))))
+    (define L.fun/empty20272.15.19
+      (lambda (c.90)
+        (begin
+          (set! fun/empty20273.9 (mref c.90 14))
+          (call L.fun/empty20273.9.13 fun/empty20273.9))))
+    (define L.fun/ascii-char20275.14.18 (lambda (c.89) (begin 23086)))
+    (define L.fun/error20276.13.17
+      (lambda (c.88)
+        (begin
+          (set! fun/error20277.12 (mref c.88 14))
+          (call L.fun/error20277.12.16 fun/error20277.12))))
+    (define L.fun/error20277.12.16 (lambda (c.87) (begin 28222)))
+    (define L.fun/empty20279.11.15 (lambda (c.86) (begin 22)))
+    (define L.fun/void20280.10.14
+      (lambda (c.85)
+        (begin
+          (set! fun/void20281.17 (mref c.85 14))
+          (call L.fun/void20281.17.21 fun/void20281.17))))
+    (define L.fun/empty20273.9.13 (lambda (c.84) (begin 22)))
+    (define L.fun/empty20278.8.12
+      (lambda (c.83)
+        (begin
+          (set! fun/empty20279.11 (mref c.83 14))
+          (call L.fun/empty20279.11.15 fun/empty20279.11))))
+    (define L.fun/void20270.7.11
+      (lambda (c.82)
+        (begin
+          (set! fun/void20271.5 (mref c.82 14))
+          (call L.fun/void20271.5.9 fun/void20271.5))))
+    (define L.fun/any20283.6.10 (lambda (c.81) (begin 41790)))
+    (define L.fun/void20271.5.9 (lambda (c.80) (begin 30)))
+    (define L.fun/any20282.4.8
+      (lambda (c.79)
+        (begin
+          (set! fun/any20283.6 (mref c.79 14))
+          (call L.fun/any20283.6.10 fun/any20283.6))))
+    (define L.pair?.76.7
+      (lambda (c.78 tmp.67)
+        (begin
+          (if (begin (set! tmp.110 (bitwise-and tmp.67 7)) (= tmp.110 1))
+            14
+            6))))
+    (begin
+      (set! pair?.76
+        (begin
+          (set! tmp.94 (begin (set! tmp.111 (alloc 16)) (+ tmp.111 2)))
+          (begin (mset! tmp.94 -2 L.pair?.76.7) (mset! tmp.94 6 8) tmp.94)))
+      (set! fun/any20282.4
+        (begin
+          (set! tmp.95 (begin (set! tmp.112 (alloc 24)) (+ tmp.112 2)))
+          (begin
+            (mset! tmp.95 -2 L.fun/any20282.4.8)
+            (mset! tmp.95 6 0)
+            tmp.95)))
+      (set! fun/void20271.5
+        (begin
+          (set! tmp.96 (begin (set! tmp.113 (alloc 16)) (+ tmp.113 2)))
+          (begin
+            (mset! tmp.96 -2 L.fun/void20271.5.9)
+            (mset! tmp.96 6 0)
+            tmp.96)))
+      (set! fun/any20283.6
+        (begin
+          (set! tmp.97 (begin (set! tmp.114 (alloc 16)) (+ tmp.114 2)))
+          (begin
+            (mset! tmp.97 -2 L.fun/any20283.6.10)
+            (mset! tmp.97 6 0)
+            tmp.97)))
+      (set! fun/void20270.7
+        (begin
+          (set! tmp.98 (begin (set! tmp.115 (alloc 24)) (+ tmp.115 2)))
+          (begin
+            (mset! tmp.98 -2 L.fun/void20270.7.11)
+            (mset! tmp.98 6 0)
+            tmp.98)))
+      (set! fun/empty20278.8
+        (begin
+          (set! tmp.99 (begin (set! tmp.116 (alloc 24)) (+ tmp.116 2)))
+          (begin
+            (mset! tmp.99 -2 L.fun/empty20278.8.12)
+            (mset! tmp.99 6 0)
+            tmp.99)))
+      (set! fun/empty20273.9
+        (begin
+          (set! tmp.100 (begin (set! tmp.117 (alloc 16)) (+ tmp.117 2)))
+          (begin
+            (mset! tmp.100 -2 L.fun/empty20273.9.13)
+            (mset! tmp.100 6 0)
+            tmp.100)))
+      (set! fun/void20280.10
+        (begin
+          (set! tmp.101 (begin (set! tmp.118 (alloc 24)) (+ tmp.118 2)))
+          (begin
+            (mset! tmp.101 -2 L.fun/void20280.10.14)
+            (mset! tmp.101 6 0)
+            tmp.101)))
+      (set! fun/empty20279.11
+        (begin
+          (set! tmp.102 (begin (set! tmp.119 (alloc 16)) (+ tmp.119 2)))
+          (begin
+            (mset! tmp.102 -2 L.fun/empty20279.11.15)
+            (mset! tmp.102 6 0)
+            tmp.102)))
+      (set! fun/error20277.12
+        (begin
+          (set! tmp.103 (begin (set! tmp.120 (alloc 16)) (+ tmp.120 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/error20277.12.16)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/error20276.13
+        (begin
+          (set! tmp.104 (begin (set! tmp.121 (alloc 24)) (+ tmp.121 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/error20276.13.17)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/ascii-char20275.14
+        (begin
+          (set! tmp.105 (begin (set! tmp.122 (alloc 16)) (+ tmp.122 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/ascii-char20275.14.18)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/empty20272.15
+        (begin
+          (set! tmp.106 (begin (set! tmp.123 (alloc 24)) (+ tmp.123 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/empty20272.15.19)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/ascii-char20274.16
+        (begin
+          (set! tmp.107 (begin (set! tmp.124 (alloc 24)) (+ tmp.124 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/ascii-char20274.16.20)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/void20281.17
+        (begin
+          (set! tmp.108 (begin (set! tmp.125 (alloc 16)) (+ tmp.125 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/void20281.17.21)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (begin
+        (mset! fun/any20282.4 14 fun/any20283.6)
+        (mset! fun/void20270.7 14 fun/void20271.5)
+        (mset! fun/empty20278.8 14 fun/empty20279.11)
+        (mset! fun/void20280.10 14 fun/void20281.17)
+        (mset! fun/error20276.13 14 fun/error20277.12)
+        (mset! fun/empty20272.15 14 fun/empty20273.9)
+        (mset! fun/ascii-char20274.16 14 fun/ascii-char20275.14)
+        (begin
+          (set! procedure0.23
+            (begin
+              (set! lam.77
+                (begin
+                  (set! tmp.109
+                    (begin (set! tmp.126 (alloc 24)) (+ tmp.126 2)))
+                  (begin
+                    (mset! tmp.109 -2 L.lam.77.22)
+                    (mset! tmp.109 6 0)
+                    tmp.109)))
+              (begin (mset! lam.77 14 fun/void20270.7) lam.77)))
+          (set! empty1.22 (call L.fun/empty20272.15.19 fun/empty20272.15))
+          (set! ascii-char2.21
+            (call L.fun/ascii-char20274.16.20 fun/ascii-char20274.16))
+          (set! error3.20 (call L.fun/error20276.13.17 fun/error20276.13))
+          (set! empty4.19 (call L.fun/empty20278.8.12 fun/empty20278.8))
+          (set! void5.18 (call L.fun/void20280.10.14 fun/void20280.10))
+          (begin
+            (set! tmp.127 (call L.fun/any20282.4.8 fun/any20282.4))
+            (call L.pair?.76.7 pair?.76 tmp.127)))))))
+(check-by-interp
+ '(module
+    (define L.fun/any21160.15.26
+      (lambda (c.99)
+        (begin
+          (set! fun/any21161.5 (mref c.99 14))
+          (call L.fun/any21161.5.16 fun/any21161.5))))
+    (define L.fun/error21157.14.25 (lambda (c.98) (begin 26430)))
+    (define L.fun/vector21158.13.24
+      (lambda (c.97)
+        (begin
+          (set! fun/vector21159.11 (mref c.97 14))
+          (call L.fun/vector21159.11.22 fun/vector21159.11))))
+    (define L.fun/void21167.12.23 (lambda (c.96) (begin 30)))
+    (define L.fun/vector21159.11.22
+      (lambda (c.95)
+        (begin
+          (set! make-vector.74 (mref c.95 14))
+          (call L.make-vector.74.14 make-vector.74 64))))
+    (define L.fun/error21156.10.21
+      (lambda (c.94)
+        (begin
+          (set! fun/error21157.14 (mref c.94 14))
+          (call L.fun/error21157.14.25 fun/error21157.14))))
+    (define L.fun/void21166.9.20
+      (lambda (c.93)
+        (begin
+          (set! fun/void21167.12 (mref c.93 14))
+          (call L.fun/void21167.12.23 fun/void21167.12))))
+    (define L.fun/empty21162.8.19
+      (lambda (c.92)
+        (begin
+          (set! fun/empty21163.4 (mref c.92 14))
+          (call L.fun/empty21163.4.15 fun/empty21163.4))))
+    (define L.fun/any21164.7.18
+      (lambda (c.91)
+        (begin
+          (set! fun/any21165.6 (mref c.91 14))
+          (call L.fun/any21165.6.17 fun/any21165.6))))
+    (define L.fun/any21165.6.17
+      (lambda (c.90)
+        (begin
+          (set! make-vector.74 (mref c.90 14))
+          (call L.make-vector.74.14 make-vector.74 64))))
+    (define L.fun/any21161.5.16 (lambda (c.89) (begin 1488)))
+    (define L.fun/empty21163.4.15 (lambda (c.88) (begin 22)))
+    (define L.make-vector.74.14
+      (lambda (c.87 tmp.50)
+        (begin
+          (set! make-init-vector.1 (mref c.87 14))
+          (if (begin
+                (set! tmp.121
+                  (if (begin
+                        (set! tmp.122 (bitwise-and tmp.50 7))
+                        (= tmp.122 0))
+                    14
+                    6))
+                (!= tmp.121 6))
+            (call L.make-init-vector.1.13 make-init-vector.1 tmp.50)
+            2110))))
+    (define L.make-init-vector.1.13
+      (lambda (c.86 tmp.22)
+        (begin
+          (set! vector-init-loop.24 (mref c.86 14))
+          (begin
+            (set! tmp.23
+              (begin
+                (set! tmp.100
+                  (begin
+                    (set! tmp.123
+                      (begin
+                        (set! tmp.124
+                          (begin
+                            (set! tmp.125
+                              (begin
+                                (set! tmp.126
+                                  (arithmetic-shift-right tmp.22 3))
+                                (+ 1 tmp.126)))
+                            (* tmp.125 8)))
+                        (alloc tmp.124)))
+                    (+ tmp.123 3)))
+                (begin (mset! tmp.100 -3 tmp.22) tmp.100)))
+            (call
+             L.vector-init-loop.24.12
+             vector-init-loop.24
+             tmp.22
+             0
+             tmp.23)))))
+    (define L.vector-init-loop.24.12
+      (lambda (c.85 len.25 i.27 vec.26)
+        (begin
+          (set! vector-init-loop.24 (mref c.85 14))
+          (if (begin (set! tmp.127 (if (= len.25 i.27) 14 6)) (!= tmp.127 6))
+            vec.26
+            (begin
+              (begin
+                (set! tmp.128
+                  (begin
+                    (set! tmp.129
+                      (begin
+                        (set! tmp.130 (arithmetic-shift-right i.27 3))
+                        (* tmp.130 8)))
+                    (+ tmp.129 5)))
+                (mset! vec.26 tmp.128 0))
+              (begin
+                (set! tmp.131 (+ i.27 8))
+                (call
+                 L.vector-init-loop.24.12
+                 vector-init-loop.24
+                 len.25
+                 tmp.131
+                 vec.26)))))))
+    (define L.empty?.75.11
+      (lambda (c.84 tmp.61)
+        (begin
+          (if (begin (set! tmp.132 (bitwise-and tmp.61 255)) (= tmp.132 22))
+            14
+            6))))
+    (define L.-.76.10
+      (lambda (c.83 tmp.40 tmp.41)
+        (begin
+          (if (begin
+                (set! tmp.133
+                  (if (begin
+                        (set! tmp.134 (bitwise-and tmp.41 7))
+                        (= tmp.134 0))
+                    14
+                    6))
+                (!= tmp.133 6))
+            (if (begin
+                  (set! tmp.135
+                    (if (begin
+                          (set! tmp.136 (bitwise-and tmp.40 7))
+                          (= tmp.136 0))
+                      14
+                      6))
+                  (!= tmp.135 6))
+              (- tmp.40 tmp.41)
+              830)
+            830))))
+    (define L.*.77.9
+      (lambda (c.82 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.137
+                  (if (begin
+                        (set! tmp.138 (bitwise-and tmp.37 7))
+                        (= tmp.138 0))
+                    14
+                    6))
+                (!= tmp.137 6))
+            (if (begin
+                  (set! tmp.139
+                    (if (begin
+                          (set! tmp.140 (bitwise-and tmp.36 7))
+                          (= tmp.140 0))
+                      14
+                      6))
+                  (!= tmp.139 6))
+              (begin
+                (set! tmp.141 (arithmetic-shift-right tmp.37 3))
+                (* tmp.36 tmp.141))
+              318)
+            318))))
+    (define L.+.78.8
+      (lambda (c.81 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.142
+                  (if (begin
+                        (set! tmp.143 (bitwise-and tmp.39 7))
+                        (= tmp.143 0))
+                    14
+                    6))
+                (!= tmp.142 6))
+            (if (begin
+                  (set! tmp.144
+                    (if (begin
+                          (set! tmp.145 (bitwise-and tmp.38 7))
+                          (= tmp.145 0))
+                      14
+                      6))
+                  (!= tmp.144 6))
+              (+ tmp.38 tmp.39)
+              574)
+            574))))
+    (define L.vector?.79.7
+      (lambda (c.80 tmp.66)
+        (begin
+          (if (begin (set! tmp.146 (bitwise-and tmp.66 7)) (= tmp.146 3))
+            14
+            6))))
+    (begin
+      (set! vector?.79
+        (begin
+          (set! tmp.101 (begin (set! tmp.147 (alloc 16)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.101 -2 L.vector?.79.7)
+            (mset! tmp.101 6 8)
+            tmp.101)))
+      (set! |+.78|
+        (begin
+          (set! tmp.102 (begin (set! tmp.148 (alloc 16)) (+ tmp.148 2)))
+          (begin (mset! tmp.102 -2 L.+.78.8) (mset! tmp.102 6 16) tmp.102)))
+      (set! *.77
+        (begin
+          (set! tmp.103 (begin (set! tmp.149 (alloc 16)) (+ tmp.149 2)))
+          (begin (mset! tmp.103 -2 L.*.77.9) (mset! tmp.103 6 16) tmp.103)))
+      (set! |-.76|
+        (begin
+          (set! tmp.104 (begin (set! tmp.150 (alloc 16)) (+ tmp.150 2)))
+          (begin (mset! tmp.104 -2 L.-.76.10) (mset! tmp.104 6 16) tmp.104)))
+      (set! empty?.75
+        (begin
+          (set! tmp.105 (begin (set! tmp.151 (alloc 16)) (+ tmp.151 2)))
+          (begin
+            (mset! tmp.105 -2 L.empty?.75.11)
+            (mset! tmp.105 6 8)
+            tmp.105)))
+      (set! vector-init-loop.24
+        (begin
+          (set! tmp.106 (begin (set! tmp.152 (alloc 24)) (+ tmp.152 2)))
+          (begin
+            (mset! tmp.106 -2 L.vector-init-loop.24.12)
+            (mset! tmp.106 6 24)
+            tmp.106)))
+      (set! make-init-vector.1
+        (begin
+          (set! tmp.107 (begin (set! tmp.153 (alloc 24)) (+ tmp.153 2)))
+          (begin
+            (mset! tmp.107 -2 L.make-init-vector.1.13)
+            (mset! tmp.107 6 8)
+            tmp.107)))
+      (set! make-vector.74
+        (begin
+          (set! tmp.108 (begin (set! tmp.154 (alloc 24)) (+ tmp.154 2)))
+          (begin
+            (mset! tmp.108 -2 L.make-vector.74.14)
+            (mset! tmp.108 6 8)
+            tmp.108)))
+      (set! fun/empty21163.4
+        (begin
+          (set! tmp.109 (begin (set! tmp.155 (alloc 16)) (+ tmp.155 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/empty21163.4.15)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/any21161.5
+        (begin
+          (set! tmp.110 (begin (set! tmp.156 (alloc 16)) (+ tmp.156 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/any21161.5.16)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/any21165.6
+        (begin
+          (set! tmp.111 (begin (set! tmp.157 (alloc 24)) (+ tmp.157 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/any21165.6.17)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (set! fun/any21164.7
+        (begin
+          (set! tmp.112 (begin (set! tmp.158 (alloc 24)) (+ tmp.158 2)))
+          (begin
+            (mset! tmp.112 -2 L.fun/any21164.7.18)
+            (mset! tmp.112 6 0)
+            tmp.112)))
+      (set! fun/empty21162.8
+        (begin
+          (set! tmp.113 (begin (set! tmp.159 (alloc 24)) (+ tmp.159 2)))
+          (begin
+            (mset! tmp.113 -2 L.fun/empty21162.8.19)
+            (mset! tmp.113 6 0)
+            tmp.113)))
+      (set! fun/void21166.9
+        (begin
+          (set! tmp.114 (begin (set! tmp.160 (alloc 24)) (+ tmp.160 2)))
+          (begin
+            (mset! tmp.114 -2 L.fun/void21166.9.20)
+            (mset! tmp.114 6 0)
+            tmp.114)))
+      (set! fun/error21156.10
+        (begin
+          (set! tmp.115 (begin (set! tmp.161 (alloc 24)) (+ tmp.161 2)))
+          (begin
+            (mset! tmp.115 -2 L.fun/error21156.10.21)
+            (mset! tmp.115 6 0)
+            tmp.115)))
+      (set! fun/vector21159.11
+        (begin
+          (set! tmp.116 (begin (set! tmp.162 (alloc 24)) (+ tmp.162 2)))
+          (begin
+            (mset! tmp.116 -2 L.fun/vector21159.11.22)
+            (mset! tmp.116 6 0)
+            tmp.116)))
+      (set! fun/void21167.12
+        (begin
+          (set! tmp.117 (begin (set! tmp.163 (alloc 16)) (+ tmp.163 2)))
+          (begin
+            (mset! tmp.117 -2 L.fun/void21167.12.23)
+            (mset! tmp.117 6 0)
+            tmp.117)))
+      (set! fun/vector21158.13
+        (begin
+          (set! tmp.118 (begin (set! tmp.164 (alloc 24)) (+ tmp.164 2)))
+          (begin
+            (mset! tmp.118 -2 L.fun/vector21158.13.24)
+            (mset! tmp.118 6 0)
+            tmp.118)))
+      (set! fun/error21157.14
+        (begin
+          (set! tmp.119 (begin (set! tmp.165 (alloc 16)) (+ tmp.165 2)))
+          (begin
+            (mset! tmp.119 -2 L.fun/error21157.14.25)
+            (mset! tmp.119 6 0)
+            tmp.119)))
+      (set! fun/any21160.15
+        (begin
+          (set! tmp.120 (begin (set! tmp.166 (alloc 24)) (+ tmp.166 2)))
+          (begin
+            (mset! tmp.120 -2 L.fun/any21160.15.26)
+            (mset! tmp.120 6 0)
+            tmp.120)))
+      (begin
+        (mset! vector-init-loop.24 14 vector-init-loop.24)
+        (mset! make-init-vector.1 14 vector-init-loop.24)
+        (mset! make-vector.74 14 make-init-vector.1)
+        (mset! fun/any21165.6 14 make-vector.74)
+        (mset! fun/any21164.7 14 fun/any21165.6)
+        (mset! fun/empty21162.8 14 fun/empty21163.4)
+        (mset! fun/void21166.9 14 fun/void21167.12)
+        (mset! fun/error21156.10 14 fun/error21157.14)
+        (mset! fun/vector21159.11 14 make-vector.74)
+        (mset! fun/vector21158.13 14 fun/vector21159.11)
+        (mset! fun/any21160.15 14 fun/any21161.5)
+        (begin
+          (set! error0.21 (call L.fun/error21156.10.21 fun/error21156.10))
+          (set! vector1.20 (call L.fun/vector21158.13.24 fun/vector21158.13))
+          (set! boolean2.19
+            (begin
+              (set! tmp.167 (call L.fun/any21160.15.26 fun/any21160.15))
+              (call L.empty?.75.11 empty?.75 tmp.167)))
+          (set! fixnum3.18
+            (begin
+              (set! tmp.168
+                (begin
+                  (set! tmp.169
+                    (begin
+                      (set! tmp.170 (call L.-.76.10 |-.76| 208 416))
+                      (begin
+                        (set! tmp.171 (call L.-.76.10 |-.76| 1088 512))
+                        (call L.*.77.9 *.77 tmp.170 tmp.171))))
+                  (begin
+                    (set! tmp.172
+                      (begin
+                        (set! tmp.173 (call L.-.76.10 |-.76| 296 1080))
+                        (begin
+                          (set! tmp.174 (call L.*.77.9 *.77 168 1416))
+                          (call L.*.77.9 *.77 tmp.173 tmp.174))))
+                    (call L.+.78.8 |+.78| tmp.169 tmp.172))))
+              (begin
+                (set! tmp.175
+                  (begin
+                    (set! tmp.176
+                      (begin
+                        (set! tmp.177 (call L.-.76.10 |-.76| 448 88))
+                        (begin
+                          (set! tmp.178 (call L.*.77.9 *.77 1416 1616))
+                          (call L.-.76.10 |-.76| tmp.177 tmp.178))))
+                    (begin
+                      (set! tmp.179
+                        (begin
+                          (set! tmp.180 (call L.-.76.10 |-.76| 984 200))
+                          (begin
+                            (set! tmp.181 (call L.-.76.10 |-.76| 1776 1048))
+                            (call L.+.78.8 |+.78| tmp.180 tmp.181))))
+                      (call L.+.78.8 |+.78| tmp.176 tmp.179))))
+                (call L.*.77.9 *.77 tmp.168 tmp.175))))
+          (set! empty4.17 (call L.fun/empty21162.8.19 fun/empty21162.8))
+          (set! boolean5.16
+            (begin
+              (set! tmp.182 (call L.fun/any21164.7.18 fun/any21164.7))
+              (call L.vector?.79.7 vector?.79 tmp.182)))
+          (call L.fun/void21166.9.20 fun/void21166.9))))))
+(check-by-interp
+ '(module
+    (define L.fun/any23215.15.24
+      (lambda (c.97)
+        (begin
+          (set! fun/any23216.11 (mref c.97 14))
+          (call L.fun/any23216.11.20 fun/any23216.11))))
+    (define L.fun/ascii-char23226.14.23 (lambda (c.96) (begin 22830)))
+    (define L.fun/error23217.13.22
+      (lambda (c.95)
+        (begin
+          (set! fun/error23218.5 (mref c.95 14))
+          (call L.fun/error23218.5.14 fun/error23218.5))))
+    (define L.fun/ascii-char23225.12.21
+      (lambda (c.94)
+        (begin
+          (set! fun/ascii-char23226.14 (mref c.94 14))
+          (call L.fun/ascii-char23226.14.23 fun/ascii-char23226.14))))
+    (define L.fun/any23216.11.20
+      (lambda (c.93)
+        (begin
+          (set! cons.74 (mref c.93 14))
+          (call L.cons.74.12 cons.74 816 2720))))
+    (define L.fun/void23219.10.19
+      (lambda (c.92)
+        (begin
+          (set! fun/void23220.8 (mref c.92 14))
+          (call L.fun/void23220.8.17 fun/void23220.8))))
+    (define L.fun/any23221.9.18
+      (lambda (c.91)
+        (begin
+          (set! fun/any23222.4 (mref c.91 14))
+          (call L.fun/any23222.4.13 fun/any23222.4))))
+    (define L.fun/void23220.8.17 (lambda (c.90) (begin 30)))
+    (define L.fun/void23224.7.16 (lambda (c.89) (begin 30)))
+    (define L.fun/void23223.6.15
+      (lambda (c.88)
+        (begin
+          (set! fun/void23224.7 (mref c.88 14))
+          (call L.fun/void23224.7.16 fun/void23224.7))))
+    (define L.fun/error23218.5.14 (lambda (c.87) (begin 46654)))
+    (define L.fun/any23222.4.13
+      (lambda (c.86)
+        (begin
+          (set! cons.74 (mref c.86 14))
+          (call L.cons.74.12 cons.74 320 3496))))
+    (define L.cons.74.12
+      (lambda (c.85 tmp.69 tmp.70)
+        (begin
+          (begin
+            (set! tmp.98 (begin (set! tmp.117 (alloc 16)) (+ tmp.117 1)))
+            (begin (mset! tmp.98 -1 tmp.69) (mset! tmp.98 7 tmp.70) tmp.98)))))
+    (define L.pair?.75.11
+      (lambda (c.84 tmp.65)
+        (begin
+          (if (begin (set! tmp.118 (bitwise-and tmp.65 7)) (= tmp.118 1))
+            14
+            6))))
+    (define L.boolean?.76.10
+      (lambda (c.83 tmp.60)
+        (begin
+          (if (begin (set! tmp.119 (bitwise-and tmp.60 247)) (= tmp.119 6))
+            14
+            6))))
+    (define L.+.77.9
+      (lambda (c.82 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.120
+                  (if (begin
+                        (set! tmp.121 (bitwise-and tmp.39 7))
+                        (= tmp.121 0))
+                    14
+                    6))
+                (!= tmp.120 6))
+            (if (begin
+                  (set! tmp.122
+                    (if (begin
+                          (set! tmp.123 (bitwise-and tmp.38 7))
+                          (= tmp.123 0))
+                      14
+                      6))
+                  (!= tmp.122 6))
+              (+ tmp.38 tmp.39)
+              574)
+            574))))
+    (define L.*.78.8
+      (lambda (c.81 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.124
+                  (if (begin
+                        (set! tmp.125 (bitwise-and tmp.37 7))
+                        (= tmp.125 0))
+                    14
+                    6))
+                (!= tmp.124 6))
+            (if (begin
+                  (set! tmp.126
+                    (if (begin
+                          (set! tmp.127 (bitwise-and tmp.36 7))
+                          (= tmp.127 0))
+                      14
+                      6))
+                  (!= tmp.126 6))
+              (begin
+                (set! tmp.128 (arithmetic-shift-right tmp.37 3))
+                (* tmp.36 tmp.128))
+              318)
+            318))))
+    (define L.-.79.7
+      (lambda (c.80 tmp.40 tmp.41)
+        (begin
+          (if (begin
+                (set! tmp.129
+                  (if (begin
+                        (set! tmp.130 (bitwise-and tmp.41 7))
+                        (= tmp.130 0))
+                    14
+                    6))
+                (!= tmp.129 6))
+            (if (begin
+                  (set! tmp.131
+                    (if (begin
+                          (set! tmp.132 (bitwise-and tmp.40 7))
+                          (= tmp.132 0))
+                      14
+                      6))
+                  (!= tmp.131 6))
+              (- tmp.40 tmp.41)
+              830)
+            830))))
+    (begin
+      (set! |-.79|
+        (begin
+          (set! tmp.99 (begin (set! tmp.133 (alloc 16)) (+ tmp.133 2)))
+          (begin (mset! tmp.99 -2 L.-.79.7) (mset! tmp.99 6 16) tmp.99)))
+      (set! *.78
+        (begin
+          (set! tmp.100 (begin (set! tmp.134 (alloc 16)) (+ tmp.134 2)))
+          (begin (mset! tmp.100 -2 L.*.78.8) (mset! tmp.100 6 16) tmp.100)))
+      (set! |+.77|
+        (begin
+          (set! tmp.101 (begin (set! tmp.135 (alloc 16)) (+ tmp.135 2)))
+          (begin (mset! tmp.101 -2 L.+.77.9) (mset! tmp.101 6 16) tmp.101)))
+      (set! boolean?.76
+        (begin
+          (set! tmp.102 (begin (set! tmp.136 (alloc 16)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.102 -2 L.boolean?.76.10)
+            (mset! tmp.102 6 8)
+            tmp.102)))
+      (set! pair?.75
+        (begin
+          (set! tmp.103 (begin (set! tmp.137 (alloc 16)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.103 -2 L.pair?.75.11)
+            (mset! tmp.103 6 8)
+            tmp.103)))
+      (set! cons.74
+        (begin
+          (set! tmp.104 (begin (set! tmp.138 (alloc 16)) (+ tmp.138 2)))
+          (begin
+            (mset! tmp.104 -2 L.cons.74.12)
+            (mset! tmp.104 6 16)
+            tmp.104)))
+      (set! fun/any23222.4
+        (begin
+          (set! tmp.105 (begin (set! tmp.139 (alloc 24)) (+ tmp.139 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/any23222.4.13)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/error23218.5
+        (begin
+          (set! tmp.106 (begin (set! tmp.140 (alloc 16)) (+ tmp.140 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/error23218.5.14)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/void23223.6
+        (begin
+          (set! tmp.107 (begin (set! tmp.141 (alloc 24)) (+ tmp.141 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/void23223.6.15)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/void23224.7
+        (begin
+          (set! tmp.108 (begin (set! tmp.142 (alloc 16)) (+ tmp.142 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/void23224.7.16)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/void23220.8
+        (begin
+          (set! tmp.109 (begin (set! tmp.143 (alloc 16)) (+ tmp.143 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/void23220.8.17)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/any23221.9
+        (begin
+          (set! tmp.110 (begin (set! tmp.144 (alloc 24)) (+ tmp.144 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/any23221.9.18)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/void23219.10
+        (begin
+          (set! tmp.111 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/void23219.10.19)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (set! fun/any23216.11
+        (begin
+          (set! tmp.112 (begin (set! tmp.146 (alloc 24)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.112 -2 L.fun/any23216.11.20)
+            (mset! tmp.112 6 0)
+            tmp.112)))
+      (set! fun/ascii-char23225.12
+        (begin
+          (set! tmp.113 (begin (set! tmp.147 (alloc 24)) (+ tmp.147 2)))
+          (begin
+            (mset! tmp.113 -2 L.fun/ascii-char23225.12.21)
+            (mset! tmp.113 6 0)
+            tmp.113)))
+      (set! fun/error23217.13
+        (begin
+          (set! tmp.114 (begin (set! tmp.148 (alloc 24)) (+ tmp.148 2)))
+          (begin
+            (mset! tmp.114 -2 L.fun/error23217.13.22)
+            (mset! tmp.114 6 0)
+            tmp.114)))
+      (set! fun/ascii-char23226.14
+        (begin
+          (set! tmp.115 (begin (set! tmp.149 (alloc 16)) (+ tmp.149 2)))
+          (begin
+            (mset! tmp.115 -2 L.fun/ascii-char23226.14.23)
+            (mset! tmp.115 6 0)
+            tmp.115)))
+      (set! fun/any23215.15
+        (begin
+          (set! tmp.116 (begin (set! tmp.150 (alloc 24)) (+ tmp.150 2)))
+          (begin
+            (mset! tmp.116 -2 L.fun/any23215.15.24)
+            (mset! tmp.116 6 0)
+            tmp.116)))
+      (begin
+        (mset! fun/any23222.4 14 cons.74)
+        (mset! fun/void23223.6 14 fun/void23224.7)
+        (mset! fun/any23221.9 14 fun/any23222.4)
+        (mset! fun/void23219.10 14 fun/void23220.8)
+        (mset! fun/any23216.11 14 cons.74)
+        (mset! fun/ascii-char23225.12 14 fun/ascii-char23226.14)
+        (mset! fun/error23217.13 14 fun/error23218.5)
+        (mset! fun/any23215.15 14 fun/any23216.11)
+        (begin
+          (set! boolean0.21
+            (begin
+              (set! tmp.151 (call L.fun/any23215.15.24 fun/any23215.15))
+              (call L.pair?.75.11 pair?.75 tmp.151)))
+          (set! error1.20 (call L.fun/error23217.13.22 fun/error23217.13))
+          (set! void2.19 (call L.fun/void23219.10.19 fun/void23219.10))
+          (set! boolean3.18
+            (begin
+              (set! tmp.152 (call L.fun/any23221.9.18 fun/any23221.9))
+              (call L.boolean?.76.10 boolean?.76 tmp.152)))
+          (set! fixnum4.17
+            (begin
+              (set! tmp.153
+                (begin
+                  (set! tmp.154
+                    (begin
+                      (set! tmp.155 (call L.+.77.9 |+.77| 1720 344))
+                      (begin
+                        (set! tmp.156 (call L.*.78.8 *.78 1304 728))
+                        (call L.*.78.8 *.78 tmp.155 tmp.156))))
+                  (begin
+                    (set! tmp.157
+                      (begin
+                        (set! tmp.158 (call L.+.77.9 |+.77| 344 1728))
+                        (begin
+                          (set! tmp.159 (call L.+.77.9 |+.77| 96 904))
+                          (call L.+.77.9 |+.77| tmp.158 tmp.159))))
+                    (call L.*.78.8 *.78 tmp.154 tmp.157))))
+              (begin
+                (set! tmp.160
+                  (begin
+                    (set! tmp.161
+                      (begin
+                        (set! tmp.162 (call L.*.78.8 *.78 1472 32))
+                        (begin
+                          (set! tmp.163 (call L.+.77.9 |+.77| 1312 360))
+                          (call L.-.79.7 |-.79| tmp.162 tmp.163))))
+                    (begin
+                      (set! tmp.164
+                        (begin
+                          (set! tmp.165 (call L.+.77.9 |+.77| 1296 928))
+                          (begin
+                            (set! tmp.166 (call L.-.79.7 |-.79| 1640 1760))
+                            (call L.-.79.7 |-.79| tmp.165 tmp.166))))
+                      (call L.-.79.7 |-.79| tmp.161 tmp.164))))
+                (call L.*.78.8 *.78 tmp.153 tmp.160))))
+          (set! void5.16 (call L.fun/void23223.6.15 fun/void23223.6))
+          (call L.fun/ascii-char23225.12.21 fun/ascii-char23225.12))))))
+(check-by-interp
+ '(module
+    (define L.lam.78.23
+      (lambda (c.95)
+        (begin
+          (set! fun/any24030.9 (mref c.95 14))
+          (set! procedure?.73 (mref c.95 22))
+          (begin
+            (set! tmp.114 (call L.fun/any24030.9.18 fun/any24030.9))
+            (call L.procedure?.73.11 procedure?.73 tmp.114)))))
+    (define L.fun/empty24034.13.22
+      (lambda (c.94)
+        (begin
+          (set! fun/empty24035.4 (mref c.94 14))
+          (call L.fun/empty24035.4.13 fun/empty24035.4))))
+    (define L.fun/any24032.12.21
+      (lambda (c.93)
+        (begin
+          (set! fun/any24033.10 (mref c.93 14))
+          (call L.fun/any24033.10.19 fun/any24033.10))))
+    (define L.fun/pair24036.11.20
+      (lambda (c.92)
+        (begin
+          (set! fun/pair24037.7 (mref c.92 14))
+          (call L.fun/pair24037.7.16 fun/pair24037.7))))
+    (define L.fun/any24033.10.19 (lambda (c.91) (begin 22574)))
+    (define L.fun/any24030.9.18
+      (lambda (c.90)
+        (begin
+          (set! fun/any24031.8 (mref c.90 14))
+          (call L.fun/any24031.8.17 fun/any24031.8))))
+    (define L.fun/any24031.8.17 (lambda (c.89) (begin 6)))
+    (define L.fun/pair24037.7.16
+      (lambda (c.88)
+        (begin
+          (set! cons.72 (mref c.88 14))
+          (call L.cons.72.12 cons.72 400 2408))))
+    (define L.fun/empty24028.6.15
+      (lambda (c.87)
+        (begin
+          (set! fun/empty24029.5 (mref c.87 14))
+          (call L.fun/empty24029.5.14 fun/empty24029.5))))
+    (define L.fun/empty24029.5.14 (lambda (c.86) (begin 22)))
+    (define L.fun/empty24035.4.13 (lambda (c.85) (begin 22)))
+    (define L.cons.72.12
+      (lambda (c.84 tmp.67 tmp.68)
+        (begin
+          (begin
+            (set! tmp.96 (begin (set! tmp.115 (alloc 16)) (+ tmp.115 1)))
+            (begin (mset! tmp.96 -1 tmp.67) (mset! tmp.96 7 tmp.68) tmp.96)))))
+    (define L.procedure?.73.11
+      (lambda (c.83 tmp.66)
+        (begin
+          (if (begin (set! tmp.116 (bitwise-and tmp.66 7)) (= tmp.116 2))
+            14
+            6))))
+    (define L.-.74.10
+      (lambda (c.82 tmp.38 tmp.39)
+        (begin
+          (if (begin
+                (set! tmp.117
+                  (if (begin
+                        (set! tmp.118 (bitwise-and tmp.39 7))
+                        (= tmp.118 0))
+                    14
+                    6))
+                (!= tmp.117 6))
+            (if (begin
+                  (set! tmp.119
+                    (if (begin
+                          (set! tmp.120 (bitwise-and tmp.38 7))
+                          (= tmp.120 0))
+                      14
+                      6))
+                  (!= tmp.119 6))
+              (- tmp.38 tmp.39)
+              830)
+            830))))
+    (define L.*.75.9
+      (lambda (c.81 tmp.34 tmp.35)
+        (begin
+          (if (begin
+                (set! tmp.121
+                  (if (begin
+                        (set! tmp.122 (bitwise-and tmp.35 7))
+                        (= tmp.122 0))
+                    14
+                    6))
+                (!= tmp.121 6))
+            (if (begin
+                  (set! tmp.123
+                    (if (begin
+                          (set! tmp.124 (bitwise-and tmp.34 7))
+                          (= tmp.124 0))
+                      14
+                      6))
+                  (!= tmp.123 6))
+              (begin
+                (set! tmp.125 (arithmetic-shift-right tmp.35 3))
+                (* tmp.34 tmp.125))
+              318)
+            318))))
+    (define L.+.76.8
+      (lambda (c.80 tmp.36 tmp.37)
+        (begin
+          (if (begin
+                (set! tmp.126
+                  (if (begin
+                        (set! tmp.127 (bitwise-and tmp.37 7))
+                        (= tmp.127 0))
+                    14
+                    6))
+                (!= tmp.126 6))
+            (if (begin
+                  (set! tmp.128
+                    (if (begin
+                          (set! tmp.129 (bitwise-and tmp.36 7))
+                          (= tmp.129 0))
+                      14
+                      6))
+                  (!= tmp.128 6))
+              (+ tmp.36 tmp.37)
+              574)
+            574))))
+    (define L.empty?.77.7
+      (lambda (c.79 tmp.59)
+        (begin
+          (if (begin (set! tmp.130 (bitwise-and tmp.59 255)) (= tmp.130 22))
+            14
+            6))))
+    (begin
+      (set! empty?.77
+        (begin
+          (set! tmp.97 (begin (set! tmp.131 (alloc 16)) (+ tmp.131 2)))
+          (begin (mset! tmp.97 -2 L.empty?.77.7) (mset! tmp.97 6 8) tmp.97)))
+      (set! |+.76|
+        (begin
+          (set! tmp.98 (begin (set! tmp.132 (alloc 16)) (+ tmp.132 2)))
+          (begin (mset! tmp.98 -2 L.+.76.8) (mset! tmp.98 6 16) tmp.98)))
+      (set! *.75
+        (begin
+          (set! tmp.99 (begin (set! tmp.133 (alloc 16)) (+ tmp.133 2)))
+          (begin (mset! tmp.99 -2 L.*.75.9) (mset! tmp.99 6 16) tmp.99)))
+      (set! |-.74|
+        (begin
+          (set! tmp.100 (begin (set! tmp.134 (alloc 16)) (+ tmp.134 2)))
+          (begin (mset! tmp.100 -2 L.-.74.10) (mset! tmp.100 6 16) tmp.100)))
+      (set! procedure?.73
+        (begin
+          (set! tmp.101 (begin (set! tmp.135 (alloc 16)) (+ tmp.135 2)))
+          (begin
+            (mset! tmp.101 -2 L.procedure?.73.11)
+            (mset! tmp.101 6 8)
+            tmp.101)))
+      (set! cons.72
+        (begin
+          (set! tmp.102 (begin (set! tmp.136 (alloc 16)) (+ tmp.136 2)))
+          (begin
+            (mset! tmp.102 -2 L.cons.72.12)
+            (mset! tmp.102 6 16)
+            tmp.102)))
+      (set! fun/empty24035.4
+        (begin
+          (set! tmp.103 (begin (set! tmp.137 (alloc 16)) (+ tmp.137 2)))
+          (begin
+            (mset! tmp.103 -2 L.fun/empty24035.4.13)
+            (mset! tmp.103 6 0)
+            tmp.103)))
+      (set! fun/empty24029.5
+        (begin
+          (set! tmp.104 (begin (set! tmp.138 (alloc 16)) (+ tmp.138 2)))
+          (begin
+            (mset! tmp.104 -2 L.fun/empty24029.5.14)
+            (mset! tmp.104 6 0)
+            tmp.104)))
+      (set! fun/empty24028.6
+        (begin
+          (set! tmp.105 (begin (set! tmp.139 (alloc 24)) (+ tmp.139 2)))
+          (begin
+            (mset! tmp.105 -2 L.fun/empty24028.6.15)
+            (mset! tmp.105 6 0)
+            tmp.105)))
+      (set! fun/pair24037.7
+        (begin
+          (set! tmp.106 (begin (set! tmp.140 (alloc 24)) (+ tmp.140 2)))
+          (begin
+            (mset! tmp.106 -2 L.fun/pair24037.7.16)
+            (mset! tmp.106 6 0)
+            tmp.106)))
+      (set! fun/any24031.8
+        (begin
+          (set! tmp.107 (begin (set! tmp.141 (alloc 16)) (+ tmp.141 2)))
+          (begin
+            (mset! tmp.107 -2 L.fun/any24031.8.17)
+            (mset! tmp.107 6 0)
+            tmp.107)))
+      (set! fun/any24030.9
+        (begin
+          (set! tmp.108 (begin (set! tmp.142 (alloc 24)) (+ tmp.142 2)))
+          (begin
+            (mset! tmp.108 -2 L.fun/any24030.9.18)
+            (mset! tmp.108 6 0)
+            tmp.108)))
+      (set! fun/any24033.10
+        (begin
+          (set! tmp.109 (begin (set! tmp.143 (alloc 16)) (+ tmp.143 2)))
+          (begin
+            (mset! tmp.109 -2 L.fun/any24033.10.19)
+            (mset! tmp.109 6 0)
+            tmp.109)))
+      (set! fun/pair24036.11
+        (begin
+          (set! tmp.110 (begin (set! tmp.144 (alloc 24)) (+ tmp.144 2)))
+          (begin
+            (mset! tmp.110 -2 L.fun/pair24036.11.20)
+            (mset! tmp.110 6 0)
+            tmp.110)))
+      (set! fun/any24032.12
+        (begin
+          (set! tmp.111 (begin (set! tmp.145 (alloc 24)) (+ tmp.145 2)))
+          (begin
+            (mset! tmp.111 -2 L.fun/any24032.12.21)
+            (mset! tmp.111 6 0)
+            tmp.111)))
+      (set! fun/empty24034.13
+        (begin
+          (set! tmp.112 (begin (set! tmp.146 (alloc 24)) (+ tmp.146 2)))
+          (begin
+            (mset! tmp.112 -2 L.fun/empty24034.13.22)
+            (mset! tmp.112 6 0)
+            tmp.112)))
+      (begin
+        (mset! fun/empty24028.6 14 fun/empty24029.5)
+        (mset! fun/pair24037.7 14 cons.72)
+        (mset! fun/any24030.9 14 fun/any24031.8)
+        (mset! fun/pair24036.11 14 fun/pair24037.7)
+        (mset! fun/any24032.12 14 fun/any24033.10)
+        (mset! fun/empty24034.13 14 fun/empty24035.4)
+        (begin
+          (set! empty0.19 (call L.fun/empty24028.6.15 fun/empty24028.6))
+          (set! procedure1.18
+            (begin
+              (set! lam.78
+                (begin
+                  (set! tmp.113
+                    (begin (set! tmp.147 (alloc 32)) (+ tmp.147 2)))
+                  (begin
+                    (mset! tmp.113 -2 L.lam.78.23)
+                    (mset! tmp.113 6 0)
+                    tmp.113)))
+              (begin
+                (mset! lam.78 14 fun/any24030.9)
+                (mset! lam.78 22 procedure?.73)
+                lam.78)))
+          (set! fixnum2.17
+            (begin
+              (set! tmp.148
+                (begin
+                  (set! tmp.149
+                    (begin
+                      (set! tmp.150 (call L.-.74.10 |-.74| 1112 912))
+                      (begin
+                        (set! tmp.151 (call L.*.75.9 *.75 1808 704))
+                        (call L.*.75.9 *.75 tmp.150 tmp.151))))
+                  (begin
+                    (set! tmp.152
+                      (begin
+                        (set! tmp.153 (call L.+.76.8 |+.76| 752 360))
+                        (begin
+                          (set! tmp.154 (call L.*.75.9 *.75 272 1632))
+                          (call L.+.76.8 |+.76| tmp.153 tmp.154))))
+                    (call L.+.76.8 |+.76| tmp.149 tmp.152))))
+              (begin
+                (set! tmp.155
+                  (begin
+                    (set! tmp.156
+                      (begin
+                        (set! tmp.157 (call L.-.74.10 |-.74| 320 384))
+                        (begin
+                          (set! tmp.158 (call L.+.76.8 |+.76| 536 352))
+                          (call L.+.76.8 |+.76| tmp.157 tmp.158))))
+                    (begin
+                      (set! tmp.159
+                        (begin
+                          (set! tmp.160 (call L.-.74.10 |-.74| 968 368))
+                          (begin
+                            (set! tmp.161 (call L.+.76.8 |+.76| 40 1216))
+                            (call L.*.75.9 *.75 tmp.160 tmp.161))))
+                      (call L.-.74.10 |-.74| tmp.156 tmp.159))))
+                (call L.*.75.9 *.75 tmp.148 tmp.155))))
+          (set! fixnum3.16
+            (begin
+              (set! tmp.162
+                (begin
+                  (set! tmp.163
+                    (begin
+                      (set! tmp.164 (call L.*.75.9 *.75 2000 336))
+                      (begin
+                        (set! tmp.165 (call L.+.76.8 |+.76| 320 1488))
+                        (call L.+.76.8 |+.76| tmp.164 tmp.165))))
+                  (begin
+                    (set! tmp.166
+                      (begin
+                        (set! tmp.167 (call L.+.76.8 |+.76| 352 1240))
+                        (begin
+                          (set! tmp.168 (call L.*.75.9 *.75 984 320))
+                          (call L.-.74.10 |-.74| tmp.167 tmp.168))))
+                    (call L.-.74.10 |-.74| tmp.163 tmp.166))))
+              (begin
+                (set! tmp.169
+                  (begin
+                    (set! tmp.170
+                      (begin
+                        (set! tmp.171 (call L.-.74.10 |-.74| 1624 848))
+                        (begin
+                          (set! tmp.172 (call L.*.75.9 *.75 304 48))
+                          (call L.+.76.8 |+.76| tmp.171 tmp.172))))
+                    (begin
+                      (set! tmp.173
+                        (begin
+                          (set! tmp.174 (call L.+.76.8 |+.76| 616 800))
+                          (begin
+                            (set! tmp.175 (call L.-.74.10 |-.74| 528 464))
+                            (call L.*.75.9 *.75 tmp.174 tmp.175))))
+                      (call L.*.75.9 *.75 tmp.170 tmp.173))))
+                (call L.*.75.9 *.75 tmp.162 tmp.169))))
+          (set! boolean4.15
+            (begin
+              (set! tmp.176 (call L.fun/any24032.12.21 fun/any24032.12))
+              (call L.empty?.77.7 empty?.77 tmp.176)))
+          (set! empty5.14 (call L.fun/empty24034.13.22 fun/empty24034.13))
+          (call L.fun/pair24036.11.20 fun/pair24036.11))))))

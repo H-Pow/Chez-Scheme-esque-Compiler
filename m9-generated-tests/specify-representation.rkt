@@ -1880,3 +1880,2200 @@
               (error4.17 (call L.fun/error12094.14.21 fun/error12094.14))
               (empty5.16 (call L.fun/empty12096.7.14 fun/empty12096.7)))
           (call L.fun/void12098.15.22 fun/void12098.15))))))
+(check-by-interp
+ '(module
+    (define L.fun/void8620.8.12 (lambda (c.71) (let () (void))))
+    (define L.fun/any8618.7.11 (lambda (c.70) (let () #\M)))
+    (define L.fun/ascii-char8619.6.10 (lambda (c.69) (let () #\g)))
+    (define L.fun/void8621.5.9 (lambda (c.68) (let () (void))))
+    (define L.fun/void8617.4.8 (lambda (c.67) (let () (void))))
+    (define L.pair?.65.7 (lambda (c.66 tmp.56) (let () (pair? tmp.56))))
+    (let ((pair?.65 (make-procedure L.pair?.65.7 1 0))
+          (fun/void8617.4 (make-procedure L.fun/void8617.4.8 0 0))
+          (fun/void8621.5 (make-procedure L.fun/void8621.5.9 0 0))
+          (fun/ascii-char8619.6 (make-procedure L.fun/ascii-char8619.6.10 0 0))
+          (fun/any8618.7 (make-procedure L.fun/any8618.7.11 0 0))
+          (fun/void8620.8 (make-procedure L.fun/void8620.8.12 0 0)))
+      (let ((void0.12 (call L.fun/void8617.4.8 fun/void8617.4))
+            (boolean1.11
+             (call
+              L.pair?.65.7
+              pair?.65
+              (call L.fun/any8618.7.11 fun/any8618.7)))
+            (ascii-char2.10
+             (call L.fun/ascii-char8619.6.10 fun/ascii-char8619.6))
+            (void3.9 (call L.fun/void8620.8.12 fun/void8620.8)))
+        (call L.fun/void8621.5.9 fun/void8621.5)))))
+(check-by-interp
+ '(module
+    (define L.fun/ascii-char9293.13.22
+      (lambda (c.90)
+        (let ((fun/ascii-char9294.12 (unsafe-procedure-ref c.90 0)))
+          (call L.fun/ascii-char9294.12.21 fun/ascii-char9294.12))))
+    (define L.fun/ascii-char9294.12.21 (lambda (c.89) (let () #\V)))
+    (define L.fun/vector9291.11.20
+      (lambda (c.88)
+        (let ((fun/vector9292.8 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/vector9292.8.17 fun/vector9292.8))))
+    (define L.fun/empty9295.10.19
+      (lambda (c.87)
+        (let ((fun/empty9296.9 (unsafe-procedure-ref c.87 0)))
+          (call L.fun/empty9296.9.18 fun/empty9296.9))))
+    (define L.fun/empty9296.9.18 (lambda (c.86) (let () empty)))
+    (define L.fun/vector9292.8.17
+      (lambda (c.85)
+        (let ((make-vector.71 (unsafe-procedure-ref c.85 0)))
+          (call L.make-vector.71.12 make-vector.71 8))))
+    (define L.fun/error9288.7.16 (lambda (c.84) (let () (error 238))))
+    (define L.fun/vector9290.6.15
+      (lambda (c.83)
+        (let ((make-vector.71 (unsafe-procedure-ref c.83 0)))
+          (call L.make-vector.71.12 make-vector.71 8))))
+    (define L.fun/error9287.5.14
+      (lambda (c.82)
+        (let ((fun/error9288.7 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/error9288.7.16 fun/error9288.7))))
+    (define L.fun/vector9289.4.13
+      (lambda (c.81)
+        (let ((fun/vector9290.6 (unsafe-procedure-ref c.81 0)))
+          (call L.fun/vector9290.6.15 fun/vector9290.6))))
+    (define L.make-vector.71.12
+      (lambda (c.80 tmp.47)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.80 0)))
+          (if (fixnum? tmp.47)
+            (call L.make-init-vector.1.11 make-init-vector.1 tmp.47)
+            (error 8)))))
+    (define L.make-init-vector.1.11
+      (lambda (c.79 tmp.19)
+        (let ((vector-init-loop.21 (unsafe-procedure-ref c.79 0)))
+          (let ((tmp.20 (unsafe-make-vector tmp.19)))
+            (call
+             L.vector-init-loop.21.10
+             vector-init-loop.21
+             tmp.19
+             0
+             tmp.20)))))
+    (define L.vector-init-loop.21.10
+      (lambda (c.78 len.22 i.24 vec.23)
+        (let ((vector-init-loop.21 (unsafe-procedure-ref c.78 0)))
+          (if (eq? len.22 i.24)
+            vec.23
+            (begin
+              (unsafe-vector-set! vec.23 i.24 0)
+              (call
+               L.vector-init-loop.21.10
+               vector-init-loop.21
+               len.22
+               (unsafe-fx+ i.24 1)
+               vec.23))))))
+    (define L.-.72.9
+      (lambda (c.77 tmp.37 tmp.38)
+        (let ()
+          (if (fixnum? tmp.38)
+            (if (fixnum? tmp.37) (unsafe-fx- tmp.37 tmp.38) (error 3))
+            (error 3)))))
+    (define L.*.73.8
+      (lambda (c.76 tmp.33 tmp.34)
+        (let ()
+          (if (fixnum? tmp.34)
+            (if (fixnum? tmp.33) (unsafe-fx* tmp.33 tmp.34) (error 1))
+            (error 1)))))
+    (define L.+.74.7
+      (lambda (c.75 tmp.35 tmp.36)
+        (let ()
+          (if (fixnum? tmp.36)
+            (if (fixnum? tmp.35) (unsafe-fx+ tmp.35 tmp.36) (error 2))
+            (error 2)))))
+    (let ((|+.74| (make-procedure L.+.74.7 2 0))
+          (*.73 (make-procedure L.*.73.8 2 0))
+          (|-.72| (make-procedure L.-.72.9 2 0))
+          (vector-init-loop.21 (make-procedure L.vector-init-loop.21.10 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.11 1 1))
+          (make-vector.71 (make-procedure L.make-vector.71.12 1 1))
+          (fun/vector9289.4 (make-procedure L.fun/vector9289.4.13 0 1))
+          (fun/error9287.5 (make-procedure L.fun/error9287.5.14 0 1))
+          (fun/vector9290.6 (make-procedure L.fun/vector9290.6.15 0 1))
+          (fun/error9288.7 (make-procedure L.fun/error9288.7.16 0 0))
+          (fun/vector9292.8 (make-procedure L.fun/vector9292.8.17 0 1))
+          (fun/empty9296.9 (make-procedure L.fun/empty9296.9.18 0 0))
+          (fun/empty9295.10 (make-procedure L.fun/empty9295.10.19 0 1))
+          (fun/vector9291.11 (make-procedure L.fun/vector9291.11.20 0 1))
+          (fun/ascii-char9294.12
+           (make-procedure L.fun/ascii-char9294.12.21 0 0))
+          (fun/ascii-char9293.13
+           (make-procedure L.fun/ascii-char9293.13.22 0 1)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.21 0 vector-init-loop.21)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.21)
+        (unsafe-procedure-set! make-vector.71 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/vector9289.4 0 fun/vector9290.6)
+        (unsafe-procedure-set! fun/error9287.5 0 fun/error9288.7)
+        (unsafe-procedure-set! fun/vector9290.6 0 make-vector.71)
+        (unsafe-procedure-set! fun/vector9292.8 0 make-vector.71)
+        (unsafe-procedure-set! fun/empty9295.10 0 fun/empty9296.9)
+        (unsafe-procedure-set! fun/vector9291.11 0 fun/vector9292.8)
+        (unsafe-procedure-set! fun/ascii-char9293.13 0 fun/ascii-char9294.12)
+        (let ((error0.18 (call L.fun/error9287.5.14 fun/error9287.5))
+              (fixnum1.17
+               (call
+                L.*.73.8
+                *.73
+                (call
+                 L.+.74.7
+                 |+.74|
+                 (call L.-.72.9 |-.72| 10 182)
+                 (call L.*.73.8 *.73 226 247))
+                (call
+                 L.*.73.8
+                 *.73
+                 (call L.+.74.7 |+.74| 35 137)
+                 (call L.+.74.7 |+.74| 166 53))))
+              (vector2.16 (call L.fun/vector9289.4.13 fun/vector9289.4))
+              (vector3.15 (call L.fun/vector9291.11.20 fun/vector9291.11))
+              (ascii-char4.14
+               (call L.fun/ascii-char9293.13.22 fun/ascii-char9293.13)))
+          (call L.fun/empty9295.10.19 fun/empty9295.10))))))
+(check-by-interp
+ '(module
+    (define L.fun/empty9343.14.18 (lambda (c.84) (let () empty)))
+    (define L.fun/ascii-char9346.13.17
+      (lambda (c.83)
+        (let ((fun/ascii-char9347.12 (unsafe-procedure-ref c.83 0)))
+          (call L.fun/ascii-char9347.12.16 fun/ascii-char9347.12))))
+    (define L.fun/ascii-char9347.12.16 (lambda (c.82) (let () #\g)))
+    (define L.fun/void9338.11.15 (lambda (c.81) (let () (void))))
+    (define L.fun/void9344.10.14
+      (lambda (c.80)
+        (let ((fun/void9345.7 (unsafe-procedure-ref c.80 0)))
+          (call L.fun/void9345.7.11 fun/void9345.7))))
+    (define L.fun/ascii-char9341.9.13 (lambda (c.79) (let () #\X)))
+    (define L.fun/empty9342.8.12
+      (lambda (c.78)
+        (let ((fun/empty9343.14 (unsafe-procedure-ref c.78 0)))
+          (call L.fun/empty9343.14.18 fun/empty9343.14))))
+    (define L.fun/void9345.7.11 (lambda (c.77) (let () (void))))
+    (define L.fun/ascii-char9340.6.10
+      (lambda (c.76)
+        (let ((fun/ascii-char9341.9 (unsafe-procedure-ref c.76 0)))
+          (call L.fun/ascii-char9341.9.13 fun/ascii-char9341.9))))
+    (define L.fun/any9339.5.9 (lambda (c.75) (let () 1)))
+    (define L.fun/void9337.4.8
+      (lambda (c.74)
+        (let ((fun/void9338.11 (unsafe-procedure-ref c.74 0)))
+          (call L.fun/void9338.11.15 fun/void9338.11))))
+    (define L.vector?.72.7 (lambda (c.73 tmp.64) (let () (vector? tmp.64))))
+    (let ((vector?.72 (make-procedure L.vector?.72.7 1 0))
+          (fun/void9337.4 (make-procedure L.fun/void9337.4.8 0 1))
+          (fun/any9339.5 (make-procedure L.fun/any9339.5.9 0 0))
+          (fun/ascii-char9340.6 (make-procedure L.fun/ascii-char9340.6.10 0 1))
+          (fun/void9345.7 (make-procedure L.fun/void9345.7.11 0 0))
+          (fun/empty9342.8 (make-procedure L.fun/empty9342.8.12 0 1))
+          (fun/ascii-char9341.9 (make-procedure L.fun/ascii-char9341.9.13 0 0))
+          (fun/void9344.10 (make-procedure L.fun/void9344.10.14 0 1))
+          (fun/void9338.11 (make-procedure L.fun/void9338.11.15 0 0))
+          (fun/ascii-char9347.12
+           (make-procedure L.fun/ascii-char9347.12.16 0 0))
+          (fun/ascii-char9346.13
+           (make-procedure L.fun/ascii-char9346.13.17 0 1))
+          (fun/empty9343.14 (make-procedure L.fun/empty9343.14.18 0 0)))
+      (begin
+        (unsafe-procedure-set! fun/void9337.4 0 fun/void9338.11)
+        (unsafe-procedure-set! fun/ascii-char9340.6 0 fun/ascii-char9341.9)
+        (unsafe-procedure-set! fun/empty9342.8 0 fun/empty9343.14)
+        (unsafe-procedure-set! fun/void9344.10 0 fun/void9345.7)
+        (unsafe-procedure-set! fun/ascii-char9346.13 0 fun/ascii-char9347.12)
+        (let ((void0.19 (call L.fun/void9337.4.8 fun/void9337.4))
+              (boolean1.18
+               (call
+                L.vector?.72.7
+                vector?.72
+                (call L.fun/any9339.5.9 fun/any9339.5)))
+              (ascii-char2.17
+               (call L.fun/ascii-char9340.6.10 fun/ascii-char9340.6))
+              (empty3.16 (call L.fun/empty9342.8.12 fun/empty9342.8))
+              (void4.15 (call L.fun/void9344.10.14 fun/void9344.10)))
+          (call L.fun/ascii-char9346.13.17 fun/ascii-char9346.13))))))
+(check-by-interp
+ '(module
+    (define L.lam.74.22
+      (lambda (c.90)
+        (let ((fun/any10243.13 (unsafe-procedure-ref c.90 0))
+              (vector?.73 (unsafe-procedure-ref c.90 1)))
+          (call
+           L.vector?.73.7
+           vector?.73
+           (call L.fun/any10243.13.21 fun/any10243.13)))))
+    (define L.fun/any10243.13.21 (lambda (c.89) (let () #t)))
+    (define L.fun/any10242.12.20 (lambda (c.88) (let () (error 110))))
+    (define L.fun/error10244.11.19
+      (lambda (c.87)
+        (let ((fun/error10245.9 (unsafe-procedure-ref c.87 0)))
+          (call L.fun/error10245.9.17 fun/error10245.9))))
+    (define L.fun/empty10249.10.18 (lambda (c.86) (let () empty)))
+    (define L.fun/error10245.9.17 (lambda (c.85) (let () (error 53))))
+    (define L.fun/empty10248.8.16
+      (lambda (c.84)
+        (let ((fun/empty10249.10 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/empty10249.10.18 fun/empty10249.10))))
+    (define L.fun/empty10246.7.15
+      (lambda (c.83)
+        (let ((fun/empty10247.4 (unsafe-procedure-ref c.83 0)))
+          (call L.fun/empty10247.4.12 fun/empty10247.4))))
+    (define L.fun/vector10250.6.14
+      (lambda (c.82)
+        (let ((fun/vector10251.5 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/vector10251.5.13 fun/vector10251.5))))
+    (define L.fun/vector10251.5.13
+      (lambda (c.81)
+        (let ((make-vector.71 (unsafe-procedure-ref c.81 0)))
+          (call L.make-vector.71.11 make-vector.71 8))))
+    (define L.fun/empty10247.4.12 (lambda (c.80) (let () empty)))
+    (define L.make-vector.71.11
+      (lambda (c.79 tmp.47)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.79 0)))
+          (if (fixnum? tmp.47)
+            (call L.make-init-vector.1.10 make-init-vector.1 tmp.47)
+            (error 8)))))
+    (define L.make-init-vector.1.10
+      (lambda (c.78 tmp.19)
+        (let ((vector-init-loop.21 (unsafe-procedure-ref c.78 0)))
+          (let ((tmp.20 (unsafe-make-vector tmp.19)))
+            (call
+             L.vector-init-loop.21.9
+             vector-init-loop.21
+             tmp.19
+             0
+             tmp.20)))))
+    (define L.vector-init-loop.21.9
+      (lambda (c.77 len.22 i.24 vec.23)
+        (let ((vector-init-loop.21 (unsafe-procedure-ref c.77 0)))
+          (if (eq? len.22 i.24)
+            vec.23
+            (begin
+              (unsafe-vector-set! vec.23 i.24 0)
+              (call
+               L.vector-init-loop.21.9
+               vector-init-loop.21
+               len.22
+               (unsafe-fx+ i.24 1)
+               vec.23))))))
+    (define L.void?.72.8 (lambda (c.76 tmp.59) (let () (void? tmp.59))))
+    (define L.vector?.73.7 (lambda (c.75 tmp.63) (let () (vector? tmp.63))))
+    (let ((vector?.73 (make-procedure L.vector?.73.7 1 0))
+          (void?.72 (make-procedure L.void?.72.8 1 0))
+          (vector-init-loop.21 (make-procedure L.vector-init-loop.21.9 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.10 1 1))
+          (make-vector.71 (make-procedure L.make-vector.71.11 1 1))
+          (fun/empty10247.4 (make-procedure L.fun/empty10247.4.12 0 0))
+          (fun/vector10251.5 (make-procedure L.fun/vector10251.5.13 0 1))
+          (fun/vector10250.6 (make-procedure L.fun/vector10250.6.14 0 1))
+          (fun/empty10246.7 (make-procedure L.fun/empty10246.7.15 0 1))
+          (fun/empty10248.8 (make-procedure L.fun/empty10248.8.16 0 1))
+          (fun/error10245.9 (make-procedure L.fun/error10245.9.17 0 0))
+          (fun/empty10249.10 (make-procedure L.fun/empty10249.10.18 0 0))
+          (fun/error10244.11 (make-procedure L.fun/error10244.11.19 0 1))
+          (fun/any10242.12 (make-procedure L.fun/any10242.12.20 0 0))
+          (fun/any10243.13 (make-procedure L.fun/any10243.13.21 0 0)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.21 0 vector-init-loop.21)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.21)
+        (unsafe-procedure-set! make-vector.71 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/vector10251.5 0 make-vector.71)
+        (unsafe-procedure-set! fun/vector10250.6 0 fun/vector10251.5)
+        (unsafe-procedure-set! fun/empty10246.7 0 fun/empty10247.4)
+        (unsafe-procedure-set! fun/empty10248.8 0 fun/empty10249.10)
+        (unsafe-procedure-set! fun/error10244.11 0 fun/error10245.9)
+        (let ((boolean0.18
+               (call
+                L.void?.72.8
+                void?.72
+                (call L.fun/any10242.12.20 fun/any10242.12)))
+              (procedure1.17
+               (let ((lam.74 (make-procedure L.lam.74.22 0 2)))
+                 (begin
+                   (unsafe-procedure-set! lam.74 0 fun/any10243.13)
+                   (unsafe-procedure-set! lam.74 1 vector?.73)
+                   lam.74)))
+              (error2.16 (call L.fun/error10244.11.19 fun/error10244.11))
+              (empty3.15 (call L.fun/empty10246.7.15 fun/empty10246.7))
+              (empty4.14 (call L.fun/empty10248.8.16 fun/empty10248.8)))
+          (call L.fun/vector10250.6.14 fun/vector10250.6))))))
+(check-by-interp
+ '(module
+    (define L.fun/vector10780.15.21
+      (lambda (c.88)
+        (let ((fun/vector10781.14 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/vector10781.14.20 fun/vector10781.14))))
+    (define L.fun/vector10781.14.20
+      (lambda (c.87)
+        (let ((make-vector.73 (unsafe-procedure-ref c.87 0)))
+          (call L.make-vector.73.9 make-vector.73 8))))
+    (define L.fun/ascii-char10779.13.19 (lambda (c.86) (let () #\c)))
+    (define L.fun/ascii-char10778.12.18
+      (lambda (c.85)
+        (let ((fun/ascii-char10779.13 (unsafe-procedure-ref c.85 0)))
+          (call L.fun/ascii-char10779.13.19 fun/ascii-char10779.13))))
+    (define L.fun/void10774.11.17
+      (lambda (c.84)
+        (let ((fun/void10775.8 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/void10775.8.14 fun/void10775.8))))
+    (define L.fun/void10771.10.16 (lambda (c.83) (let () (void))))
+    (define L.fun/void10773.9.15 (lambda (c.82) (let () (void))))
+    (define L.fun/void10775.8.14 (lambda (c.81) (let () (void))))
+    (define L.fun/void10772.7.13
+      (lambda (c.80)
+        (let ((fun/void10773.9 (unsafe-procedure-ref c.80 0)))
+          (call L.fun/void10773.9.15 fun/void10773.9))))
+    (define L.fun/void10776.6.12
+      (lambda (c.79)
+        (let ((fun/void10777.5 (unsafe-procedure-ref c.79 0)))
+          (call L.fun/void10777.5.11 fun/void10777.5))))
+    (define L.fun/void10777.5.11 (lambda (c.78) (let () (void))))
+    (define L.fun/void10770.4.10
+      (lambda (c.77)
+        (let ((fun/void10771.10 (unsafe-procedure-ref c.77 0)))
+          (call L.fun/void10771.10.16 fun/void10771.10))))
+    (define L.make-vector.73.9
+      (lambda (c.76 tmp.49)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.76 0)))
+          (if (fixnum? tmp.49)
+            (call L.make-init-vector.1.8 make-init-vector.1 tmp.49)
+            (error 8)))))
+    (define L.make-init-vector.1.8
+      (lambda (c.75 tmp.21)
+        (let ((vector-init-loop.23 (unsafe-procedure-ref c.75 0)))
+          (let ((tmp.22 (unsafe-make-vector tmp.21)))
+            (call
+             L.vector-init-loop.23.7
+             vector-init-loop.23
+             tmp.21
+             0
+             tmp.22)))))
+    (define L.vector-init-loop.23.7
+      (lambda (c.74 len.24 i.26 vec.25)
+        (let ((vector-init-loop.23 (unsafe-procedure-ref c.74 0)))
+          (if (eq? len.24 i.26)
+            vec.25
+            (begin
+              (unsafe-vector-set! vec.25 i.26 0)
+              (call
+               L.vector-init-loop.23.7
+               vector-init-loop.23
+               len.24
+               (unsafe-fx+ i.26 1)
+               vec.25))))))
+    (let ((vector-init-loop.23 (make-procedure L.vector-init-loop.23.7 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.8 1 1))
+          (make-vector.73 (make-procedure L.make-vector.73.9 1 1))
+          (fun/void10770.4 (make-procedure L.fun/void10770.4.10 0 1))
+          (fun/void10777.5 (make-procedure L.fun/void10777.5.11 0 0))
+          (fun/void10776.6 (make-procedure L.fun/void10776.6.12 0 1))
+          (fun/void10772.7 (make-procedure L.fun/void10772.7.13 0 1))
+          (fun/void10775.8 (make-procedure L.fun/void10775.8.14 0 0))
+          (fun/void10773.9 (make-procedure L.fun/void10773.9.15 0 0))
+          (fun/void10771.10 (make-procedure L.fun/void10771.10.16 0 0))
+          (fun/void10774.11 (make-procedure L.fun/void10774.11.17 0 1))
+          (fun/ascii-char10778.12
+           (make-procedure L.fun/ascii-char10778.12.18 0 1))
+          (fun/ascii-char10779.13
+           (make-procedure L.fun/ascii-char10779.13.19 0 0))
+          (fun/vector10781.14 (make-procedure L.fun/vector10781.14.20 0 1))
+          (fun/vector10780.15 (make-procedure L.fun/vector10780.15.21 0 1)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.23 0 vector-init-loop.23)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.23)
+        (unsafe-procedure-set! make-vector.73 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/void10770.4 0 fun/void10771.10)
+        (unsafe-procedure-set! fun/void10776.6 0 fun/void10777.5)
+        (unsafe-procedure-set! fun/void10772.7 0 fun/void10773.9)
+        (unsafe-procedure-set! fun/void10774.11 0 fun/void10775.8)
+        (unsafe-procedure-set! fun/ascii-char10778.12 0 fun/ascii-char10779.13)
+        (unsafe-procedure-set! fun/vector10781.14 0 make-vector.73)
+        (unsafe-procedure-set! fun/vector10780.15 0 fun/vector10781.14)
+        (let ((void0.20 (call L.fun/void10770.4.10 fun/void10770.4))
+              (void1.19 (call L.fun/void10772.7.13 fun/void10772.7))
+              (void2.18 (call L.fun/void10774.11.17 fun/void10774.11))
+              (void3.17 (call L.fun/void10776.6.12 fun/void10776.6))
+              (ascii-char4.16
+               (call L.fun/ascii-char10778.12.18 fun/ascii-char10778.12)))
+          (call L.fun/vector10780.15.21 fun/vector10780.15))))))
+(check-by-interp
+ '(module
+    (define L.lam.77.22
+      (lambda (c.93)
+        (let ((fun/error11008.12 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/error11008.12.18 fun/error11008.12))))
+    (define L.fun/ascii-char11012.15.21
+      (lambda (c.92)
+        (let ((fun/ascii-char11013.14 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/ascii-char11013.14.20 fun/ascii-char11013.14))))
+    (define L.fun/ascii-char11013.14.20 (lambda (c.91) (let () #\k)))
+    (define L.fun/void11015.13.19 (lambda (c.90) (let () (void))))
+    (define L.fun/error11008.12.18
+      (lambda (c.89)
+        (let ((fun/error11009.10 (unsafe-procedure-ref c.89 0)))
+          (call L.fun/error11009.10.16 fun/error11009.10))))
+    (define L.fun/void11014.11.17
+      (lambda (c.88)
+        (let ((fun/void11015.13 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/void11015.13.19 fun/void11015.13))))
+    (define L.fun/error11009.10.16 (lambda (c.87) (let () (error 242))))
+    (define L.fun/empty11016.9.15
+      (lambda (c.86)
+        (let ((fun/empty11017.7 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/empty11017.7.13 fun/empty11017.7))))
+    (define L.fun/void11011.8.14 (lambda (c.85) (let () (void))))
+    (define L.fun/empty11017.7.13 (lambda (c.84) (let () empty)))
+    (define L.fun/void11007.6.12 (lambda (c.83) (let () (void))))
+    (define L.fun/void11010.5.11
+      (lambda (c.82)
+        (let ((fun/void11011.8 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/void11011.8.14 fun/void11011.8))))
+    (define L.fun/void11006.4.10
+      (lambda (c.81)
+        (let ((fun/void11007.6 (unsafe-procedure-ref c.81 0)))
+          (call L.fun/void11007.6.12 fun/void11007.6))))
+    (define L.-.74.9
+      (lambda (c.80 tmp.40 tmp.41)
+        (let ()
+          (if (fixnum? tmp.41)
+            (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+            (error 3)))))
+    (define L.+.75.8
+      (lambda (c.79 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+            (error 2)))))
+    (define L.*.76.7
+      (lambda (c.78 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+            (error 1)))))
+    (let ((*.76 (make-procedure L.*.76.7 2 0))
+          (|+.75| (make-procedure L.+.75.8 2 0))
+          (|-.74| (make-procedure L.-.74.9 2 0))
+          (fun/void11006.4 (make-procedure L.fun/void11006.4.10 0 1))
+          (fun/void11010.5 (make-procedure L.fun/void11010.5.11 0 1))
+          (fun/void11007.6 (make-procedure L.fun/void11007.6.12 0 0))
+          (fun/empty11017.7 (make-procedure L.fun/empty11017.7.13 0 0))
+          (fun/void11011.8 (make-procedure L.fun/void11011.8.14 0 0))
+          (fun/empty11016.9 (make-procedure L.fun/empty11016.9.15 0 1))
+          (fun/error11009.10 (make-procedure L.fun/error11009.10.16 0 0))
+          (fun/void11014.11 (make-procedure L.fun/void11014.11.17 0 1))
+          (fun/error11008.12 (make-procedure L.fun/error11008.12.18 0 1))
+          (fun/void11015.13 (make-procedure L.fun/void11015.13.19 0 0))
+          (fun/ascii-char11013.14
+           (make-procedure L.fun/ascii-char11013.14.20 0 0))
+          (fun/ascii-char11012.15
+           (make-procedure L.fun/ascii-char11012.15.21 0 1)))
+      (begin
+        (unsafe-procedure-set! fun/void11006.4 0 fun/void11007.6)
+        (unsafe-procedure-set! fun/void11010.5 0 fun/void11011.8)
+        (unsafe-procedure-set! fun/empty11016.9 0 fun/empty11017.7)
+        (unsafe-procedure-set! fun/void11014.11 0 fun/void11015.13)
+        (unsafe-procedure-set! fun/error11008.12 0 fun/error11009.10)
+        (unsafe-procedure-set! fun/ascii-char11012.15 0 fun/ascii-char11013.14)
+        (let ((fixnum0.21
+               (call
+                L.+.75.8
+                |+.75|
+                (call
+                 L.-.74.9
+                 |-.74|
+                 (call
+                  L.-.74.9
+                  |-.74|
+                  (call L.-.74.9 |-.74| 169 4)
+                  (call L.+.75.8 |+.75| 213 92))
+                 (call
+                  L.-.74.9
+                  |-.74|
+                  (call L.*.76.7 *.76 180 13)
+                  (call L.*.76.7 *.76 208 214)))
+                (call
+                 L.+.75.8
+                 |+.75|
+                 (call
+                  L.-.74.9
+                  |-.74|
+                  (call L.*.76.7 *.76 0 191)
+                  (call L.+.75.8 |+.75| 206 116))
+                 (call
+                  L.*.76.7
+                  *.76
+                  (call L.-.74.9 |-.74| 199 135)
+                  (call L.-.74.9 |-.74| 16 95)))))
+              (void1.20 (call L.fun/void11006.4.10 fun/void11006.4))
+              (procedure2.19
+               (let ((lam.77 (make-procedure L.lam.77.22 0 1)))
+                 (begin
+                   (unsafe-procedure-set! lam.77 0 fun/error11008.12)
+                   lam.77)))
+              (void3.18 (call L.fun/void11010.5.11 fun/void11010.5))
+              (ascii-char4.17
+               (call L.fun/ascii-char11012.15.21 fun/ascii-char11012.15))
+              (void5.16 (call L.fun/void11014.11.17 fun/void11014.11)))
+          (call L.fun/empty11016.9.15 fun/empty11016.9))))))
+(check-by-interp
+ '(module
+    (define L.lam.75.20
+      (lambda (c.89)
+        (let ((|-.72| (unsafe-procedure-ref c.89 0))
+              (|+.74| (unsafe-procedure-ref c.89 1))
+              (*.73 (unsafe-procedure-ref c.89 2)))
+          (call
+           L.*.73.8
+           *.73
+           (call
+            L.+.74.7
+            |+.74|
+            (call
+             L.*.73.8
+             *.73
+             (call L.-.72.9 |-.72| 150 41)
+             (call L.-.72.9 |-.72| 173 100))
+            (call
+             L.+.74.7
+             |+.74|
+             (call L.+.74.7 |+.74| 213 92)
+             (call L.+.74.7 |+.74| 41 60)))
+           (call
+            L.*.73.8
+            *.73
+            (call
+             L.+.74.7
+             |+.74|
+             (call L.+.74.7 |+.74| 2 4)
+             (call L.+.74.7 |+.74| 78 239))
+            (call
+             L.-.72.9
+             |-.72|
+             (call L.*.73.8 *.73 228 169)
+             (call L.+.74.7 |+.74| 198 43)))))))
+    (define L.fun/ascii-char11875.13.19
+      (lambda (c.88)
+        (let ((fun/ascii-char11876.6 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/ascii-char11876.6.12 fun/ascii-char11876.6))))
+    (define L.fun/void11871.12.18
+      (lambda (c.87)
+        (let ((fun/void11872.11 (unsafe-procedure-ref c.87 0)))
+          (call L.fun/void11872.11.17 fun/void11872.11))))
+    (define L.fun/void11872.11.17 (lambda (c.86) (let () (void))))
+    (define L.fun/error11877.10.16
+      (lambda (c.85)
+        (let ((fun/error11878.4 (unsafe-procedure-ref c.85 0)))
+          (call L.fun/error11878.4.10 fun/error11878.4))))
+    (define L.fun/ascii-char11874.9.15 (lambda (c.84) (let () #\r)))
+    (define L.fun/ascii-char11873.8.14
+      (lambda (c.83)
+        (let ((fun/ascii-char11874.9 (unsafe-procedure-ref c.83 0)))
+          (call L.fun/ascii-char11874.9.15 fun/ascii-char11874.9))))
+    (define L.fun/error11880.7.13 (lambda (c.82) (let () (error 168))))
+    (define L.fun/ascii-char11876.6.12 (lambda (c.81) (let () #\m)))
+    (define L.fun/error11879.5.11
+      (lambda (c.80)
+        (let ((fun/error11880.7 (unsafe-procedure-ref c.80 0)))
+          (call L.fun/error11880.7.13 fun/error11880.7))))
+    (define L.fun/error11878.4.10 (lambda (c.79) (let () (error 64))))
+    (define L.-.72.9
+      (lambda (c.78 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx- tmp.38 tmp.39) (error 3))
+            (error 3)))))
+    (define L.*.73.8
+      (lambda (c.77 tmp.34 tmp.35)
+        (let ()
+          (if (fixnum? tmp.35)
+            (if (fixnum? tmp.34) (unsafe-fx* tmp.34 tmp.35) (error 1))
+            (error 1)))))
+    (define L.+.74.7
+      (lambda (c.76 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx+ tmp.36 tmp.37) (error 2))
+            (error 2)))))
+    (let ((|+.74| (make-procedure L.+.74.7 2 0))
+          (*.73 (make-procedure L.*.73.8 2 0))
+          (|-.72| (make-procedure L.-.72.9 2 0))
+          (fun/error11878.4 (make-procedure L.fun/error11878.4.10 0 0))
+          (fun/error11879.5 (make-procedure L.fun/error11879.5.11 0 1))
+          (fun/ascii-char11876.6
+           (make-procedure L.fun/ascii-char11876.6.12 0 0))
+          (fun/error11880.7 (make-procedure L.fun/error11880.7.13 0 0))
+          (fun/ascii-char11873.8
+           (make-procedure L.fun/ascii-char11873.8.14 0 1))
+          (fun/ascii-char11874.9
+           (make-procedure L.fun/ascii-char11874.9.15 0 0))
+          (fun/error11877.10 (make-procedure L.fun/error11877.10.16 0 1))
+          (fun/void11872.11 (make-procedure L.fun/void11872.11.17 0 0))
+          (fun/void11871.12 (make-procedure L.fun/void11871.12.18 0 1))
+          (fun/ascii-char11875.13
+           (make-procedure L.fun/ascii-char11875.13.19 0 1)))
+      (begin
+        (unsafe-procedure-set! fun/error11879.5 0 fun/error11880.7)
+        (unsafe-procedure-set! fun/ascii-char11873.8 0 fun/ascii-char11874.9)
+        (unsafe-procedure-set! fun/error11877.10 0 fun/error11878.4)
+        (unsafe-procedure-set! fun/void11871.12 0 fun/void11872.11)
+        (unsafe-procedure-set! fun/ascii-char11875.13 0 fun/ascii-char11876.6)
+        (let ((procedure0.19
+               (let ((lam.75 (make-procedure L.lam.75.20 0 3)))
+                 (begin
+                   (unsafe-procedure-set! lam.75 0 |-.72|)
+                   (unsafe-procedure-set! lam.75 1 |+.74|)
+                   (unsafe-procedure-set! lam.75 2 *.73)
+                   lam.75)))
+              (void1.18 (call L.fun/void11871.12.18 fun/void11871.12))
+              (ascii-char2.17
+               (call L.fun/ascii-char11873.8.14 fun/ascii-char11873.8))
+              (ascii-char3.16
+               (call L.fun/ascii-char11875.13.19 fun/ascii-char11875.13))
+              (error4.15 (call L.fun/error11877.10.16 fun/error11877.10))
+              (error5.14 (call L.fun/error11879.5.11 fun/error11879.5)))
+          (call
+           L.*.73.8
+           *.73
+           (call
+            L.-.72.9
+            |-.72|
+            (call
+             L.+.74.7
+             |+.74|
+             (call L.-.72.9 |-.72| 71 30)
+             (if (procedure? procedure0.19)
+               (if (eq? (unsafe-procedure-arity procedure0.19) 0)
+                 (call (unsafe-procedure-label procedure0.19) procedure0.19)
+                 (error 42))
+               (error 43)))
+            (if (procedure? procedure0.19)
+              (if (eq? (unsafe-procedure-arity procedure0.19) 0)
+                (call (unsafe-procedure-label procedure0.19) procedure0.19)
+                (error 42))
+              (error 43)))
+           (if (procedure? procedure0.19)
+             (if (eq? (unsafe-procedure-arity procedure0.19) 0)
+               (call (unsafe-procedure-label procedure0.19) procedure0.19)
+               (error 42))
+             (error 43))))))))
+(check-by-interp
+ '(module
+    (define L.fun/empty12694.17.22
+      (lambda (c.93)
+        (let ((fun/empty12695.15 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/empty12695.15.20 fun/empty12695.15))))
+    (define L.fun/ascii-char12704.16.21
+      (lambda (c.92)
+        (let ((fun/ascii-char12705.14 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/ascii-char12705.14.19 fun/ascii-char12705.14))))
+    (define L.fun/empty12695.15.20 (lambda (c.91) (let () empty)))
+    (define L.fun/ascii-char12705.14.19 (lambda (c.90) (let () #\])))
+    (define L.fun/empty12693.13.18 (lambda (c.89) (let () empty)))
+    (define L.fun/void12700.12.17
+      (lambda (c.88)
+        (let ((fun/void12701.9 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/void12701.9.14 fun/void12701.9))))
+    (define L.fun/any12702.11.16
+      (lambda (c.87)
+        (let ((fun/any12703.6 (unsafe-procedure-ref c.87 0)))
+          (call L.fun/any12703.6.11 fun/any12703.6))))
+    (define L.fun/error12697.10.15 (lambda (c.86) (let () (error 95))))
+    (define L.fun/void12701.9.14 (lambda (c.85) (let () (void))))
+    (define L.fun/error12696.8.13
+      (lambda (c.84)
+        (let ((fun/error12697.10 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/error12697.10.15 fun/error12697.10))))
+    (define L.fun/empty12692.7.12
+      (lambda (c.83)
+        (let ((fun/empty12693.13 (unsafe-procedure-ref c.83 0)))
+          (call L.fun/empty12693.13.18 fun/empty12693.13))))
+    (define L.fun/any12703.6.11
+      (lambda (c.82)
+        (let ((cons.76 (unsafe-procedure-ref c.82 0)))
+          (call L.cons.76.8 cons.76 139 388))))
+    (define L.fun/ascii-char12699.5.10 (lambda (c.81) (let () #\[)))
+    (define L.fun/ascii-char12698.4.9
+      (lambda (c.80)
+        (let ((fun/ascii-char12699.5 (unsafe-procedure-ref c.80 0)))
+          (call L.fun/ascii-char12699.5.10 fun/ascii-char12699.5))))
+    (define L.cons.76.8
+      (lambda (c.79 tmp.71 tmp.72) (let () (cons tmp.71 tmp.72))))
+    (define L.empty?.77.7 (lambda (c.78 tmp.63) (let () (empty? tmp.63))))
+    (let ((empty?.77 (make-procedure L.empty?.77.7 1 0))
+          (cons.76 (make-procedure L.cons.76.8 2 0))
+          (fun/ascii-char12698.4
+           (make-procedure L.fun/ascii-char12698.4.9 0 1))
+          (fun/ascii-char12699.5
+           (make-procedure L.fun/ascii-char12699.5.10 0 0))
+          (fun/any12703.6 (make-procedure L.fun/any12703.6.11 0 1))
+          (fun/empty12692.7 (make-procedure L.fun/empty12692.7.12 0 1))
+          (fun/error12696.8 (make-procedure L.fun/error12696.8.13 0 1))
+          (fun/void12701.9 (make-procedure L.fun/void12701.9.14 0 0))
+          (fun/error12697.10 (make-procedure L.fun/error12697.10.15 0 0))
+          (fun/any12702.11 (make-procedure L.fun/any12702.11.16 0 1))
+          (fun/void12700.12 (make-procedure L.fun/void12700.12.17 0 1))
+          (fun/empty12693.13 (make-procedure L.fun/empty12693.13.18 0 0))
+          (fun/ascii-char12705.14
+           (make-procedure L.fun/ascii-char12705.14.19 0 0))
+          (fun/empty12695.15 (make-procedure L.fun/empty12695.15.20 0 0))
+          (fun/ascii-char12704.16
+           (make-procedure L.fun/ascii-char12704.16.21 0 1))
+          (fun/empty12694.17 (make-procedure L.fun/empty12694.17.22 0 1)))
+      (begin
+        (unsafe-procedure-set! fun/ascii-char12698.4 0 fun/ascii-char12699.5)
+        (unsafe-procedure-set! fun/any12703.6 0 cons.76)
+        (unsafe-procedure-set! fun/empty12692.7 0 fun/empty12693.13)
+        (unsafe-procedure-set! fun/error12696.8 0 fun/error12697.10)
+        (unsafe-procedure-set! fun/any12702.11 0 fun/any12703.6)
+        (unsafe-procedure-set! fun/void12700.12 0 fun/void12701.9)
+        (unsafe-procedure-set! fun/ascii-char12704.16 0 fun/ascii-char12705.14)
+        (unsafe-procedure-set! fun/empty12694.17 0 fun/empty12695.15)
+        (let ((empty0.23 (call L.fun/empty12692.7.12 fun/empty12692.7))
+              (empty1.22 (call L.fun/empty12694.17.22 fun/empty12694.17))
+              (error2.21 (call L.fun/error12696.8.13 fun/error12696.8))
+              (ascii-char3.20
+               (call L.fun/ascii-char12698.4.9 fun/ascii-char12698.4))
+              (void4.19 (call L.fun/void12700.12.17 fun/void12700.12))
+              (boolean5.18
+               (call
+                L.empty?.77.7
+                empty?.77
+                (call L.fun/any12702.11.16 fun/any12702.11))))
+          (call L.fun/ascii-char12704.16.21 fun/ascii-char12704.16))))))
+(check-by-interp
+ '(module
+    (define L.lam.77.22
+      (lambda (c.93)
+        (let ((*.75 (unsafe-procedure-ref c.93 0))
+              (|+.76| (unsafe-procedure-ref c.93 1))
+              (|-.74| (unsafe-procedure-ref c.93 2)))
+          (call
+           L.-.74.9
+           |-.74|
+           (call
+            L.+.76.7
+            |+.76|
+            (call
+             L.*.75.8
+             *.75
+             (call L.-.74.9 |-.74| 170 108)
+             (call L.*.75.8 *.75 124 91))
+            (call
+             L.-.74.9
+             |-.74|
+             (call L.+.76.7 |+.76| 196 124)
+             (call L.-.74.9 |-.74| 29 207)))
+           (call
+            L.*.75.8
+            *.75
+            (call
+             L.+.76.7
+             |+.76|
+             (call L.-.74.9 |-.74| 74 25)
+             (call L.*.75.8 *.75 40 225))
+            (call
+             L.-.74.9
+             |-.74|
+             (call L.+.76.7 |+.76| 92 174)
+             (call L.*.75.8 *.75 221 197)))))))
+    (define L.fun/error12708.15.21
+      (lambda (c.92)
+        (let ((fun/error12709.10 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/error12709.10.16 fun/error12709.10))))
+    (define L.fun/ascii-char12711.14.20 (lambda (c.91) (let () #\u)))
+    (define L.fun/ascii-char12712.13.19
+      (lambda (c.90)
+        (let ((fun/ascii-char12713.6 (unsafe-procedure-ref c.90 0)))
+          (call L.fun/ascii-char12713.6.12 fun/ascii-char12713.6))))
+    (define L.fun/ascii-char12718.12.18
+      (lambda (c.89)
+        (let ((fun/ascii-char12719.11 (unsafe-procedure-ref c.89 0)))
+          (call L.fun/ascii-char12719.11.17 fun/ascii-char12719.11))))
+    (define L.fun/ascii-char12719.11.17 (lambda (c.88) (let () #\[)))
+    (define L.fun/error12709.10.16 (lambda (c.87) (let () (error 67))))
+    (define L.fun/error12716.9.15
+      (lambda (c.86)
+        (let ((fun/error12717.8 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/error12717.8.14 fun/error12717.8))))
+    (define L.fun/error12717.8.14 (lambda (c.85) (let () (error 129))))
+    (define L.fun/ascii-char12710.7.13
+      (lambda (c.84)
+        (let ((fun/ascii-char12711.14 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/ascii-char12711.14.20 fun/ascii-char12711.14))))
+    (define L.fun/ascii-char12713.6.12 (lambda (c.83) (let () #\E)))
+    (define L.fun/ascii-char12714.5.11
+      (lambda (c.82)
+        (let ((fun/ascii-char12715.4 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/ascii-char12715.4.10 fun/ascii-char12715.4))))
+    (define L.fun/ascii-char12715.4.10 (lambda (c.81) (let () #\i)))
+    (define L.-.74.9
+      (lambda (c.80 tmp.40 tmp.41)
+        (let ()
+          (if (fixnum? tmp.41)
+            (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+            (error 3)))))
+    (define L.*.75.8
+      (lambda (c.79 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+            (error 1)))))
+    (define L.+.76.7
+      (lambda (c.78 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+            (error 2)))))
+    (let ((|+.76| (make-procedure L.+.76.7 2 0))
+          (*.75 (make-procedure L.*.75.8 2 0))
+          (|-.74| (make-procedure L.-.74.9 2 0))
+          (fun/ascii-char12715.4
+           (make-procedure L.fun/ascii-char12715.4.10 0 0))
+          (fun/ascii-char12714.5
+           (make-procedure L.fun/ascii-char12714.5.11 0 1))
+          (fun/ascii-char12713.6
+           (make-procedure L.fun/ascii-char12713.6.12 0 0))
+          (fun/ascii-char12710.7
+           (make-procedure L.fun/ascii-char12710.7.13 0 1))
+          (fun/error12717.8 (make-procedure L.fun/error12717.8.14 0 0))
+          (fun/error12716.9 (make-procedure L.fun/error12716.9.15 0 1))
+          (fun/error12709.10 (make-procedure L.fun/error12709.10.16 0 0))
+          (fun/ascii-char12719.11
+           (make-procedure L.fun/ascii-char12719.11.17 0 0))
+          (fun/ascii-char12718.12
+           (make-procedure L.fun/ascii-char12718.12.18 0 1))
+          (fun/ascii-char12712.13
+           (make-procedure L.fun/ascii-char12712.13.19 0 1))
+          (fun/ascii-char12711.14
+           (make-procedure L.fun/ascii-char12711.14.20 0 0))
+          (fun/error12708.15 (make-procedure L.fun/error12708.15.21 0 1)))
+      (begin
+        (unsafe-procedure-set! fun/ascii-char12714.5 0 fun/ascii-char12715.4)
+        (unsafe-procedure-set! fun/ascii-char12710.7 0 fun/ascii-char12711.14)
+        (unsafe-procedure-set! fun/error12716.9 0 fun/error12717.8)
+        (unsafe-procedure-set! fun/ascii-char12718.12 0 fun/ascii-char12719.11)
+        (unsafe-procedure-set! fun/ascii-char12712.13 0 fun/ascii-char12713.6)
+        (unsafe-procedure-set! fun/error12708.15 0 fun/error12709.10)
+        (let ((error0.21 (call L.fun/error12708.15.21 fun/error12708.15))
+              (procedure1.20
+               (let ((lam.77 (make-procedure L.lam.77.22 0 3)))
+                 (begin
+                   (unsafe-procedure-set! lam.77 0 *.75)
+                   (unsafe-procedure-set! lam.77 1 |+.76|)
+                   (unsafe-procedure-set! lam.77 2 |-.74|)
+                   lam.77)))
+              (ascii-char2.19
+               (call L.fun/ascii-char12710.7.13 fun/ascii-char12710.7))
+              (ascii-char3.18
+               (call L.fun/ascii-char12712.13.19 fun/ascii-char12712.13))
+              (ascii-char4.17
+               (call L.fun/ascii-char12714.5.11 fun/ascii-char12714.5))
+              (error5.16 (call L.fun/error12716.9.15 fun/error12716.9)))
+          (call L.fun/ascii-char12718.12.18 fun/ascii-char12718.12))))))
+(check-by-interp
+ '(module
+    (define L.fun/error14513.13.19 (lambda (c.87) (let () (error 19))))
+    (define L.fun/error14512.12.18
+      (lambda (c.86)
+        (let ((fun/error14513.13 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/error14513.13.19 fun/error14513.13))))
+    (define L.fun/error14509.11.17 (lambda (c.85) (let () (error 191))))
+    (define L.fun/error14508.10.16
+      (lambda (c.84)
+        (let ((fun/error14509.11 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/error14509.11.17 fun/error14509.11))))
+    (define L.fun/ascii-char14517.9.15 (lambda (c.83) (let () #\c)))
+    (define L.fun/ascii-char14510.8.14
+      (lambda (c.82)
+        (let ((fun/ascii-char14511.4 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/ascii-char14511.4.10 fun/ascii-char14511.4))))
+    (define L.fun/error14515.7.13 (lambda (c.81) (let () (error 218))))
+    (define L.fun/error14514.6.12
+      (lambda (c.80)
+        (let ((fun/error14515.7 (unsafe-procedure-ref c.80 0)))
+          (call L.fun/error14515.7.13 fun/error14515.7))))
+    (define L.fun/ascii-char14516.5.11
+      (lambda (c.79)
+        (let ((fun/ascii-char14517.9 (unsafe-procedure-ref c.79 0)))
+          (call L.fun/ascii-char14517.9.15 fun/ascii-char14517.9))))
+    (define L.fun/ascii-char14511.4.10 (lambda (c.78) (let () #\E)))
+    (define L.*.72.9
+      (lambda (c.77 tmp.34 tmp.35)
+        (let ()
+          (if (fixnum? tmp.35)
+            (if (fixnum? tmp.34) (unsafe-fx* tmp.34 tmp.35) (error 1))
+            (error 1)))))
+    (define L.-.73.8
+      (lambda (c.76 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx- tmp.38 tmp.39) (error 3))
+            (error 3)))))
+    (define L.+.74.7
+      (lambda (c.75 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx+ tmp.36 tmp.37) (error 2))
+            (error 2)))))
+    (let ((|+.74| (make-procedure L.+.74.7 2 0))
+          (|-.73| (make-procedure L.-.73.8 2 0))
+          (*.72 (make-procedure L.*.72.9 2 0))
+          (fun/ascii-char14511.4
+           (make-procedure L.fun/ascii-char14511.4.10 0 0))
+          (fun/ascii-char14516.5
+           (make-procedure L.fun/ascii-char14516.5.11 0 1))
+          (fun/error14514.6 (make-procedure L.fun/error14514.6.12 0 1))
+          (fun/error14515.7 (make-procedure L.fun/error14515.7.13 0 0))
+          (fun/ascii-char14510.8
+           (make-procedure L.fun/ascii-char14510.8.14 0 1))
+          (fun/ascii-char14517.9
+           (make-procedure L.fun/ascii-char14517.9.15 0 0))
+          (fun/error14508.10 (make-procedure L.fun/error14508.10.16 0 1))
+          (fun/error14509.11 (make-procedure L.fun/error14509.11.17 0 0))
+          (fun/error14512.12 (make-procedure L.fun/error14512.12.18 0 1))
+          (fun/error14513.13 (make-procedure L.fun/error14513.13.19 0 0)))
+      (begin
+        (unsafe-procedure-set! fun/ascii-char14516.5 0 fun/ascii-char14517.9)
+        (unsafe-procedure-set! fun/error14514.6 0 fun/error14515.7)
+        (unsafe-procedure-set! fun/ascii-char14510.8 0 fun/ascii-char14511.4)
+        (unsafe-procedure-set! fun/error14508.10 0 fun/error14509.11)
+        (unsafe-procedure-set! fun/error14512.12 0 fun/error14513.13)
+        (let ((error0.19 (call L.fun/error14508.10.16 fun/error14508.10))
+              (fixnum1.18
+               (call
+                L.+.74.7
+                |+.74|
+                (call
+                 L.+.74.7
+                 |+.74|
+                 (call
+                  L.+.74.7
+                  |+.74|
+                  (call L.*.72.9 *.72 245 103)
+                  (call L.-.73.8 |-.73| 14 91))
+                 (call
+                  L.*.72.9
+                  *.72
+                  (call L.*.72.9 *.72 122 65)
+                  (call L.*.72.9 *.72 59 49)))
+                (call
+                 L.-.73.8
+                 |-.73|
+                 (call
+                  L.*.72.9
+                  *.72
+                  (call L.+.74.7 |+.74| 170 243)
+                  (call L.+.74.7 |+.74| 227 62))
+                 (call
+                  L.-.73.8
+                  |-.73|
+                  (call L.*.72.9 *.72 165 152)
+                  (call L.*.72.9 *.72 34 234)))))
+              (fixnum2.17
+               (call
+                L.-.73.8
+                |-.73|
+                (call
+                 L.-.73.8
+                 |-.73|
+                 (call
+                  L.*.72.9
+                  *.72
+                  (call L.-.73.8 |-.73| 28 218)
+                  (call L.+.74.7 |+.74| 219 163))
+                 (call
+                  L.*.72.9
+                  *.72
+                  (call L.-.73.8 |-.73| 33 43)
+                  (call L.*.72.9 *.72 234 231)))
+                (call
+                 L.+.74.7
+                 |+.74|
+                 (call
+                  L.-.73.8
+                  |-.73|
+                  (call L.-.73.8 |-.73| 62 212)
+                  (call L.-.73.8 |-.73| 164 217))
+                 (call
+                  L.-.73.8
+                  |-.73|
+                  (call L.*.72.9 *.72 209 38)
+                  (call L.-.73.8 |-.73| 224 233)))))
+              (ascii-char3.16
+               (call L.fun/ascii-char14510.8.14 fun/ascii-char14510.8))
+              (error4.15 (call L.fun/error14512.12.18 fun/error14512.12))
+              (error5.14 (call L.fun/error14514.6.12 fun/error14514.6)))
+          (call L.fun/ascii-char14516.5.11 fun/ascii-char14516.5))))))
+(check-by-interp
+ '(module
+    (define L.lam.74.19
+      (lambda (c.87)
+        (let ((fun/error14882.7 (unsafe-procedure-ref c.87 0)))
+          (call L.fun/error14882.7.10 fun/error14882.7))))
+    (define L.fun/empty14877.15.18 (lambda (c.86) (let () empty)))
+    (define L.fun/error14878.14.17
+      (lambda (c.85)
+        (let ((fun/error14879.9 (unsafe-procedure-ref c.85 0)))
+          (call L.fun/error14879.9.12 fun/error14879.9))))
+    (define L.fun/empty14876.13.16
+      (lambda (c.84)
+        (let ((fun/empty14877.15 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/empty14877.15.18 fun/empty14877.15))))
+    (define L.fun/ascii-char14885.12.15 (lambda (c.83) (let () #\b)))
+    (define L.fun/ascii-char14884.11.14
+      (lambda (c.82)
+        (let ((fun/ascii-char14885.12 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/ascii-char14885.12.15 fun/ascii-char14885.12))))
+    (define L.fun/empty14887.10.13 (lambda (c.81) (let () empty)))
+    (define L.fun/error14879.9.12 (lambda (c.80) (let () (error 114))))
+    (define L.fun/error14881.8.11 (lambda (c.79) (let () (error 44))))
+    (define L.fun/error14882.7.10
+      (lambda (c.78)
+        (let ((fun/error14883.4 (unsafe-procedure-ref c.78 0)))
+          (call L.fun/error14883.4.7 fun/error14883.4))))
+    (define L.fun/empty14886.6.9
+      (lambda (c.77)
+        (let ((fun/empty14887.10 (unsafe-procedure-ref c.77 0)))
+          (call L.fun/empty14887.10.13 fun/empty14887.10))))
+    (define L.fun/error14880.5.8
+      (lambda (c.76)
+        (let ((fun/error14881.8 (unsafe-procedure-ref c.76 0)))
+          (call L.fun/error14881.8.11 fun/error14881.8))))
+    (define L.fun/error14883.4.7 (lambda (c.75) (let () (error 146))))
+    (let ((fun/error14883.4 (make-procedure L.fun/error14883.4.7 0 0))
+          (fun/error14880.5 (make-procedure L.fun/error14880.5.8 0 1))
+          (fun/empty14886.6 (make-procedure L.fun/empty14886.6.9 0 1))
+          (fun/error14882.7 (make-procedure L.fun/error14882.7.10 0 1))
+          (fun/error14881.8 (make-procedure L.fun/error14881.8.11 0 0))
+          (fun/error14879.9 (make-procedure L.fun/error14879.9.12 0 0))
+          (fun/empty14887.10 (make-procedure L.fun/empty14887.10.13 0 0))
+          (fun/ascii-char14884.11
+           (make-procedure L.fun/ascii-char14884.11.14 0 1))
+          (fun/ascii-char14885.12
+           (make-procedure L.fun/ascii-char14885.12.15 0 0))
+          (fun/empty14876.13 (make-procedure L.fun/empty14876.13.16 0 1))
+          (fun/error14878.14 (make-procedure L.fun/error14878.14.17 0 1))
+          (fun/empty14877.15 (make-procedure L.fun/empty14877.15.18 0 0)))
+      (begin
+        (unsafe-procedure-set! fun/error14880.5 0 fun/error14881.8)
+        (unsafe-procedure-set! fun/empty14886.6 0 fun/empty14887.10)
+        (unsafe-procedure-set! fun/error14882.7 0 fun/error14883.4)
+        (unsafe-procedure-set! fun/ascii-char14884.11 0 fun/ascii-char14885.12)
+        (unsafe-procedure-set! fun/empty14876.13 0 fun/empty14877.15)
+        (unsafe-procedure-set! fun/error14878.14 0 fun/error14879.9)
+        (let ((empty0.21 (call L.fun/empty14876.13.16 fun/empty14876.13))
+              (error1.20 (call L.fun/error14878.14.17 fun/error14878.14))
+              (error2.19 (call L.fun/error14880.5.8 fun/error14880.5))
+              (procedure3.18
+               (let ((lam.74 (make-procedure L.lam.74.19 0 1)))
+                 (begin
+                   (unsafe-procedure-set! lam.74 0 fun/error14882.7)
+                   lam.74)))
+              (ascii-char4.17
+               (call L.fun/ascii-char14884.11.14 fun/ascii-char14884.11))
+              (empty5.16 (call L.fun/empty14886.6.9 fun/empty14886.6)))
+          (if (procedure? procedure3.18)
+            (if (eq? (unsafe-procedure-arity procedure3.18) 0)
+              (call (unsafe-procedure-label procedure3.18) procedure3.18)
+              (error 42))
+            (error 43)))))))
+(check-by-interp
+ '(module
+    (define L.lam.79.26
+      (lambda (c.99)
+        (let ((fun/any15198.16 (unsafe-procedure-ref c.99 0))
+              (ascii-char?.77 (unsafe-procedure-ref c.99 1)))
+          (call
+           L.ascii-char?.77.7
+           ascii-char?.77
+           (call L.fun/any15198.16.23 fun/any15198.16)))))
+    (define L.lam.78.25
+      (lambda (c.98)
+        (let ((fun/empty15196.4 (unsafe-procedure-ref c.98 0)))
+          (call L.fun/empty15196.4.11 fun/empty15196.4))))
+    (define L.fun/empty15205.17.24 (lambda (c.97) (let () empty)))
+    (define L.fun/any15198.16.23
+      (lambda (c.96)
+        (let ((fun/any15199.14 (unsafe-procedure-ref c.96 0)))
+          (call L.fun/any15199.14.21 fun/any15199.14))))
+    (define L.fun/error15201.15.22 (lambda (c.95) (let () (error 204))))
+    (define L.fun/any15199.14.21 (lambda (c.94) (let () (void))))
+    (define L.fun/error15200.13.20
+      (lambda (c.93)
+        (let ((fun/error15201.15 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/error15201.15.22 fun/error15201.15))))
+    (define L.fun/empty15204.12.19
+      (lambda (c.92)
+        (let ((fun/empty15205.17 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/empty15205.17.24 fun/empty15205.17))))
+    (define L.fun/vector15209.11.18
+      (lambda (c.91)
+        (let ((make-vector.76 (unsafe-procedure-ref c.91 0)))
+          (call L.make-vector.76.10 make-vector.76 8))))
+    (define L.fun/empty15197.10.17 (lambda (c.90) (let () empty)))
+    (define L.fun/ascii-char15203.9.16 (lambda (c.89) (let () #\r)))
+    (define L.fun/vector15208.8.15
+      (lambda (c.88)
+        (let ((fun/vector15209.11 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/vector15209.11.18 fun/vector15209.11))))
+    (define L.fun/empty15207.7.14 (lambda (c.87) (let () empty)))
+    (define L.fun/ascii-char15202.6.13
+      (lambda (c.86)
+        (let ((fun/ascii-char15203.9 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/ascii-char15203.9.16 fun/ascii-char15203.9))))
+    (define L.fun/empty15206.5.12
+      (lambda (c.85)
+        (let ((fun/empty15207.7 (unsafe-procedure-ref c.85 0)))
+          (call L.fun/empty15207.7.14 fun/empty15207.7))))
+    (define L.fun/empty15196.4.11
+      (lambda (c.84)
+        (let ((fun/empty15197.10 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/empty15197.10.17 fun/empty15197.10))))
+    (define L.make-vector.76.10
+      (lambda (c.83 tmp.52)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.83 0)))
+          (if (fixnum? tmp.52)
+            (call L.make-init-vector.1.9 make-init-vector.1 tmp.52)
+            (error 8)))))
+    (define L.make-init-vector.1.9
+      (lambda (c.82 tmp.24)
+        (let ((vector-init-loop.26 (unsafe-procedure-ref c.82 0)))
+          (let ((tmp.25 (unsafe-make-vector tmp.24)))
+            (call
+             L.vector-init-loop.26.8
+             vector-init-loop.26
+             tmp.24
+             0
+             tmp.25)))))
+    (define L.vector-init-loop.26.8
+      (lambda (c.81 len.27 i.29 vec.28)
+        (let ((vector-init-loop.26 (unsafe-procedure-ref c.81 0)))
+          (if (eq? len.27 i.29)
+            vec.28
+            (begin
+              (unsafe-vector-set! vec.28 i.29 0)
+              (call
+               L.vector-init-loop.26.8
+               vector-init-loop.26
+               len.27
+               (unsafe-fx+ i.29 1)
+               vec.28))))))
+    (define L.ascii-char?.77.7
+      (lambda (c.80 tmp.65) (let () (ascii-char? tmp.65))))
+    (let ((ascii-char?.77 (make-procedure L.ascii-char?.77.7 1 0))
+          (vector-init-loop.26 (make-procedure L.vector-init-loop.26.8 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.9 1 1))
+          (make-vector.76 (make-procedure L.make-vector.76.10 1 1))
+          (fun/empty15196.4 (make-procedure L.fun/empty15196.4.11 0 1))
+          (fun/empty15206.5 (make-procedure L.fun/empty15206.5.12 0 1))
+          (fun/ascii-char15202.6
+           (make-procedure L.fun/ascii-char15202.6.13 0 1))
+          (fun/empty15207.7 (make-procedure L.fun/empty15207.7.14 0 0))
+          (fun/vector15208.8 (make-procedure L.fun/vector15208.8.15 0 1))
+          (fun/ascii-char15203.9
+           (make-procedure L.fun/ascii-char15203.9.16 0 0))
+          (fun/empty15197.10 (make-procedure L.fun/empty15197.10.17 0 0))
+          (fun/vector15209.11 (make-procedure L.fun/vector15209.11.18 0 1))
+          (fun/empty15204.12 (make-procedure L.fun/empty15204.12.19 0 1))
+          (fun/error15200.13 (make-procedure L.fun/error15200.13.20 0 1))
+          (fun/any15199.14 (make-procedure L.fun/any15199.14.21 0 0))
+          (fun/error15201.15 (make-procedure L.fun/error15201.15.22 0 0))
+          (fun/any15198.16 (make-procedure L.fun/any15198.16.23 0 1))
+          (fun/empty15205.17 (make-procedure L.fun/empty15205.17.24 0 0)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.26 0 vector-init-loop.26)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.26)
+        (unsafe-procedure-set! make-vector.76 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/empty15196.4 0 fun/empty15197.10)
+        (unsafe-procedure-set! fun/empty15206.5 0 fun/empty15207.7)
+        (unsafe-procedure-set! fun/ascii-char15202.6 0 fun/ascii-char15203.9)
+        (unsafe-procedure-set! fun/vector15208.8 0 fun/vector15209.11)
+        (unsafe-procedure-set! fun/vector15209.11 0 make-vector.76)
+        (unsafe-procedure-set! fun/empty15204.12 0 fun/empty15205.17)
+        (unsafe-procedure-set! fun/error15200.13 0 fun/error15201.15)
+        (unsafe-procedure-set! fun/any15198.16 0 fun/any15199.14)
+        (let ((procedure0.23
+               (let ((lam.78 (make-procedure L.lam.78.25 0 1)))
+                 (begin
+                   (unsafe-procedure-set! lam.78 0 fun/empty15196.4)
+                   lam.78)))
+              (procedure1.22
+               (let ((lam.79 (make-procedure L.lam.79.26 0 2)))
+                 (begin
+                   (unsafe-procedure-set! lam.79 0 fun/any15198.16)
+                   (unsafe-procedure-set! lam.79 1 ascii-char?.77)
+                   lam.79)))
+              (error2.21 (call L.fun/error15200.13.20 fun/error15200.13))
+              (ascii-char3.20
+               (call L.fun/ascii-char15202.6.13 fun/ascii-char15202.6))
+              (empty4.19 (call L.fun/empty15204.12.19 fun/empty15204.12))
+              (empty5.18 (call L.fun/empty15206.5.12 fun/empty15206.5)))
+          (call L.fun/vector15208.8.15 fun/vector15208.8))))))
+(check-by-interp
+ '(module
+    (define L.fun/void17417.17.23 (lambda (c.93) (let () (void))))
+    (define L.fun/error17406.16.22
+      (lambda (c.92)
+        (let ((fun/error17407.14 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/error17407.14.20 fun/error17407.14))))
+    (define L.fun/error17411.15.21 (lambda (c.91) (let () (error 42))))
+    (define L.fun/error17407.14.20 (lambda (c.90) (let () (error 211))))
+    (define L.fun/error17412.13.19
+      (lambda (c.89)
+        (let ((fun/error17413.11 (unsafe-procedure-ref c.89 0)))
+          (call L.fun/error17413.11.17 fun/error17413.11))))
+    (define L.fun/ascii-char17414.12.18
+      (lambda (c.88)
+        (let ((fun/ascii-char17415.6 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/ascii-char17415.6.12 fun/ascii-char17415.6))))
+    (define L.fun/error17413.11.17 (lambda (c.87) (let () (error 54))))
+    (define L.fun/void17416.10.16
+      (lambda (c.86)
+        (let ((fun/void17417.17 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/void17417.17.23 fun/void17417.17))))
+    (define L.fun/vector17409.9.15
+      (lambda (c.85)
+        (let ((make-vector.76 (unsafe-procedure-ref c.85 0)))
+          (call L.make-vector.76.9 make-vector.76 8))))
+    (define L.fun/error17410.8.14
+      (lambda (c.84)
+        (let ((fun/error17411.15 (unsafe-procedure-ref c.84 0)))
+          (call L.fun/error17411.15.21 fun/error17411.15))))
+    (define L.fun/vector17419.7.13
+      (lambda (c.83)
+        (let ((make-vector.76 (unsafe-procedure-ref c.83 0)))
+          (call L.make-vector.76.9 make-vector.76 8))))
+    (define L.fun/ascii-char17415.6.12 (lambda (c.82) (let () #\e)))
+    (define L.fun/vector17418.5.11
+      (lambda (c.81)
+        (let ((fun/vector17419.7 (unsafe-procedure-ref c.81 0)))
+          (call L.fun/vector17419.7.13 fun/vector17419.7))))
+    (define L.fun/vector17408.4.10
+      (lambda (c.80)
+        (let ((fun/vector17409.9 (unsafe-procedure-ref c.80 0)))
+          (call L.fun/vector17409.9.15 fun/vector17409.9))))
+    (define L.make-vector.76.9
+      (lambda (c.79 tmp.52)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.79 0)))
+          (if (fixnum? tmp.52)
+            (call L.make-init-vector.1.8 make-init-vector.1 tmp.52)
+            (error 8)))))
+    (define L.make-init-vector.1.8
+      (lambda (c.78 tmp.24)
+        (let ((vector-init-loop.26 (unsafe-procedure-ref c.78 0)))
+          (let ((tmp.25 (unsafe-make-vector tmp.24)))
+            (call
+             L.vector-init-loop.26.7
+             vector-init-loop.26
+             tmp.24
+             0
+             tmp.25)))))
+    (define L.vector-init-loop.26.7
+      (lambda (c.77 len.27 i.29 vec.28)
+        (let ((vector-init-loop.26 (unsafe-procedure-ref c.77 0)))
+          (if (eq? len.27 i.29)
+            vec.28
+            (begin
+              (unsafe-vector-set! vec.28 i.29 0)
+              (call
+               L.vector-init-loop.26.7
+               vector-init-loop.26
+               len.27
+               (unsafe-fx+ i.29 1)
+               vec.28))))))
+    (let ((vector-init-loop.26 (make-procedure L.vector-init-loop.26.7 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.8 1 1))
+          (make-vector.76 (make-procedure L.make-vector.76.9 1 1))
+          (fun/vector17408.4 (make-procedure L.fun/vector17408.4.10 0 1))
+          (fun/vector17418.5 (make-procedure L.fun/vector17418.5.11 0 1))
+          (fun/ascii-char17415.6
+           (make-procedure L.fun/ascii-char17415.6.12 0 0))
+          (fun/vector17419.7 (make-procedure L.fun/vector17419.7.13 0 1))
+          (fun/error17410.8 (make-procedure L.fun/error17410.8.14 0 1))
+          (fun/vector17409.9 (make-procedure L.fun/vector17409.9.15 0 1))
+          (fun/void17416.10 (make-procedure L.fun/void17416.10.16 0 1))
+          (fun/error17413.11 (make-procedure L.fun/error17413.11.17 0 0))
+          (fun/ascii-char17414.12
+           (make-procedure L.fun/ascii-char17414.12.18 0 1))
+          (fun/error17412.13 (make-procedure L.fun/error17412.13.19 0 1))
+          (fun/error17407.14 (make-procedure L.fun/error17407.14.20 0 0))
+          (fun/error17411.15 (make-procedure L.fun/error17411.15.21 0 0))
+          (fun/error17406.16 (make-procedure L.fun/error17406.16.22 0 1))
+          (fun/void17417.17 (make-procedure L.fun/void17417.17.23 0 0)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.26 0 vector-init-loop.26)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.26)
+        (unsafe-procedure-set! make-vector.76 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/vector17408.4 0 fun/vector17409.9)
+        (unsafe-procedure-set! fun/vector17418.5 0 fun/vector17419.7)
+        (unsafe-procedure-set! fun/vector17419.7 0 make-vector.76)
+        (unsafe-procedure-set! fun/error17410.8 0 fun/error17411.15)
+        (unsafe-procedure-set! fun/vector17409.9 0 make-vector.76)
+        (unsafe-procedure-set! fun/void17416.10 0 fun/void17417.17)
+        (unsafe-procedure-set! fun/ascii-char17414.12 0 fun/ascii-char17415.6)
+        (unsafe-procedure-set! fun/error17412.13 0 fun/error17413.11)
+        (unsafe-procedure-set! fun/error17406.16 0 fun/error17407.14)
+        (let ((error0.23 (call L.fun/error17406.16.22 fun/error17406.16))
+              (vector1.22 (call L.fun/vector17408.4.10 fun/vector17408.4))
+              (error2.21 (call L.fun/error17410.8.14 fun/error17410.8))
+              (error3.20 (call L.fun/error17412.13.19 fun/error17412.13))
+              (ascii-char4.19
+               (call L.fun/ascii-char17414.12.18 fun/ascii-char17414.12))
+              (void5.18 (call L.fun/void17416.10.16 fun/void17416.10)))
+          (call L.fun/vector17418.5.11 fun/vector17418.5))))))
+(check-by-interp
+ '(module
+    (define L.lam.78.25
+      (lambda (c.97)
+        (let ((fun/empty18589.13 (unsafe-procedure-ref c.97 0)))
+          (call L.fun/empty18589.13.22 fun/empty18589.13))))
+    (define L.fun/ascii-char18591.15.24
+      (lambda (c.96)
+        (let ((fun/ascii-char18592.14 (unsafe-procedure-ref c.96 0)))
+          (call L.fun/ascii-char18592.14.23 fun/ascii-char18592.14))))
+    (define L.fun/ascii-char18592.14.23 (lambda (c.95) (let () #\g)))
+    (define L.fun/empty18589.13.22
+      (lambda (c.94)
+        (let ((fun/empty18590.10 (unsafe-procedure-ref c.94 0)))
+          (call L.fun/empty18590.10.19 fun/empty18590.10))))
+    (define L.fun/error18585.12.21
+      (lambda (c.93)
+        (let ((fun/error18586.11 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/error18586.11.20 fun/error18586.11))))
+    (define L.fun/error18586.11.20 (lambda (c.92) (let () (error 31))))
+    (define L.fun/empty18590.10.19 (lambda (c.91) (let () empty)))
+    (define L.fun/vector18595.9.18
+      (lambda (c.90)
+        (let ((fun/vector18596.8 (unsafe-procedure-ref c.90 0)))
+          (call L.fun/vector18596.8.17 fun/vector18596.8))))
+    (define L.fun/vector18596.8.17
+      (lambda (c.89)
+        (let ((make-vector.74 (unsafe-procedure-ref c.89 0)))
+          (call L.make-vector.74.12 make-vector.74 8))))
+    (define L.fun/empty18593.7.16
+      (lambda (c.88)
+        (let ((fun/empty18594.4 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/empty18594.4.13 fun/empty18594.4))))
+    (define L.fun/error18588.6.15 (lambda (c.87) (let () (error 113))))
+    (define L.fun/error18587.5.14
+      (lambda (c.86)
+        (let ((fun/error18588.6 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/error18588.6.15 fun/error18588.6))))
+    (define L.fun/empty18594.4.13 (lambda (c.85) (let () empty)))
+    (define L.make-vector.74.12
+      (lambda (c.84 tmp.50)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.84 0)))
+          (if (fixnum? tmp.50)
+            (call L.make-init-vector.1.11 make-init-vector.1 tmp.50)
+            (error 8)))))
+    (define L.make-init-vector.1.11
+      (lambda (c.83 tmp.22)
+        (let ((vector-init-loop.24 (unsafe-procedure-ref c.83 0)))
+          (let ((tmp.23 (unsafe-make-vector tmp.22)))
+            (call
+             L.vector-init-loop.24.10
+             vector-init-loop.24
+             tmp.22
+             0
+             tmp.23)))))
+    (define L.vector-init-loop.24.10
+      (lambda (c.82 len.25 i.27 vec.26)
+        (let ((vector-init-loop.24 (unsafe-procedure-ref c.82 0)))
+          (if (eq? len.25 i.27)
+            vec.26
+            (begin
+              (unsafe-vector-set! vec.26 i.27 0)
+              (call
+               L.vector-init-loop.24.10
+               vector-init-loop.24
+               len.25
+               (unsafe-fx+ i.27 1)
+               vec.26))))))
+    (define L.-.75.9
+      (lambda (c.81 tmp.40 tmp.41)
+        (let ()
+          (if (fixnum? tmp.41)
+            (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+            (error 3)))))
+    (define L.+.76.8
+      (lambda (c.80 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+            (error 2)))))
+    (define L.*.77.7
+      (lambda (c.79 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+            (error 1)))))
+    (let ((*.77 (make-procedure L.*.77.7 2 0))
+          (|+.76| (make-procedure L.+.76.8 2 0))
+          (|-.75| (make-procedure L.-.75.9 2 0))
+          (vector-init-loop.24 (make-procedure L.vector-init-loop.24.10 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.11 1 1))
+          (make-vector.74 (make-procedure L.make-vector.74.12 1 1))
+          (fun/empty18594.4 (make-procedure L.fun/empty18594.4.13 0 0))
+          (fun/error18587.5 (make-procedure L.fun/error18587.5.14 0 1))
+          (fun/error18588.6 (make-procedure L.fun/error18588.6.15 0 0))
+          (fun/empty18593.7 (make-procedure L.fun/empty18593.7.16 0 1))
+          (fun/vector18596.8 (make-procedure L.fun/vector18596.8.17 0 1))
+          (fun/vector18595.9 (make-procedure L.fun/vector18595.9.18 0 1))
+          (fun/empty18590.10 (make-procedure L.fun/empty18590.10.19 0 0))
+          (fun/error18586.11 (make-procedure L.fun/error18586.11.20 0 0))
+          (fun/error18585.12 (make-procedure L.fun/error18585.12.21 0 1))
+          (fun/empty18589.13 (make-procedure L.fun/empty18589.13.22 0 1))
+          (fun/ascii-char18592.14
+           (make-procedure L.fun/ascii-char18592.14.23 0 0))
+          (fun/ascii-char18591.15
+           (make-procedure L.fun/ascii-char18591.15.24 0 1)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.24 0 vector-init-loop.24)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.24)
+        (unsafe-procedure-set! make-vector.74 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/error18587.5 0 fun/error18588.6)
+        (unsafe-procedure-set! fun/empty18593.7 0 fun/empty18594.4)
+        (unsafe-procedure-set! fun/vector18596.8 0 make-vector.74)
+        (unsafe-procedure-set! fun/vector18595.9 0 fun/vector18596.8)
+        (unsafe-procedure-set! fun/error18585.12 0 fun/error18586.11)
+        (unsafe-procedure-set! fun/empty18589.13 0 fun/empty18590.10)
+        (unsafe-procedure-set! fun/ascii-char18591.15 0 fun/ascii-char18592.14)
+        (let ((error0.21 (call L.fun/error18585.12.21 fun/error18585.12))
+              (error1.20 (call L.fun/error18587.5.14 fun/error18587.5))
+              (procedure2.19
+               (let ((lam.78 (make-procedure L.lam.78.25 0 1)))
+                 (begin
+                   (unsafe-procedure-set! lam.78 0 fun/empty18589.13)
+                   lam.78)))
+              (fixnum3.18
+               (call
+                L.*.77.7
+                *.77
+                (call
+                 L.-.75.9
+                 |-.75|
+                 (call
+                  L.+.76.8
+                  |+.76|
+                  (call L.-.75.9 |-.75| 129 28)
+                  (call L.-.75.9 |-.75| 120 104))
+                 (call
+                  L.-.75.9
+                  |-.75|
+                  (call L.*.77.7 *.77 177 151)
+                  (call L.+.76.8 |+.76| 2 114)))
+                (call
+                 L.+.76.8
+                 |+.76|
+                 (call
+                  L.-.75.9
+                  |-.75|
+                  (call L.-.75.9 |-.75| 158 176)
+                  (call L.-.75.9 |-.75| 38 134))
+                 (call
+                  L.+.76.8
+                  |+.76|
+                  (call L.+.76.8 |+.76| 119 101)
+                  (call L.+.76.8 |+.76| 52 154)))))
+              (ascii-char4.17
+               (call L.fun/ascii-char18591.15.24 fun/ascii-char18591.15))
+              (empty5.16 (call L.fun/empty18593.7.16 fun/empty18593.7)))
+          (call L.fun/vector18595.9.18 fun/vector18595.9))))))
+(check-by-interp
+ '(module
+    (define L.lam.78.25
+      (lambda (c.97)
+        (let ((fun/vector19107.5 (unsafe-procedure-ref c.97 0)))
+          (call L.fun/vector19107.5.14 fun/vector19107.5))))
+    (define L.fun/vector19108.15.24
+      (lambda (c.96)
+        (let ((make-vector.74 (unsafe-procedure-ref c.96 0)))
+          (call L.make-vector.74.12 make-vector.74 8))))
+    (define L.fun/ascii-char19112.14.23 (lambda (c.95) (let () #\p)))
+    (define L.fun/ascii-char19109.13.22
+      (lambda (c.94)
+        (let ((fun/ascii-char19110.9 (unsafe-procedure-ref c.94 0)))
+          (call L.fun/ascii-char19110.9.18 fun/ascii-char19110.9))))
+    (define L.fun/error19114.12.21 (lambda (c.93) (let () (error 9))))
+    (define L.fun/error19113.11.20
+      (lambda (c.92)
+        (let ((fun/error19114.12 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/error19114.12.21 fun/error19114.12))))
+    (define L.fun/ascii-char19111.10.19
+      (lambda (c.91)
+        (let ((fun/ascii-char19112.14 (unsafe-procedure-ref c.91 0)))
+          (call L.fun/ascii-char19112.14.23 fun/ascii-char19112.14))))
+    (define L.fun/ascii-char19110.9.18 (lambda (c.90) (let () #\Z)))
+    (define L.fun/void19115.8.17
+      (lambda (c.89)
+        (let ((fun/void19116.6 (unsafe-procedure-ref c.89 0)))
+          (call L.fun/void19116.6.15 fun/void19116.6))))
+    (define L.fun/empty19105.7.16
+      (lambda (c.88)
+        (let ((fun/empty19106.4 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/empty19106.4.13 fun/empty19106.4))))
+    (define L.fun/void19116.6.15 (lambda (c.87) (let () (void))))
+    (define L.fun/vector19107.5.14
+      (lambda (c.86)
+        (let ((fun/vector19108.15 (unsafe-procedure-ref c.86 0)))
+          (call L.fun/vector19108.15.24 fun/vector19108.15))))
+    (define L.fun/empty19106.4.13 (lambda (c.85) (let () empty)))
+    (define L.make-vector.74.12
+      (lambda (c.84 tmp.50)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.84 0)))
+          (if (fixnum? tmp.50)
+            (call L.make-init-vector.1.11 make-init-vector.1 tmp.50)
+            (error 8)))))
+    (define L.make-init-vector.1.11
+      (lambda (c.83 tmp.22)
+        (let ((vector-init-loop.24 (unsafe-procedure-ref c.83 0)))
+          (let ((tmp.23 (unsafe-make-vector tmp.22)))
+            (call
+             L.vector-init-loop.24.10
+             vector-init-loop.24
+             tmp.22
+             0
+             tmp.23)))))
+    (define L.vector-init-loop.24.10
+      (lambda (c.82 len.25 i.27 vec.26)
+        (let ((vector-init-loop.24 (unsafe-procedure-ref c.82 0)))
+          (if (eq? len.25 i.27)
+            vec.26
+            (begin
+              (unsafe-vector-set! vec.26 i.27 0)
+              (call
+               L.vector-init-loop.24.10
+               vector-init-loop.24
+               len.25
+               (unsafe-fx+ i.27 1)
+               vec.26))))))
+    (define L.-.75.9
+      (lambda (c.81 tmp.40 tmp.41)
+        (let ()
+          (if (fixnum? tmp.41)
+            (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+            (error 3)))))
+    (define L.+.76.8
+      (lambda (c.80 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+            (error 2)))))
+    (define L.*.77.7
+      (lambda (c.79 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+            (error 1)))))
+    (let ((*.77 (make-procedure L.*.77.7 2 0))
+          (|+.76| (make-procedure L.+.76.8 2 0))
+          (|-.75| (make-procedure L.-.75.9 2 0))
+          (vector-init-loop.24 (make-procedure L.vector-init-loop.24.10 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.11 1 1))
+          (make-vector.74 (make-procedure L.make-vector.74.12 1 1))
+          (fun/empty19106.4 (make-procedure L.fun/empty19106.4.13 0 0))
+          (fun/vector19107.5 (make-procedure L.fun/vector19107.5.14 0 1))
+          (fun/void19116.6 (make-procedure L.fun/void19116.6.15 0 0))
+          (fun/empty19105.7 (make-procedure L.fun/empty19105.7.16 0 1))
+          (fun/void19115.8 (make-procedure L.fun/void19115.8.17 0 1))
+          (fun/ascii-char19110.9
+           (make-procedure L.fun/ascii-char19110.9.18 0 0))
+          (fun/ascii-char19111.10
+           (make-procedure L.fun/ascii-char19111.10.19 0 1))
+          (fun/error19113.11 (make-procedure L.fun/error19113.11.20 0 1))
+          (fun/error19114.12 (make-procedure L.fun/error19114.12.21 0 0))
+          (fun/ascii-char19109.13
+           (make-procedure L.fun/ascii-char19109.13.22 0 1))
+          (fun/ascii-char19112.14
+           (make-procedure L.fun/ascii-char19112.14.23 0 0))
+          (fun/vector19108.15 (make-procedure L.fun/vector19108.15.24 0 1)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.24 0 vector-init-loop.24)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.24)
+        (unsafe-procedure-set! make-vector.74 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/vector19107.5 0 fun/vector19108.15)
+        (unsafe-procedure-set! fun/empty19105.7 0 fun/empty19106.4)
+        (unsafe-procedure-set! fun/void19115.8 0 fun/void19116.6)
+        (unsafe-procedure-set! fun/ascii-char19111.10 0 fun/ascii-char19112.14)
+        (unsafe-procedure-set! fun/error19113.11 0 fun/error19114.12)
+        (unsafe-procedure-set! fun/ascii-char19109.13 0 fun/ascii-char19110.9)
+        (unsafe-procedure-set! fun/vector19108.15 0 make-vector.74)
+        (let ((empty0.21 (call L.fun/empty19105.7.16 fun/empty19105.7))
+              (fixnum1.20
+               (call
+                L.*.77.7
+                *.77
+                (call
+                 L.+.76.8
+                 |+.76|
+                 (call
+                  L.-.75.9
+                  |-.75|
+                  (call L.-.75.9 |-.75| 1 111)
+                  (call L.-.75.9 |-.75| 118 140))
+                 (call
+                  L.*.77.7
+                  *.77
+                  (call L.-.75.9 |-.75| 158 77)
+                  (call L.+.76.8 |+.76| 222 154)))
+                (call
+                 L.+.76.8
+                 |+.76|
+                 (call
+                  L.-.75.9
+                  |-.75|
+                  (call L.+.76.8 |+.76| 64 198)
+                  (call L.*.77.7 *.77 197 213))
+                 (call
+                  L.*.77.7
+                  *.77
+                  (call L.*.77.7 *.77 206 230)
+                  (call L.+.76.8 |+.76| 117 189)))))
+              (procedure2.19
+               (let ((lam.78 (make-procedure L.lam.78.25 0 1)))
+                 (begin
+                   (unsafe-procedure-set! lam.78 0 fun/vector19107.5)
+                   lam.78)))
+              (ascii-char3.18
+               (call L.fun/ascii-char19109.13.22 fun/ascii-char19109.13))
+              (ascii-char4.17
+               (call L.fun/ascii-char19111.10.19 fun/ascii-char19111.10))
+              (error5.16 (call L.fun/error19113.11.20 fun/error19113.11)))
+          (call L.fun/void19115.8.17 fun/void19115.8))))))
+(check-by-interp
+ '(module
+    (define L.lam.77.22
+      (lambda (c.93)
+        (let ((fun/void20270.7 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/void20270.7.11 fun/void20270.7))))
+    (define L.fun/void20281.17.21 (lambda (c.92) (let () (void))))
+    (define L.fun/ascii-char20274.16.20
+      (lambda (c.91)
+        (let ((fun/ascii-char20275.14 (unsafe-procedure-ref c.91 0)))
+          (call L.fun/ascii-char20275.14.18 fun/ascii-char20275.14))))
+    (define L.fun/empty20272.15.19
+      (lambda (c.90)
+        (let ((fun/empty20273.9 (unsafe-procedure-ref c.90 0)))
+          (call L.fun/empty20273.9.13 fun/empty20273.9))))
+    (define L.fun/ascii-char20275.14.18 (lambda (c.89) (let () #\Z)))
+    (define L.fun/error20276.13.17
+      (lambda (c.88)
+        (let ((fun/error20277.12 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/error20277.12.16 fun/error20277.12))))
+    (define L.fun/error20277.12.16 (lambda (c.87) (let () (error 110))))
+    (define L.fun/empty20279.11.15 (lambda (c.86) (let () empty)))
+    (define L.fun/void20280.10.14
+      (lambda (c.85)
+        (let ((fun/void20281.17 (unsafe-procedure-ref c.85 0)))
+          (call L.fun/void20281.17.21 fun/void20281.17))))
+    (define L.fun/empty20273.9.13 (lambda (c.84) (let () empty)))
+    (define L.fun/empty20278.8.12
+      (lambda (c.83)
+        (let ((fun/empty20279.11 (unsafe-procedure-ref c.83 0)))
+          (call L.fun/empty20279.11.15 fun/empty20279.11))))
+    (define L.fun/void20270.7.11
+      (lambda (c.82)
+        (let ((fun/void20271.5 (unsafe-procedure-ref c.82 0)))
+          (call L.fun/void20271.5.9 fun/void20271.5))))
+    (define L.fun/any20283.6.10 (lambda (c.81) (let () (error 163))))
+    (define L.fun/void20271.5.9 (lambda (c.80) (let () (void))))
+    (define L.fun/any20282.4.8
+      (lambda (c.79)
+        (let ((fun/any20283.6 (unsafe-procedure-ref c.79 0)))
+          (call L.fun/any20283.6.10 fun/any20283.6))))
+    (define L.pair?.76.7 (lambda (c.78 tmp.67) (let () (pair? tmp.67))))
+    (let ((pair?.76 (make-procedure L.pair?.76.7 1 0))
+          (fun/any20282.4 (make-procedure L.fun/any20282.4.8 0 1))
+          (fun/void20271.5 (make-procedure L.fun/void20271.5.9 0 0))
+          (fun/any20283.6 (make-procedure L.fun/any20283.6.10 0 0))
+          (fun/void20270.7 (make-procedure L.fun/void20270.7.11 0 1))
+          (fun/empty20278.8 (make-procedure L.fun/empty20278.8.12 0 1))
+          (fun/empty20273.9 (make-procedure L.fun/empty20273.9.13 0 0))
+          (fun/void20280.10 (make-procedure L.fun/void20280.10.14 0 1))
+          (fun/empty20279.11 (make-procedure L.fun/empty20279.11.15 0 0))
+          (fun/error20277.12 (make-procedure L.fun/error20277.12.16 0 0))
+          (fun/error20276.13 (make-procedure L.fun/error20276.13.17 0 1))
+          (fun/ascii-char20275.14
+           (make-procedure L.fun/ascii-char20275.14.18 0 0))
+          (fun/empty20272.15 (make-procedure L.fun/empty20272.15.19 0 1))
+          (fun/ascii-char20274.16
+           (make-procedure L.fun/ascii-char20274.16.20 0 1))
+          (fun/void20281.17 (make-procedure L.fun/void20281.17.21 0 0)))
+      (begin
+        (unsafe-procedure-set! fun/any20282.4 0 fun/any20283.6)
+        (unsafe-procedure-set! fun/void20270.7 0 fun/void20271.5)
+        (unsafe-procedure-set! fun/empty20278.8 0 fun/empty20279.11)
+        (unsafe-procedure-set! fun/void20280.10 0 fun/void20281.17)
+        (unsafe-procedure-set! fun/error20276.13 0 fun/error20277.12)
+        (unsafe-procedure-set! fun/empty20272.15 0 fun/empty20273.9)
+        (unsafe-procedure-set! fun/ascii-char20274.16 0 fun/ascii-char20275.14)
+        (let ((procedure0.23
+               (let ((lam.77 (make-procedure L.lam.77.22 0 1)))
+                 (begin
+                   (unsafe-procedure-set! lam.77 0 fun/void20270.7)
+                   lam.77)))
+              (empty1.22 (call L.fun/empty20272.15.19 fun/empty20272.15))
+              (ascii-char2.21
+               (call L.fun/ascii-char20274.16.20 fun/ascii-char20274.16))
+              (error3.20 (call L.fun/error20276.13.17 fun/error20276.13))
+              (empty4.19 (call L.fun/empty20278.8.12 fun/empty20278.8))
+              (void5.18 (call L.fun/void20280.10.14 fun/void20280.10)))
+          (call
+           L.pair?.76.7
+           pair?.76
+           (call L.fun/any20282.4.8 fun/any20282.4)))))))
+(check-by-interp
+ '(module
+    (define L.fun/any21160.15.26
+      (lambda (c.99)
+        (let ((fun/any21161.5 (unsafe-procedure-ref c.99 0)))
+          (call L.fun/any21161.5.16 fun/any21161.5))))
+    (define L.fun/error21157.14.25 (lambda (c.98) (let () (error 103))))
+    (define L.fun/vector21158.13.24
+      (lambda (c.97)
+        (let ((fun/vector21159.11 (unsafe-procedure-ref c.97 0)))
+          (call L.fun/vector21159.11.22 fun/vector21159.11))))
+    (define L.fun/void21167.12.23 (lambda (c.96) (let () (void))))
+    (define L.fun/vector21159.11.22
+      (lambda (c.95)
+        (let ((make-vector.74 (unsafe-procedure-ref c.95 0)))
+          (call L.make-vector.74.14 make-vector.74 8))))
+    (define L.fun/error21156.10.21
+      (lambda (c.94)
+        (let ((fun/error21157.14 (unsafe-procedure-ref c.94 0)))
+          (call L.fun/error21157.14.25 fun/error21157.14))))
+    (define L.fun/void21166.9.20
+      (lambda (c.93)
+        (let ((fun/void21167.12 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/void21167.12.23 fun/void21167.12))))
+    (define L.fun/empty21162.8.19
+      (lambda (c.92)
+        (let ((fun/empty21163.4 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/empty21163.4.15 fun/empty21163.4))))
+    (define L.fun/any21164.7.18
+      (lambda (c.91)
+        (let ((fun/any21165.6 (unsafe-procedure-ref c.91 0)))
+          (call L.fun/any21165.6.17 fun/any21165.6))))
+    (define L.fun/any21165.6.17
+      (lambda (c.90)
+        (let ((make-vector.74 (unsafe-procedure-ref c.90 0)))
+          (call L.make-vector.74.14 make-vector.74 8))))
+    (define L.fun/any21161.5.16 (lambda (c.89) (let () 186)))
+    (define L.fun/empty21163.4.15 (lambda (c.88) (let () empty)))
+    (define L.make-vector.74.14
+      (lambda (c.87 tmp.50)
+        (let ((make-init-vector.1 (unsafe-procedure-ref c.87 0)))
+          (if (fixnum? tmp.50)
+            (call L.make-init-vector.1.13 make-init-vector.1 tmp.50)
+            (error 8)))))
+    (define L.make-init-vector.1.13
+      (lambda (c.86 tmp.22)
+        (let ((vector-init-loop.24 (unsafe-procedure-ref c.86 0)))
+          (let ((tmp.23 (unsafe-make-vector tmp.22)))
+            (call
+             L.vector-init-loop.24.12
+             vector-init-loop.24
+             tmp.22
+             0
+             tmp.23)))))
+    (define L.vector-init-loop.24.12
+      (lambda (c.85 len.25 i.27 vec.26)
+        (let ((vector-init-loop.24 (unsafe-procedure-ref c.85 0)))
+          (if (eq? len.25 i.27)
+            vec.26
+            (begin
+              (unsafe-vector-set! vec.26 i.27 0)
+              (call
+               L.vector-init-loop.24.12
+               vector-init-loop.24
+               len.25
+               (unsafe-fx+ i.27 1)
+               vec.26))))))
+    (define L.empty?.75.11 (lambda (c.84 tmp.61) (let () (empty? tmp.61))))
+    (define L.-.76.10
+      (lambda (c.83 tmp.40 tmp.41)
+        (let ()
+          (if (fixnum? tmp.41)
+            (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+            (error 3)))))
+    (define L.*.77.9
+      (lambda (c.82 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+            (error 1)))))
+    (define L.+.78.8
+      (lambda (c.81 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+            (error 2)))))
+    (define L.vector?.79.7 (lambda (c.80 tmp.66) (let () (vector? tmp.66))))
+    (let ((vector?.79 (make-procedure L.vector?.79.7 1 0))
+          (|+.78| (make-procedure L.+.78.8 2 0))
+          (*.77 (make-procedure L.*.77.9 2 0))
+          (|-.76| (make-procedure L.-.76.10 2 0))
+          (empty?.75 (make-procedure L.empty?.75.11 1 0))
+          (vector-init-loop.24 (make-procedure L.vector-init-loop.24.12 3 1))
+          (make-init-vector.1 (make-procedure L.make-init-vector.1.13 1 1))
+          (make-vector.74 (make-procedure L.make-vector.74.14 1 1))
+          (fun/empty21163.4 (make-procedure L.fun/empty21163.4.15 0 0))
+          (fun/any21161.5 (make-procedure L.fun/any21161.5.16 0 0))
+          (fun/any21165.6 (make-procedure L.fun/any21165.6.17 0 1))
+          (fun/any21164.7 (make-procedure L.fun/any21164.7.18 0 1))
+          (fun/empty21162.8 (make-procedure L.fun/empty21162.8.19 0 1))
+          (fun/void21166.9 (make-procedure L.fun/void21166.9.20 0 1))
+          (fun/error21156.10 (make-procedure L.fun/error21156.10.21 0 1))
+          (fun/vector21159.11 (make-procedure L.fun/vector21159.11.22 0 1))
+          (fun/void21167.12 (make-procedure L.fun/void21167.12.23 0 0))
+          (fun/vector21158.13 (make-procedure L.fun/vector21158.13.24 0 1))
+          (fun/error21157.14 (make-procedure L.fun/error21157.14.25 0 0))
+          (fun/any21160.15 (make-procedure L.fun/any21160.15.26 0 1)))
+      (begin
+        (unsafe-procedure-set! vector-init-loop.24 0 vector-init-loop.24)
+        (unsafe-procedure-set! make-init-vector.1 0 vector-init-loop.24)
+        (unsafe-procedure-set! make-vector.74 0 make-init-vector.1)
+        (unsafe-procedure-set! fun/any21165.6 0 make-vector.74)
+        (unsafe-procedure-set! fun/any21164.7 0 fun/any21165.6)
+        (unsafe-procedure-set! fun/empty21162.8 0 fun/empty21163.4)
+        (unsafe-procedure-set! fun/void21166.9 0 fun/void21167.12)
+        (unsafe-procedure-set! fun/error21156.10 0 fun/error21157.14)
+        (unsafe-procedure-set! fun/vector21159.11 0 make-vector.74)
+        (unsafe-procedure-set! fun/vector21158.13 0 fun/vector21159.11)
+        (unsafe-procedure-set! fun/any21160.15 0 fun/any21161.5)
+        (let ((error0.21 (call L.fun/error21156.10.21 fun/error21156.10))
+              (vector1.20 (call L.fun/vector21158.13.24 fun/vector21158.13))
+              (boolean2.19
+               (call
+                L.empty?.75.11
+                empty?.75
+                (call L.fun/any21160.15.26 fun/any21160.15)))
+              (fixnum3.18
+               (call
+                L.*.77.9
+                *.77
+                (call
+                 L.+.78.8
+                 |+.78|
+                 (call
+                  L.*.77.9
+                  *.77
+                  (call L.-.76.10 |-.76| 26 52)
+                  (call L.-.76.10 |-.76| 136 64))
+                 (call
+                  L.*.77.9
+                  *.77
+                  (call L.-.76.10 |-.76| 37 135)
+                  (call L.*.77.9 *.77 21 177)))
+                (call
+                 L.+.78.8
+                 |+.78|
+                 (call
+                  L.-.76.10
+                  |-.76|
+                  (call L.-.76.10 |-.76| 56 11)
+                  (call L.*.77.9 *.77 177 202))
+                 (call
+                  L.+.78.8
+                  |+.78|
+                  (call L.-.76.10 |-.76| 123 25)
+                  (call L.-.76.10 |-.76| 222 131)))))
+              (empty4.17 (call L.fun/empty21162.8.19 fun/empty21162.8))
+              (boolean5.16
+               (call
+                L.vector?.79.7
+                vector?.79
+                (call L.fun/any21164.7.18 fun/any21164.7))))
+          (call L.fun/void21166.9.20 fun/void21166.9))))))
+(check-by-interp
+ '(module
+    (define L.fun/any23215.15.24
+      (lambda (c.97)
+        (let ((fun/any23216.11 (unsafe-procedure-ref c.97 0)))
+          (call L.fun/any23216.11.20 fun/any23216.11))))
+    (define L.fun/ascii-char23226.14.23 (lambda (c.96) (let () #\Y)))
+    (define L.fun/error23217.13.22
+      (lambda (c.95)
+        (let ((fun/error23218.5 (unsafe-procedure-ref c.95 0)))
+          (call L.fun/error23218.5.14 fun/error23218.5))))
+    (define L.fun/ascii-char23225.12.21
+      (lambda (c.94)
+        (let ((fun/ascii-char23226.14 (unsafe-procedure-ref c.94 0)))
+          (call L.fun/ascii-char23226.14.23 fun/ascii-char23226.14))))
+    (define L.fun/any23216.11.20
+      (lambda (c.93)
+        (let ((cons.74 (unsafe-procedure-ref c.93 0)))
+          (call L.cons.74.12 cons.74 102 340))))
+    (define L.fun/void23219.10.19
+      (lambda (c.92)
+        (let ((fun/void23220.8 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/void23220.8.17 fun/void23220.8))))
+    (define L.fun/any23221.9.18
+      (lambda (c.91)
+        (let ((fun/any23222.4 (unsafe-procedure-ref c.91 0)))
+          (call L.fun/any23222.4.13 fun/any23222.4))))
+    (define L.fun/void23220.8.17 (lambda (c.90) (let () (void))))
+    (define L.fun/void23224.7.16 (lambda (c.89) (let () (void))))
+    (define L.fun/void23223.6.15
+      (lambda (c.88)
+        (let ((fun/void23224.7 (unsafe-procedure-ref c.88 0)))
+          (call L.fun/void23224.7.16 fun/void23224.7))))
+    (define L.fun/error23218.5.14 (lambda (c.87) (let () (error 182))))
+    (define L.fun/any23222.4.13
+      (lambda (c.86)
+        (let ((cons.74 (unsafe-procedure-ref c.86 0)))
+          (call L.cons.74.12 cons.74 40 437))))
+    (define L.cons.74.12
+      (lambda (c.85 tmp.69 tmp.70) (let () (cons tmp.69 tmp.70))))
+    (define L.pair?.75.11 (lambda (c.84 tmp.65) (let () (pair? tmp.65))))
+    (define L.boolean?.76.10 (lambda (c.83 tmp.60) (let () (boolean? tmp.60))))
+    (define L.+.77.9
+      (lambda (c.82 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx+ tmp.38 tmp.39) (error 2))
+            (error 2)))))
+    (define L.*.78.8
+      (lambda (c.81 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx* tmp.36 tmp.37) (error 1))
+            (error 1)))))
+    (define L.-.79.7
+      (lambda (c.80 tmp.40 tmp.41)
+        (let ()
+          (if (fixnum? tmp.41)
+            (if (fixnum? tmp.40) (unsafe-fx- tmp.40 tmp.41) (error 3))
+            (error 3)))))
+    (let ((|-.79| (make-procedure L.-.79.7 2 0))
+          (*.78 (make-procedure L.*.78.8 2 0))
+          (|+.77| (make-procedure L.+.77.9 2 0))
+          (boolean?.76 (make-procedure L.boolean?.76.10 1 0))
+          (pair?.75 (make-procedure L.pair?.75.11 1 0))
+          (cons.74 (make-procedure L.cons.74.12 2 0))
+          (fun/any23222.4 (make-procedure L.fun/any23222.4.13 0 1))
+          (fun/error23218.5 (make-procedure L.fun/error23218.5.14 0 0))
+          (fun/void23223.6 (make-procedure L.fun/void23223.6.15 0 1))
+          (fun/void23224.7 (make-procedure L.fun/void23224.7.16 0 0))
+          (fun/void23220.8 (make-procedure L.fun/void23220.8.17 0 0))
+          (fun/any23221.9 (make-procedure L.fun/any23221.9.18 0 1))
+          (fun/void23219.10 (make-procedure L.fun/void23219.10.19 0 1))
+          (fun/any23216.11 (make-procedure L.fun/any23216.11.20 0 1))
+          (fun/ascii-char23225.12
+           (make-procedure L.fun/ascii-char23225.12.21 0 1))
+          (fun/error23217.13 (make-procedure L.fun/error23217.13.22 0 1))
+          (fun/ascii-char23226.14
+           (make-procedure L.fun/ascii-char23226.14.23 0 0))
+          (fun/any23215.15 (make-procedure L.fun/any23215.15.24 0 1)))
+      (begin
+        (unsafe-procedure-set! fun/any23222.4 0 cons.74)
+        (unsafe-procedure-set! fun/void23223.6 0 fun/void23224.7)
+        (unsafe-procedure-set! fun/any23221.9 0 fun/any23222.4)
+        (unsafe-procedure-set! fun/void23219.10 0 fun/void23220.8)
+        (unsafe-procedure-set! fun/any23216.11 0 cons.74)
+        (unsafe-procedure-set! fun/ascii-char23225.12 0 fun/ascii-char23226.14)
+        (unsafe-procedure-set! fun/error23217.13 0 fun/error23218.5)
+        (unsafe-procedure-set! fun/any23215.15 0 fun/any23216.11)
+        (let ((boolean0.21
+               (call
+                L.pair?.75.11
+                pair?.75
+                (call L.fun/any23215.15.24 fun/any23215.15)))
+              (error1.20 (call L.fun/error23217.13.22 fun/error23217.13))
+              (void2.19 (call L.fun/void23219.10.19 fun/void23219.10))
+              (boolean3.18
+               (call
+                L.boolean?.76.10
+                boolean?.76
+                (call L.fun/any23221.9.18 fun/any23221.9)))
+              (fixnum4.17
+               (call
+                L.*.78.8
+                *.78
+                (call
+                 L.*.78.8
+                 *.78
+                 (call
+                  L.*.78.8
+                  *.78
+                  (call L.+.77.9 |+.77| 215 43)
+                  (call L.*.78.8 *.78 163 91))
+                 (call
+                  L.+.77.9
+                  |+.77|
+                  (call L.+.77.9 |+.77| 43 216)
+                  (call L.+.77.9 |+.77| 12 113)))
+                (call
+                 L.-.79.7
+                 |-.79|
+                 (call
+                  L.-.79.7
+                  |-.79|
+                  (call L.*.78.8 *.78 184 4)
+                  (call L.+.77.9 |+.77| 164 45))
+                 (call
+                  L.-.79.7
+                  |-.79|
+                  (call L.+.77.9 |+.77| 162 116)
+                  (call L.-.79.7 |-.79| 205 220)))))
+              (void5.16 (call L.fun/void23223.6.15 fun/void23223.6)))
+          (call L.fun/ascii-char23225.12.21 fun/ascii-char23225.12))))))
+(check-by-interp
+ '(module
+    (define L.lam.78.23
+      (lambda (c.95)
+        (let ((fun/any24030.9 (unsafe-procedure-ref c.95 0))
+              (procedure?.73 (unsafe-procedure-ref c.95 1)))
+          (call
+           L.procedure?.73.11
+           procedure?.73
+           (call L.fun/any24030.9.18 fun/any24030.9)))))
+    (define L.fun/empty24034.13.22
+      (lambda (c.94)
+        (let ((fun/empty24035.4 (unsafe-procedure-ref c.94 0)))
+          (call L.fun/empty24035.4.13 fun/empty24035.4))))
+    (define L.fun/any24032.12.21
+      (lambda (c.93)
+        (let ((fun/any24033.10 (unsafe-procedure-ref c.93 0)))
+          (call L.fun/any24033.10.19 fun/any24033.10))))
+    (define L.fun/pair24036.11.20
+      (lambda (c.92)
+        (let ((fun/pair24037.7 (unsafe-procedure-ref c.92 0)))
+          (call L.fun/pair24037.7.16 fun/pair24037.7))))
+    (define L.fun/any24033.10.19 (lambda (c.91) (let () #\X)))
+    (define L.fun/any24030.9.18
+      (lambda (c.90)
+        (let ((fun/any24031.8 (unsafe-procedure-ref c.90 0)))
+          (call L.fun/any24031.8.17 fun/any24031.8))))
+    (define L.fun/any24031.8.17 (lambda (c.89) (let () #f)))
+    (define L.fun/pair24037.7.16
+      (lambda (c.88)
+        (let ((cons.72 (unsafe-procedure-ref c.88 0)))
+          (call L.cons.72.12 cons.72 50 301))))
+    (define L.fun/empty24028.6.15
+      (lambda (c.87)
+        (let ((fun/empty24029.5 (unsafe-procedure-ref c.87 0)))
+          (call L.fun/empty24029.5.14 fun/empty24029.5))))
+    (define L.fun/empty24029.5.14 (lambda (c.86) (let () empty)))
+    (define L.fun/empty24035.4.13 (lambda (c.85) (let () empty)))
+    (define L.cons.72.12
+      (lambda (c.84 tmp.67 tmp.68) (let () (cons tmp.67 tmp.68))))
+    (define L.procedure?.73.11
+      (lambda (c.83 tmp.66) (let () (procedure? tmp.66))))
+    (define L.-.74.10
+      (lambda (c.82 tmp.38 tmp.39)
+        (let ()
+          (if (fixnum? tmp.39)
+            (if (fixnum? tmp.38) (unsafe-fx- tmp.38 tmp.39) (error 3))
+            (error 3)))))
+    (define L.*.75.9
+      (lambda (c.81 tmp.34 tmp.35)
+        (let ()
+          (if (fixnum? tmp.35)
+            (if (fixnum? tmp.34) (unsafe-fx* tmp.34 tmp.35) (error 1))
+            (error 1)))))
+    (define L.+.76.8
+      (lambda (c.80 tmp.36 tmp.37)
+        (let ()
+          (if (fixnum? tmp.37)
+            (if (fixnum? tmp.36) (unsafe-fx+ tmp.36 tmp.37) (error 2))
+            (error 2)))))
+    (define L.empty?.77.7 (lambda (c.79 tmp.59) (let () (empty? tmp.59))))
+    (let ((empty?.77 (make-procedure L.empty?.77.7 1 0))
+          (|+.76| (make-procedure L.+.76.8 2 0))
+          (*.75 (make-procedure L.*.75.9 2 0))
+          (|-.74| (make-procedure L.-.74.10 2 0))
+          (procedure?.73 (make-procedure L.procedure?.73.11 1 0))
+          (cons.72 (make-procedure L.cons.72.12 2 0))
+          (fun/empty24035.4 (make-procedure L.fun/empty24035.4.13 0 0))
+          (fun/empty24029.5 (make-procedure L.fun/empty24029.5.14 0 0))
+          (fun/empty24028.6 (make-procedure L.fun/empty24028.6.15 0 1))
+          (fun/pair24037.7 (make-procedure L.fun/pair24037.7.16 0 1))
+          (fun/any24031.8 (make-procedure L.fun/any24031.8.17 0 0))
+          (fun/any24030.9 (make-procedure L.fun/any24030.9.18 0 1))
+          (fun/any24033.10 (make-procedure L.fun/any24033.10.19 0 0))
+          (fun/pair24036.11 (make-procedure L.fun/pair24036.11.20 0 1))
+          (fun/any24032.12 (make-procedure L.fun/any24032.12.21 0 1))
+          (fun/empty24034.13 (make-procedure L.fun/empty24034.13.22 0 1)))
+      (begin
+        (unsafe-procedure-set! fun/empty24028.6 0 fun/empty24029.5)
+        (unsafe-procedure-set! fun/pair24037.7 0 cons.72)
+        (unsafe-procedure-set! fun/any24030.9 0 fun/any24031.8)
+        (unsafe-procedure-set! fun/pair24036.11 0 fun/pair24037.7)
+        (unsafe-procedure-set! fun/any24032.12 0 fun/any24033.10)
+        (unsafe-procedure-set! fun/empty24034.13 0 fun/empty24035.4)
+        (let ((empty0.19 (call L.fun/empty24028.6.15 fun/empty24028.6))
+              (procedure1.18
+               (let ((lam.78 (make-procedure L.lam.78.23 0 2)))
+                 (begin
+                   (unsafe-procedure-set! lam.78 0 fun/any24030.9)
+                   (unsafe-procedure-set! lam.78 1 procedure?.73)
+                   lam.78)))
+              (fixnum2.17
+               (call
+                L.*.75.9
+                *.75
+                (call
+                 L.+.76.8
+                 |+.76|
+                 (call
+                  L.*.75.9
+                  *.75
+                  (call L.-.74.10 |-.74| 139 114)
+                  (call L.*.75.9 *.75 226 88))
+                 (call
+                  L.+.76.8
+                  |+.76|
+                  (call L.+.76.8 |+.76| 94 45)
+                  (call L.*.75.9 *.75 34 204)))
+                (call
+                 L.-.74.10
+                 |-.74|
+                 (call
+                  L.+.76.8
+                  |+.76|
+                  (call L.-.74.10 |-.74| 40 48)
+                  (call L.+.76.8 |+.76| 67 44))
+                 (call
+                  L.*.75.9
+                  *.75
+                  (call L.-.74.10 |-.74| 121 46)
+                  (call L.+.76.8 |+.76| 5 152)))))
+              (fixnum3.16
+               (call
+                L.*.75.9
+                *.75
+                (call
+                 L.-.74.10
+                 |-.74|
+                 (call
+                  L.+.76.8
+                  |+.76|
+                  (call L.*.75.9 *.75 250 42)
+                  (call L.+.76.8 |+.76| 40 186))
+                 (call
+                  L.-.74.10
+                  |-.74|
+                  (call L.+.76.8 |+.76| 44 155)
+                  (call L.*.75.9 *.75 123 40)))
+                (call
+                 L.*.75.9
+                 *.75
+                 (call
+                  L.+.76.8
+                  |+.76|
+                  (call L.-.74.10 |-.74| 203 106)
+                  (call L.*.75.9 *.75 38 6))
+                 (call
+                  L.*.75.9
+                  *.75
+                  (call L.+.76.8 |+.76| 77 100)
+                  (call L.-.74.10 |-.74| 66 58)))))
+              (boolean4.15
+               (call
+                L.empty?.77.7
+                empty?.77
+                (call L.fun/any24032.12.21 fun/any24032.12)))
+              (empty5.14 (call L.fun/empty24034.13.22 fun/empty24034.13)))
+          (call L.fun/pair24036.11.20 fun/pair24036.11))))))

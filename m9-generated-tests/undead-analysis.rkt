@@ -9120,3 +9120,10632 @@
       (set! rdi fun/void12098.15)
       (set! r15 tmp-ra.176)
       (jump L.fun/void12098.15.22 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () ()))
+     (locals
+      (void3.9
+       ascii-char2.10
+       boolean1.11
+       tmp.85
+       void0.12
+       fun/void8620.8
+       tmp.77
+       tmp.99
+       tmp.84
+       fun/any8618.7
+       tmp.76
+       tmp.98
+       tmp.83
+       fun/ascii-char8619.6
+       tmp.75
+       tmp.97
+       tmp.82
+       fun/void8621.5
+       tmp.74
+       tmp.96
+       tmp.81
+       fun/void8617.4
+       tmp.73
+       tmp.95
+       tmp.80
+       pair?.65
+       tmp.72
+       tmp.94
+       tmp.79
+       tmp-ra.92)))
+    (define L.fun/void8620.8.12
+      ((new-frames ()) (locals (c.71 tmp-ra.86)))
+      (begin
+        (set! tmp-ra.86 r15)
+        (set! c.71 rdi)
+        (set! rax 30)
+        (jump tmp-ra.86 rbp rax)))
+    (define L.fun/any8618.7.11
+      ((new-frames ()) (locals (c.70 tmp-ra.87)))
+      (begin
+        (set! tmp-ra.87 r15)
+        (set! c.70 rdi)
+        (set! rax 19758)
+        (jump tmp-ra.87 rbp rax)))
+    (define L.fun/ascii-char8619.6.10
+      ((new-frames ()) (locals (c.69 tmp-ra.88)))
+      (begin
+        (set! tmp-ra.88 r15)
+        (set! c.69 rdi)
+        (set! rax 26414)
+        (jump tmp-ra.88 rbp rax)))
+    (define L.fun/void8621.5.9
+      ((new-frames ()) (locals (c.68 tmp-ra.89)))
+      (begin
+        (set! tmp-ra.89 r15)
+        (set! c.68 rdi)
+        (set! rax 30)
+        (jump tmp-ra.89 rbp rax)))
+    (define L.fun/void8617.4.8
+      ((new-frames ()) (locals (c.67 tmp-ra.90)))
+      (begin
+        (set! tmp-ra.90 r15)
+        (set! c.67 rdi)
+        (set! rax 30)
+        (jump tmp-ra.90 rbp rax)))
+    (define L.pair?.65.7
+      ((new-frames ()) (locals (c.66 tmp-ra.91 tmp.93 tmp.56 tmp.78)))
+      (begin
+        (set! tmp-ra.91 r15)
+        (set! c.66 rdi)
+        (set! tmp.56 rsi)
+        (if (begin
+              (begin
+                (set! tmp.93 tmp.56)
+                (set! tmp.93 (bitwise-and tmp.93 7))
+                (set! tmp.78 tmp.93))
+              (= tmp.78 1))
+          (begin (set! rax 14) (jump tmp-ra.91 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.91 rbp rax)))))
+    (begin
+      (set! tmp-ra.92 r15)
+      (begin (set! tmp.79 r12) (set! r12 (+ r12 16)))
+      (set! tmp.94 tmp.79)
+      (set! tmp.94 (+ tmp.94 2))
+      (set! tmp.72 tmp.94)
+      (mset! tmp.72 -2 L.pair?.65.7)
+      (mset! tmp.72 6 8)
+      (set! pair?.65 tmp.72)
+      (begin (set! tmp.80 r12) (set! r12 (+ r12 16)))
+      (set! tmp.95 tmp.80)
+      (set! tmp.95 (+ tmp.95 2))
+      (set! tmp.73 tmp.95)
+      (mset! tmp.73 -2 L.fun/void8617.4.8)
+      (mset! tmp.73 6 0)
+      (set! fun/void8617.4 tmp.73)
+      (begin (set! tmp.81 r12) (set! r12 (+ r12 16)))
+      (set! tmp.96 tmp.81)
+      (set! tmp.96 (+ tmp.96 2))
+      (set! tmp.74 tmp.96)
+      (mset! tmp.74 -2 L.fun/void8621.5.9)
+      (mset! tmp.74 6 0)
+      (set! fun/void8621.5 tmp.74)
+      (begin (set! tmp.82 r12) (set! r12 (+ r12 16)))
+      (set! tmp.97 tmp.82)
+      (set! tmp.97 (+ tmp.97 2))
+      (set! tmp.75 tmp.97)
+      (mset! tmp.75 -2 L.fun/ascii-char8619.6.10)
+      (mset! tmp.75 6 0)
+      (set! fun/ascii-char8619.6 tmp.75)
+      (begin (set! tmp.83 r12) (set! r12 (+ r12 16)))
+      (set! tmp.98 tmp.83)
+      (set! tmp.98 (+ tmp.98 2))
+      (set! tmp.76 tmp.98)
+      (mset! tmp.76 -2 L.fun/any8618.7.11)
+      (mset! tmp.76 6 0)
+      (set! fun/any8618.7 tmp.76)
+      (begin (set! tmp.84 r12) (set! r12 (+ r12 16)))
+      (set! tmp.99 tmp.84)
+      (set! tmp.99 (+ tmp.99 2))
+      (set! tmp.77 tmp.99)
+      (mset! tmp.77 -2 L.fun/void8620.8.12)
+      (mset! tmp.77 6 0)
+      (set! fun/void8620.8 tmp.77)
+      (return-point L.rp.13
+        (begin
+          (set! rdi fun/void8617.4)
+          (set! r15 L.rp.13)
+          (jump L.fun/void8617.4.8 rbp r15 rdi)))
+      (set! void0.12 rax)
+      (return-point L.rp.14
+        (begin
+          (set! rdi fun/any8618.7)
+          (set! r15 L.rp.14)
+          (jump L.fun/any8618.7.11 rbp r15 rdi)))
+      (set! tmp.85 rax)
+      (return-point L.rp.15
+        (begin
+          (set! rsi tmp.85)
+          (set! rdi pair?.65)
+          (set! r15 L.rp.15)
+          (jump L.pair?.65.7 rbp r15 rdi rsi)))
+      (set! boolean1.11 rax)
+      (return-point L.rp.16
+        (begin
+          (set! rdi fun/ascii-char8619.6)
+          (set! r15 L.rp.16)
+          (jump L.fun/ascii-char8619.6.10 rbp r15 rdi)))
+      (set! ascii-char2.10 rax)
+      (return-point L.rp.17
+        (begin
+          (set! rdi fun/void8620.8)
+          (set! r15 L.rp.17)
+          (jump L.fun/void8620.8.12 rbp r15 rdi)))
+      (set! void3.9 rax)
+      (set! rdi fun/void8621.5)
+      (set! r15 tmp-ra.92)
+      (jump L.fun/void8621.5.9 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () () () () () () ()))
+     (locals
+      (ascii-char4.14
+       vector3.15
+       vector2.16
+       fixnum1.17
+       tmp.151
+       tmp.153
+       tmp.152
+       tmp.148
+       tmp.150
+       tmp.149
+       error0.18
+       fun/ascii-char9293.13
+       tmp.107
+       tmp.205
+       tmp.147
+       fun/ascii-char9294.12
+       tmp.106
+       tmp.204
+       tmp.146
+       fun/vector9291.11
+       tmp.105
+       tmp.203
+       tmp.145
+       fun/empty9295.10
+       tmp.104
+       tmp.202
+       tmp.144
+       fun/empty9296.9
+       tmp.103
+       tmp.201
+       tmp.143
+       fun/vector9292.8
+       tmp.102
+       tmp.200
+       tmp.142
+       fun/error9288.7
+       tmp.101
+       tmp.199
+       tmp.141
+       fun/vector9290.6
+       tmp.100
+       tmp.198
+       tmp.140
+       fun/error9287.5
+       tmp.99
+       tmp.197
+       tmp.139
+       fun/vector9289.4
+       tmp.98
+       tmp.196
+       tmp.138
+       make-vector.71
+       tmp.97
+       tmp.195
+       tmp.137
+       make-init-vector.1
+       tmp.96
+       tmp.194
+       tmp.136
+       vector-init-loop.21
+       tmp.95
+       tmp.193
+       tmp.135
+       |-.72|
+       tmp.94
+       tmp.192
+       tmp.134
+       *.73
+       tmp.93
+       tmp.191
+       tmp.133
+       |+.74|
+       tmp.92
+       tmp.190
+       tmp.132
+       tmp-ra.170)))
+    (define L.fun/ascii-char9293.13.22
+      ((new-frames ()) (locals (fun/ascii-char9294.12 c.90 tmp-ra.154)))
+      (begin
+        (set! tmp-ra.154 r15)
+        (set! c.90 rdi)
+        (set! fun/ascii-char9294.12 (mref c.90 14))
+        (set! rdi fun/ascii-char9294.12)
+        (set! r15 tmp-ra.154)
+        (jump L.fun/ascii-char9294.12.21 rbp r15 rdi)))
+    (define L.fun/ascii-char9294.12.21
+      ((new-frames ()) (locals (c.89 tmp-ra.155)))
+      (begin
+        (set! tmp-ra.155 r15)
+        (set! c.89 rdi)
+        (set! rax 22062)
+        (jump tmp-ra.155 rbp rax)))
+    (define L.fun/vector9291.11.20
+      ((new-frames ()) (locals (fun/vector9292.8 c.88 tmp-ra.156)))
+      (begin
+        (set! tmp-ra.156 r15)
+        (set! c.88 rdi)
+        (set! fun/vector9292.8 (mref c.88 14))
+        (set! rdi fun/vector9292.8)
+        (set! r15 tmp-ra.156)
+        (jump L.fun/vector9292.8.17 rbp r15 rdi)))
+    (define L.fun/empty9295.10.19
+      ((new-frames ()) (locals (fun/empty9296.9 c.87 tmp-ra.157)))
+      (begin
+        (set! tmp-ra.157 r15)
+        (set! c.87 rdi)
+        (set! fun/empty9296.9 (mref c.87 14))
+        (set! rdi fun/empty9296.9)
+        (set! r15 tmp-ra.157)
+        (jump L.fun/empty9296.9.18 rbp r15 rdi)))
+    (define L.fun/empty9296.9.18
+      ((new-frames ()) (locals (c.86 tmp-ra.158)))
+      (begin
+        (set! tmp-ra.158 r15)
+        (set! c.86 rdi)
+        (set! rax 22)
+        (jump tmp-ra.158 rbp rax)))
+    (define L.fun/vector9292.8.17
+      ((new-frames ()) (locals (make-vector.71 c.85 tmp-ra.159)))
+      (begin
+        (set! tmp-ra.159 r15)
+        (set! c.85 rdi)
+        (set! make-vector.71 (mref c.85 14))
+        (set! rsi 64)
+        (set! rdi make-vector.71)
+        (set! r15 tmp-ra.159)
+        (jump L.make-vector.71.12 rbp r15 rdi rsi)))
+    (define L.fun/error9288.7.16
+      ((new-frames ()) (locals (c.84 tmp-ra.160)))
+      (begin
+        (set! tmp-ra.160 r15)
+        (set! c.84 rdi)
+        (set! rax 60990)
+        (jump tmp-ra.160 rbp rax)))
+    (define L.fun/vector9290.6.15
+      ((new-frames ()) (locals (make-vector.71 c.83 tmp-ra.161)))
+      (begin
+        (set! tmp-ra.161 r15)
+        (set! c.83 rdi)
+        (set! make-vector.71 (mref c.83 14))
+        (set! rsi 64)
+        (set! rdi make-vector.71)
+        (set! r15 tmp-ra.161)
+        (jump L.make-vector.71.12 rbp r15 rdi rsi)))
+    (define L.fun/error9287.5.14
+      ((new-frames ()) (locals (fun/error9288.7 c.82 tmp-ra.162)))
+      (begin
+        (set! tmp-ra.162 r15)
+        (set! c.82 rdi)
+        (set! fun/error9288.7 (mref c.82 14))
+        (set! rdi fun/error9288.7)
+        (set! r15 tmp-ra.162)
+        (jump L.fun/error9288.7.16 rbp r15 rdi)))
+    (define L.fun/vector9289.4.13
+      ((new-frames ()) (locals (fun/vector9290.6 c.81 tmp-ra.163)))
+      (begin
+        (set! tmp-ra.163 r15)
+        (set! c.81 rdi)
+        (set! fun/vector9290.6 (mref c.81 14))
+        (set! rdi fun/vector9290.6)
+        (set! r15 tmp-ra.163)
+        (jump L.fun/vector9290.6.15 rbp r15 rdi)))
+    (define L.make-vector.71.12
+      ((new-frames ())
+       (locals
+        (c.80 make-init-vector.1 tmp-ra.164 tmp.109 tmp.47 tmp.171 tmp.108)))
+      (begin
+        (set! tmp-ra.164 r15)
+        (set! c.80 rdi)
+        (set! tmp.47 rsi)
+        (set! make-init-vector.1 (mref c.80 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.171 tmp.47)
+                      (set! tmp.171 (bitwise-and tmp.171 7))
+                      (set! tmp.109 tmp.171))
+                    (= tmp.109 0))
+                (set! tmp.108 14)
+                (set! tmp.108 6))
+              (!= tmp.108 6))
+          (begin
+            (set! rsi tmp.47)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.164)
+            (jump L.make-init-vector.1.11 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.164 rbp rax)))))
+    (define L.make-init-vector.1.11
+      ((new-frames ())
+       (locals
+        (tmp.20
+         tmp.91
+         tmp.175
+         tmp.110
+         tmp.111
+         tmp.174
+         tmp.112
+         tmp.173
+         tmp.113
+         tmp.172
+         vector-init-loop.21
+         tmp.19
+         c.79
+         tmp-ra.165)))
+      (begin
+        (set! tmp-ra.165 r15)
+        (set! c.79 rdi)
+        (set! tmp.19 rsi)
+        (set! vector-init-loop.21 (mref c.79 14))
+        (set! tmp.172 tmp.19)
+        (set! tmp.172 (arithmetic-shift-right tmp.172 3))
+        (set! tmp.113 tmp.172)
+        (set! tmp.173 1)
+        (set! tmp.173 (+ tmp.173 tmp.113))
+        (set! tmp.112 tmp.173)
+        (set! tmp.174 tmp.112)
+        (set! tmp.174 (* tmp.174 8))
+        (set! tmp.111 tmp.174)
+        (begin (set! tmp.110 r12) (set! r12 (+ r12 tmp.111)))
+        (set! tmp.175 tmp.110)
+        (set! tmp.175 (+ tmp.175 3))
+        (set! tmp.91 tmp.175)
+        (mset! tmp.91 -3 tmp.19)
+        (set! tmp.20 tmp.91)
+        (set! rcx tmp.20)
+        (set! rdx 0)
+        (set! rsi tmp.19)
+        (set! rdi vector-init-loop.21)
+        (set! r15 tmp-ra.165)
+        (jump L.vector-init-loop.21.10 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.21.10
+      ((new-frames ())
+       (locals
+        (c.78
+         tmp.176
+         tmp.117
+         tmp.177
+         tmp.116
+         tmp.178
+         tmp.115
+         tmp.179
+         tmp.118
+         vector-init-loop.21
+         tmp-ra.166
+         vec.23
+         len.22
+         i.24
+         tmp.114)))
+      (begin
+        (set! tmp-ra.166 r15)
+        (set! c.78 rdi)
+        (set! len.22 rsi)
+        (set! i.24 rdx)
+        (set! vec.23 rcx)
+        (set! vector-init-loop.21 (mref c.78 14))
+        (if (begin
+              (if (= len.22 i.24) (set! tmp.114 14) (set! tmp.114 6))
+              (!= tmp.114 6))
+          (begin (set! rax vec.23) (jump tmp-ra.166 rbp rax))
+          (begin
+            (set! tmp.176 i.24)
+            (set! tmp.176 (arithmetic-shift-right tmp.176 3))
+            (set! tmp.117 tmp.176)
+            (set! tmp.177 tmp.117)
+            (set! tmp.177 (* tmp.177 8))
+            (set! tmp.116 tmp.177)
+            (set! tmp.178 tmp.116)
+            (set! tmp.178 (+ tmp.178 5))
+            (set! tmp.115 tmp.178)
+            (mset! vec.23 tmp.115 0)
+            (set! tmp.179 i.24)
+            (set! tmp.179 (+ tmp.179 8))
+            (set! tmp.118 tmp.179)
+            (set! rcx vec.23)
+            (set! rdx tmp.118)
+            (set! rsi len.22)
+            (set! rdi vector-init-loop.21)
+            (set! r15 tmp-ra.166)
+            (jump L.vector-init-loop.21.10 rbp r15 rdi rsi rdx rcx)))))
+    (define L.-.72.9
+      ((new-frames ())
+       (locals
+        (c.77
+         tmp.121
+         tmp.181
+         tmp.37
+         tmp.122
+         tmp.182
+         tmp-ra.167
+         tmp.120
+         tmp.38
+         tmp.180
+         tmp.119)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.77 rdi)
+        (set! tmp.37 rsi)
+        (set! tmp.38 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.180 tmp.38)
+                      (set! tmp.180 (bitwise-and tmp.180 7))
+                      (set! tmp.120 tmp.180))
+                    (= tmp.120 0))
+                (set! tmp.119 14)
+                (set! tmp.119 6))
+              (!= tmp.119 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.181 tmp.37)
+                        (set! tmp.181 (bitwise-and tmp.181 7))
+                        (set! tmp.122 tmp.181))
+                      (= tmp.122 0))
+                  (set! tmp.121 14)
+                  (set! tmp.121 6))
+                (!= tmp.121 6))
+            (begin
+              (set! tmp.182 tmp.37)
+              (set! tmp.182 (- tmp.182 tmp.38))
+              (set! rax tmp.182)
+              (jump tmp-ra.167 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.167 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.167 rbp rax)))))
+    (define L.*.73.8
+      ((new-frames ())
+       (locals
+        (c.76
+         tmp.125
+         tmp.184
+         tmp.33
+         tmp.126
+         tmp.186
+         tmp.127
+         tmp.185
+         tmp-ra.168
+         tmp.124
+         tmp.34
+         tmp.183
+         tmp.123)))
+      (begin
+        (set! tmp-ra.168 r15)
+        (set! c.76 rdi)
+        (set! tmp.33 rsi)
+        (set! tmp.34 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.183 tmp.34)
+                      (set! tmp.183 (bitwise-and tmp.183 7))
+                      (set! tmp.124 tmp.183))
+                    (= tmp.124 0))
+                (set! tmp.123 14)
+                (set! tmp.123 6))
+              (!= tmp.123 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.184 tmp.33)
+                        (set! tmp.184 (bitwise-and tmp.184 7))
+                        (set! tmp.126 tmp.184))
+                      (= tmp.126 0))
+                  (set! tmp.125 14)
+                  (set! tmp.125 6))
+                (!= tmp.125 6))
+            (begin
+              (set! tmp.185 tmp.34)
+              (set! tmp.185 (arithmetic-shift-right tmp.185 3))
+              (set! tmp.127 tmp.185)
+              (set! tmp.186 tmp.33)
+              (set! tmp.186 (* tmp.186 tmp.127))
+              (set! rax tmp.186)
+              (jump tmp-ra.168 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.168 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.168 rbp rax)))))
+    (define L.+.74.7
+      ((new-frames ())
+       (locals
+        (c.75
+         tmp.130
+         tmp.188
+         tmp.35
+         tmp.131
+         tmp.189
+         tmp-ra.169
+         tmp.129
+         tmp.36
+         tmp.187
+         tmp.128)))
+      (begin
+        (set! tmp-ra.169 r15)
+        (set! c.75 rdi)
+        (set! tmp.35 rsi)
+        (set! tmp.36 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.187 tmp.36)
+                      (set! tmp.187 (bitwise-and tmp.187 7))
+                      (set! tmp.129 tmp.187))
+                    (= tmp.129 0))
+                (set! tmp.128 14)
+                (set! tmp.128 6))
+              (!= tmp.128 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.188 tmp.35)
+                        (set! tmp.188 (bitwise-and tmp.188 7))
+                        (set! tmp.131 tmp.188))
+                      (= tmp.131 0))
+                  (set! tmp.130 14)
+                  (set! tmp.130 6))
+                (!= tmp.130 6))
+            (begin
+              (set! tmp.189 tmp.35)
+              (set! tmp.189 (+ tmp.189 tmp.36))
+              (set! rax tmp.189)
+              (jump tmp-ra.169 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.169 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.169 rbp rax)))))
+    (begin
+      (set! tmp-ra.170 r15)
+      (begin (set! tmp.132 r12) (set! r12 (+ r12 16)))
+      (set! tmp.190 tmp.132)
+      (set! tmp.190 (+ tmp.190 2))
+      (set! tmp.92 tmp.190)
+      (mset! tmp.92 -2 L.+.74.7)
+      (mset! tmp.92 6 16)
+      (set! |+.74| tmp.92)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 16)))
+      (set! tmp.191 tmp.133)
+      (set! tmp.191 (+ tmp.191 2))
+      (set! tmp.93 tmp.191)
+      (mset! tmp.93 -2 L.*.73.8)
+      (mset! tmp.93 6 16)
+      (set! *.73 tmp.93)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 16)))
+      (set! tmp.192 tmp.134)
+      (set! tmp.192 (+ tmp.192 2))
+      (set! tmp.94 tmp.192)
+      (mset! tmp.94 -2 L.-.72.9)
+      (mset! tmp.94 6 16)
+      (set! |-.72| tmp.94)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 24)))
+      (set! tmp.193 tmp.135)
+      (set! tmp.193 (+ tmp.193 2))
+      (set! tmp.95 tmp.193)
+      (mset! tmp.95 -2 L.vector-init-loop.21.10)
+      (mset! tmp.95 6 24)
+      (set! vector-init-loop.21 tmp.95)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 24)))
+      (set! tmp.194 tmp.136)
+      (set! tmp.194 (+ tmp.194 2))
+      (set! tmp.96 tmp.194)
+      (mset! tmp.96 -2 L.make-init-vector.1.11)
+      (mset! tmp.96 6 8)
+      (set! make-init-vector.1 tmp.96)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 24)))
+      (set! tmp.195 tmp.137)
+      (set! tmp.195 (+ tmp.195 2))
+      (set! tmp.97 tmp.195)
+      (mset! tmp.97 -2 L.make-vector.71.12)
+      (mset! tmp.97 6 8)
+      (set! make-vector.71 tmp.97)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 24)))
+      (set! tmp.196 tmp.138)
+      (set! tmp.196 (+ tmp.196 2))
+      (set! tmp.98 tmp.196)
+      (mset! tmp.98 -2 L.fun/vector9289.4.13)
+      (mset! tmp.98 6 0)
+      (set! fun/vector9289.4 tmp.98)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 24)))
+      (set! tmp.197 tmp.139)
+      (set! tmp.197 (+ tmp.197 2))
+      (set! tmp.99 tmp.197)
+      (mset! tmp.99 -2 L.fun/error9287.5.14)
+      (mset! tmp.99 6 0)
+      (set! fun/error9287.5 tmp.99)
+      (begin (set! tmp.140 r12) (set! r12 (+ r12 24)))
+      (set! tmp.198 tmp.140)
+      (set! tmp.198 (+ tmp.198 2))
+      (set! tmp.100 tmp.198)
+      (mset! tmp.100 -2 L.fun/vector9290.6.15)
+      (mset! tmp.100 6 0)
+      (set! fun/vector9290.6 tmp.100)
+      (begin (set! tmp.141 r12) (set! r12 (+ r12 16)))
+      (set! tmp.199 tmp.141)
+      (set! tmp.199 (+ tmp.199 2))
+      (set! tmp.101 tmp.199)
+      (mset! tmp.101 -2 L.fun/error9288.7.16)
+      (mset! tmp.101 6 0)
+      (set! fun/error9288.7 tmp.101)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 24)))
+      (set! tmp.200 tmp.142)
+      (set! tmp.200 (+ tmp.200 2))
+      (set! tmp.102 tmp.200)
+      (mset! tmp.102 -2 L.fun/vector9292.8.17)
+      (mset! tmp.102 6 0)
+      (set! fun/vector9292.8 tmp.102)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 16)))
+      (set! tmp.201 tmp.143)
+      (set! tmp.201 (+ tmp.201 2))
+      (set! tmp.103 tmp.201)
+      (mset! tmp.103 -2 L.fun/empty9296.9.18)
+      (mset! tmp.103 6 0)
+      (set! fun/empty9296.9 tmp.103)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 24)))
+      (set! tmp.202 tmp.144)
+      (set! tmp.202 (+ tmp.202 2))
+      (set! tmp.104 tmp.202)
+      (mset! tmp.104 -2 L.fun/empty9295.10.19)
+      (mset! tmp.104 6 0)
+      (set! fun/empty9295.10 tmp.104)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.203 tmp.145)
+      (set! tmp.203 (+ tmp.203 2))
+      (set! tmp.105 tmp.203)
+      (mset! tmp.105 -2 L.fun/vector9291.11.20)
+      (mset! tmp.105 6 0)
+      (set! fun/vector9291.11 tmp.105)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 16)))
+      (set! tmp.204 tmp.146)
+      (set! tmp.204 (+ tmp.204 2))
+      (set! tmp.106 tmp.204)
+      (mset! tmp.106 -2 L.fun/ascii-char9294.12.21)
+      (mset! tmp.106 6 0)
+      (set! fun/ascii-char9294.12 tmp.106)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 24)))
+      (set! tmp.205 tmp.147)
+      (set! tmp.205 (+ tmp.205 2))
+      (set! tmp.107 tmp.205)
+      (mset! tmp.107 -2 L.fun/ascii-char9293.13.22)
+      (mset! tmp.107 6 0)
+      (set! fun/ascii-char9293.13 tmp.107)
+      (mset! vector-init-loop.21 14 vector-init-loop.21)
+      (mset! make-init-vector.1 14 vector-init-loop.21)
+      (mset! make-vector.71 14 make-init-vector.1)
+      (mset! fun/vector9289.4 14 fun/vector9290.6)
+      (mset! fun/error9287.5 14 fun/error9288.7)
+      (mset! fun/vector9290.6 14 make-vector.71)
+      (mset! fun/vector9292.8 14 make-vector.71)
+      (mset! fun/empty9295.10 14 fun/empty9296.9)
+      (mset! fun/vector9291.11 14 fun/vector9292.8)
+      (mset! fun/ascii-char9293.13 14 fun/ascii-char9294.12)
+      (return-point L.rp.23
+        (begin
+          (set! rdi fun/error9287.5)
+          (set! r15 L.rp.23)
+          (jump L.fun/error9287.5.14 rbp r15 rdi)))
+      (set! error0.18 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdx 1456)
+          (set! rsi 80)
+          (set! rdi |-.72|)
+          (set! r15 L.rp.24)
+          (jump L.-.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.149 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdx 1976)
+          (set! rsi 1808)
+          (set! rdi *.73)
+          (set! r15 L.rp.25)
+          (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.150 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdx tmp.150)
+          (set! rsi tmp.149)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.26)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.148 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdx 1096)
+          (set! rsi 280)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.27)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.152 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdx 424)
+          (set! rsi 1328)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.28)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.153 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdx tmp.153)
+          (set! rsi tmp.152)
+          (set! rdi *.73)
+          (set! r15 L.rp.29)
+          (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.151 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdx tmp.151)
+          (set! rsi tmp.148)
+          (set! rdi *.73)
+          (set! r15 L.rp.30)
+          (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+      (set! fixnum1.17 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdi fun/vector9289.4)
+          (set! r15 L.rp.31)
+          (jump L.fun/vector9289.4.13 rbp r15 rdi)))
+      (set! vector2.16 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdi fun/vector9291.11)
+          (set! r15 L.rp.32)
+          (jump L.fun/vector9291.11.20 rbp r15 rdi)))
+      (set! vector3.15 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdi fun/ascii-char9293.13)
+          (set! r15 L.rp.33)
+          (jump L.fun/ascii-char9293.13.22 rbp r15 rdi)))
+      (set! ascii-char4.14 rax)
+      (set! rdi fun/empty9295.10)
+      (set! r15 tmp-ra.170)
+      (jump L.fun/empty9295.10.19 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () ()))
+     (locals
+      (void4.15
+       empty3.16
+       ascii-char2.17
+       boolean1.18
+       tmp.110
+       void0.19
+       fun/empty9343.14
+       tmp.96
+       tmp.136
+       tmp.109
+       fun/ascii-char9346.13
+       tmp.95
+       tmp.135
+       tmp.108
+       fun/ascii-char9347.12
+       tmp.94
+       tmp.134
+       tmp.107
+       fun/void9338.11
+       tmp.93
+       tmp.133
+       tmp.106
+       fun/void9344.10
+       tmp.92
+       tmp.132
+       tmp.105
+       fun/ascii-char9341.9
+       tmp.91
+       tmp.131
+       tmp.104
+       fun/empty9342.8
+       tmp.90
+       tmp.130
+       tmp.103
+       fun/void9345.7
+       tmp.89
+       tmp.129
+       tmp.102
+       fun/ascii-char9340.6
+       tmp.88
+       tmp.128
+       tmp.101
+       fun/any9339.5
+       tmp.87
+       tmp.127
+       tmp.100
+       fun/void9337.4
+       tmp.86
+       tmp.126
+       tmp.99
+       vector?.72
+       tmp.85
+       tmp.125
+       tmp.98
+       tmp-ra.123)))
+    (define L.fun/empty9343.14.18
+      ((new-frames ()) (locals (c.84 tmp-ra.111)))
+      (begin
+        (set! tmp-ra.111 r15)
+        (set! c.84 rdi)
+        (set! rax 22)
+        (jump tmp-ra.111 rbp rax)))
+    (define L.fun/ascii-char9346.13.17
+      ((new-frames ()) (locals (fun/ascii-char9347.12 c.83 tmp-ra.112)))
+      (begin
+        (set! tmp-ra.112 r15)
+        (set! c.83 rdi)
+        (set! fun/ascii-char9347.12 (mref c.83 14))
+        (set! rdi fun/ascii-char9347.12)
+        (set! r15 tmp-ra.112)
+        (jump L.fun/ascii-char9347.12.16 rbp r15 rdi)))
+    (define L.fun/ascii-char9347.12.16
+      ((new-frames ()) (locals (c.82 tmp-ra.113)))
+      (begin
+        (set! tmp-ra.113 r15)
+        (set! c.82 rdi)
+        (set! rax 26414)
+        (jump tmp-ra.113 rbp rax)))
+    (define L.fun/void9338.11.15
+      ((new-frames ()) (locals (c.81 tmp-ra.114)))
+      (begin
+        (set! tmp-ra.114 r15)
+        (set! c.81 rdi)
+        (set! rax 30)
+        (jump tmp-ra.114 rbp rax)))
+    (define L.fun/void9344.10.14
+      ((new-frames ()) (locals (fun/void9345.7 c.80 tmp-ra.115)))
+      (begin
+        (set! tmp-ra.115 r15)
+        (set! c.80 rdi)
+        (set! fun/void9345.7 (mref c.80 14))
+        (set! rdi fun/void9345.7)
+        (set! r15 tmp-ra.115)
+        (jump L.fun/void9345.7.11 rbp r15 rdi)))
+    (define L.fun/ascii-char9341.9.13
+      ((new-frames ()) (locals (c.79 tmp-ra.116)))
+      (begin
+        (set! tmp-ra.116 r15)
+        (set! c.79 rdi)
+        (set! rax 22574)
+        (jump tmp-ra.116 rbp rax)))
+    (define L.fun/empty9342.8.12
+      ((new-frames ()) (locals (fun/empty9343.14 c.78 tmp-ra.117)))
+      (begin
+        (set! tmp-ra.117 r15)
+        (set! c.78 rdi)
+        (set! fun/empty9343.14 (mref c.78 14))
+        (set! rdi fun/empty9343.14)
+        (set! r15 tmp-ra.117)
+        (jump L.fun/empty9343.14.18 rbp r15 rdi)))
+    (define L.fun/void9345.7.11
+      ((new-frames ()) (locals (c.77 tmp-ra.118)))
+      (begin
+        (set! tmp-ra.118 r15)
+        (set! c.77 rdi)
+        (set! rax 30)
+        (jump tmp-ra.118 rbp rax)))
+    (define L.fun/ascii-char9340.6.10
+      ((new-frames ()) (locals (fun/ascii-char9341.9 c.76 tmp-ra.119)))
+      (begin
+        (set! tmp-ra.119 r15)
+        (set! c.76 rdi)
+        (set! fun/ascii-char9341.9 (mref c.76 14))
+        (set! rdi fun/ascii-char9341.9)
+        (set! r15 tmp-ra.119)
+        (jump L.fun/ascii-char9341.9.13 rbp r15 rdi)))
+    (define L.fun/any9339.5.9
+      ((new-frames ()) (locals (c.75 tmp-ra.120)))
+      (begin
+        (set! tmp-ra.120 r15)
+        (set! c.75 rdi)
+        (set! rax 8)
+        (jump tmp-ra.120 rbp rax)))
+    (define L.fun/void9337.4.8
+      ((new-frames ()) (locals (fun/void9338.11 c.74 tmp-ra.121)))
+      (begin
+        (set! tmp-ra.121 r15)
+        (set! c.74 rdi)
+        (set! fun/void9338.11 (mref c.74 14))
+        (set! rdi fun/void9338.11)
+        (set! r15 tmp-ra.121)
+        (jump L.fun/void9338.11.15 rbp r15 rdi)))
+    (define L.vector?.72.7
+      ((new-frames ()) (locals (c.73 tmp-ra.122 tmp.124 tmp.64 tmp.97)))
+      (begin
+        (set! tmp-ra.122 r15)
+        (set! c.73 rdi)
+        (set! tmp.64 rsi)
+        (if (begin
+              (begin
+                (set! tmp.124 tmp.64)
+                (set! tmp.124 (bitwise-and tmp.124 7))
+                (set! tmp.97 tmp.124))
+              (= tmp.97 3))
+          (begin (set! rax 14) (jump tmp-ra.122 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.122 rbp rax)))))
+    (begin
+      (set! tmp-ra.123 r15)
+      (begin (set! tmp.98 r12) (set! r12 (+ r12 16)))
+      (set! tmp.125 tmp.98)
+      (set! tmp.125 (+ tmp.125 2))
+      (set! tmp.85 tmp.125)
+      (mset! tmp.85 -2 L.vector?.72.7)
+      (mset! tmp.85 6 8)
+      (set! vector?.72 tmp.85)
+      (begin (set! tmp.99 r12) (set! r12 (+ r12 24)))
+      (set! tmp.126 tmp.99)
+      (set! tmp.126 (+ tmp.126 2))
+      (set! tmp.86 tmp.126)
+      (mset! tmp.86 -2 L.fun/void9337.4.8)
+      (mset! tmp.86 6 0)
+      (set! fun/void9337.4 tmp.86)
+      (begin (set! tmp.100 r12) (set! r12 (+ r12 16)))
+      (set! tmp.127 tmp.100)
+      (set! tmp.127 (+ tmp.127 2))
+      (set! tmp.87 tmp.127)
+      (mset! tmp.87 -2 L.fun/any9339.5.9)
+      (mset! tmp.87 6 0)
+      (set! fun/any9339.5 tmp.87)
+      (begin (set! tmp.101 r12) (set! r12 (+ r12 24)))
+      (set! tmp.128 tmp.101)
+      (set! tmp.128 (+ tmp.128 2))
+      (set! tmp.88 tmp.128)
+      (mset! tmp.88 -2 L.fun/ascii-char9340.6.10)
+      (mset! tmp.88 6 0)
+      (set! fun/ascii-char9340.6 tmp.88)
+      (begin (set! tmp.102 r12) (set! r12 (+ r12 16)))
+      (set! tmp.129 tmp.102)
+      (set! tmp.129 (+ tmp.129 2))
+      (set! tmp.89 tmp.129)
+      (mset! tmp.89 -2 L.fun/void9345.7.11)
+      (mset! tmp.89 6 0)
+      (set! fun/void9345.7 tmp.89)
+      (begin (set! tmp.103 r12) (set! r12 (+ r12 24)))
+      (set! tmp.130 tmp.103)
+      (set! tmp.130 (+ tmp.130 2))
+      (set! tmp.90 tmp.130)
+      (mset! tmp.90 -2 L.fun/empty9342.8.12)
+      (mset! tmp.90 6 0)
+      (set! fun/empty9342.8 tmp.90)
+      (begin (set! tmp.104 r12) (set! r12 (+ r12 16)))
+      (set! tmp.131 tmp.104)
+      (set! tmp.131 (+ tmp.131 2))
+      (set! tmp.91 tmp.131)
+      (mset! tmp.91 -2 L.fun/ascii-char9341.9.13)
+      (mset! tmp.91 6 0)
+      (set! fun/ascii-char9341.9 tmp.91)
+      (begin (set! tmp.105 r12) (set! r12 (+ r12 24)))
+      (set! tmp.132 tmp.105)
+      (set! tmp.132 (+ tmp.132 2))
+      (set! tmp.92 tmp.132)
+      (mset! tmp.92 -2 L.fun/void9344.10.14)
+      (mset! tmp.92 6 0)
+      (set! fun/void9344.10 tmp.92)
+      (begin (set! tmp.106 r12) (set! r12 (+ r12 16)))
+      (set! tmp.133 tmp.106)
+      (set! tmp.133 (+ tmp.133 2))
+      (set! tmp.93 tmp.133)
+      (mset! tmp.93 -2 L.fun/void9338.11.15)
+      (mset! tmp.93 6 0)
+      (set! fun/void9338.11 tmp.93)
+      (begin (set! tmp.107 r12) (set! r12 (+ r12 16)))
+      (set! tmp.134 tmp.107)
+      (set! tmp.134 (+ tmp.134 2))
+      (set! tmp.94 tmp.134)
+      (mset! tmp.94 -2 L.fun/ascii-char9347.12.16)
+      (mset! tmp.94 6 0)
+      (set! fun/ascii-char9347.12 tmp.94)
+      (begin (set! tmp.108 r12) (set! r12 (+ r12 24)))
+      (set! tmp.135 tmp.108)
+      (set! tmp.135 (+ tmp.135 2))
+      (set! tmp.95 tmp.135)
+      (mset! tmp.95 -2 L.fun/ascii-char9346.13.17)
+      (mset! tmp.95 6 0)
+      (set! fun/ascii-char9346.13 tmp.95)
+      (begin (set! tmp.109 r12) (set! r12 (+ r12 16)))
+      (set! tmp.136 tmp.109)
+      (set! tmp.136 (+ tmp.136 2))
+      (set! tmp.96 tmp.136)
+      (mset! tmp.96 -2 L.fun/empty9343.14.18)
+      (mset! tmp.96 6 0)
+      (set! fun/empty9343.14 tmp.96)
+      (mset! fun/void9337.4 14 fun/void9338.11)
+      (mset! fun/ascii-char9340.6 14 fun/ascii-char9341.9)
+      (mset! fun/empty9342.8 14 fun/empty9343.14)
+      (mset! fun/void9344.10 14 fun/void9345.7)
+      (mset! fun/ascii-char9346.13 14 fun/ascii-char9347.12)
+      (return-point L.rp.19
+        (begin
+          (set! rdi fun/void9337.4)
+          (set! r15 L.rp.19)
+          (jump L.fun/void9337.4.8 rbp r15 rdi)))
+      (set! void0.19 rax)
+      (return-point L.rp.20
+        (begin
+          (set! rdi fun/any9339.5)
+          (set! r15 L.rp.20)
+          (jump L.fun/any9339.5.9 rbp r15 rdi)))
+      (set! tmp.110 rax)
+      (return-point L.rp.21
+        (begin
+          (set! rsi tmp.110)
+          (set! rdi vector?.72)
+          (set! r15 L.rp.21)
+          (jump L.vector?.72.7 rbp r15 rdi rsi)))
+      (set! boolean1.18 rax)
+      (return-point L.rp.22
+        (begin
+          (set! rdi fun/ascii-char9340.6)
+          (set! r15 L.rp.22)
+          (jump L.fun/ascii-char9340.6.10 rbp r15 rdi)))
+      (set! ascii-char2.17 rax)
+      (return-point L.rp.23
+        (begin
+          (set! rdi fun/empty9342.8)
+          (set! r15 L.rp.23)
+          (jump L.fun/empty9342.8.12 rbp r15 rdi)))
+      (set! empty3.16 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/void9344.10)
+          (set! r15 L.rp.24)
+          (jump L.fun/void9344.10.14 rbp r15 rdi)))
+      (set! void4.15 rax)
+      (set! rdi fun/ascii-char9346.13)
+      (set! r15 tmp-ra.123)
+      (jump L.fun/ascii-char9346.13.17 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () ()))
+     (locals
+      (empty4.14
+       empty3.15
+       error2.16
+       procedure1.17
+       lam.74
+       tmp.107
+       tmp.182
+       tmp.138
+       boolean0.18
+       tmp.137
+       fun/any10243.13
+       tmp.106
+       tmp.181
+       tmp.136
+       fun/any10242.12
+       tmp.105
+       tmp.180
+       tmp.135
+       fun/error10244.11
+       tmp.104
+       tmp.179
+       tmp.134
+       fun/empty10249.10
+       tmp.103
+       tmp.178
+       tmp.133
+       fun/error10245.9
+       tmp.102
+       tmp.177
+       tmp.132
+       fun/empty10248.8
+       tmp.101
+       tmp.176
+       tmp.131
+       fun/empty10246.7
+       tmp.100
+       tmp.175
+       tmp.130
+       fun/vector10250.6
+       tmp.99
+       tmp.174
+       tmp.129
+       fun/vector10251.5
+       tmp.98
+       tmp.173
+       tmp.128
+       fun/empty10247.4
+       tmp.97
+       tmp.172
+       tmp.127
+       make-vector.71
+       tmp.96
+       tmp.171
+       tmp.126
+       make-init-vector.1
+       tmp.95
+       tmp.170
+       tmp.125
+       vector-init-loop.21
+       tmp.94
+       tmp.169
+       tmp.124
+       void?.72
+       tmp.93
+       tmp.168
+       tmp.123
+       vector?.73
+       tmp.92
+       tmp.167
+       tmp.122
+       tmp-ra.155)))
+    (define L.lam.74.22
+      ((new-frames (()))
+       (locals (tmp.108 vector?.73 fun/any10243.13 c.90 tmp-ra.139)))
+      (begin
+        (set! tmp-ra.139 r15)
+        (set! c.90 rdi)
+        (set! fun/any10243.13 (mref c.90 14))
+        (set! vector?.73 (mref c.90 22))
+        (return-point L.rp.23
+          (begin
+            (set! rdi fun/any10243.13)
+            (set! r15 L.rp.23)
+            (jump L.fun/any10243.13.21 rbp r15 rdi)))
+        (set! tmp.108 rax)
+        (set! rsi tmp.108)
+        (set! rdi vector?.73)
+        (set! r15 tmp-ra.139)
+        (jump L.vector?.73.7 rbp r15 rdi rsi)))
+    (define L.fun/any10243.13.21
+      ((new-frames ()) (locals (c.89 tmp-ra.140)))
+      (begin
+        (set! tmp-ra.140 r15)
+        (set! c.89 rdi)
+        (set! rax 14)
+        (jump tmp-ra.140 rbp rax)))
+    (define L.fun/any10242.12.20
+      ((new-frames ()) (locals (c.88 tmp-ra.141)))
+      (begin
+        (set! tmp-ra.141 r15)
+        (set! c.88 rdi)
+        (set! rax 28222)
+        (jump tmp-ra.141 rbp rax)))
+    (define L.fun/error10244.11.19
+      ((new-frames ()) (locals (fun/error10245.9 c.87 tmp-ra.142)))
+      (begin
+        (set! tmp-ra.142 r15)
+        (set! c.87 rdi)
+        (set! fun/error10245.9 (mref c.87 14))
+        (set! rdi fun/error10245.9)
+        (set! r15 tmp-ra.142)
+        (jump L.fun/error10245.9.17 rbp r15 rdi)))
+    (define L.fun/empty10249.10.18
+      ((new-frames ()) (locals (c.86 tmp-ra.143)))
+      (begin
+        (set! tmp-ra.143 r15)
+        (set! c.86 rdi)
+        (set! rax 22)
+        (jump tmp-ra.143 rbp rax)))
+    (define L.fun/error10245.9.17
+      ((new-frames ()) (locals (c.85 tmp-ra.144)))
+      (begin
+        (set! tmp-ra.144 r15)
+        (set! c.85 rdi)
+        (set! rax 13630)
+        (jump tmp-ra.144 rbp rax)))
+    (define L.fun/empty10248.8.16
+      ((new-frames ()) (locals (fun/empty10249.10 c.84 tmp-ra.145)))
+      (begin
+        (set! tmp-ra.145 r15)
+        (set! c.84 rdi)
+        (set! fun/empty10249.10 (mref c.84 14))
+        (set! rdi fun/empty10249.10)
+        (set! r15 tmp-ra.145)
+        (jump L.fun/empty10249.10.18 rbp r15 rdi)))
+    (define L.fun/empty10246.7.15
+      ((new-frames ()) (locals (fun/empty10247.4 c.83 tmp-ra.146)))
+      (begin
+        (set! tmp-ra.146 r15)
+        (set! c.83 rdi)
+        (set! fun/empty10247.4 (mref c.83 14))
+        (set! rdi fun/empty10247.4)
+        (set! r15 tmp-ra.146)
+        (jump L.fun/empty10247.4.12 rbp r15 rdi)))
+    (define L.fun/vector10250.6.14
+      ((new-frames ()) (locals (fun/vector10251.5 c.82 tmp-ra.147)))
+      (begin
+        (set! tmp-ra.147 r15)
+        (set! c.82 rdi)
+        (set! fun/vector10251.5 (mref c.82 14))
+        (set! rdi fun/vector10251.5)
+        (set! r15 tmp-ra.147)
+        (jump L.fun/vector10251.5.13 rbp r15 rdi)))
+    (define L.fun/vector10251.5.13
+      ((new-frames ()) (locals (make-vector.71 c.81 tmp-ra.148)))
+      (begin
+        (set! tmp-ra.148 r15)
+        (set! c.81 rdi)
+        (set! make-vector.71 (mref c.81 14))
+        (set! rsi 64)
+        (set! rdi make-vector.71)
+        (set! r15 tmp-ra.148)
+        (jump L.make-vector.71.11 rbp r15 rdi rsi)))
+    (define L.fun/empty10247.4.12
+      ((new-frames ()) (locals (c.80 tmp-ra.149)))
+      (begin
+        (set! tmp-ra.149 r15)
+        (set! c.80 rdi)
+        (set! rax 22)
+        (jump tmp-ra.149 rbp rax)))
+    (define L.make-vector.71.11
+      ((new-frames ())
+       (locals
+        (c.79 make-init-vector.1 tmp-ra.150 tmp.110 tmp.47 tmp.156 tmp.109)))
+      (begin
+        (set! tmp-ra.150 r15)
+        (set! c.79 rdi)
+        (set! tmp.47 rsi)
+        (set! make-init-vector.1 (mref c.79 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.156 tmp.47)
+                      (set! tmp.156 (bitwise-and tmp.156 7))
+                      (set! tmp.110 tmp.156))
+                    (= tmp.110 0))
+                (set! tmp.109 14)
+                (set! tmp.109 6))
+              (!= tmp.109 6))
+          (begin
+            (set! rsi tmp.47)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.150)
+            (jump L.make-init-vector.1.10 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.150 rbp rax)))))
+    (define L.make-init-vector.1.10
+      ((new-frames ())
+       (locals
+        (tmp.20
+         tmp.91
+         tmp.160
+         tmp.111
+         tmp.112
+         tmp.159
+         tmp.113
+         tmp.158
+         tmp.114
+         tmp.157
+         vector-init-loop.21
+         tmp.19
+         c.78
+         tmp-ra.151)))
+      (begin
+        (set! tmp-ra.151 r15)
+        (set! c.78 rdi)
+        (set! tmp.19 rsi)
+        (set! vector-init-loop.21 (mref c.78 14))
+        (set! tmp.157 tmp.19)
+        (set! tmp.157 (arithmetic-shift-right tmp.157 3))
+        (set! tmp.114 tmp.157)
+        (set! tmp.158 1)
+        (set! tmp.158 (+ tmp.158 tmp.114))
+        (set! tmp.113 tmp.158)
+        (set! tmp.159 tmp.113)
+        (set! tmp.159 (* tmp.159 8))
+        (set! tmp.112 tmp.159)
+        (begin (set! tmp.111 r12) (set! r12 (+ r12 tmp.112)))
+        (set! tmp.160 tmp.111)
+        (set! tmp.160 (+ tmp.160 3))
+        (set! tmp.91 tmp.160)
+        (mset! tmp.91 -3 tmp.19)
+        (set! tmp.20 tmp.91)
+        (set! rcx tmp.20)
+        (set! rdx 0)
+        (set! rsi tmp.19)
+        (set! rdi vector-init-loop.21)
+        (set! r15 tmp-ra.151)
+        (jump L.vector-init-loop.21.9 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.21.9
+      ((new-frames ())
+       (locals
+        (c.77
+         tmp.161
+         tmp.118
+         tmp.162
+         tmp.117
+         tmp.163
+         tmp.116
+         tmp.164
+         tmp.119
+         vector-init-loop.21
+         tmp-ra.152
+         vec.23
+         len.22
+         i.24
+         tmp.115)))
+      (begin
+        (set! tmp-ra.152 r15)
+        (set! c.77 rdi)
+        (set! len.22 rsi)
+        (set! i.24 rdx)
+        (set! vec.23 rcx)
+        (set! vector-init-loop.21 (mref c.77 14))
+        (if (begin
+              (if (= len.22 i.24) (set! tmp.115 14) (set! tmp.115 6))
+              (!= tmp.115 6))
+          (begin (set! rax vec.23) (jump tmp-ra.152 rbp rax))
+          (begin
+            (set! tmp.161 i.24)
+            (set! tmp.161 (arithmetic-shift-right tmp.161 3))
+            (set! tmp.118 tmp.161)
+            (set! tmp.162 tmp.118)
+            (set! tmp.162 (* tmp.162 8))
+            (set! tmp.117 tmp.162)
+            (set! tmp.163 tmp.117)
+            (set! tmp.163 (+ tmp.163 5))
+            (set! tmp.116 tmp.163)
+            (mset! vec.23 tmp.116 0)
+            (set! tmp.164 i.24)
+            (set! tmp.164 (+ tmp.164 8))
+            (set! tmp.119 tmp.164)
+            (set! rcx vec.23)
+            (set! rdx tmp.119)
+            (set! rsi len.22)
+            (set! rdi vector-init-loop.21)
+            (set! r15 tmp-ra.152)
+            (jump L.vector-init-loop.21.9 rbp r15 rdi rsi rdx rcx)))))
+    (define L.void?.72.8
+      ((new-frames ()) (locals (c.76 tmp-ra.153 tmp.165 tmp.59 tmp.120)))
+      (begin
+        (set! tmp-ra.153 r15)
+        (set! c.76 rdi)
+        (set! tmp.59 rsi)
+        (if (begin
+              (begin
+                (set! tmp.165 tmp.59)
+                (set! tmp.165 (bitwise-and tmp.165 255))
+                (set! tmp.120 tmp.165))
+              (= tmp.120 30))
+          (begin (set! rax 14) (jump tmp-ra.153 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.153 rbp rax)))))
+    (define L.vector?.73.7
+      ((new-frames ()) (locals (c.75 tmp-ra.154 tmp.166 tmp.63 tmp.121)))
+      (begin
+        (set! tmp-ra.154 r15)
+        (set! c.75 rdi)
+        (set! tmp.63 rsi)
+        (if (begin
+              (begin
+                (set! tmp.166 tmp.63)
+                (set! tmp.166 (bitwise-and tmp.166 7))
+                (set! tmp.121 tmp.166))
+              (= tmp.121 3))
+          (begin (set! rax 14) (jump tmp-ra.154 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.154 rbp rax)))))
+    (begin
+      (set! tmp-ra.155 r15)
+      (begin (set! tmp.122 r12) (set! r12 (+ r12 16)))
+      (set! tmp.167 tmp.122)
+      (set! tmp.167 (+ tmp.167 2))
+      (set! tmp.92 tmp.167)
+      (mset! tmp.92 -2 L.vector?.73.7)
+      (mset! tmp.92 6 8)
+      (set! vector?.73 tmp.92)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 16)))
+      (set! tmp.168 tmp.123)
+      (set! tmp.168 (+ tmp.168 2))
+      (set! tmp.93 tmp.168)
+      (mset! tmp.93 -2 L.void?.72.8)
+      (mset! tmp.93 6 8)
+      (set! void?.72 tmp.93)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 24)))
+      (set! tmp.169 tmp.124)
+      (set! tmp.169 (+ tmp.169 2))
+      (set! tmp.94 tmp.169)
+      (mset! tmp.94 -2 L.vector-init-loop.21.9)
+      (mset! tmp.94 6 24)
+      (set! vector-init-loop.21 tmp.94)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 24)))
+      (set! tmp.170 tmp.125)
+      (set! tmp.170 (+ tmp.170 2))
+      (set! tmp.95 tmp.170)
+      (mset! tmp.95 -2 L.make-init-vector.1.10)
+      (mset! tmp.95 6 8)
+      (set! make-init-vector.1 tmp.95)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 24)))
+      (set! tmp.171 tmp.126)
+      (set! tmp.171 (+ tmp.171 2))
+      (set! tmp.96 tmp.171)
+      (mset! tmp.96 -2 L.make-vector.71.11)
+      (mset! tmp.96 6 8)
+      (set! make-vector.71 tmp.96)
+      (begin (set! tmp.127 r12) (set! r12 (+ r12 16)))
+      (set! tmp.172 tmp.127)
+      (set! tmp.172 (+ tmp.172 2))
+      (set! tmp.97 tmp.172)
+      (mset! tmp.97 -2 L.fun/empty10247.4.12)
+      (mset! tmp.97 6 0)
+      (set! fun/empty10247.4 tmp.97)
+      (begin (set! tmp.128 r12) (set! r12 (+ r12 24)))
+      (set! tmp.173 tmp.128)
+      (set! tmp.173 (+ tmp.173 2))
+      (set! tmp.98 tmp.173)
+      (mset! tmp.98 -2 L.fun/vector10251.5.13)
+      (mset! tmp.98 6 0)
+      (set! fun/vector10251.5 tmp.98)
+      (begin (set! tmp.129 r12) (set! r12 (+ r12 24)))
+      (set! tmp.174 tmp.129)
+      (set! tmp.174 (+ tmp.174 2))
+      (set! tmp.99 tmp.174)
+      (mset! tmp.99 -2 L.fun/vector10250.6.14)
+      (mset! tmp.99 6 0)
+      (set! fun/vector10250.6 tmp.99)
+      (begin (set! tmp.130 r12) (set! r12 (+ r12 24)))
+      (set! tmp.175 tmp.130)
+      (set! tmp.175 (+ tmp.175 2))
+      (set! tmp.100 tmp.175)
+      (mset! tmp.100 -2 L.fun/empty10246.7.15)
+      (mset! tmp.100 6 0)
+      (set! fun/empty10246.7 tmp.100)
+      (begin (set! tmp.131 r12) (set! r12 (+ r12 24)))
+      (set! tmp.176 tmp.131)
+      (set! tmp.176 (+ tmp.176 2))
+      (set! tmp.101 tmp.176)
+      (mset! tmp.101 -2 L.fun/empty10248.8.16)
+      (mset! tmp.101 6 0)
+      (set! fun/empty10248.8 tmp.101)
+      (begin (set! tmp.132 r12) (set! r12 (+ r12 16)))
+      (set! tmp.177 tmp.132)
+      (set! tmp.177 (+ tmp.177 2))
+      (set! tmp.102 tmp.177)
+      (mset! tmp.102 -2 L.fun/error10245.9.17)
+      (mset! tmp.102 6 0)
+      (set! fun/error10245.9 tmp.102)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 16)))
+      (set! tmp.178 tmp.133)
+      (set! tmp.178 (+ tmp.178 2))
+      (set! tmp.103 tmp.178)
+      (mset! tmp.103 -2 L.fun/empty10249.10.18)
+      (mset! tmp.103 6 0)
+      (set! fun/empty10249.10 tmp.103)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 24)))
+      (set! tmp.179 tmp.134)
+      (set! tmp.179 (+ tmp.179 2))
+      (set! tmp.104 tmp.179)
+      (mset! tmp.104 -2 L.fun/error10244.11.19)
+      (mset! tmp.104 6 0)
+      (set! fun/error10244.11 tmp.104)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 16)))
+      (set! tmp.180 tmp.135)
+      (set! tmp.180 (+ tmp.180 2))
+      (set! tmp.105 tmp.180)
+      (mset! tmp.105 -2 L.fun/any10242.12.20)
+      (mset! tmp.105 6 0)
+      (set! fun/any10242.12 tmp.105)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 16)))
+      (set! tmp.181 tmp.136)
+      (set! tmp.181 (+ tmp.181 2))
+      (set! tmp.106 tmp.181)
+      (mset! tmp.106 -2 L.fun/any10243.13.21)
+      (mset! tmp.106 6 0)
+      (set! fun/any10243.13 tmp.106)
+      (mset! vector-init-loop.21 14 vector-init-loop.21)
+      (mset! make-init-vector.1 14 vector-init-loop.21)
+      (mset! make-vector.71 14 make-init-vector.1)
+      (mset! fun/vector10251.5 14 make-vector.71)
+      (mset! fun/vector10250.6 14 fun/vector10251.5)
+      (mset! fun/empty10246.7 14 fun/empty10247.4)
+      (mset! fun/empty10248.8 14 fun/empty10249.10)
+      (mset! fun/error10244.11 14 fun/error10245.9)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/any10242.12)
+          (set! r15 L.rp.24)
+          (jump L.fun/any10242.12.20 rbp r15 rdi)))
+      (set! tmp.137 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rsi tmp.137)
+          (set! rdi void?.72)
+          (set! r15 L.rp.25)
+          (jump L.void?.72.8 rbp r15 rdi rsi)))
+      (set! boolean0.18 rax)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 32)))
+      (set! tmp.182 tmp.138)
+      (set! tmp.182 (+ tmp.182 2))
+      (set! tmp.107 tmp.182)
+      (mset! tmp.107 -2 L.lam.74.22)
+      (mset! tmp.107 6 0)
+      (set! lam.74 tmp.107)
+      (mset! lam.74 14 fun/any10243.13)
+      (mset! lam.74 22 vector?.73)
+      (set! procedure1.17 lam.74)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/error10244.11)
+          (set! r15 L.rp.26)
+          (jump L.fun/error10244.11.19 rbp r15 rdi)))
+      (set! error2.16 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/empty10246.7)
+          (set! r15 L.rp.27)
+          (jump L.fun/empty10246.7.15 rbp r15 rdi)))
+      (set! empty3.15 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/empty10248.8)
+          (set! r15 L.rp.28)
+          (jump L.fun/empty10248.8.16 rbp r15 rdi)))
+      (set! empty4.14 rax)
+      (set! rdi fun/vector10250.6)
+      (set! r15 tmp-ra.155)
+      (jump L.fun/vector10250.6.14 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () ()))
+     (locals
+      (ascii-char4.16
+       void3.17
+       void2.18
+       void1.19
+       void0.20
+       fun/vector10780.15
+       tmp.104
+       tmp.170
+       tmp.130
+       fun/vector10781.14
+       tmp.103
+       tmp.169
+       tmp.129
+       fun/ascii-char10779.13
+       tmp.102
+       tmp.168
+       tmp.128
+       fun/ascii-char10778.12
+       tmp.101
+       tmp.167
+       tmp.127
+       fun/void10774.11
+       tmp.100
+       tmp.166
+       tmp.126
+       fun/void10771.10
+       tmp.99
+       tmp.165
+       tmp.125
+       fun/void10773.9
+       tmp.98
+       tmp.164
+       tmp.124
+       fun/void10775.8
+       tmp.97
+       tmp.163
+       tmp.123
+       fun/void10772.7
+       tmp.96
+       tmp.162
+       tmp.122
+       fun/void10776.6
+       tmp.95
+       tmp.161
+       tmp.121
+       fun/void10777.5
+       tmp.94
+       tmp.160
+       tmp.120
+       fun/void10770.4
+       tmp.93
+       tmp.159
+       tmp.119
+       make-vector.73
+       tmp.92
+       tmp.158
+       tmp.118
+       make-init-vector.1
+       tmp.91
+       tmp.157
+       tmp.117
+       vector-init-loop.23
+       tmp.90
+       tmp.156
+       tmp.116
+       tmp-ra.146)))
+    (define L.fun/vector10780.15.21
+      ((new-frames ()) (locals (fun/vector10781.14 c.88 tmp-ra.131)))
+      (begin
+        (set! tmp-ra.131 r15)
+        (set! c.88 rdi)
+        (set! fun/vector10781.14 (mref c.88 14))
+        (set! rdi fun/vector10781.14)
+        (set! r15 tmp-ra.131)
+        (jump L.fun/vector10781.14.20 rbp r15 rdi)))
+    (define L.fun/vector10781.14.20
+      ((new-frames ()) (locals (make-vector.73 c.87 tmp-ra.132)))
+      (begin
+        (set! tmp-ra.132 r15)
+        (set! c.87 rdi)
+        (set! make-vector.73 (mref c.87 14))
+        (set! rsi 64)
+        (set! rdi make-vector.73)
+        (set! r15 tmp-ra.132)
+        (jump L.make-vector.73.9 rbp r15 rdi rsi)))
+    (define L.fun/ascii-char10779.13.19
+      ((new-frames ()) (locals (c.86 tmp-ra.133)))
+      (begin
+        (set! tmp-ra.133 r15)
+        (set! c.86 rdi)
+        (set! rax 25390)
+        (jump tmp-ra.133 rbp rax)))
+    (define L.fun/ascii-char10778.12.18
+      ((new-frames ()) (locals (fun/ascii-char10779.13 c.85 tmp-ra.134)))
+      (begin
+        (set! tmp-ra.134 r15)
+        (set! c.85 rdi)
+        (set! fun/ascii-char10779.13 (mref c.85 14))
+        (set! rdi fun/ascii-char10779.13)
+        (set! r15 tmp-ra.134)
+        (jump L.fun/ascii-char10779.13.19 rbp r15 rdi)))
+    (define L.fun/void10774.11.17
+      ((new-frames ()) (locals (fun/void10775.8 c.84 tmp-ra.135)))
+      (begin
+        (set! tmp-ra.135 r15)
+        (set! c.84 rdi)
+        (set! fun/void10775.8 (mref c.84 14))
+        (set! rdi fun/void10775.8)
+        (set! r15 tmp-ra.135)
+        (jump L.fun/void10775.8.14 rbp r15 rdi)))
+    (define L.fun/void10771.10.16
+      ((new-frames ()) (locals (c.83 tmp-ra.136)))
+      (begin
+        (set! tmp-ra.136 r15)
+        (set! c.83 rdi)
+        (set! rax 30)
+        (jump tmp-ra.136 rbp rax)))
+    (define L.fun/void10773.9.15
+      ((new-frames ()) (locals (c.82 tmp-ra.137)))
+      (begin
+        (set! tmp-ra.137 r15)
+        (set! c.82 rdi)
+        (set! rax 30)
+        (jump tmp-ra.137 rbp rax)))
+    (define L.fun/void10775.8.14
+      ((new-frames ()) (locals (c.81 tmp-ra.138)))
+      (begin
+        (set! tmp-ra.138 r15)
+        (set! c.81 rdi)
+        (set! rax 30)
+        (jump tmp-ra.138 rbp rax)))
+    (define L.fun/void10772.7.13
+      ((new-frames ()) (locals (fun/void10773.9 c.80 tmp-ra.139)))
+      (begin
+        (set! tmp-ra.139 r15)
+        (set! c.80 rdi)
+        (set! fun/void10773.9 (mref c.80 14))
+        (set! rdi fun/void10773.9)
+        (set! r15 tmp-ra.139)
+        (jump L.fun/void10773.9.15 rbp r15 rdi)))
+    (define L.fun/void10776.6.12
+      ((new-frames ()) (locals (fun/void10777.5 c.79 tmp-ra.140)))
+      (begin
+        (set! tmp-ra.140 r15)
+        (set! c.79 rdi)
+        (set! fun/void10777.5 (mref c.79 14))
+        (set! rdi fun/void10777.5)
+        (set! r15 tmp-ra.140)
+        (jump L.fun/void10777.5.11 rbp r15 rdi)))
+    (define L.fun/void10777.5.11
+      ((new-frames ()) (locals (c.78 tmp-ra.141)))
+      (begin
+        (set! tmp-ra.141 r15)
+        (set! c.78 rdi)
+        (set! rax 30)
+        (jump tmp-ra.141 rbp rax)))
+    (define L.fun/void10770.4.10
+      ((new-frames ()) (locals (fun/void10771.10 c.77 tmp-ra.142)))
+      (begin
+        (set! tmp-ra.142 r15)
+        (set! c.77 rdi)
+        (set! fun/void10771.10 (mref c.77 14))
+        (set! rdi fun/void10771.10)
+        (set! r15 tmp-ra.142)
+        (jump L.fun/void10771.10.16 rbp r15 rdi)))
+    (define L.make-vector.73.9
+      ((new-frames ())
+       (locals
+        (c.76 make-init-vector.1 tmp-ra.143 tmp.106 tmp.49 tmp.147 tmp.105)))
+      (begin
+        (set! tmp-ra.143 r15)
+        (set! c.76 rdi)
+        (set! tmp.49 rsi)
+        (set! make-init-vector.1 (mref c.76 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.147 tmp.49)
+                      (set! tmp.147 (bitwise-and tmp.147 7))
+                      (set! tmp.106 tmp.147))
+                    (= tmp.106 0))
+                (set! tmp.105 14)
+                (set! tmp.105 6))
+              (!= tmp.105 6))
+          (begin
+            (set! rsi tmp.49)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.143)
+            (jump L.make-init-vector.1.8 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.143 rbp rax)))))
+    (define L.make-init-vector.1.8
+      ((new-frames ())
+       (locals
+        (tmp.22
+         tmp.89
+         tmp.151
+         tmp.107
+         tmp.108
+         tmp.150
+         tmp.109
+         tmp.149
+         tmp.110
+         tmp.148
+         vector-init-loop.23
+         tmp.21
+         c.75
+         tmp-ra.144)))
+      (begin
+        (set! tmp-ra.144 r15)
+        (set! c.75 rdi)
+        (set! tmp.21 rsi)
+        (set! vector-init-loop.23 (mref c.75 14))
+        (set! tmp.148 tmp.21)
+        (set! tmp.148 (arithmetic-shift-right tmp.148 3))
+        (set! tmp.110 tmp.148)
+        (set! tmp.149 1)
+        (set! tmp.149 (+ tmp.149 tmp.110))
+        (set! tmp.109 tmp.149)
+        (set! tmp.150 tmp.109)
+        (set! tmp.150 (* tmp.150 8))
+        (set! tmp.108 tmp.150)
+        (begin (set! tmp.107 r12) (set! r12 (+ r12 tmp.108)))
+        (set! tmp.151 tmp.107)
+        (set! tmp.151 (+ tmp.151 3))
+        (set! tmp.89 tmp.151)
+        (mset! tmp.89 -3 tmp.21)
+        (set! tmp.22 tmp.89)
+        (set! rcx tmp.22)
+        (set! rdx 0)
+        (set! rsi tmp.21)
+        (set! rdi vector-init-loop.23)
+        (set! r15 tmp-ra.144)
+        (jump L.vector-init-loop.23.7 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.23.7
+      ((new-frames ())
+       (locals
+        (c.74
+         tmp.152
+         tmp.114
+         tmp.153
+         tmp.113
+         tmp.154
+         tmp.112
+         tmp.155
+         tmp.115
+         vector-init-loop.23
+         tmp-ra.145
+         vec.25
+         len.24
+         i.26
+         tmp.111)))
+      (begin
+        (set! tmp-ra.145 r15)
+        (set! c.74 rdi)
+        (set! len.24 rsi)
+        (set! i.26 rdx)
+        (set! vec.25 rcx)
+        (set! vector-init-loop.23 (mref c.74 14))
+        (if (begin
+              (if (= len.24 i.26) (set! tmp.111 14) (set! tmp.111 6))
+              (!= tmp.111 6))
+          (begin (set! rax vec.25) (jump tmp-ra.145 rbp rax))
+          (begin
+            (set! tmp.152 i.26)
+            (set! tmp.152 (arithmetic-shift-right tmp.152 3))
+            (set! tmp.114 tmp.152)
+            (set! tmp.153 tmp.114)
+            (set! tmp.153 (* tmp.153 8))
+            (set! tmp.113 tmp.153)
+            (set! tmp.154 tmp.113)
+            (set! tmp.154 (+ tmp.154 5))
+            (set! tmp.112 tmp.154)
+            (mset! vec.25 tmp.112 0)
+            (set! tmp.155 i.26)
+            (set! tmp.155 (+ tmp.155 8))
+            (set! tmp.115 tmp.155)
+            (set! rcx vec.25)
+            (set! rdx tmp.115)
+            (set! rsi len.24)
+            (set! rdi vector-init-loop.23)
+            (set! r15 tmp-ra.145)
+            (jump L.vector-init-loop.23.7 rbp r15 rdi rsi rdx rcx)))))
+    (begin
+      (set! tmp-ra.146 r15)
+      (begin (set! tmp.116 r12) (set! r12 (+ r12 24)))
+      (set! tmp.156 tmp.116)
+      (set! tmp.156 (+ tmp.156 2))
+      (set! tmp.90 tmp.156)
+      (mset! tmp.90 -2 L.vector-init-loop.23.7)
+      (mset! tmp.90 6 24)
+      (set! vector-init-loop.23 tmp.90)
+      (begin (set! tmp.117 r12) (set! r12 (+ r12 24)))
+      (set! tmp.157 tmp.117)
+      (set! tmp.157 (+ tmp.157 2))
+      (set! tmp.91 tmp.157)
+      (mset! tmp.91 -2 L.make-init-vector.1.8)
+      (mset! tmp.91 6 8)
+      (set! make-init-vector.1 tmp.91)
+      (begin (set! tmp.118 r12) (set! r12 (+ r12 24)))
+      (set! tmp.158 tmp.118)
+      (set! tmp.158 (+ tmp.158 2))
+      (set! tmp.92 tmp.158)
+      (mset! tmp.92 -2 L.make-vector.73.9)
+      (mset! tmp.92 6 8)
+      (set! make-vector.73 tmp.92)
+      (begin (set! tmp.119 r12) (set! r12 (+ r12 24)))
+      (set! tmp.159 tmp.119)
+      (set! tmp.159 (+ tmp.159 2))
+      (set! tmp.93 tmp.159)
+      (mset! tmp.93 -2 L.fun/void10770.4.10)
+      (mset! tmp.93 6 0)
+      (set! fun/void10770.4 tmp.93)
+      (begin (set! tmp.120 r12) (set! r12 (+ r12 16)))
+      (set! tmp.160 tmp.120)
+      (set! tmp.160 (+ tmp.160 2))
+      (set! tmp.94 tmp.160)
+      (mset! tmp.94 -2 L.fun/void10777.5.11)
+      (mset! tmp.94 6 0)
+      (set! fun/void10777.5 tmp.94)
+      (begin (set! tmp.121 r12) (set! r12 (+ r12 24)))
+      (set! tmp.161 tmp.121)
+      (set! tmp.161 (+ tmp.161 2))
+      (set! tmp.95 tmp.161)
+      (mset! tmp.95 -2 L.fun/void10776.6.12)
+      (mset! tmp.95 6 0)
+      (set! fun/void10776.6 tmp.95)
+      (begin (set! tmp.122 r12) (set! r12 (+ r12 24)))
+      (set! tmp.162 tmp.122)
+      (set! tmp.162 (+ tmp.162 2))
+      (set! tmp.96 tmp.162)
+      (mset! tmp.96 -2 L.fun/void10772.7.13)
+      (mset! tmp.96 6 0)
+      (set! fun/void10772.7 tmp.96)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 16)))
+      (set! tmp.163 tmp.123)
+      (set! tmp.163 (+ tmp.163 2))
+      (set! tmp.97 tmp.163)
+      (mset! tmp.97 -2 L.fun/void10775.8.14)
+      (mset! tmp.97 6 0)
+      (set! fun/void10775.8 tmp.97)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 16)))
+      (set! tmp.164 tmp.124)
+      (set! tmp.164 (+ tmp.164 2))
+      (set! tmp.98 tmp.164)
+      (mset! tmp.98 -2 L.fun/void10773.9.15)
+      (mset! tmp.98 6 0)
+      (set! fun/void10773.9 tmp.98)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 16)))
+      (set! tmp.165 tmp.125)
+      (set! tmp.165 (+ tmp.165 2))
+      (set! tmp.99 tmp.165)
+      (mset! tmp.99 -2 L.fun/void10771.10.16)
+      (mset! tmp.99 6 0)
+      (set! fun/void10771.10 tmp.99)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 24)))
+      (set! tmp.166 tmp.126)
+      (set! tmp.166 (+ tmp.166 2))
+      (set! tmp.100 tmp.166)
+      (mset! tmp.100 -2 L.fun/void10774.11.17)
+      (mset! tmp.100 6 0)
+      (set! fun/void10774.11 tmp.100)
+      (begin (set! tmp.127 r12) (set! r12 (+ r12 24)))
+      (set! tmp.167 tmp.127)
+      (set! tmp.167 (+ tmp.167 2))
+      (set! tmp.101 tmp.167)
+      (mset! tmp.101 -2 L.fun/ascii-char10778.12.18)
+      (mset! tmp.101 6 0)
+      (set! fun/ascii-char10778.12 tmp.101)
+      (begin (set! tmp.128 r12) (set! r12 (+ r12 16)))
+      (set! tmp.168 tmp.128)
+      (set! tmp.168 (+ tmp.168 2))
+      (set! tmp.102 tmp.168)
+      (mset! tmp.102 -2 L.fun/ascii-char10779.13.19)
+      (mset! tmp.102 6 0)
+      (set! fun/ascii-char10779.13 tmp.102)
+      (begin (set! tmp.129 r12) (set! r12 (+ r12 24)))
+      (set! tmp.169 tmp.129)
+      (set! tmp.169 (+ tmp.169 2))
+      (set! tmp.103 tmp.169)
+      (mset! tmp.103 -2 L.fun/vector10781.14.20)
+      (mset! tmp.103 6 0)
+      (set! fun/vector10781.14 tmp.103)
+      (begin (set! tmp.130 r12) (set! r12 (+ r12 24)))
+      (set! tmp.170 tmp.130)
+      (set! tmp.170 (+ tmp.170 2))
+      (set! tmp.104 tmp.170)
+      (mset! tmp.104 -2 L.fun/vector10780.15.21)
+      (mset! tmp.104 6 0)
+      (set! fun/vector10780.15 tmp.104)
+      (mset! vector-init-loop.23 14 vector-init-loop.23)
+      (mset! make-init-vector.1 14 vector-init-loop.23)
+      (mset! make-vector.73 14 make-init-vector.1)
+      (mset! fun/void10770.4 14 fun/void10771.10)
+      (mset! fun/void10776.6 14 fun/void10777.5)
+      (mset! fun/void10772.7 14 fun/void10773.9)
+      (mset! fun/void10774.11 14 fun/void10775.8)
+      (mset! fun/ascii-char10778.12 14 fun/ascii-char10779.13)
+      (mset! fun/vector10781.14 14 make-vector.73)
+      (mset! fun/vector10780.15 14 fun/vector10781.14)
+      (return-point L.rp.22
+        (begin
+          (set! rdi fun/void10770.4)
+          (set! r15 L.rp.22)
+          (jump L.fun/void10770.4.10 rbp r15 rdi)))
+      (set! void0.20 rax)
+      (return-point L.rp.23
+        (begin
+          (set! rdi fun/void10772.7)
+          (set! r15 L.rp.23)
+          (jump L.fun/void10772.7.13 rbp r15 rdi)))
+      (set! void1.19 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/void10774.11)
+          (set! r15 L.rp.24)
+          (jump L.fun/void10774.11.17 rbp r15 rdi)))
+      (set! void2.18 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdi fun/void10776.6)
+          (set! r15 L.rp.25)
+          (jump L.fun/void10776.6.12 rbp r15 rdi)))
+      (set! void3.17 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/ascii-char10778.12)
+          (set! r15 L.rp.26)
+          (jump L.fun/ascii-char10778.12.18 rbp r15 rdi)))
+      (set! ascii-char4.16 rax)
+      (set! rdi fun/vector10780.15)
+      (set! r15 tmp-ra.146)
+      (jump L.fun/vector10780.15.21 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () () () () () () () () () () () () () () ()))
+     (locals
+      (void5.16
+       ascii-char4.17
+       void3.18
+       procedure2.19
+       lam.77
+       tmp.109
+       tmp.195
+       tmp.152
+       void1.20
+       fixnum0.21
+       tmp.145
+       tmp.149
+       tmp.151
+       tmp.150
+       tmp.146
+       tmp.148
+       tmp.147
+       tmp.138
+       tmp.142
+       tmp.144
+       tmp.143
+       tmp.139
+       tmp.141
+       tmp.140
+       fun/ascii-char11012.15
+       tmp.108
+       tmp.194
+       tmp.137
+       fun/ascii-char11013.14
+       tmp.107
+       tmp.193
+       tmp.136
+       fun/void11015.13
+       tmp.106
+       tmp.192
+       tmp.135
+       fun/error11008.12
+       tmp.105
+       tmp.191
+       tmp.134
+       fun/void11014.11
+       tmp.104
+       tmp.190
+       tmp.133
+       fun/error11009.10
+       tmp.103
+       tmp.189
+       tmp.132
+       fun/empty11016.9
+       tmp.102
+       tmp.188
+       tmp.131
+       fun/void11011.8
+       tmp.101
+       tmp.187
+       tmp.130
+       fun/empty11017.7
+       tmp.100
+       tmp.186
+       tmp.129
+       fun/void11007.6
+       tmp.99
+       tmp.185
+       tmp.128
+       fun/void11010.5
+       tmp.98
+       tmp.184
+       tmp.127
+       fun/void11006.4
+       tmp.97
+       tmp.183
+       tmp.126
+       |-.74|
+       tmp.96
+       tmp.182
+       tmp.125
+       |+.75|
+       tmp.95
+       tmp.181
+       tmp.124
+       *.76
+       tmp.94
+       tmp.180
+       tmp.123
+       tmp-ra.169)))
+    (define L.lam.77.22
+      ((new-frames ()) (locals (fun/error11008.12 c.93 tmp-ra.153)))
+      (begin
+        (set! tmp-ra.153 r15)
+        (set! c.93 rdi)
+        (set! fun/error11008.12 (mref c.93 14))
+        (set! rdi fun/error11008.12)
+        (set! r15 tmp-ra.153)
+        (jump L.fun/error11008.12.18 rbp r15 rdi)))
+    (define L.fun/ascii-char11012.15.21
+      ((new-frames ()) (locals (fun/ascii-char11013.14 c.92 tmp-ra.154)))
+      (begin
+        (set! tmp-ra.154 r15)
+        (set! c.92 rdi)
+        (set! fun/ascii-char11013.14 (mref c.92 14))
+        (set! rdi fun/ascii-char11013.14)
+        (set! r15 tmp-ra.154)
+        (jump L.fun/ascii-char11013.14.20 rbp r15 rdi)))
+    (define L.fun/ascii-char11013.14.20
+      ((new-frames ()) (locals (c.91 tmp-ra.155)))
+      (begin
+        (set! tmp-ra.155 r15)
+        (set! c.91 rdi)
+        (set! rax 27438)
+        (jump tmp-ra.155 rbp rax)))
+    (define L.fun/void11015.13.19
+      ((new-frames ()) (locals (c.90 tmp-ra.156)))
+      (begin
+        (set! tmp-ra.156 r15)
+        (set! c.90 rdi)
+        (set! rax 30)
+        (jump tmp-ra.156 rbp rax)))
+    (define L.fun/error11008.12.18
+      ((new-frames ()) (locals (fun/error11009.10 c.89 tmp-ra.157)))
+      (begin
+        (set! tmp-ra.157 r15)
+        (set! c.89 rdi)
+        (set! fun/error11009.10 (mref c.89 14))
+        (set! rdi fun/error11009.10)
+        (set! r15 tmp-ra.157)
+        (jump L.fun/error11009.10.16 rbp r15 rdi)))
+    (define L.fun/void11014.11.17
+      ((new-frames ()) (locals (fun/void11015.13 c.88 tmp-ra.158)))
+      (begin
+        (set! tmp-ra.158 r15)
+        (set! c.88 rdi)
+        (set! fun/void11015.13 (mref c.88 14))
+        (set! rdi fun/void11015.13)
+        (set! r15 tmp-ra.158)
+        (jump L.fun/void11015.13.19 rbp r15 rdi)))
+    (define L.fun/error11009.10.16
+      ((new-frames ()) (locals (c.87 tmp-ra.159)))
+      (begin
+        (set! tmp-ra.159 r15)
+        (set! c.87 rdi)
+        (set! rax 62014)
+        (jump tmp-ra.159 rbp rax)))
+    (define L.fun/empty11016.9.15
+      ((new-frames ()) (locals (fun/empty11017.7 c.86 tmp-ra.160)))
+      (begin
+        (set! tmp-ra.160 r15)
+        (set! c.86 rdi)
+        (set! fun/empty11017.7 (mref c.86 14))
+        (set! rdi fun/empty11017.7)
+        (set! r15 tmp-ra.160)
+        (jump L.fun/empty11017.7.13 rbp r15 rdi)))
+    (define L.fun/void11011.8.14
+      ((new-frames ()) (locals (c.85 tmp-ra.161)))
+      (begin
+        (set! tmp-ra.161 r15)
+        (set! c.85 rdi)
+        (set! rax 30)
+        (jump tmp-ra.161 rbp rax)))
+    (define L.fun/empty11017.7.13
+      ((new-frames ()) (locals (c.84 tmp-ra.162)))
+      (begin
+        (set! tmp-ra.162 r15)
+        (set! c.84 rdi)
+        (set! rax 22)
+        (jump tmp-ra.162 rbp rax)))
+    (define L.fun/void11007.6.12
+      ((new-frames ()) (locals (c.83 tmp-ra.163)))
+      (begin
+        (set! tmp-ra.163 r15)
+        (set! c.83 rdi)
+        (set! rax 30)
+        (jump tmp-ra.163 rbp rax)))
+    (define L.fun/void11010.5.11
+      ((new-frames ()) (locals (fun/void11011.8 c.82 tmp-ra.164)))
+      (begin
+        (set! tmp-ra.164 r15)
+        (set! c.82 rdi)
+        (set! fun/void11011.8 (mref c.82 14))
+        (set! rdi fun/void11011.8)
+        (set! r15 tmp-ra.164)
+        (jump L.fun/void11011.8.14 rbp r15 rdi)))
+    (define L.fun/void11006.4.10
+      ((new-frames ()) (locals (fun/void11007.6 c.81 tmp-ra.165)))
+      (begin
+        (set! tmp-ra.165 r15)
+        (set! c.81 rdi)
+        (set! fun/void11007.6 (mref c.81 14))
+        (set! rdi fun/void11007.6)
+        (set! r15 tmp-ra.165)
+        (jump L.fun/void11007.6.12 rbp r15 rdi)))
+    (define L.-.74.9
+      ((new-frames ())
+       (locals
+        (c.80
+         tmp.112
+         tmp.171
+         tmp.40
+         tmp.113
+         tmp.172
+         tmp-ra.166
+         tmp.111
+         tmp.41
+         tmp.170
+         tmp.110)))
+      (begin
+        (set! tmp-ra.166 r15)
+        (set! c.80 rdi)
+        (set! tmp.40 rsi)
+        (set! tmp.41 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.170 tmp.41)
+                      (set! tmp.170 (bitwise-and tmp.170 7))
+                      (set! tmp.111 tmp.170))
+                    (= tmp.111 0))
+                (set! tmp.110 14)
+                (set! tmp.110 6))
+              (!= tmp.110 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.171 tmp.40)
+                        (set! tmp.171 (bitwise-and tmp.171 7))
+                        (set! tmp.113 tmp.171))
+                      (= tmp.113 0))
+                  (set! tmp.112 14)
+                  (set! tmp.112 6))
+                (!= tmp.112 6))
+            (begin
+              (set! tmp.172 tmp.40)
+              (set! tmp.172 (- tmp.172 tmp.41))
+              (set! rax tmp.172)
+              (jump tmp-ra.166 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.166 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.166 rbp rax)))))
+    (define L.+.75.8
+      ((new-frames ())
+       (locals
+        (c.79
+         tmp.116
+         tmp.174
+         tmp.38
+         tmp.117
+         tmp.175
+         tmp-ra.167
+         tmp.115
+         tmp.39
+         tmp.173
+         tmp.114)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.79 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.173 tmp.39)
+                      (set! tmp.173 (bitwise-and tmp.173 7))
+                      (set! tmp.115 tmp.173))
+                    (= tmp.115 0))
+                (set! tmp.114 14)
+                (set! tmp.114 6))
+              (!= tmp.114 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.174 tmp.38)
+                        (set! tmp.174 (bitwise-and tmp.174 7))
+                        (set! tmp.117 tmp.174))
+                      (= tmp.117 0))
+                  (set! tmp.116 14)
+                  (set! tmp.116 6))
+                (!= tmp.116 6))
+            (begin
+              (set! tmp.175 tmp.38)
+              (set! tmp.175 (+ tmp.175 tmp.39))
+              (set! rax tmp.175)
+              (jump tmp-ra.167 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.167 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.167 rbp rax)))))
+    (define L.*.76.7
+      ((new-frames ())
+       (locals
+        (c.78
+         tmp.120
+         tmp.177
+         tmp.36
+         tmp.121
+         tmp.179
+         tmp.122
+         tmp.178
+         tmp-ra.168
+         tmp.119
+         tmp.37
+         tmp.176
+         tmp.118)))
+      (begin
+        (set! tmp-ra.168 r15)
+        (set! c.78 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.176 tmp.37)
+                      (set! tmp.176 (bitwise-and tmp.176 7))
+                      (set! tmp.119 tmp.176))
+                    (= tmp.119 0))
+                (set! tmp.118 14)
+                (set! tmp.118 6))
+              (!= tmp.118 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.177 tmp.36)
+                        (set! tmp.177 (bitwise-and tmp.177 7))
+                        (set! tmp.121 tmp.177))
+                      (= tmp.121 0))
+                  (set! tmp.120 14)
+                  (set! tmp.120 6))
+                (!= tmp.120 6))
+            (begin
+              (set! tmp.178 tmp.37)
+              (set! tmp.178 (arithmetic-shift-right tmp.178 3))
+              (set! tmp.122 tmp.178)
+              (set! tmp.179 tmp.36)
+              (set! tmp.179 (* tmp.179 tmp.122))
+              (set! rax tmp.179)
+              (jump tmp-ra.168 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.168 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.168 rbp rax)))))
+    (begin
+      (set! tmp-ra.169 r15)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 16)))
+      (set! tmp.180 tmp.123)
+      (set! tmp.180 (+ tmp.180 2))
+      (set! tmp.94 tmp.180)
+      (mset! tmp.94 -2 L.*.76.7)
+      (mset! tmp.94 6 16)
+      (set! *.76 tmp.94)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 16)))
+      (set! tmp.181 tmp.124)
+      (set! tmp.181 (+ tmp.181 2))
+      (set! tmp.95 tmp.181)
+      (mset! tmp.95 -2 L.+.75.8)
+      (mset! tmp.95 6 16)
+      (set! |+.75| tmp.95)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 16)))
+      (set! tmp.182 tmp.125)
+      (set! tmp.182 (+ tmp.182 2))
+      (set! tmp.96 tmp.182)
+      (mset! tmp.96 -2 L.-.74.9)
+      (mset! tmp.96 6 16)
+      (set! |-.74| tmp.96)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 24)))
+      (set! tmp.183 tmp.126)
+      (set! tmp.183 (+ tmp.183 2))
+      (set! tmp.97 tmp.183)
+      (mset! tmp.97 -2 L.fun/void11006.4.10)
+      (mset! tmp.97 6 0)
+      (set! fun/void11006.4 tmp.97)
+      (begin (set! tmp.127 r12) (set! r12 (+ r12 24)))
+      (set! tmp.184 tmp.127)
+      (set! tmp.184 (+ tmp.184 2))
+      (set! tmp.98 tmp.184)
+      (mset! tmp.98 -2 L.fun/void11010.5.11)
+      (mset! tmp.98 6 0)
+      (set! fun/void11010.5 tmp.98)
+      (begin (set! tmp.128 r12) (set! r12 (+ r12 16)))
+      (set! tmp.185 tmp.128)
+      (set! tmp.185 (+ tmp.185 2))
+      (set! tmp.99 tmp.185)
+      (mset! tmp.99 -2 L.fun/void11007.6.12)
+      (mset! tmp.99 6 0)
+      (set! fun/void11007.6 tmp.99)
+      (begin (set! tmp.129 r12) (set! r12 (+ r12 16)))
+      (set! tmp.186 tmp.129)
+      (set! tmp.186 (+ tmp.186 2))
+      (set! tmp.100 tmp.186)
+      (mset! tmp.100 -2 L.fun/empty11017.7.13)
+      (mset! tmp.100 6 0)
+      (set! fun/empty11017.7 tmp.100)
+      (begin (set! tmp.130 r12) (set! r12 (+ r12 16)))
+      (set! tmp.187 tmp.130)
+      (set! tmp.187 (+ tmp.187 2))
+      (set! tmp.101 tmp.187)
+      (mset! tmp.101 -2 L.fun/void11011.8.14)
+      (mset! tmp.101 6 0)
+      (set! fun/void11011.8 tmp.101)
+      (begin (set! tmp.131 r12) (set! r12 (+ r12 24)))
+      (set! tmp.188 tmp.131)
+      (set! tmp.188 (+ tmp.188 2))
+      (set! tmp.102 tmp.188)
+      (mset! tmp.102 -2 L.fun/empty11016.9.15)
+      (mset! tmp.102 6 0)
+      (set! fun/empty11016.9 tmp.102)
+      (begin (set! tmp.132 r12) (set! r12 (+ r12 16)))
+      (set! tmp.189 tmp.132)
+      (set! tmp.189 (+ tmp.189 2))
+      (set! tmp.103 tmp.189)
+      (mset! tmp.103 -2 L.fun/error11009.10.16)
+      (mset! tmp.103 6 0)
+      (set! fun/error11009.10 tmp.103)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 24)))
+      (set! tmp.190 tmp.133)
+      (set! tmp.190 (+ tmp.190 2))
+      (set! tmp.104 tmp.190)
+      (mset! tmp.104 -2 L.fun/void11014.11.17)
+      (mset! tmp.104 6 0)
+      (set! fun/void11014.11 tmp.104)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 24)))
+      (set! tmp.191 tmp.134)
+      (set! tmp.191 (+ tmp.191 2))
+      (set! tmp.105 tmp.191)
+      (mset! tmp.105 -2 L.fun/error11008.12.18)
+      (mset! tmp.105 6 0)
+      (set! fun/error11008.12 tmp.105)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 16)))
+      (set! tmp.192 tmp.135)
+      (set! tmp.192 (+ tmp.192 2))
+      (set! tmp.106 tmp.192)
+      (mset! tmp.106 -2 L.fun/void11015.13.19)
+      (mset! tmp.106 6 0)
+      (set! fun/void11015.13 tmp.106)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 16)))
+      (set! tmp.193 tmp.136)
+      (set! tmp.193 (+ tmp.193 2))
+      (set! tmp.107 tmp.193)
+      (mset! tmp.107 -2 L.fun/ascii-char11013.14.20)
+      (mset! tmp.107 6 0)
+      (set! fun/ascii-char11013.14 tmp.107)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 24)))
+      (set! tmp.194 tmp.137)
+      (set! tmp.194 (+ tmp.194 2))
+      (set! tmp.108 tmp.194)
+      (mset! tmp.108 -2 L.fun/ascii-char11012.15.21)
+      (mset! tmp.108 6 0)
+      (set! fun/ascii-char11012.15 tmp.108)
+      (mset! fun/void11006.4 14 fun/void11007.6)
+      (mset! fun/void11010.5 14 fun/void11011.8)
+      (mset! fun/empty11016.9 14 fun/empty11017.7)
+      (mset! fun/void11014.11 14 fun/void11015.13)
+      (mset! fun/error11008.12 14 fun/error11009.10)
+      (mset! fun/ascii-char11012.15 14 fun/ascii-char11013.14)
+      (return-point L.rp.23
+        (begin
+          (set! rdx 32)
+          (set! rsi 1352)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.23)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.140 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdx 736)
+          (set! rsi 1704)
+          (set! rdi |+.75|)
+          (set! r15 L.rp.24)
+          (jump L.+.75.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.141 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdx tmp.141)
+          (set! rsi tmp.140)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.25)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.139 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdx 104)
+          (set! rsi 1440)
+          (set! rdi *.76)
+          (set! r15 L.rp.26)
+          (jump L.*.76.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.143 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdx 1712)
+          (set! rsi 1664)
+          (set! rdi *.76)
+          (set! r15 L.rp.27)
+          (jump L.*.76.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.144 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdx tmp.144)
+          (set! rsi tmp.143)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.28)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.142 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdx tmp.142)
+          (set! rsi tmp.139)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.29)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.138 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdx 1528)
+          (set! rsi 0)
+          (set! rdi *.76)
+          (set! r15 L.rp.30)
+          (jump L.*.76.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.147 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx 928)
+          (set! rsi 1648)
+          (set! rdi |+.75|)
+          (set! r15 L.rp.31)
+          (jump L.+.75.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.148 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx tmp.148)
+          (set! rsi tmp.147)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.32)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.146 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx 1080)
+          (set! rsi 1592)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.33)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.150 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx 760)
+          (set! rsi 128)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.34)
+          (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.151 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx tmp.151)
+          (set! rsi tmp.150)
+          (set! rdi *.76)
+          (set! r15 L.rp.35)
+          (jump L.*.76.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.149 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx tmp.149)
+          (set! rsi tmp.146)
+          (set! rdi |+.75|)
+          (set! r15 L.rp.36)
+          (jump L.+.75.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.145 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx tmp.145)
+          (set! rsi tmp.138)
+          (set! rdi |+.75|)
+          (set! r15 L.rp.37)
+          (jump L.+.75.8 rbp r15 rdi rsi rdx)))
+      (set! fixnum0.21 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdi fun/void11006.4)
+          (set! r15 L.rp.38)
+          (jump L.fun/void11006.4.10 rbp r15 rdi)))
+      (set! void1.20 rax)
+      (begin (set! tmp.152 r12) (set! r12 (+ r12 24)))
+      (set! tmp.195 tmp.152)
+      (set! tmp.195 (+ tmp.195 2))
+      (set! tmp.109 tmp.195)
+      (mset! tmp.109 -2 L.lam.77.22)
+      (mset! tmp.109 6 0)
+      (set! lam.77 tmp.109)
+      (mset! lam.77 14 fun/error11008.12)
+      (set! procedure2.19 lam.77)
+      (return-point L.rp.39
+        (begin
+          (set! rdi fun/void11010.5)
+          (set! r15 L.rp.39)
+          (jump L.fun/void11010.5.11 rbp r15 rdi)))
+      (set! void3.18 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdi fun/ascii-char11012.15)
+          (set! r15 L.rp.40)
+          (jump L.fun/ascii-char11012.15.21 rbp r15 rdi)))
+      (set! ascii-char4.17 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdi fun/void11014.11)
+          (set! r15 L.rp.41)
+          (jump L.fun/void11014.11.17 rbp r15 rdi)))
+      (set! void5.16 rax)
+      (set! rdi fun/empty11016.9)
+      (set! r15 tmp-ra.169)
+      (jump L.fun/empty11016.9.15 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () () () () () () ()))
+     (locals
+      (tmp.161
+       tmp.207
+       tmp.162
+       tmp.165
+       tmp.160
+       tmp.164
+       tmp.163
+       tmp.145
+       tmp.155
+       tmp.206
+       tmp.156
+       tmp.159
+       tmp.154
+       tmp.158
+       tmp.157
+       tmp.146
+       tmp.149
+       tmp.205
+       tmp.150
+       tmp.153
+       tmp.148
+       tmp.152
+       tmp.151
+       tmp.147
+       error5.14
+       error4.15
+       ascii-char3.16
+       ascii-char2.17
+       void1.18
+       procedure0.19
+       lam.75
+       tmp.103
+       tmp.204
+       tmp.144
+       fun/ascii-char11875.13
+       tmp.102
+       tmp.203
+       tmp.143
+       fun/void11871.12
+       tmp.101
+       tmp.202
+       tmp.142
+       fun/void11872.11
+       tmp.100
+       tmp.201
+       tmp.141
+       fun/error11877.10
+       tmp.99
+       tmp.200
+       tmp.140
+       fun/ascii-char11874.9
+       tmp.98
+       tmp.199
+       tmp.139
+       fun/ascii-char11873.8
+       tmp.97
+       tmp.198
+       tmp.138
+       fun/error11880.7
+       tmp.96
+       tmp.197
+       tmp.137
+       fun/ascii-char11876.6
+       tmp.95
+       tmp.196
+       tmp.136
+       fun/error11879.5
+       tmp.94
+       tmp.195
+       tmp.135
+       fun/error11878.4
+       tmp.93
+       tmp.194
+       tmp.134
+       |-.72|
+       tmp.92
+       tmp.193
+       tmp.133
+       *.73
+       tmp.91
+       tmp.192
+       tmp.132
+       |+.74|
+       tmp.90
+       tmp.191
+       tmp.131
+       tmp-ra.180)))
+    (define L.lam.75.20
+      ((new-frames (() () () () () () () () () () () () () ()))
+       (locals
+        (tmp.111
+         tmp.115
+         tmp.117
+         tmp.116
+         tmp.112
+         tmp.114
+         tmp.113
+         tmp.104
+         tmp.108
+         tmp.110
+         tmp.109
+         tmp.105
+         tmp.107
+         tmp.106
+         *.73
+         |+.74|
+         |-.72|
+         c.89
+         tmp-ra.166)))
+      (begin
+        (set! tmp-ra.166 r15)
+        (set! c.89 rdi)
+        (set! |-.72| (mref c.89 14))
+        (set! |+.74| (mref c.89 22))
+        (set! *.73 (mref c.89 30))
+        (return-point L.rp.21
+          (begin
+            (set! rdx 328)
+            (set! rsi 1200)
+            (set! rdi |-.72|)
+            (set! r15 L.rp.21)
+            (jump L.-.72.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.106 rax)
+        (return-point L.rp.22
+          (begin
+            (set! rdx 800)
+            (set! rsi 1384)
+            (set! rdi |-.72|)
+            (set! r15 L.rp.22)
+            (jump L.-.72.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.107 rax)
+        (return-point L.rp.23
+          (begin
+            (set! rdx tmp.107)
+            (set! rsi tmp.106)
+            (set! rdi *.73)
+            (set! r15 L.rp.23)
+            (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.105 rax)
+        (return-point L.rp.24
+          (begin
+            (set! rdx 736)
+            (set! rsi 1704)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.24)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.109 rax)
+        (return-point L.rp.25
+          (begin
+            (set! rdx 480)
+            (set! rsi 328)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.25)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.110 rax)
+        (return-point L.rp.26
+          (begin
+            (set! rdx tmp.110)
+            (set! rsi tmp.109)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.26)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.108 rax)
+        (return-point L.rp.27
+          (begin
+            (set! rdx tmp.108)
+            (set! rsi tmp.105)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.27)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.104 rax)
+        (return-point L.rp.28
+          (begin
+            (set! rdx 32)
+            (set! rsi 16)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.28)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.113 rax)
+        (return-point L.rp.29
+          (begin
+            (set! rdx 1912)
+            (set! rsi 624)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.29)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.114 rax)
+        (return-point L.rp.30
+          (begin
+            (set! rdx tmp.114)
+            (set! rsi tmp.113)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.30)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.112 rax)
+        (return-point L.rp.31
+          (begin
+            (set! rdx 1352)
+            (set! rsi 1824)
+            (set! rdi *.73)
+            (set! r15 L.rp.31)
+            (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.116 rax)
+        (return-point L.rp.32
+          (begin
+            (set! rdx 344)
+            (set! rsi 1584)
+            (set! rdi |+.74|)
+            (set! r15 L.rp.32)
+            (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.117 rax)
+        (return-point L.rp.33
+          (begin
+            (set! rdx tmp.117)
+            (set! rsi tmp.116)
+            (set! rdi |-.72|)
+            (set! r15 L.rp.33)
+            (jump L.-.72.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.115 rax)
+        (return-point L.rp.34
+          (begin
+            (set! rdx tmp.115)
+            (set! rsi tmp.112)
+            (set! rdi *.73)
+            (set! r15 L.rp.34)
+            (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.111 rax)
+        (set! rdx tmp.111)
+        (set! rsi tmp.104)
+        (set! rdi *.73)
+        (set! r15 tmp-ra.166)
+        (jump L.*.73.8 rbp r15 rdi rsi rdx)))
+    (define L.fun/ascii-char11875.13.19
+      ((new-frames ()) (locals (fun/ascii-char11876.6 c.88 tmp-ra.167)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.88 rdi)
+        (set! fun/ascii-char11876.6 (mref c.88 14))
+        (set! rdi fun/ascii-char11876.6)
+        (set! r15 tmp-ra.167)
+        (jump L.fun/ascii-char11876.6.12 rbp r15 rdi)))
+    (define L.fun/void11871.12.18
+      ((new-frames ()) (locals (fun/void11872.11 c.87 tmp-ra.168)))
+      (begin
+        (set! tmp-ra.168 r15)
+        (set! c.87 rdi)
+        (set! fun/void11872.11 (mref c.87 14))
+        (set! rdi fun/void11872.11)
+        (set! r15 tmp-ra.168)
+        (jump L.fun/void11872.11.17 rbp r15 rdi)))
+    (define L.fun/void11872.11.17
+      ((new-frames ()) (locals (c.86 tmp-ra.169)))
+      (begin
+        (set! tmp-ra.169 r15)
+        (set! c.86 rdi)
+        (set! rax 30)
+        (jump tmp-ra.169 rbp rax)))
+    (define L.fun/error11877.10.16
+      ((new-frames ()) (locals (fun/error11878.4 c.85 tmp-ra.170)))
+      (begin
+        (set! tmp-ra.170 r15)
+        (set! c.85 rdi)
+        (set! fun/error11878.4 (mref c.85 14))
+        (set! rdi fun/error11878.4)
+        (set! r15 tmp-ra.170)
+        (jump L.fun/error11878.4.10 rbp r15 rdi)))
+    (define L.fun/ascii-char11874.9.15
+      ((new-frames ()) (locals (c.84 tmp-ra.171)))
+      (begin
+        (set! tmp-ra.171 r15)
+        (set! c.84 rdi)
+        (set! rax 29230)
+        (jump tmp-ra.171 rbp rax)))
+    (define L.fun/ascii-char11873.8.14
+      ((new-frames ()) (locals (fun/ascii-char11874.9 c.83 tmp-ra.172)))
+      (begin
+        (set! tmp-ra.172 r15)
+        (set! c.83 rdi)
+        (set! fun/ascii-char11874.9 (mref c.83 14))
+        (set! rdi fun/ascii-char11874.9)
+        (set! r15 tmp-ra.172)
+        (jump L.fun/ascii-char11874.9.15 rbp r15 rdi)))
+    (define L.fun/error11880.7.13
+      ((new-frames ()) (locals (c.82 tmp-ra.173)))
+      (begin
+        (set! tmp-ra.173 r15)
+        (set! c.82 rdi)
+        (set! rax 43070)
+        (jump tmp-ra.173 rbp rax)))
+    (define L.fun/ascii-char11876.6.12
+      ((new-frames ()) (locals (c.81 tmp-ra.174)))
+      (begin
+        (set! tmp-ra.174 r15)
+        (set! c.81 rdi)
+        (set! rax 27950)
+        (jump tmp-ra.174 rbp rax)))
+    (define L.fun/error11879.5.11
+      ((new-frames ()) (locals (fun/error11880.7 c.80 tmp-ra.175)))
+      (begin
+        (set! tmp-ra.175 r15)
+        (set! c.80 rdi)
+        (set! fun/error11880.7 (mref c.80 14))
+        (set! rdi fun/error11880.7)
+        (set! r15 tmp-ra.175)
+        (jump L.fun/error11880.7.13 rbp r15 rdi)))
+    (define L.fun/error11878.4.10
+      ((new-frames ()) (locals (c.79 tmp-ra.176)))
+      (begin
+        (set! tmp-ra.176 r15)
+        (set! c.79 rdi)
+        (set! rax 16446)
+        (jump tmp-ra.176 rbp rax)))
+    (define L.-.72.9
+      ((new-frames ())
+       (locals
+        (c.78
+         tmp.120
+         tmp.182
+         tmp.38
+         tmp.121
+         tmp.183
+         tmp-ra.177
+         tmp.119
+         tmp.39
+         tmp.181
+         tmp.118)))
+      (begin
+        (set! tmp-ra.177 r15)
+        (set! c.78 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.181 tmp.39)
+                      (set! tmp.181 (bitwise-and tmp.181 7))
+                      (set! tmp.119 tmp.181))
+                    (= tmp.119 0))
+                (set! tmp.118 14)
+                (set! tmp.118 6))
+              (!= tmp.118 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.182 tmp.38)
+                        (set! tmp.182 (bitwise-and tmp.182 7))
+                        (set! tmp.121 tmp.182))
+                      (= tmp.121 0))
+                  (set! tmp.120 14)
+                  (set! tmp.120 6))
+                (!= tmp.120 6))
+            (begin
+              (set! tmp.183 tmp.38)
+              (set! tmp.183 (- tmp.183 tmp.39))
+              (set! rax tmp.183)
+              (jump tmp-ra.177 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.177 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.177 rbp rax)))))
+    (define L.*.73.8
+      ((new-frames ())
+       (locals
+        (c.77
+         tmp.124
+         tmp.185
+         tmp.34
+         tmp.125
+         tmp.187
+         tmp.126
+         tmp.186
+         tmp-ra.178
+         tmp.123
+         tmp.35
+         tmp.184
+         tmp.122)))
+      (begin
+        (set! tmp-ra.178 r15)
+        (set! c.77 rdi)
+        (set! tmp.34 rsi)
+        (set! tmp.35 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.184 tmp.35)
+                      (set! tmp.184 (bitwise-and tmp.184 7))
+                      (set! tmp.123 tmp.184))
+                    (= tmp.123 0))
+                (set! tmp.122 14)
+                (set! tmp.122 6))
+              (!= tmp.122 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.185 tmp.34)
+                        (set! tmp.185 (bitwise-and tmp.185 7))
+                        (set! tmp.125 tmp.185))
+                      (= tmp.125 0))
+                  (set! tmp.124 14)
+                  (set! tmp.124 6))
+                (!= tmp.124 6))
+            (begin
+              (set! tmp.186 tmp.35)
+              (set! tmp.186 (arithmetic-shift-right tmp.186 3))
+              (set! tmp.126 tmp.186)
+              (set! tmp.187 tmp.34)
+              (set! tmp.187 (* tmp.187 tmp.126))
+              (set! rax tmp.187)
+              (jump tmp-ra.178 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.178 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.178 rbp rax)))))
+    (define L.+.74.7
+      ((new-frames ())
+       (locals
+        (c.76
+         tmp.129
+         tmp.189
+         tmp.36
+         tmp.130
+         tmp.190
+         tmp-ra.179
+         tmp.128
+         tmp.37
+         tmp.188
+         tmp.127)))
+      (begin
+        (set! tmp-ra.179 r15)
+        (set! c.76 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.188 tmp.37)
+                      (set! tmp.188 (bitwise-and tmp.188 7))
+                      (set! tmp.128 tmp.188))
+                    (= tmp.128 0))
+                (set! tmp.127 14)
+                (set! tmp.127 6))
+              (!= tmp.127 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.189 tmp.36)
+                        (set! tmp.189 (bitwise-and tmp.189 7))
+                        (set! tmp.130 tmp.189))
+                      (= tmp.130 0))
+                  (set! tmp.129 14)
+                  (set! tmp.129 6))
+                (!= tmp.129 6))
+            (begin
+              (set! tmp.190 tmp.36)
+              (set! tmp.190 (+ tmp.190 tmp.37))
+              (set! rax tmp.190)
+              (jump tmp-ra.179 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.179 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.179 rbp rax)))))
+    (begin
+      (set! tmp-ra.180 r15)
+      (begin (set! tmp.131 r12) (set! r12 (+ r12 16)))
+      (set! tmp.191 tmp.131)
+      (set! tmp.191 (+ tmp.191 2))
+      (set! tmp.90 tmp.191)
+      (mset! tmp.90 -2 L.+.74.7)
+      (mset! tmp.90 6 16)
+      (set! |+.74| tmp.90)
+      (begin (set! tmp.132 r12) (set! r12 (+ r12 16)))
+      (set! tmp.192 tmp.132)
+      (set! tmp.192 (+ tmp.192 2))
+      (set! tmp.91 tmp.192)
+      (mset! tmp.91 -2 L.*.73.8)
+      (mset! tmp.91 6 16)
+      (set! *.73 tmp.91)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 16)))
+      (set! tmp.193 tmp.133)
+      (set! tmp.193 (+ tmp.193 2))
+      (set! tmp.92 tmp.193)
+      (mset! tmp.92 -2 L.-.72.9)
+      (mset! tmp.92 6 16)
+      (set! |-.72| tmp.92)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 16)))
+      (set! tmp.194 tmp.134)
+      (set! tmp.194 (+ tmp.194 2))
+      (set! tmp.93 tmp.194)
+      (mset! tmp.93 -2 L.fun/error11878.4.10)
+      (mset! tmp.93 6 0)
+      (set! fun/error11878.4 tmp.93)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 24)))
+      (set! tmp.195 tmp.135)
+      (set! tmp.195 (+ tmp.195 2))
+      (set! tmp.94 tmp.195)
+      (mset! tmp.94 -2 L.fun/error11879.5.11)
+      (mset! tmp.94 6 0)
+      (set! fun/error11879.5 tmp.94)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 16)))
+      (set! tmp.196 tmp.136)
+      (set! tmp.196 (+ tmp.196 2))
+      (set! tmp.95 tmp.196)
+      (mset! tmp.95 -2 L.fun/ascii-char11876.6.12)
+      (mset! tmp.95 6 0)
+      (set! fun/ascii-char11876.6 tmp.95)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 16)))
+      (set! tmp.197 tmp.137)
+      (set! tmp.197 (+ tmp.197 2))
+      (set! tmp.96 tmp.197)
+      (mset! tmp.96 -2 L.fun/error11880.7.13)
+      (mset! tmp.96 6 0)
+      (set! fun/error11880.7 tmp.96)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 24)))
+      (set! tmp.198 tmp.138)
+      (set! tmp.198 (+ tmp.198 2))
+      (set! tmp.97 tmp.198)
+      (mset! tmp.97 -2 L.fun/ascii-char11873.8.14)
+      (mset! tmp.97 6 0)
+      (set! fun/ascii-char11873.8 tmp.97)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 16)))
+      (set! tmp.199 tmp.139)
+      (set! tmp.199 (+ tmp.199 2))
+      (set! tmp.98 tmp.199)
+      (mset! tmp.98 -2 L.fun/ascii-char11874.9.15)
+      (mset! tmp.98 6 0)
+      (set! fun/ascii-char11874.9 tmp.98)
+      (begin (set! tmp.140 r12) (set! r12 (+ r12 24)))
+      (set! tmp.200 tmp.140)
+      (set! tmp.200 (+ tmp.200 2))
+      (set! tmp.99 tmp.200)
+      (mset! tmp.99 -2 L.fun/error11877.10.16)
+      (mset! tmp.99 6 0)
+      (set! fun/error11877.10 tmp.99)
+      (begin (set! tmp.141 r12) (set! r12 (+ r12 16)))
+      (set! tmp.201 tmp.141)
+      (set! tmp.201 (+ tmp.201 2))
+      (set! tmp.100 tmp.201)
+      (mset! tmp.100 -2 L.fun/void11872.11.17)
+      (mset! tmp.100 6 0)
+      (set! fun/void11872.11 tmp.100)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 24)))
+      (set! tmp.202 tmp.142)
+      (set! tmp.202 (+ tmp.202 2))
+      (set! tmp.101 tmp.202)
+      (mset! tmp.101 -2 L.fun/void11871.12.18)
+      (mset! tmp.101 6 0)
+      (set! fun/void11871.12 tmp.101)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 24)))
+      (set! tmp.203 tmp.143)
+      (set! tmp.203 (+ tmp.203 2))
+      (set! tmp.102 tmp.203)
+      (mset! tmp.102 -2 L.fun/ascii-char11875.13.19)
+      (mset! tmp.102 6 0)
+      (set! fun/ascii-char11875.13 tmp.102)
+      (mset! fun/error11879.5 14 fun/error11880.7)
+      (mset! fun/ascii-char11873.8 14 fun/ascii-char11874.9)
+      (mset! fun/error11877.10 14 fun/error11878.4)
+      (mset! fun/void11871.12 14 fun/void11872.11)
+      (mset! fun/ascii-char11875.13 14 fun/ascii-char11876.6)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 40)))
+      (set! tmp.204 tmp.144)
+      (set! tmp.204 (+ tmp.204 2))
+      (set! tmp.103 tmp.204)
+      (mset! tmp.103 -2 L.lam.75.20)
+      (mset! tmp.103 6 0)
+      (set! lam.75 tmp.103)
+      (mset! lam.75 14 |-.72|)
+      (mset! lam.75 22 |+.74|)
+      (mset! lam.75 30 *.73)
+      (set! procedure0.19 lam.75)
+      (return-point L.rp.35
+        (begin
+          (set! rdi fun/void11871.12)
+          (set! r15 L.rp.35)
+          (jump L.fun/void11871.12.18 rbp r15 rdi)))
+      (set! void1.18 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdi fun/ascii-char11873.8)
+          (set! r15 L.rp.36)
+          (jump L.fun/ascii-char11873.8.14 rbp r15 rdi)))
+      (set! ascii-char2.17 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdi fun/ascii-char11875.13)
+          (set! r15 L.rp.37)
+          (jump L.fun/ascii-char11875.13.19 rbp r15 rdi)))
+      (set! ascii-char3.16 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdi fun/error11877.10)
+          (set! r15 L.rp.38)
+          (jump L.fun/error11877.10.16 rbp r15 rdi)))
+      (set! error4.15 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdi fun/error11879.5)
+          (set! r15 L.rp.39)
+          (jump L.fun/error11879.5.11 rbp r15 rdi)))
+      (set! error5.14 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx 240)
+          (set! rsi 568)
+          (set! rdi |-.72|)
+          (set! r15 L.rp.40)
+          (jump L.-.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.147 rax)
+      (if (begin
+            (if (begin
+                  (begin
+                    (set! tmp.205 procedure0.19)
+                    (set! tmp.205 (bitwise-and tmp.205 7))
+                    (set! tmp.150 tmp.205))
+                  (= tmp.150 2))
+              (set! tmp.149 14)
+              (set! tmp.149 6))
+            (!= tmp.149 6))
+        (if (begin
+              (if (begin (set! tmp.152 (mref procedure0.19 6)) (= tmp.152 0))
+                (set! tmp.151 14)
+                (set! tmp.151 6))
+              (!= tmp.151 6))
+          (begin
+            (set! tmp.153 (mref procedure0.19 -2))
+            (return-point L.rp.41
+              (begin
+                (set! rdi procedure0.19)
+                (set! r15 L.rp.41)
+                (jump tmp.153 rbp r15 rdi)))
+            (set! tmp.148 rax))
+          (set! tmp.148 10814))
+        (set! tmp.148 11070))
+      (return-point L.rp.42
+        (begin
+          (set! rdx tmp.148)
+          (set! rsi tmp.147)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.42)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.146 rax)
+      (if (begin
+            (if (begin
+                  (begin
+                    (set! tmp.206 procedure0.19)
+                    (set! tmp.206 (bitwise-and tmp.206 7))
+                    (set! tmp.156 tmp.206))
+                  (= tmp.156 2))
+              (set! tmp.155 14)
+              (set! tmp.155 6))
+            (!= tmp.155 6))
+        (if (begin
+              (if (begin (set! tmp.158 (mref procedure0.19 6)) (= tmp.158 0))
+                (set! tmp.157 14)
+                (set! tmp.157 6))
+              (!= tmp.157 6))
+          (begin
+            (set! tmp.159 (mref procedure0.19 -2))
+            (return-point L.rp.43
+              (begin
+                (set! rdi procedure0.19)
+                (set! r15 L.rp.43)
+                (jump tmp.159 rbp r15 rdi)))
+            (set! tmp.154 rax))
+          (set! tmp.154 10814))
+        (set! tmp.154 11070))
+      (return-point L.rp.44
+        (begin
+          (set! rdx tmp.154)
+          (set! rsi tmp.146)
+          (set! rdi |-.72|)
+          (set! r15 L.rp.44)
+          (jump L.-.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.145 rax)
+      (if (begin
+            (if (begin
+                  (begin
+                    (set! tmp.207 procedure0.19)
+                    (set! tmp.207 (bitwise-and tmp.207 7))
+                    (set! tmp.162 tmp.207))
+                  (= tmp.162 2))
+              (set! tmp.161 14)
+              (set! tmp.161 6))
+            (!= tmp.161 6))
+        (if (begin
+              (if (begin (set! tmp.164 (mref procedure0.19 6)) (= tmp.164 0))
+                (set! tmp.163 14)
+                (set! tmp.163 6))
+              (!= tmp.163 6))
+          (begin
+            (set! tmp.165 (mref procedure0.19 -2))
+            (return-point L.rp.45
+              (begin
+                (set! rdi procedure0.19)
+                (set! r15 L.rp.45)
+                (jump tmp.165 rbp r15 rdi)))
+            (set! tmp.160 rax))
+          (set! tmp.160 10814))
+        (set! tmp.160 11070))
+      (set! rdx tmp.160)
+      (set! rsi tmp.145)
+      (set! rdi *.73)
+      (set! r15 tmp-ra.180)
+      (jump L.*.73.8 rbp r15 rdi rsi rdx))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () () ()))
+     (locals
+      (boolean5.18
+       tmp.129
+       void4.19
+       ascii-char3.20
+       error2.21
+       empty1.22
+       empty0.23
+       fun/empty12694.17
+       tmp.110
+       tmp.164
+       tmp.128
+       fun/ascii-char12704.16
+       tmp.109
+       tmp.163
+       tmp.127
+       fun/empty12695.15
+       tmp.108
+       tmp.162
+       tmp.126
+       fun/ascii-char12705.14
+       tmp.107
+       tmp.161
+       tmp.125
+       fun/empty12693.13
+       tmp.106
+       tmp.160
+       tmp.124
+       fun/void12700.12
+       tmp.105
+       tmp.159
+       tmp.123
+       fun/any12702.11
+       tmp.104
+       tmp.158
+       tmp.122
+       fun/error12697.10
+       tmp.103
+       tmp.157
+       tmp.121
+       fun/void12701.9
+       tmp.102
+       tmp.156
+       tmp.120
+       fun/error12696.8
+       tmp.101
+       tmp.155
+       tmp.119
+       fun/empty12692.7
+       tmp.100
+       tmp.154
+       tmp.118
+       fun/any12703.6
+       tmp.99
+       tmp.153
+       tmp.117
+       fun/ascii-char12699.5
+       tmp.98
+       tmp.152
+       tmp.116
+       fun/ascii-char12698.4
+       tmp.97
+       tmp.151
+       tmp.115
+       cons.76
+       tmp.96
+       tmp.150
+       tmp.114
+       empty?.77
+       tmp.95
+       tmp.149
+       tmp.113
+       tmp-ra.146)))
+    (define L.fun/empty12694.17.22
+      ((new-frames ()) (locals (fun/empty12695.15 c.93 tmp-ra.130)))
+      (begin
+        (set! tmp-ra.130 r15)
+        (set! c.93 rdi)
+        (set! fun/empty12695.15 (mref c.93 14))
+        (set! rdi fun/empty12695.15)
+        (set! r15 tmp-ra.130)
+        (jump L.fun/empty12695.15.20 rbp r15 rdi)))
+    (define L.fun/ascii-char12704.16.21
+      ((new-frames ()) (locals (fun/ascii-char12705.14 c.92 tmp-ra.131)))
+      (begin
+        (set! tmp-ra.131 r15)
+        (set! c.92 rdi)
+        (set! fun/ascii-char12705.14 (mref c.92 14))
+        (set! rdi fun/ascii-char12705.14)
+        (set! r15 tmp-ra.131)
+        (jump L.fun/ascii-char12705.14.19 rbp r15 rdi)))
+    (define L.fun/empty12695.15.20
+      ((new-frames ()) (locals (c.91 tmp-ra.132)))
+      (begin
+        (set! tmp-ra.132 r15)
+        (set! c.91 rdi)
+        (set! rax 22)
+        (jump tmp-ra.132 rbp rax)))
+    (define L.fun/ascii-char12705.14.19
+      ((new-frames ()) (locals (c.90 tmp-ra.133)))
+      (begin
+        (set! tmp-ra.133 r15)
+        (set! c.90 rdi)
+        (set! rax 23854)
+        (jump tmp-ra.133 rbp rax)))
+    (define L.fun/empty12693.13.18
+      ((new-frames ()) (locals (c.89 tmp-ra.134)))
+      (begin
+        (set! tmp-ra.134 r15)
+        (set! c.89 rdi)
+        (set! rax 22)
+        (jump tmp-ra.134 rbp rax)))
+    (define L.fun/void12700.12.17
+      ((new-frames ()) (locals (fun/void12701.9 c.88 tmp-ra.135)))
+      (begin
+        (set! tmp-ra.135 r15)
+        (set! c.88 rdi)
+        (set! fun/void12701.9 (mref c.88 14))
+        (set! rdi fun/void12701.9)
+        (set! r15 tmp-ra.135)
+        (jump L.fun/void12701.9.14 rbp r15 rdi)))
+    (define L.fun/any12702.11.16
+      ((new-frames ()) (locals (fun/any12703.6 c.87 tmp-ra.136)))
+      (begin
+        (set! tmp-ra.136 r15)
+        (set! c.87 rdi)
+        (set! fun/any12703.6 (mref c.87 14))
+        (set! rdi fun/any12703.6)
+        (set! r15 tmp-ra.136)
+        (jump L.fun/any12703.6.11 rbp r15 rdi)))
+    (define L.fun/error12697.10.15
+      ((new-frames ()) (locals (c.86 tmp-ra.137)))
+      (begin
+        (set! tmp-ra.137 r15)
+        (set! c.86 rdi)
+        (set! rax 24382)
+        (jump tmp-ra.137 rbp rax)))
+    (define L.fun/void12701.9.14
+      ((new-frames ()) (locals (c.85 tmp-ra.138)))
+      (begin
+        (set! tmp-ra.138 r15)
+        (set! c.85 rdi)
+        (set! rax 30)
+        (jump tmp-ra.138 rbp rax)))
+    (define L.fun/error12696.8.13
+      ((new-frames ()) (locals (fun/error12697.10 c.84 tmp-ra.139)))
+      (begin
+        (set! tmp-ra.139 r15)
+        (set! c.84 rdi)
+        (set! fun/error12697.10 (mref c.84 14))
+        (set! rdi fun/error12697.10)
+        (set! r15 tmp-ra.139)
+        (jump L.fun/error12697.10.15 rbp r15 rdi)))
+    (define L.fun/empty12692.7.12
+      ((new-frames ()) (locals (fun/empty12693.13 c.83 tmp-ra.140)))
+      (begin
+        (set! tmp-ra.140 r15)
+        (set! c.83 rdi)
+        (set! fun/empty12693.13 (mref c.83 14))
+        (set! rdi fun/empty12693.13)
+        (set! r15 tmp-ra.140)
+        (jump L.fun/empty12693.13.18 rbp r15 rdi)))
+    (define L.fun/any12703.6.11
+      ((new-frames ()) (locals (cons.76 c.82 tmp-ra.141)))
+      (begin
+        (set! tmp-ra.141 r15)
+        (set! c.82 rdi)
+        (set! cons.76 (mref c.82 14))
+        (set! rdx 3104)
+        (set! rsi 1112)
+        (set! rdi cons.76)
+        (set! r15 tmp-ra.141)
+        (jump L.cons.76.8 rbp r15 rdi rsi rdx)))
+    (define L.fun/ascii-char12699.5.10
+      ((new-frames ()) (locals (c.81 tmp-ra.142)))
+      (begin
+        (set! tmp-ra.142 r15)
+        (set! c.81 rdi)
+        (set! rax 23342)
+        (jump tmp-ra.142 rbp rax)))
+    (define L.fun/ascii-char12698.4.9
+      ((new-frames ()) (locals (fun/ascii-char12699.5 c.80 tmp-ra.143)))
+      (begin
+        (set! tmp-ra.143 r15)
+        (set! c.80 rdi)
+        (set! fun/ascii-char12699.5 (mref c.80 14))
+        (set! rdi fun/ascii-char12699.5)
+        (set! r15 tmp-ra.143)
+        (jump L.fun/ascii-char12699.5.10 rbp r15 rdi)))
+    (define L.cons.76.8
+      ((new-frames ())
+       (locals (tmp.94 tmp.147 tmp.111 tmp.72 tmp.71 c.79 tmp-ra.144)))
+      (begin
+        (set! tmp-ra.144 r15)
+        (set! c.79 rdi)
+        (set! tmp.71 rsi)
+        (set! tmp.72 rdx)
+        (begin (set! tmp.111 r12) (set! r12 (+ r12 16)))
+        (set! tmp.147 tmp.111)
+        (set! tmp.147 (+ tmp.147 1))
+        (set! tmp.94 tmp.147)
+        (mset! tmp.94 -1 tmp.71)
+        (mset! tmp.94 7 tmp.72)
+        (set! rax tmp.94)
+        (jump tmp-ra.144 rbp rax)))
+    (define L.empty?.77.7
+      ((new-frames ()) (locals (c.78 tmp-ra.145 tmp.148 tmp.63 tmp.112)))
+      (begin
+        (set! tmp-ra.145 r15)
+        (set! c.78 rdi)
+        (set! tmp.63 rsi)
+        (if (begin
+              (begin
+                (set! tmp.148 tmp.63)
+                (set! tmp.148 (bitwise-and tmp.148 255))
+                (set! tmp.112 tmp.148))
+              (= tmp.112 22))
+          (begin (set! rax 14) (jump tmp-ra.145 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.145 rbp rax)))))
+    (begin
+      (set! tmp-ra.146 r15)
+      (begin (set! tmp.113 r12) (set! r12 (+ r12 16)))
+      (set! tmp.149 tmp.113)
+      (set! tmp.149 (+ tmp.149 2))
+      (set! tmp.95 tmp.149)
+      (mset! tmp.95 -2 L.empty?.77.7)
+      (mset! tmp.95 6 8)
+      (set! empty?.77 tmp.95)
+      (begin (set! tmp.114 r12) (set! r12 (+ r12 16)))
+      (set! tmp.150 tmp.114)
+      (set! tmp.150 (+ tmp.150 2))
+      (set! tmp.96 tmp.150)
+      (mset! tmp.96 -2 L.cons.76.8)
+      (mset! tmp.96 6 16)
+      (set! cons.76 tmp.96)
+      (begin (set! tmp.115 r12) (set! r12 (+ r12 24)))
+      (set! tmp.151 tmp.115)
+      (set! tmp.151 (+ tmp.151 2))
+      (set! tmp.97 tmp.151)
+      (mset! tmp.97 -2 L.fun/ascii-char12698.4.9)
+      (mset! tmp.97 6 0)
+      (set! fun/ascii-char12698.4 tmp.97)
+      (begin (set! tmp.116 r12) (set! r12 (+ r12 16)))
+      (set! tmp.152 tmp.116)
+      (set! tmp.152 (+ tmp.152 2))
+      (set! tmp.98 tmp.152)
+      (mset! tmp.98 -2 L.fun/ascii-char12699.5.10)
+      (mset! tmp.98 6 0)
+      (set! fun/ascii-char12699.5 tmp.98)
+      (begin (set! tmp.117 r12) (set! r12 (+ r12 24)))
+      (set! tmp.153 tmp.117)
+      (set! tmp.153 (+ tmp.153 2))
+      (set! tmp.99 tmp.153)
+      (mset! tmp.99 -2 L.fun/any12703.6.11)
+      (mset! tmp.99 6 0)
+      (set! fun/any12703.6 tmp.99)
+      (begin (set! tmp.118 r12) (set! r12 (+ r12 24)))
+      (set! tmp.154 tmp.118)
+      (set! tmp.154 (+ tmp.154 2))
+      (set! tmp.100 tmp.154)
+      (mset! tmp.100 -2 L.fun/empty12692.7.12)
+      (mset! tmp.100 6 0)
+      (set! fun/empty12692.7 tmp.100)
+      (begin (set! tmp.119 r12) (set! r12 (+ r12 24)))
+      (set! tmp.155 tmp.119)
+      (set! tmp.155 (+ tmp.155 2))
+      (set! tmp.101 tmp.155)
+      (mset! tmp.101 -2 L.fun/error12696.8.13)
+      (mset! tmp.101 6 0)
+      (set! fun/error12696.8 tmp.101)
+      (begin (set! tmp.120 r12) (set! r12 (+ r12 16)))
+      (set! tmp.156 tmp.120)
+      (set! tmp.156 (+ tmp.156 2))
+      (set! tmp.102 tmp.156)
+      (mset! tmp.102 -2 L.fun/void12701.9.14)
+      (mset! tmp.102 6 0)
+      (set! fun/void12701.9 tmp.102)
+      (begin (set! tmp.121 r12) (set! r12 (+ r12 16)))
+      (set! tmp.157 tmp.121)
+      (set! tmp.157 (+ tmp.157 2))
+      (set! tmp.103 tmp.157)
+      (mset! tmp.103 -2 L.fun/error12697.10.15)
+      (mset! tmp.103 6 0)
+      (set! fun/error12697.10 tmp.103)
+      (begin (set! tmp.122 r12) (set! r12 (+ r12 24)))
+      (set! tmp.158 tmp.122)
+      (set! tmp.158 (+ tmp.158 2))
+      (set! tmp.104 tmp.158)
+      (mset! tmp.104 -2 L.fun/any12702.11.16)
+      (mset! tmp.104 6 0)
+      (set! fun/any12702.11 tmp.104)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 24)))
+      (set! tmp.159 tmp.123)
+      (set! tmp.159 (+ tmp.159 2))
+      (set! tmp.105 tmp.159)
+      (mset! tmp.105 -2 L.fun/void12700.12.17)
+      (mset! tmp.105 6 0)
+      (set! fun/void12700.12 tmp.105)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 16)))
+      (set! tmp.160 tmp.124)
+      (set! tmp.160 (+ tmp.160 2))
+      (set! tmp.106 tmp.160)
+      (mset! tmp.106 -2 L.fun/empty12693.13.18)
+      (mset! tmp.106 6 0)
+      (set! fun/empty12693.13 tmp.106)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 16)))
+      (set! tmp.161 tmp.125)
+      (set! tmp.161 (+ tmp.161 2))
+      (set! tmp.107 tmp.161)
+      (mset! tmp.107 -2 L.fun/ascii-char12705.14.19)
+      (mset! tmp.107 6 0)
+      (set! fun/ascii-char12705.14 tmp.107)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 16)))
+      (set! tmp.162 tmp.126)
+      (set! tmp.162 (+ tmp.162 2))
+      (set! tmp.108 tmp.162)
+      (mset! tmp.108 -2 L.fun/empty12695.15.20)
+      (mset! tmp.108 6 0)
+      (set! fun/empty12695.15 tmp.108)
+      (begin (set! tmp.127 r12) (set! r12 (+ r12 24)))
+      (set! tmp.163 tmp.127)
+      (set! tmp.163 (+ tmp.163 2))
+      (set! tmp.109 tmp.163)
+      (mset! tmp.109 -2 L.fun/ascii-char12704.16.21)
+      (mset! tmp.109 6 0)
+      (set! fun/ascii-char12704.16 tmp.109)
+      (begin (set! tmp.128 r12) (set! r12 (+ r12 24)))
+      (set! tmp.164 tmp.128)
+      (set! tmp.164 (+ tmp.164 2))
+      (set! tmp.110 tmp.164)
+      (mset! tmp.110 -2 L.fun/empty12694.17.22)
+      (mset! tmp.110 6 0)
+      (set! fun/empty12694.17 tmp.110)
+      (mset! fun/ascii-char12698.4 14 fun/ascii-char12699.5)
+      (mset! fun/any12703.6 14 cons.76)
+      (mset! fun/empty12692.7 14 fun/empty12693.13)
+      (mset! fun/error12696.8 14 fun/error12697.10)
+      (mset! fun/any12702.11 14 fun/any12703.6)
+      (mset! fun/void12700.12 14 fun/void12701.9)
+      (mset! fun/ascii-char12704.16 14 fun/ascii-char12705.14)
+      (mset! fun/empty12694.17 14 fun/empty12695.15)
+      (return-point L.rp.23
+        (begin
+          (set! rdi fun/empty12692.7)
+          (set! r15 L.rp.23)
+          (jump L.fun/empty12692.7.12 rbp r15 rdi)))
+      (set! empty0.23 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/empty12694.17)
+          (set! r15 L.rp.24)
+          (jump L.fun/empty12694.17.22 rbp r15 rdi)))
+      (set! empty1.22 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdi fun/error12696.8)
+          (set! r15 L.rp.25)
+          (jump L.fun/error12696.8.13 rbp r15 rdi)))
+      (set! error2.21 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/ascii-char12698.4)
+          (set! r15 L.rp.26)
+          (jump L.fun/ascii-char12698.4.9 rbp r15 rdi)))
+      (set! ascii-char3.20 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/void12700.12)
+          (set! r15 L.rp.27)
+          (jump L.fun/void12700.12.17 rbp r15 rdi)))
+      (set! void4.19 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/any12702.11)
+          (set! r15 L.rp.28)
+          (jump L.fun/any12702.11.16 rbp r15 rdi)))
+      (set! tmp.129 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rsi tmp.129)
+          (set! rdi empty?.77)
+          (set! r15 L.rp.29)
+          (jump L.empty?.77.7 rbp r15 rdi rsi)))
+      (set! boolean5.18 rax)
+      (set! rdi fun/ascii-char12704.16)
+      (set! r15 tmp-ra.146)
+      (jump L.fun/ascii-char12704.16.21 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () ()))
+     (locals
+      (error5.16
+       ascii-char4.17
+       ascii-char3.18
+       ascii-char2.19
+       procedure1.20
+       lam.77
+       tmp.109
+       tmp.195
+       tmp.152
+       error0.21
+       fun/error12708.15
+       tmp.108
+       tmp.194
+       tmp.151
+       fun/ascii-char12711.14
+       tmp.107
+       tmp.193
+       tmp.150
+       fun/ascii-char12712.13
+       tmp.106
+       tmp.192
+       tmp.149
+       fun/ascii-char12718.12
+       tmp.105
+       tmp.191
+       tmp.148
+       fun/ascii-char12719.11
+       tmp.104
+       tmp.190
+       tmp.147
+       fun/error12709.10
+       tmp.103
+       tmp.189
+       tmp.146
+       fun/error12716.9
+       tmp.102
+       tmp.188
+       tmp.145
+       fun/error12717.8
+       tmp.101
+       tmp.187
+       tmp.144
+       fun/ascii-char12710.7
+       tmp.100
+       tmp.186
+       tmp.143
+       fun/ascii-char12713.6
+       tmp.99
+       tmp.185
+       tmp.142
+       fun/ascii-char12714.5
+       tmp.98
+       tmp.184
+       tmp.141
+       fun/ascii-char12715.4
+       tmp.97
+       tmp.183
+       tmp.140
+       |-.74|
+       tmp.96
+       tmp.182
+       tmp.139
+       *.75
+       tmp.95
+       tmp.181
+       tmp.138
+       |+.76|
+       tmp.94
+       tmp.180
+       tmp.137
+       tmp-ra.169)))
+    (define L.lam.77.22
+      ((new-frames (() () () () () () () () () () () () () ()))
+       (locals
+        (tmp.117
+         tmp.121
+         tmp.123
+         tmp.122
+         tmp.118
+         tmp.120
+         tmp.119
+         tmp.110
+         tmp.114
+         tmp.116
+         tmp.115
+         tmp.111
+         tmp.113
+         tmp.112
+         |-.74|
+         |+.76|
+         *.75
+         c.93
+         tmp-ra.153)))
+      (begin
+        (set! tmp-ra.153 r15)
+        (set! c.93 rdi)
+        (set! *.75 (mref c.93 14))
+        (set! |+.76| (mref c.93 22))
+        (set! |-.74| (mref c.93 30))
+        (return-point L.rp.23
+          (begin
+            (set! rdx 864)
+            (set! rsi 1360)
+            (set! rdi |-.74|)
+            (set! r15 L.rp.23)
+            (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.112 rax)
+        (return-point L.rp.24
+          (begin
+            (set! rdx 728)
+            (set! rsi 992)
+            (set! rdi *.75)
+            (set! r15 L.rp.24)
+            (jump L.*.75.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.113 rax)
+        (return-point L.rp.25
+          (begin
+            (set! rdx tmp.113)
+            (set! rsi tmp.112)
+            (set! rdi *.75)
+            (set! r15 L.rp.25)
+            (jump L.*.75.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.111 rax)
+        (return-point L.rp.26
+          (begin
+            (set! rdx 992)
+            (set! rsi 1568)
+            (set! rdi |+.76|)
+            (set! r15 L.rp.26)
+            (jump L.+.76.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.115 rax)
+        (return-point L.rp.27
+          (begin
+            (set! rdx 1656)
+            (set! rsi 232)
+            (set! rdi |-.74|)
+            (set! r15 L.rp.27)
+            (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.116 rax)
+        (return-point L.rp.28
+          (begin
+            (set! rdx tmp.116)
+            (set! rsi tmp.115)
+            (set! rdi |-.74|)
+            (set! r15 L.rp.28)
+            (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.114 rax)
+        (return-point L.rp.29
+          (begin
+            (set! rdx tmp.114)
+            (set! rsi tmp.111)
+            (set! rdi |+.76|)
+            (set! r15 L.rp.29)
+            (jump L.+.76.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.110 rax)
+        (return-point L.rp.30
+          (begin
+            (set! rdx 200)
+            (set! rsi 592)
+            (set! rdi |-.74|)
+            (set! r15 L.rp.30)
+            (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.119 rax)
+        (return-point L.rp.31
+          (begin
+            (set! rdx 1800)
+            (set! rsi 320)
+            (set! rdi *.75)
+            (set! r15 L.rp.31)
+            (jump L.*.75.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.120 rax)
+        (return-point L.rp.32
+          (begin
+            (set! rdx tmp.120)
+            (set! rsi tmp.119)
+            (set! rdi |+.76|)
+            (set! r15 L.rp.32)
+            (jump L.+.76.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.118 rax)
+        (return-point L.rp.33
+          (begin
+            (set! rdx 1392)
+            (set! rsi 736)
+            (set! rdi |+.76|)
+            (set! r15 L.rp.33)
+            (jump L.+.76.7 rbp r15 rdi rsi rdx)))
+        (set! tmp.122 rax)
+        (return-point L.rp.34
+          (begin
+            (set! rdx 1576)
+            (set! rsi 1768)
+            (set! rdi *.75)
+            (set! r15 L.rp.34)
+            (jump L.*.75.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.123 rax)
+        (return-point L.rp.35
+          (begin
+            (set! rdx tmp.123)
+            (set! rsi tmp.122)
+            (set! rdi |-.74|)
+            (set! r15 L.rp.35)
+            (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+        (set! tmp.121 rax)
+        (return-point L.rp.36
+          (begin
+            (set! rdx tmp.121)
+            (set! rsi tmp.118)
+            (set! rdi *.75)
+            (set! r15 L.rp.36)
+            (jump L.*.75.8 rbp r15 rdi rsi rdx)))
+        (set! tmp.117 rax)
+        (set! rdx tmp.117)
+        (set! rsi tmp.110)
+        (set! rdi |-.74|)
+        (set! r15 tmp-ra.153)
+        (jump L.-.74.9 rbp r15 rdi rsi rdx)))
+    (define L.fun/error12708.15.21
+      ((new-frames ()) (locals (fun/error12709.10 c.92 tmp-ra.154)))
+      (begin
+        (set! tmp-ra.154 r15)
+        (set! c.92 rdi)
+        (set! fun/error12709.10 (mref c.92 14))
+        (set! rdi fun/error12709.10)
+        (set! r15 tmp-ra.154)
+        (jump L.fun/error12709.10.16 rbp r15 rdi)))
+    (define L.fun/ascii-char12711.14.20
+      ((new-frames ()) (locals (c.91 tmp-ra.155)))
+      (begin
+        (set! tmp-ra.155 r15)
+        (set! c.91 rdi)
+        (set! rax 29998)
+        (jump tmp-ra.155 rbp rax)))
+    (define L.fun/ascii-char12712.13.19
+      ((new-frames ()) (locals (fun/ascii-char12713.6 c.90 tmp-ra.156)))
+      (begin
+        (set! tmp-ra.156 r15)
+        (set! c.90 rdi)
+        (set! fun/ascii-char12713.6 (mref c.90 14))
+        (set! rdi fun/ascii-char12713.6)
+        (set! r15 tmp-ra.156)
+        (jump L.fun/ascii-char12713.6.12 rbp r15 rdi)))
+    (define L.fun/ascii-char12718.12.18
+      ((new-frames ()) (locals (fun/ascii-char12719.11 c.89 tmp-ra.157)))
+      (begin
+        (set! tmp-ra.157 r15)
+        (set! c.89 rdi)
+        (set! fun/ascii-char12719.11 (mref c.89 14))
+        (set! rdi fun/ascii-char12719.11)
+        (set! r15 tmp-ra.157)
+        (jump L.fun/ascii-char12719.11.17 rbp r15 rdi)))
+    (define L.fun/ascii-char12719.11.17
+      ((new-frames ()) (locals (c.88 tmp-ra.158)))
+      (begin
+        (set! tmp-ra.158 r15)
+        (set! c.88 rdi)
+        (set! rax 23342)
+        (jump tmp-ra.158 rbp rax)))
+    (define L.fun/error12709.10.16
+      ((new-frames ()) (locals (c.87 tmp-ra.159)))
+      (begin
+        (set! tmp-ra.159 r15)
+        (set! c.87 rdi)
+        (set! rax 17214)
+        (jump tmp-ra.159 rbp rax)))
+    (define L.fun/error12716.9.15
+      ((new-frames ()) (locals (fun/error12717.8 c.86 tmp-ra.160)))
+      (begin
+        (set! tmp-ra.160 r15)
+        (set! c.86 rdi)
+        (set! fun/error12717.8 (mref c.86 14))
+        (set! rdi fun/error12717.8)
+        (set! r15 tmp-ra.160)
+        (jump L.fun/error12717.8.14 rbp r15 rdi)))
+    (define L.fun/error12717.8.14
+      ((new-frames ()) (locals (c.85 tmp-ra.161)))
+      (begin
+        (set! tmp-ra.161 r15)
+        (set! c.85 rdi)
+        (set! rax 33086)
+        (jump tmp-ra.161 rbp rax)))
+    (define L.fun/ascii-char12710.7.13
+      ((new-frames ()) (locals (fun/ascii-char12711.14 c.84 tmp-ra.162)))
+      (begin
+        (set! tmp-ra.162 r15)
+        (set! c.84 rdi)
+        (set! fun/ascii-char12711.14 (mref c.84 14))
+        (set! rdi fun/ascii-char12711.14)
+        (set! r15 tmp-ra.162)
+        (jump L.fun/ascii-char12711.14.20 rbp r15 rdi)))
+    (define L.fun/ascii-char12713.6.12
+      ((new-frames ()) (locals (c.83 tmp-ra.163)))
+      (begin
+        (set! tmp-ra.163 r15)
+        (set! c.83 rdi)
+        (set! rax 17710)
+        (jump tmp-ra.163 rbp rax)))
+    (define L.fun/ascii-char12714.5.11
+      ((new-frames ()) (locals (fun/ascii-char12715.4 c.82 tmp-ra.164)))
+      (begin
+        (set! tmp-ra.164 r15)
+        (set! c.82 rdi)
+        (set! fun/ascii-char12715.4 (mref c.82 14))
+        (set! rdi fun/ascii-char12715.4)
+        (set! r15 tmp-ra.164)
+        (jump L.fun/ascii-char12715.4.10 rbp r15 rdi)))
+    (define L.fun/ascii-char12715.4.10
+      ((new-frames ()) (locals (c.81 tmp-ra.165)))
+      (begin
+        (set! tmp-ra.165 r15)
+        (set! c.81 rdi)
+        (set! rax 26926)
+        (jump tmp-ra.165 rbp rax)))
+    (define L.-.74.9
+      ((new-frames ())
+       (locals
+        (c.80
+         tmp.126
+         tmp.171
+         tmp.40
+         tmp.127
+         tmp.172
+         tmp-ra.166
+         tmp.125
+         tmp.41
+         tmp.170
+         tmp.124)))
+      (begin
+        (set! tmp-ra.166 r15)
+        (set! c.80 rdi)
+        (set! tmp.40 rsi)
+        (set! tmp.41 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.170 tmp.41)
+                      (set! tmp.170 (bitwise-and tmp.170 7))
+                      (set! tmp.125 tmp.170))
+                    (= tmp.125 0))
+                (set! tmp.124 14)
+                (set! tmp.124 6))
+              (!= tmp.124 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.171 tmp.40)
+                        (set! tmp.171 (bitwise-and tmp.171 7))
+                        (set! tmp.127 tmp.171))
+                      (= tmp.127 0))
+                  (set! tmp.126 14)
+                  (set! tmp.126 6))
+                (!= tmp.126 6))
+            (begin
+              (set! tmp.172 tmp.40)
+              (set! tmp.172 (- tmp.172 tmp.41))
+              (set! rax tmp.172)
+              (jump tmp-ra.166 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.166 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.166 rbp rax)))))
+    (define L.*.75.8
+      ((new-frames ())
+       (locals
+        (c.79
+         tmp.130
+         tmp.174
+         tmp.36
+         tmp.131
+         tmp.176
+         tmp.132
+         tmp.175
+         tmp-ra.167
+         tmp.129
+         tmp.37
+         tmp.173
+         tmp.128)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.79 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.173 tmp.37)
+                      (set! tmp.173 (bitwise-and tmp.173 7))
+                      (set! tmp.129 tmp.173))
+                    (= tmp.129 0))
+                (set! tmp.128 14)
+                (set! tmp.128 6))
+              (!= tmp.128 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.174 tmp.36)
+                        (set! tmp.174 (bitwise-and tmp.174 7))
+                        (set! tmp.131 tmp.174))
+                      (= tmp.131 0))
+                  (set! tmp.130 14)
+                  (set! tmp.130 6))
+                (!= tmp.130 6))
+            (begin
+              (set! tmp.175 tmp.37)
+              (set! tmp.175 (arithmetic-shift-right tmp.175 3))
+              (set! tmp.132 tmp.175)
+              (set! tmp.176 tmp.36)
+              (set! tmp.176 (* tmp.176 tmp.132))
+              (set! rax tmp.176)
+              (jump tmp-ra.167 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.167 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.167 rbp rax)))))
+    (define L.+.76.7
+      ((new-frames ())
+       (locals
+        (c.78
+         tmp.135
+         tmp.178
+         tmp.38
+         tmp.136
+         tmp.179
+         tmp-ra.168
+         tmp.134
+         tmp.39
+         tmp.177
+         tmp.133)))
+      (begin
+        (set! tmp-ra.168 r15)
+        (set! c.78 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.177 tmp.39)
+                      (set! tmp.177 (bitwise-and tmp.177 7))
+                      (set! tmp.134 tmp.177))
+                    (= tmp.134 0))
+                (set! tmp.133 14)
+                (set! tmp.133 6))
+              (!= tmp.133 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.178 tmp.38)
+                        (set! tmp.178 (bitwise-and tmp.178 7))
+                        (set! tmp.136 tmp.178))
+                      (= tmp.136 0))
+                  (set! tmp.135 14)
+                  (set! tmp.135 6))
+                (!= tmp.135 6))
+            (begin
+              (set! tmp.179 tmp.38)
+              (set! tmp.179 (+ tmp.179 tmp.39))
+              (set! rax tmp.179)
+              (jump tmp-ra.168 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.168 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.168 rbp rax)))))
+    (begin
+      (set! tmp-ra.169 r15)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 16)))
+      (set! tmp.180 tmp.137)
+      (set! tmp.180 (+ tmp.180 2))
+      (set! tmp.94 tmp.180)
+      (mset! tmp.94 -2 L.+.76.7)
+      (mset! tmp.94 6 16)
+      (set! |+.76| tmp.94)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 16)))
+      (set! tmp.181 tmp.138)
+      (set! tmp.181 (+ tmp.181 2))
+      (set! tmp.95 tmp.181)
+      (mset! tmp.95 -2 L.*.75.8)
+      (mset! tmp.95 6 16)
+      (set! *.75 tmp.95)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 16)))
+      (set! tmp.182 tmp.139)
+      (set! tmp.182 (+ tmp.182 2))
+      (set! tmp.96 tmp.182)
+      (mset! tmp.96 -2 L.-.74.9)
+      (mset! tmp.96 6 16)
+      (set! |-.74| tmp.96)
+      (begin (set! tmp.140 r12) (set! r12 (+ r12 16)))
+      (set! tmp.183 tmp.140)
+      (set! tmp.183 (+ tmp.183 2))
+      (set! tmp.97 tmp.183)
+      (mset! tmp.97 -2 L.fun/ascii-char12715.4.10)
+      (mset! tmp.97 6 0)
+      (set! fun/ascii-char12715.4 tmp.97)
+      (begin (set! tmp.141 r12) (set! r12 (+ r12 24)))
+      (set! tmp.184 tmp.141)
+      (set! tmp.184 (+ tmp.184 2))
+      (set! tmp.98 tmp.184)
+      (mset! tmp.98 -2 L.fun/ascii-char12714.5.11)
+      (mset! tmp.98 6 0)
+      (set! fun/ascii-char12714.5 tmp.98)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 16)))
+      (set! tmp.185 tmp.142)
+      (set! tmp.185 (+ tmp.185 2))
+      (set! tmp.99 tmp.185)
+      (mset! tmp.99 -2 L.fun/ascii-char12713.6.12)
+      (mset! tmp.99 6 0)
+      (set! fun/ascii-char12713.6 tmp.99)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 24)))
+      (set! tmp.186 tmp.143)
+      (set! tmp.186 (+ tmp.186 2))
+      (set! tmp.100 tmp.186)
+      (mset! tmp.100 -2 L.fun/ascii-char12710.7.13)
+      (mset! tmp.100 6 0)
+      (set! fun/ascii-char12710.7 tmp.100)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 16)))
+      (set! tmp.187 tmp.144)
+      (set! tmp.187 (+ tmp.187 2))
+      (set! tmp.101 tmp.187)
+      (mset! tmp.101 -2 L.fun/error12717.8.14)
+      (mset! tmp.101 6 0)
+      (set! fun/error12717.8 tmp.101)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.188 tmp.145)
+      (set! tmp.188 (+ tmp.188 2))
+      (set! tmp.102 tmp.188)
+      (mset! tmp.102 -2 L.fun/error12716.9.15)
+      (mset! tmp.102 6 0)
+      (set! fun/error12716.9 tmp.102)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 16)))
+      (set! tmp.189 tmp.146)
+      (set! tmp.189 (+ tmp.189 2))
+      (set! tmp.103 tmp.189)
+      (mset! tmp.103 -2 L.fun/error12709.10.16)
+      (mset! tmp.103 6 0)
+      (set! fun/error12709.10 tmp.103)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 16)))
+      (set! tmp.190 tmp.147)
+      (set! tmp.190 (+ tmp.190 2))
+      (set! tmp.104 tmp.190)
+      (mset! tmp.104 -2 L.fun/ascii-char12719.11.17)
+      (mset! tmp.104 6 0)
+      (set! fun/ascii-char12719.11 tmp.104)
+      (begin (set! tmp.148 r12) (set! r12 (+ r12 24)))
+      (set! tmp.191 tmp.148)
+      (set! tmp.191 (+ tmp.191 2))
+      (set! tmp.105 tmp.191)
+      (mset! tmp.105 -2 L.fun/ascii-char12718.12.18)
+      (mset! tmp.105 6 0)
+      (set! fun/ascii-char12718.12 tmp.105)
+      (begin (set! tmp.149 r12) (set! r12 (+ r12 24)))
+      (set! tmp.192 tmp.149)
+      (set! tmp.192 (+ tmp.192 2))
+      (set! tmp.106 tmp.192)
+      (mset! tmp.106 -2 L.fun/ascii-char12712.13.19)
+      (mset! tmp.106 6 0)
+      (set! fun/ascii-char12712.13 tmp.106)
+      (begin (set! tmp.150 r12) (set! r12 (+ r12 16)))
+      (set! tmp.193 tmp.150)
+      (set! tmp.193 (+ tmp.193 2))
+      (set! tmp.107 tmp.193)
+      (mset! tmp.107 -2 L.fun/ascii-char12711.14.20)
+      (mset! tmp.107 6 0)
+      (set! fun/ascii-char12711.14 tmp.107)
+      (begin (set! tmp.151 r12) (set! r12 (+ r12 24)))
+      (set! tmp.194 tmp.151)
+      (set! tmp.194 (+ tmp.194 2))
+      (set! tmp.108 tmp.194)
+      (mset! tmp.108 -2 L.fun/error12708.15.21)
+      (mset! tmp.108 6 0)
+      (set! fun/error12708.15 tmp.108)
+      (mset! fun/ascii-char12714.5 14 fun/ascii-char12715.4)
+      (mset! fun/ascii-char12710.7 14 fun/ascii-char12711.14)
+      (mset! fun/error12716.9 14 fun/error12717.8)
+      (mset! fun/ascii-char12718.12 14 fun/ascii-char12719.11)
+      (mset! fun/ascii-char12712.13 14 fun/ascii-char12713.6)
+      (mset! fun/error12708.15 14 fun/error12709.10)
+      (return-point L.rp.37
+        (begin
+          (set! rdi fun/error12708.15)
+          (set! r15 L.rp.37)
+          (jump L.fun/error12708.15.21 rbp r15 rdi)))
+      (set! error0.21 rax)
+      (begin (set! tmp.152 r12) (set! r12 (+ r12 40)))
+      (set! tmp.195 tmp.152)
+      (set! tmp.195 (+ tmp.195 2))
+      (set! tmp.109 tmp.195)
+      (mset! tmp.109 -2 L.lam.77.22)
+      (mset! tmp.109 6 0)
+      (set! lam.77 tmp.109)
+      (mset! lam.77 14 *.75)
+      (mset! lam.77 22 |+.76|)
+      (mset! lam.77 30 |-.74|)
+      (set! procedure1.20 lam.77)
+      (return-point L.rp.38
+        (begin
+          (set! rdi fun/ascii-char12710.7)
+          (set! r15 L.rp.38)
+          (jump L.fun/ascii-char12710.7.13 rbp r15 rdi)))
+      (set! ascii-char2.19 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdi fun/ascii-char12712.13)
+          (set! r15 L.rp.39)
+          (jump L.fun/ascii-char12712.13.19 rbp r15 rdi)))
+      (set! ascii-char3.18 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdi fun/ascii-char12714.5)
+          (set! r15 L.rp.40)
+          (jump L.fun/ascii-char12714.5.11 rbp r15 rdi)))
+      (set! ascii-char4.17 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdi fun/error12716.9)
+          (set! r15 L.rp.41)
+          (jump L.fun/error12716.9.15 rbp r15 rdi)))
+      (set! error5.16 rax)
+      (set! rdi fun/ascii-char12718.12)
+      (set! r15 tmp-ra.169)
+      (jump L.fun/ascii-char12718.12.18 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames
+      (()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()))
+     (locals
+      (error5.14
+       error4.15
+       ascii-char3.16
+       fixnum2.17
+       tmp.148
+       tmp.152
+       tmp.154
+       tmp.153
+       tmp.149
+       tmp.151
+       tmp.150
+       tmp.141
+       tmp.145
+       tmp.147
+       tmp.146
+       tmp.142
+       tmp.144
+       tmp.143
+       fixnum1.18
+       tmp.134
+       tmp.138
+       tmp.140
+       tmp.139
+       tmp.135
+       tmp.137
+       tmp.136
+       tmp.127
+       tmp.131
+       tmp.133
+       tmp.132
+       tmp.128
+       tmp.130
+       tmp.129
+       error0.19
+       fun/error14513.13
+       tmp.100
+       tmp.191
+       tmp.126
+       fun/error14512.12
+       tmp.99
+       tmp.190
+       tmp.125
+       fun/error14509.11
+       tmp.98
+       tmp.189
+       tmp.124
+       fun/error14508.10
+       tmp.97
+       tmp.188
+       tmp.123
+       fun/ascii-char14517.9
+       tmp.96
+       tmp.187
+       tmp.122
+       fun/ascii-char14510.8
+       tmp.95
+       tmp.186
+       tmp.121
+       fun/error14515.7
+       tmp.94
+       tmp.185
+       tmp.120
+       fun/error14514.6
+       tmp.93
+       tmp.184
+       tmp.119
+       fun/ascii-char14516.5
+       tmp.92
+       tmp.183
+       tmp.118
+       fun/ascii-char14511.4
+       tmp.91
+       tmp.182
+       tmp.117
+       *.72
+       tmp.90
+       tmp.181
+       tmp.116
+       |-.73|
+       tmp.89
+       tmp.180
+       tmp.115
+       |+.74|
+       tmp.88
+       tmp.179
+       tmp.114
+       tmp-ra.168)))
+    (define L.fun/error14513.13.19
+      ((new-frames ()) (locals (c.87 tmp-ra.155)))
+      (begin
+        (set! tmp-ra.155 r15)
+        (set! c.87 rdi)
+        (set! rax 4926)
+        (jump tmp-ra.155 rbp rax)))
+    (define L.fun/error14512.12.18
+      ((new-frames ()) (locals (fun/error14513.13 c.86 tmp-ra.156)))
+      (begin
+        (set! tmp-ra.156 r15)
+        (set! c.86 rdi)
+        (set! fun/error14513.13 (mref c.86 14))
+        (set! rdi fun/error14513.13)
+        (set! r15 tmp-ra.156)
+        (jump L.fun/error14513.13.19 rbp r15 rdi)))
+    (define L.fun/error14509.11.17
+      ((new-frames ()) (locals (c.85 tmp-ra.157)))
+      (begin
+        (set! tmp-ra.157 r15)
+        (set! c.85 rdi)
+        (set! rax 48958)
+        (jump tmp-ra.157 rbp rax)))
+    (define L.fun/error14508.10.16
+      ((new-frames ()) (locals (fun/error14509.11 c.84 tmp-ra.158)))
+      (begin
+        (set! tmp-ra.158 r15)
+        (set! c.84 rdi)
+        (set! fun/error14509.11 (mref c.84 14))
+        (set! rdi fun/error14509.11)
+        (set! r15 tmp-ra.158)
+        (jump L.fun/error14509.11.17 rbp r15 rdi)))
+    (define L.fun/ascii-char14517.9.15
+      ((new-frames ()) (locals (c.83 tmp-ra.159)))
+      (begin
+        (set! tmp-ra.159 r15)
+        (set! c.83 rdi)
+        (set! rax 25390)
+        (jump tmp-ra.159 rbp rax)))
+    (define L.fun/ascii-char14510.8.14
+      ((new-frames ()) (locals (fun/ascii-char14511.4 c.82 tmp-ra.160)))
+      (begin
+        (set! tmp-ra.160 r15)
+        (set! c.82 rdi)
+        (set! fun/ascii-char14511.4 (mref c.82 14))
+        (set! rdi fun/ascii-char14511.4)
+        (set! r15 tmp-ra.160)
+        (jump L.fun/ascii-char14511.4.10 rbp r15 rdi)))
+    (define L.fun/error14515.7.13
+      ((new-frames ()) (locals (c.81 tmp-ra.161)))
+      (begin
+        (set! tmp-ra.161 r15)
+        (set! c.81 rdi)
+        (set! rax 55870)
+        (jump tmp-ra.161 rbp rax)))
+    (define L.fun/error14514.6.12
+      ((new-frames ()) (locals (fun/error14515.7 c.80 tmp-ra.162)))
+      (begin
+        (set! tmp-ra.162 r15)
+        (set! c.80 rdi)
+        (set! fun/error14515.7 (mref c.80 14))
+        (set! rdi fun/error14515.7)
+        (set! r15 tmp-ra.162)
+        (jump L.fun/error14515.7.13 rbp r15 rdi)))
+    (define L.fun/ascii-char14516.5.11
+      ((new-frames ()) (locals (fun/ascii-char14517.9 c.79 tmp-ra.163)))
+      (begin
+        (set! tmp-ra.163 r15)
+        (set! c.79 rdi)
+        (set! fun/ascii-char14517.9 (mref c.79 14))
+        (set! rdi fun/ascii-char14517.9)
+        (set! r15 tmp-ra.163)
+        (jump L.fun/ascii-char14517.9.15 rbp r15 rdi)))
+    (define L.fun/ascii-char14511.4.10
+      ((new-frames ()) (locals (c.78 tmp-ra.164)))
+      (begin
+        (set! tmp-ra.164 r15)
+        (set! c.78 rdi)
+        (set! rax 17710)
+        (jump tmp-ra.164 rbp rax)))
+    (define L.*.72.9
+      ((new-frames ())
+       (locals
+        (c.77
+         tmp.103
+         tmp.170
+         tmp.34
+         tmp.104
+         tmp.172
+         tmp.105
+         tmp.171
+         tmp-ra.165
+         tmp.102
+         tmp.35
+         tmp.169
+         tmp.101)))
+      (begin
+        (set! tmp-ra.165 r15)
+        (set! c.77 rdi)
+        (set! tmp.34 rsi)
+        (set! tmp.35 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.169 tmp.35)
+                      (set! tmp.169 (bitwise-and tmp.169 7))
+                      (set! tmp.102 tmp.169))
+                    (= tmp.102 0))
+                (set! tmp.101 14)
+                (set! tmp.101 6))
+              (!= tmp.101 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.170 tmp.34)
+                        (set! tmp.170 (bitwise-and tmp.170 7))
+                        (set! tmp.104 tmp.170))
+                      (= tmp.104 0))
+                  (set! tmp.103 14)
+                  (set! tmp.103 6))
+                (!= tmp.103 6))
+            (begin
+              (set! tmp.171 tmp.35)
+              (set! tmp.171 (arithmetic-shift-right tmp.171 3))
+              (set! tmp.105 tmp.171)
+              (set! tmp.172 tmp.34)
+              (set! tmp.172 (* tmp.172 tmp.105))
+              (set! rax tmp.172)
+              (jump tmp-ra.165 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.165 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.165 rbp rax)))))
+    (define L.-.73.8
+      ((new-frames ())
+       (locals
+        (c.76
+         tmp.108
+         tmp.174
+         tmp.38
+         tmp.109
+         tmp.175
+         tmp-ra.166
+         tmp.107
+         tmp.39
+         tmp.173
+         tmp.106)))
+      (begin
+        (set! tmp-ra.166 r15)
+        (set! c.76 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.173 tmp.39)
+                      (set! tmp.173 (bitwise-and tmp.173 7))
+                      (set! tmp.107 tmp.173))
+                    (= tmp.107 0))
+                (set! tmp.106 14)
+                (set! tmp.106 6))
+              (!= tmp.106 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.174 tmp.38)
+                        (set! tmp.174 (bitwise-and tmp.174 7))
+                        (set! tmp.109 tmp.174))
+                      (= tmp.109 0))
+                  (set! tmp.108 14)
+                  (set! tmp.108 6))
+                (!= tmp.108 6))
+            (begin
+              (set! tmp.175 tmp.38)
+              (set! tmp.175 (- tmp.175 tmp.39))
+              (set! rax tmp.175)
+              (jump tmp-ra.166 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.166 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.166 rbp rax)))))
+    (define L.+.74.7
+      ((new-frames ())
+       (locals
+        (c.75
+         tmp.112
+         tmp.177
+         tmp.36
+         tmp.113
+         tmp.178
+         tmp-ra.167
+         tmp.111
+         tmp.37
+         tmp.176
+         tmp.110)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.75 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.176 tmp.37)
+                      (set! tmp.176 (bitwise-and tmp.176 7))
+                      (set! tmp.111 tmp.176))
+                    (= tmp.111 0))
+                (set! tmp.110 14)
+                (set! tmp.110 6))
+              (!= tmp.110 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.177 tmp.36)
+                        (set! tmp.177 (bitwise-and tmp.177 7))
+                        (set! tmp.113 tmp.177))
+                      (= tmp.113 0))
+                  (set! tmp.112 14)
+                  (set! tmp.112 6))
+                (!= tmp.112 6))
+            (begin
+              (set! tmp.178 tmp.36)
+              (set! tmp.178 (+ tmp.178 tmp.37))
+              (set! rax tmp.178)
+              (jump tmp-ra.167 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.167 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.167 rbp rax)))))
+    (begin
+      (set! tmp-ra.168 r15)
+      (begin (set! tmp.114 r12) (set! r12 (+ r12 16)))
+      (set! tmp.179 tmp.114)
+      (set! tmp.179 (+ tmp.179 2))
+      (set! tmp.88 tmp.179)
+      (mset! tmp.88 -2 L.+.74.7)
+      (mset! tmp.88 6 16)
+      (set! |+.74| tmp.88)
+      (begin (set! tmp.115 r12) (set! r12 (+ r12 16)))
+      (set! tmp.180 tmp.115)
+      (set! tmp.180 (+ tmp.180 2))
+      (set! tmp.89 tmp.180)
+      (mset! tmp.89 -2 L.-.73.8)
+      (mset! tmp.89 6 16)
+      (set! |-.73| tmp.89)
+      (begin (set! tmp.116 r12) (set! r12 (+ r12 16)))
+      (set! tmp.181 tmp.116)
+      (set! tmp.181 (+ tmp.181 2))
+      (set! tmp.90 tmp.181)
+      (mset! tmp.90 -2 L.*.72.9)
+      (mset! tmp.90 6 16)
+      (set! *.72 tmp.90)
+      (begin (set! tmp.117 r12) (set! r12 (+ r12 16)))
+      (set! tmp.182 tmp.117)
+      (set! tmp.182 (+ tmp.182 2))
+      (set! tmp.91 tmp.182)
+      (mset! tmp.91 -2 L.fun/ascii-char14511.4.10)
+      (mset! tmp.91 6 0)
+      (set! fun/ascii-char14511.4 tmp.91)
+      (begin (set! tmp.118 r12) (set! r12 (+ r12 24)))
+      (set! tmp.183 tmp.118)
+      (set! tmp.183 (+ tmp.183 2))
+      (set! tmp.92 tmp.183)
+      (mset! tmp.92 -2 L.fun/ascii-char14516.5.11)
+      (mset! tmp.92 6 0)
+      (set! fun/ascii-char14516.5 tmp.92)
+      (begin (set! tmp.119 r12) (set! r12 (+ r12 24)))
+      (set! tmp.184 tmp.119)
+      (set! tmp.184 (+ tmp.184 2))
+      (set! tmp.93 tmp.184)
+      (mset! tmp.93 -2 L.fun/error14514.6.12)
+      (mset! tmp.93 6 0)
+      (set! fun/error14514.6 tmp.93)
+      (begin (set! tmp.120 r12) (set! r12 (+ r12 16)))
+      (set! tmp.185 tmp.120)
+      (set! tmp.185 (+ tmp.185 2))
+      (set! tmp.94 tmp.185)
+      (mset! tmp.94 -2 L.fun/error14515.7.13)
+      (mset! tmp.94 6 0)
+      (set! fun/error14515.7 tmp.94)
+      (begin (set! tmp.121 r12) (set! r12 (+ r12 24)))
+      (set! tmp.186 tmp.121)
+      (set! tmp.186 (+ tmp.186 2))
+      (set! tmp.95 tmp.186)
+      (mset! tmp.95 -2 L.fun/ascii-char14510.8.14)
+      (mset! tmp.95 6 0)
+      (set! fun/ascii-char14510.8 tmp.95)
+      (begin (set! tmp.122 r12) (set! r12 (+ r12 16)))
+      (set! tmp.187 tmp.122)
+      (set! tmp.187 (+ tmp.187 2))
+      (set! tmp.96 tmp.187)
+      (mset! tmp.96 -2 L.fun/ascii-char14517.9.15)
+      (mset! tmp.96 6 0)
+      (set! fun/ascii-char14517.9 tmp.96)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 24)))
+      (set! tmp.188 tmp.123)
+      (set! tmp.188 (+ tmp.188 2))
+      (set! tmp.97 tmp.188)
+      (mset! tmp.97 -2 L.fun/error14508.10.16)
+      (mset! tmp.97 6 0)
+      (set! fun/error14508.10 tmp.97)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 16)))
+      (set! tmp.189 tmp.124)
+      (set! tmp.189 (+ tmp.189 2))
+      (set! tmp.98 tmp.189)
+      (mset! tmp.98 -2 L.fun/error14509.11.17)
+      (mset! tmp.98 6 0)
+      (set! fun/error14509.11 tmp.98)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 24)))
+      (set! tmp.190 tmp.125)
+      (set! tmp.190 (+ tmp.190 2))
+      (set! tmp.99 tmp.190)
+      (mset! tmp.99 -2 L.fun/error14512.12.18)
+      (mset! tmp.99 6 0)
+      (set! fun/error14512.12 tmp.99)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 16)))
+      (set! tmp.191 tmp.126)
+      (set! tmp.191 (+ tmp.191 2))
+      (set! tmp.100 tmp.191)
+      (mset! tmp.100 -2 L.fun/error14513.13.19)
+      (mset! tmp.100 6 0)
+      (set! fun/error14513.13 tmp.100)
+      (mset! fun/ascii-char14516.5 14 fun/ascii-char14517.9)
+      (mset! fun/error14514.6 14 fun/error14515.7)
+      (mset! fun/ascii-char14510.8 14 fun/ascii-char14511.4)
+      (mset! fun/error14508.10 14 fun/error14509.11)
+      (mset! fun/error14512.12 14 fun/error14513.13)
+      (return-point L.rp.20
+        (begin
+          (set! rdi fun/error14508.10)
+          (set! r15 L.rp.20)
+          (jump L.fun/error14508.10.16 rbp r15 rdi)))
+      (set! error0.19 rax)
+      (return-point L.rp.21
+        (begin
+          (set! rdx 824)
+          (set! rsi 1960)
+          (set! rdi *.72)
+          (set! r15 L.rp.21)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.129 rax)
+      (return-point L.rp.22
+        (begin
+          (set! rdx 728)
+          (set! rsi 112)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.22)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.130 rax)
+      (return-point L.rp.23
+        (begin
+          (set! rdx tmp.130)
+          (set! rsi tmp.129)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.23)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.128 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdx 520)
+          (set! rsi 976)
+          (set! rdi *.72)
+          (set! r15 L.rp.24)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.132 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdx 392)
+          (set! rsi 472)
+          (set! rdi *.72)
+          (set! r15 L.rp.25)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.133 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdx tmp.133)
+          (set! rsi tmp.132)
+          (set! rdi *.72)
+          (set! r15 L.rp.26)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.131 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdx tmp.131)
+          (set! rsi tmp.128)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.27)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.127 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdx 1944)
+          (set! rsi 1360)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.28)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.136 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdx 496)
+          (set! rsi 1816)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.29)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.137 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdx tmp.137)
+          (set! rsi tmp.136)
+          (set! rdi *.72)
+          (set! r15 L.rp.30)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.135 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx 1216)
+          (set! rsi 1320)
+          (set! rdi *.72)
+          (set! r15 L.rp.31)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.139 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx 1872)
+          (set! rsi 272)
+          (set! rdi *.72)
+          (set! r15 L.rp.32)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.140 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx tmp.140)
+          (set! rsi tmp.139)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.33)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.138 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx tmp.138)
+          (set! rsi tmp.135)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.34)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.134 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx tmp.134)
+          (set! rsi tmp.127)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.35)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! fixnum1.18 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx 1744)
+          (set! rsi 224)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.36)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.143 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx 1304)
+          (set! rsi 1752)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.37)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.144 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdx tmp.144)
+          (set! rsi tmp.143)
+          (set! rdi *.72)
+          (set! r15 L.rp.38)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.142 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdx 344)
+          (set! rsi 264)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.39)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.146 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx 1848)
+          (set! rsi 1872)
+          (set! rdi *.72)
+          (set! r15 L.rp.40)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.147 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdx tmp.147)
+          (set! rsi tmp.146)
+          (set! rdi *.72)
+          (set! r15 L.rp.41)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.145 rax)
+      (return-point L.rp.42
+        (begin
+          (set! rdx tmp.145)
+          (set! rsi tmp.142)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.42)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.141 rax)
+      (return-point L.rp.43
+        (begin
+          (set! rdx 1696)
+          (set! rsi 496)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.43)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.150 rax)
+      (return-point L.rp.44
+        (begin
+          (set! rdx 1736)
+          (set! rsi 1312)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.44)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.151 rax)
+      (return-point L.rp.45
+        (begin
+          (set! rdx tmp.151)
+          (set! rsi tmp.150)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.45)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.149 rax)
+      (return-point L.rp.46
+        (begin
+          (set! rdx 304)
+          (set! rsi 1672)
+          (set! rdi *.72)
+          (set! r15 L.rp.46)
+          (jump L.*.72.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.153 rax)
+      (return-point L.rp.47
+        (begin
+          (set! rdx 1864)
+          (set! rsi 1792)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.47)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.154 rax)
+      (return-point L.rp.48
+        (begin
+          (set! rdx tmp.154)
+          (set! rsi tmp.153)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.48)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.152 rax)
+      (return-point L.rp.49
+        (begin
+          (set! rdx tmp.152)
+          (set! rsi tmp.149)
+          (set! rdi |+.74|)
+          (set! r15 L.rp.49)
+          (jump L.+.74.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.148 rax)
+      (return-point L.rp.50
+        (begin
+          (set! rdx tmp.148)
+          (set! rsi tmp.141)
+          (set! rdi |-.73|)
+          (set! r15 L.rp.50)
+          (jump L.-.73.8 rbp r15 rdi rsi rdx)))
+      (set! fixnum2.17 rax)
+      (return-point L.rp.51
+        (begin
+          (set! rdi fun/ascii-char14510.8)
+          (set! r15 L.rp.51)
+          (jump L.fun/ascii-char14510.8.14 rbp r15 rdi)))
+      (set! ascii-char3.16 rax)
+      (return-point L.rp.52
+        (begin
+          (set! rdi fun/error14512.12)
+          (set! r15 L.rp.52)
+          (jump L.fun/error14512.12.18 rbp r15 rdi)))
+      (set! error4.15 rax)
+      (return-point L.rp.53
+        (begin
+          (set! rdi fun/error14514.6)
+          (set! r15 L.rp.53)
+          (jump L.fun/error14514.6.12 rbp r15 rdi)))
+      (set! error5.14 rax)
+      (set! rdi fun/ascii-char14516.5)
+      (set! r15 tmp-ra.168)
+      (jump L.fun/ascii-char14516.5.11 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () ()))
+     (locals
+      (empty5.16
+       ascii-char4.17
+       lam.74
+       tmp.100
+       tmp.145
+       tmp.113
+       error2.19
+       error1.20
+       empty0.21
+       fun/empty14877.15
+       tmp.99
+       tmp.144
+       tmp.112
+       fun/error14878.14
+       tmp.98
+       tmp.143
+       tmp.111
+       fun/empty14876.13
+       tmp.97
+       tmp.142
+       tmp.110
+       fun/ascii-char14885.12
+       tmp.96
+       tmp.141
+       tmp.109
+       fun/ascii-char14884.11
+       tmp.95
+       tmp.140
+       tmp.108
+       fun/empty14887.10
+       tmp.94
+       tmp.139
+       tmp.107
+       fun/error14879.9
+       tmp.93
+       tmp.138
+       tmp.106
+       fun/error14881.8
+       tmp.92
+       tmp.137
+       tmp.105
+       fun/error14882.7
+       tmp.91
+       tmp.136
+       tmp.104
+       fun/empty14886.6
+       tmp.90
+       tmp.135
+       tmp.103
+       fun/error14880.5
+       tmp.89
+       tmp.134
+       tmp.102
+       fun/error14883.4
+       tmp.88
+       tmp.133
+       tmp.101
+       tmp.116
+       tmp.117
+       tmp-ra.132
+       tmp.118
+       tmp.115
+       procedure3.18
+       tmp.146
+       tmp.114)))
+    (define L.lam.74.19
+      ((new-frames ()) (locals (fun/error14882.7 c.87 tmp-ra.119)))
+      (begin
+        (set! tmp-ra.119 r15)
+        (set! c.87 rdi)
+        (set! fun/error14882.7 (mref c.87 14))
+        (set! rdi fun/error14882.7)
+        (set! r15 tmp-ra.119)
+        (jump L.fun/error14882.7.10 rbp r15 rdi)))
+    (define L.fun/empty14877.15.18
+      ((new-frames ()) (locals (c.86 tmp-ra.120)))
+      (begin
+        (set! tmp-ra.120 r15)
+        (set! c.86 rdi)
+        (set! rax 22)
+        (jump tmp-ra.120 rbp rax)))
+    (define L.fun/error14878.14.17
+      ((new-frames ()) (locals (fun/error14879.9 c.85 tmp-ra.121)))
+      (begin
+        (set! tmp-ra.121 r15)
+        (set! c.85 rdi)
+        (set! fun/error14879.9 (mref c.85 14))
+        (set! rdi fun/error14879.9)
+        (set! r15 tmp-ra.121)
+        (jump L.fun/error14879.9.12 rbp r15 rdi)))
+    (define L.fun/empty14876.13.16
+      ((new-frames ()) (locals (fun/empty14877.15 c.84 tmp-ra.122)))
+      (begin
+        (set! tmp-ra.122 r15)
+        (set! c.84 rdi)
+        (set! fun/empty14877.15 (mref c.84 14))
+        (set! rdi fun/empty14877.15)
+        (set! r15 tmp-ra.122)
+        (jump L.fun/empty14877.15.18 rbp r15 rdi)))
+    (define L.fun/ascii-char14885.12.15
+      ((new-frames ()) (locals (c.83 tmp-ra.123)))
+      (begin
+        (set! tmp-ra.123 r15)
+        (set! c.83 rdi)
+        (set! rax 25134)
+        (jump tmp-ra.123 rbp rax)))
+    (define L.fun/ascii-char14884.11.14
+      ((new-frames ()) (locals (fun/ascii-char14885.12 c.82 tmp-ra.124)))
+      (begin
+        (set! tmp-ra.124 r15)
+        (set! c.82 rdi)
+        (set! fun/ascii-char14885.12 (mref c.82 14))
+        (set! rdi fun/ascii-char14885.12)
+        (set! r15 tmp-ra.124)
+        (jump L.fun/ascii-char14885.12.15 rbp r15 rdi)))
+    (define L.fun/empty14887.10.13
+      ((new-frames ()) (locals (c.81 tmp-ra.125)))
+      (begin
+        (set! tmp-ra.125 r15)
+        (set! c.81 rdi)
+        (set! rax 22)
+        (jump tmp-ra.125 rbp rax)))
+    (define L.fun/error14879.9.12
+      ((new-frames ()) (locals (c.80 tmp-ra.126)))
+      (begin
+        (set! tmp-ra.126 r15)
+        (set! c.80 rdi)
+        (set! rax 29246)
+        (jump tmp-ra.126 rbp rax)))
+    (define L.fun/error14881.8.11
+      ((new-frames ()) (locals (c.79 tmp-ra.127)))
+      (begin
+        (set! tmp-ra.127 r15)
+        (set! c.79 rdi)
+        (set! rax 11326)
+        (jump tmp-ra.127 rbp rax)))
+    (define L.fun/error14882.7.10
+      ((new-frames ()) (locals (fun/error14883.4 c.78 tmp-ra.128)))
+      (begin
+        (set! tmp-ra.128 r15)
+        (set! c.78 rdi)
+        (set! fun/error14883.4 (mref c.78 14))
+        (set! rdi fun/error14883.4)
+        (set! r15 tmp-ra.128)
+        (jump L.fun/error14883.4.7 rbp r15 rdi)))
+    (define L.fun/empty14886.6.9
+      ((new-frames ()) (locals (fun/empty14887.10 c.77 tmp-ra.129)))
+      (begin
+        (set! tmp-ra.129 r15)
+        (set! c.77 rdi)
+        (set! fun/empty14887.10 (mref c.77 14))
+        (set! rdi fun/empty14887.10)
+        (set! r15 tmp-ra.129)
+        (jump L.fun/empty14887.10.13 rbp r15 rdi)))
+    (define L.fun/error14880.5.8
+      ((new-frames ()) (locals (fun/error14881.8 c.76 tmp-ra.130)))
+      (begin
+        (set! tmp-ra.130 r15)
+        (set! c.76 rdi)
+        (set! fun/error14881.8 (mref c.76 14))
+        (set! rdi fun/error14881.8)
+        (set! r15 tmp-ra.130)
+        (jump L.fun/error14881.8.11 rbp r15 rdi)))
+    (define L.fun/error14883.4.7
+      ((new-frames ()) (locals (c.75 tmp-ra.131)))
+      (begin
+        (set! tmp-ra.131 r15)
+        (set! c.75 rdi)
+        (set! rax 37438)
+        (jump tmp-ra.131 rbp rax)))
+    (begin
+      (set! tmp-ra.132 r15)
+      (begin (set! tmp.101 r12) (set! r12 (+ r12 16)))
+      (set! tmp.133 tmp.101)
+      (set! tmp.133 (+ tmp.133 2))
+      (set! tmp.88 tmp.133)
+      (mset! tmp.88 -2 L.fun/error14883.4.7)
+      (mset! tmp.88 6 0)
+      (set! fun/error14883.4 tmp.88)
+      (begin (set! tmp.102 r12) (set! r12 (+ r12 24)))
+      (set! tmp.134 tmp.102)
+      (set! tmp.134 (+ tmp.134 2))
+      (set! tmp.89 tmp.134)
+      (mset! tmp.89 -2 L.fun/error14880.5.8)
+      (mset! tmp.89 6 0)
+      (set! fun/error14880.5 tmp.89)
+      (begin (set! tmp.103 r12) (set! r12 (+ r12 24)))
+      (set! tmp.135 tmp.103)
+      (set! tmp.135 (+ tmp.135 2))
+      (set! tmp.90 tmp.135)
+      (mset! tmp.90 -2 L.fun/empty14886.6.9)
+      (mset! tmp.90 6 0)
+      (set! fun/empty14886.6 tmp.90)
+      (begin (set! tmp.104 r12) (set! r12 (+ r12 24)))
+      (set! tmp.136 tmp.104)
+      (set! tmp.136 (+ tmp.136 2))
+      (set! tmp.91 tmp.136)
+      (mset! tmp.91 -2 L.fun/error14882.7.10)
+      (mset! tmp.91 6 0)
+      (set! fun/error14882.7 tmp.91)
+      (begin (set! tmp.105 r12) (set! r12 (+ r12 16)))
+      (set! tmp.137 tmp.105)
+      (set! tmp.137 (+ tmp.137 2))
+      (set! tmp.92 tmp.137)
+      (mset! tmp.92 -2 L.fun/error14881.8.11)
+      (mset! tmp.92 6 0)
+      (set! fun/error14881.8 tmp.92)
+      (begin (set! tmp.106 r12) (set! r12 (+ r12 16)))
+      (set! tmp.138 tmp.106)
+      (set! tmp.138 (+ tmp.138 2))
+      (set! tmp.93 tmp.138)
+      (mset! tmp.93 -2 L.fun/error14879.9.12)
+      (mset! tmp.93 6 0)
+      (set! fun/error14879.9 tmp.93)
+      (begin (set! tmp.107 r12) (set! r12 (+ r12 16)))
+      (set! tmp.139 tmp.107)
+      (set! tmp.139 (+ tmp.139 2))
+      (set! tmp.94 tmp.139)
+      (mset! tmp.94 -2 L.fun/empty14887.10.13)
+      (mset! tmp.94 6 0)
+      (set! fun/empty14887.10 tmp.94)
+      (begin (set! tmp.108 r12) (set! r12 (+ r12 24)))
+      (set! tmp.140 tmp.108)
+      (set! tmp.140 (+ tmp.140 2))
+      (set! tmp.95 tmp.140)
+      (mset! tmp.95 -2 L.fun/ascii-char14884.11.14)
+      (mset! tmp.95 6 0)
+      (set! fun/ascii-char14884.11 tmp.95)
+      (begin (set! tmp.109 r12) (set! r12 (+ r12 16)))
+      (set! tmp.141 tmp.109)
+      (set! tmp.141 (+ tmp.141 2))
+      (set! tmp.96 tmp.141)
+      (mset! tmp.96 -2 L.fun/ascii-char14885.12.15)
+      (mset! tmp.96 6 0)
+      (set! fun/ascii-char14885.12 tmp.96)
+      (begin (set! tmp.110 r12) (set! r12 (+ r12 24)))
+      (set! tmp.142 tmp.110)
+      (set! tmp.142 (+ tmp.142 2))
+      (set! tmp.97 tmp.142)
+      (mset! tmp.97 -2 L.fun/empty14876.13.16)
+      (mset! tmp.97 6 0)
+      (set! fun/empty14876.13 tmp.97)
+      (begin (set! tmp.111 r12) (set! r12 (+ r12 24)))
+      (set! tmp.143 tmp.111)
+      (set! tmp.143 (+ tmp.143 2))
+      (set! tmp.98 tmp.143)
+      (mset! tmp.98 -2 L.fun/error14878.14.17)
+      (mset! tmp.98 6 0)
+      (set! fun/error14878.14 tmp.98)
+      (begin (set! tmp.112 r12) (set! r12 (+ r12 16)))
+      (set! tmp.144 tmp.112)
+      (set! tmp.144 (+ tmp.144 2))
+      (set! tmp.99 tmp.144)
+      (mset! tmp.99 -2 L.fun/empty14877.15.18)
+      (mset! tmp.99 6 0)
+      (set! fun/empty14877.15 tmp.99)
+      (mset! fun/error14880.5 14 fun/error14881.8)
+      (mset! fun/empty14886.6 14 fun/empty14887.10)
+      (mset! fun/error14882.7 14 fun/error14883.4)
+      (mset! fun/ascii-char14884.11 14 fun/ascii-char14885.12)
+      (mset! fun/empty14876.13 14 fun/empty14877.15)
+      (mset! fun/error14878.14 14 fun/error14879.9)
+      (return-point L.rp.20
+        (begin
+          (set! rdi fun/empty14876.13)
+          (set! r15 L.rp.20)
+          (jump L.fun/empty14876.13.16 rbp r15 rdi)))
+      (set! empty0.21 rax)
+      (return-point L.rp.21
+        (begin
+          (set! rdi fun/error14878.14)
+          (set! r15 L.rp.21)
+          (jump L.fun/error14878.14.17 rbp r15 rdi)))
+      (set! error1.20 rax)
+      (return-point L.rp.22
+        (begin
+          (set! rdi fun/error14880.5)
+          (set! r15 L.rp.22)
+          (jump L.fun/error14880.5.8 rbp r15 rdi)))
+      (set! error2.19 rax)
+      (begin (set! tmp.113 r12) (set! r12 (+ r12 24)))
+      (set! tmp.145 tmp.113)
+      (set! tmp.145 (+ tmp.145 2))
+      (set! tmp.100 tmp.145)
+      (mset! tmp.100 -2 L.lam.74.19)
+      (mset! tmp.100 6 0)
+      (set! lam.74 tmp.100)
+      (mset! lam.74 14 fun/error14882.7)
+      (set! procedure3.18 lam.74)
+      (return-point L.rp.23
+        (begin
+          (set! rdi fun/ascii-char14884.11)
+          (set! r15 L.rp.23)
+          (jump L.fun/ascii-char14884.11.14 rbp r15 rdi)))
+      (set! ascii-char4.17 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/empty14886.6)
+          (set! r15 L.rp.24)
+          (jump L.fun/empty14886.6.9 rbp r15 rdi)))
+      (set! empty5.16 rax)
+      (if (begin
+            (if (begin
+                  (begin
+                    (set! tmp.146 procedure3.18)
+                    (set! tmp.146 (bitwise-and tmp.146 7))
+                    (set! tmp.115 tmp.146))
+                  (= tmp.115 2))
+              (set! tmp.114 14)
+              (set! tmp.114 6))
+            (!= tmp.114 6))
+        (if (begin
+              (if (begin (set! tmp.117 (mref procedure3.18 6)) (= tmp.117 0))
+                (set! tmp.116 14)
+                (set! tmp.116 6))
+              (!= tmp.116 6))
+          (begin
+            (set! tmp.118 (mref procedure3.18 -2))
+            (set! rdi procedure3.18)
+            (set! r15 tmp-ra.132)
+            (jump tmp.118 rbp r15 rdi))
+          (begin (set! rax 10814) (jump tmp-ra.132 rbp rax)))
+        (begin (set! rax 11070) (jump tmp-ra.132 rbp rax))))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () ()))
+     (locals
+      (empty5.18
+       empty4.19
+       ascii-char3.20
+       error2.21
+       procedure1.22
+       lam.79
+       tmp.120
+       tmp.204
+       tmp.153
+       procedure0.23
+       lam.78
+       tmp.119
+       tmp.203
+       tmp.152
+       fun/empty15205.17
+       tmp.118
+       tmp.202
+       tmp.151
+       fun/any15198.16
+       tmp.117
+       tmp.201
+       tmp.150
+       fun/error15201.15
+       tmp.116
+       tmp.200
+       tmp.149
+       fun/any15199.14
+       tmp.115
+       tmp.199
+       tmp.148
+       fun/error15200.13
+       tmp.114
+       tmp.198
+       tmp.147
+       fun/empty15204.12
+       tmp.113
+       tmp.197
+       tmp.146
+       fun/vector15209.11
+       tmp.112
+       tmp.196
+       tmp.145
+       fun/empty15197.10
+       tmp.111
+       tmp.195
+       tmp.144
+       fun/ascii-char15203.9
+       tmp.110
+       tmp.194
+       tmp.143
+       fun/vector15208.8
+       tmp.109
+       tmp.193
+       tmp.142
+       fun/empty15207.7
+       tmp.108
+       tmp.192
+       tmp.141
+       fun/ascii-char15202.6
+       tmp.107
+       tmp.191
+       tmp.140
+       fun/empty15206.5
+       tmp.106
+       tmp.190
+       tmp.139
+       fun/empty15196.4
+       tmp.105
+       tmp.189
+       tmp.138
+       make-vector.76
+       tmp.104
+       tmp.188
+       tmp.137
+       make-init-vector.1
+       tmp.103
+       tmp.187
+       tmp.136
+       vector-init-loop.26
+       tmp.102
+       tmp.186
+       tmp.135
+       ascii-char?.77
+       tmp.101
+       tmp.185
+       tmp.134
+       tmp-ra.174)))
+    (define L.lam.79.26
+      ((new-frames (()))
+       (locals (tmp.121 ascii-char?.77 fun/any15198.16 c.99 tmp-ra.154)))
+      (begin
+        (set! tmp-ra.154 r15)
+        (set! c.99 rdi)
+        (set! fun/any15198.16 (mref c.99 14))
+        (set! ascii-char?.77 (mref c.99 22))
+        (return-point L.rp.27
+          (begin
+            (set! rdi fun/any15198.16)
+            (set! r15 L.rp.27)
+            (jump L.fun/any15198.16.23 rbp r15 rdi)))
+        (set! tmp.121 rax)
+        (set! rsi tmp.121)
+        (set! rdi ascii-char?.77)
+        (set! r15 tmp-ra.154)
+        (jump L.ascii-char?.77.7 rbp r15 rdi rsi)))
+    (define L.lam.78.25
+      ((new-frames ()) (locals (fun/empty15196.4 c.98 tmp-ra.155)))
+      (begin
+        (set! tmp-ra.155 r15)
+        (set! c.98 rdi)
+        (set! fun/empty15196.4 (mref c.98 14))
+        (set! rdi fun/empty15196.4)
+        (set! r15 tmp-ra.155)
+        (jump L.fun/empty15196.4.11 rbp r15 rdi)))
+    (define L.fun/empty15205.17.24
+      ((new-frames ()) (locals (c.97 tmp-ra.156)))
+      (begin
+        (set! tmp-ra.156 r15)
+        (set! c.97 rdi)
+        (set! rax 22)
+        (jump tmp-ra.156 rbp rax)))
+    (define L.fun/any15198.16.23
+      ((new-frames ()) (locals (fun/any15199.14 c.96 tmp-ra.157)))
+      (begin
+        (set! tmp-ra.157 r15)
+        (set! c.96 rdi)
+        (set! fun/any15199.14 (mref c.96 14))
+        (set! rdi fun/any15199.14)
+        (set! r15 tmp-ra.157)
+        (jump L.fun/any15199.14.21 rbp r15 rdi)))
+    (define L.fun/error15201.15.22
+      ((new-frames ()) (locals (c.95 tmp-ra.158)))
+      (begin
+        (set! tmp-ra.158 r15)
+        (set! c.95 rdi)
+        (set! rax 52286)
+        (jump tmp-ra.158 rbp rax)))
+    (define L.fun/any15199.14.21
+      ((new-frames ()) (locals (c.94 tmp-ra.159)))
+      (begin
+        (set! tmp-ra.159 r15)
+        (set! c.94 rdi)
+        (set! rax 30)
+        (jump tmp-ra.159 rbp rax)))
+    (define L.fun/error15200.13.20
+      ((new-frames ()) (locals (fun/error15201.15 c.93 tmp-ra.160)))
+      (begin
+        (set! tmp-ra.160 r15)
+        (set! c.93 rdi)
+        (set! fun/error15201.15 (mref c.93 14))
+        (set! rdi fun/error15201.15)
+        (set! r15 tmp-ra.160)
+        (jump L.fun/error15201.15.22 rbp r15 rdi)))
+    (define L.fun/empty15204.12.19
+      ((new-frames ()) (locals (fun/empty15205.17 c.92 tmp-ra.161)))
+      (begin
+        (set! tmp-ra.161 r15)
+        (set! c.92 rdi)
+        (set! fun/empty15205.17 (mref c.92 14))
+        (set! rdi fun/empty15205.17)
+        (set! r15 tmp-ra.161)
+        (jump L.fun/empty15205.17.24 rbp r15 rdi)))
+    (define L.fun/vector15209.11.18
+      ((new-frames ()) (locals (make-vector.76 c.91 tmp-ra.162)))
+      (begin
+        (set! tmp-ra.162 r15)
+        (set! c.91 rdi)
+        (set! make-vector.76 (mref c.91 14))
+        (set! rsi 64)
+        (set! rdi make-vector.76)
+        (set! r15 tmp-ra.162)
+        (jump L.make-vector.76.10 rbp r15 rdi rsi)))
+    (define L.fun/empty15197.10.17
+      ((new-frames ()) (locals (c.90 tmp-ra.163)))
+      (begin
+        (set! tmp-ra.163 r15)
+        (set! c.90 rdi)
+        (set! rax 22)
+        (jump tmp-ra.163 rbp rax)))
+    (define L.fun/ascii-char15203.9.16
+      ((new-frames ()) (locals (c.89 tmp-ra.164)))
+      (begin
+        (set! tmp-ra.164 r15)
+        (set! c.89 rdi)
+        (set! rax 29230)
+        (jump tmp-ra.164 rbp rax)))
+    (define L.fun/vector15208.8.15
+      ((new-frames ()) (locals (fun/vector15209.11 c.88 tmp-ra.165)))
+      (begin
+        (set! tmp-ra.165 r15)
+        (set! c.88 rdi)
+        (set! fun/vector15209.11 (mref c.88 14))
+        (set! rdi fun/vector15209.11)
+        (set! r15 tmp-ra.165)
+        (jump L.fun/vector15209.11.18 rbp r15 rdi)))
+    (define L.fun/empty15207.7.14
+      ((new-frames ()) (locals (c.87 tmp-ra.166)))
+      (begin
+        (set! tmp-ra.166 r15)
+        (set! c.87 rdi)
+        (set! rax 22)
+        (jump tmp-ra.166 rbp rax)))
+    (define L.fun/ascii-char15202.6.13
+      ((new-frames ()) (locals (fun/ascii-char15203.9 c.86 tmp-ra.167)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.86 rdi)
+        (set! fun/ascii-char15203.9 (mref c.86 14))
+        (set! rdi fun/ascii-char15203.9)
+        (set! r15 tmp-ra.167)
+        (jump L.fun/ascii-char15203.9.16 rbp r15 rdi)))
+    (define L.fun/empty15206.5.12
+      ((new-frames ()) (locals (fun/empty15207.7 c.85 tmp-ra.168)))
+      (begin
+        (set! tmp-ra.168 r15)
+        (set! c.85 rdi)
+        (set! fun/empty15207.7 (mref c.85 14))
+        (set! rdi fun/empty15207.7)
+        (set! r15 tmp-ra.168)
+        (jump L.fun/empty15207.7.14 rbp r15 rdi)))
+    (define L.fun/empty15196.4.11
+      ((new-frames ()) (locals (fun/empty15197.10 c.84 tmp-ra.169)))
+      (begin
+        (set! tmp-ra.169 r15)
+        (set! c.84 rdi)
+        (set! fun/empty15197.10 (mref c.84 14))
+        (set! rdi fun/empty15197.10)
+        (set! r15 tmp-ra.169)
+        (jump L.fun/empty15197.10.17 rbp r15 rdi)))
+    (define L.make-vector.76.10
+      ((new-frames ())
+       (locals
+        (c.83 make-init-vector.1 tmp-ra.170 tmp.123 tmp.52 tmp.175 tmp.122)))
+      (begin
+        (set! tmp-ra.170 r15)
+        (set! c.83 rdi)
+        (set! tmp.52 rsi)
+        (set! make-init-vector.1 (mref c.83 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.175 tmp.52)
+                      (set! tmp.175 (bitwise-and tmp.175 7))
+                      (set! tmp.123 tmp.175))
+                    (= tmp.123 0))
+                (set! tmp.122 14)
+                (set! tmp.122 6))
+              (!= tmp.122 6))
+          (begin
+            (set! rsi tmp.52)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.170)
+            (jump L.make-init-vector.1.9 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.170 rbp rax)))))
+    (define L.make-init-vector.1.9
+      ((new-frames ())
+       (locals
+        (tmp.25
+         tmp.100
+         tmp.179
+         tmp.124
+         tmp.125
+         tmp.178
+         tmp.126
+         tmp.177
+         tmp.127
+         tmp.176
+         vector-init-loop.26
+         tmp.24
+         c.82
+         tmp-ra.171)))
+      (begin
+        (set! tmp-ra.171 r15)
+        (set! c.82 rdi)
+        (set! tmp.24 rsi)
+        (set! vector-init-loop.26 (mref c.82 14))
+        (set! tmp.176 tmp.24)
+        (set! tmp.176 (arithmetic-shift-right tmp.176 3))
+        (set! tmp.127 tmp.176)
+        (set! tmp.177 1)
+        (set! tmp.177 (+ tmp.177 tmp.127))
+        (set! tmp.126 tmp.177)
+        (set! tmp.178 tmp.126)
+        (set! tmp.178 (* tmp.178 8))
+        (set! tmp.125 tmp.178)
+        (begin (set! tmp.124 r12) (set! r12 (+ r12 tmp.125)))
+        (set! tmp.179 tmp.124)
+        (set! tmp.179 (+ tmp.179 3))
+        (set! tmp.100 tmp.179)
+        (mset! tmp.100 -3 tmp.24)
+        (set! tmp.25 tmp.100)
+        (set! rcx tmp.25)
+        (set! rdx 0)
+        (set! rsi tmp.24)
+        (set! rdi vector-init-loop.26)
+        (set! r15 tmp-ra.171)
+        (jump L.vector-init-loop.26.8 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.26.8
+      ((new-frames ())
+       (locals
+        (c.81
+         tmp.180
+         tmp.131
+         tmp.181
+         tmp.130
+         tmp.182
+         tmp.129
+         tmp.183
+         tmp.132
+         vector-init-loop.26
+         tmp-ra.172
+         vec.28
+         len.27
+         i.29
+         tmp.128)))
+      (begin
+        (set! tmp-ra.172 r15)
+        (set! c.81 rdi)
+        (set! len.27 rsi)
+        (set! i.29 rdx)
+        (set! vec.28 rcx)
+        (set! vector-init-loop.26 (mref c.81 14))
+        (if (begin
+              (if (= len.27 i.29) (set! tmp.128 14) (set! tmp.128 6))
+              (!= tmp.128 6))
+          (begin (set! rax vec.28) (jump tmp-ra.172 rbp rax))
+          (begin
+            (set! tmp.180 i.29)
+            (set! tmp.180 (arithmetic-shift-right tmp.180 3))
+            (set! tmp.131 tmp.180)
+            (set! tmp.181 tmp.131)
+            (set! tmp.181 (* tmp.181 8))
+            (set! tmp.130 tmp.181)
+            (set! tmp.182 tmp.130)
+            (set! tmp.182 (+ tmp.182 5))
+            (set! tmp.129 tmp.182)
+            (mset! vec.28 tmp.129 0)
+            (set! tmp.183 i.29)
+            (set! tmp.183 (+ tmp.183 8))
+            (set! tmp.132 tmp.183)
+            (set! rcx vec.28)
+            (set! rdx tmp.132)
+            (set! rsi len.27)
+            (set! rdi vector-init-loop.26)
+            (set! r15 tmp-ra.172)
+            (jump L.vector-init-loop.26.8 rbp r15 rdi rsi rdx rcx)))))
+    (define L.ascii-char?.77.7
+      ((new-frames ()) (locals (c.80 tmp-ra.173 tmp.184 tmp.65 tmp.133)))
+      (begin
+        (set! tmp-ra.173 r15)
+        (set! c.80 rdi)
+        (set! tmp.65 rsi)
+        (if (begin
+              (begin
+                (set! tmp.184 tmp.65)
+                (set! tmp.184 (bitwise-and tmp.184 255))
+                (set! tmp.133 tmp.184))
+              (= tmp.133 46))
+          (begin (set! rax 14) (jump tmp-ra.173 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.173 rbp rax)))))
+    (begin
+      (set! tmp-ra.174 r15)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 16)))
+      (set! tmp.185 tmp.134)
+      (set! tmp.185 (+ tmp.185 2))
+      (set! tmp.101 tmp.185)
+      (mset! tmp.101 -2 L.ascii-char?.77.7)
+      (mset! tmp.101 6 8)
+      (set! ascii-char?.77 tmp.101)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 24)))
+      (set! tmp.186 tmp.135)
+      (set! tmp.186 (+ tmp.186 2))
+      (set! tmp.102 tmp.186)
+      (mset! tmp.102 -2 L.vector-init-loop.26.8)
+      (mset! tmp.102 6 24)
+      (set! vector-init-loop.26 tmp.102)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 24)))
+      (set! tmp.187 tmp.136)
+      (set! tmp.187 (+ tmp.187 2))
+      (set! tmp.103 tmp.187)
+      (mset! tmp.103 -2 L.make-init-vector.1.9)
+      (mset! tmp.103 6 8)
+      (set! make-init-vector.1 tmp.103)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 24)))
+      (set! tmp.188 tmp.137)
+      (set! tmp.188 (+ tmp.188 2))
+      (set! tmp.104 tmp.188)
+      (mset! tmp.104 -2 L.make-vector.76.10)
+      (mset! tmp.104 6 8)
+      (set! make-vector.76 tmp.104)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 24)))
+      (set! tmp.189 tmp.138)
+      (set! tmp.189 (+ tmp.189 2))
+      (set! tmp.105 tmp.189)
+      (mset! tmp.105 -2 L.fun/empty15196.4.11)
+      (mset! tmp.105 6 0)
+      (set! fun/empty15196.4 tmp.105)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 24)))
+      (set! tmp.190 tmp.139)
+      (set! tmp.190 (+ tmp.190 2))
+      (set! tmp.106 tmp.190)
+      (mset! tmp.106 -2 L.fun/empty15206.5.12)
+      (mset! tmp.106 6 0)
+      (set! fun/empty15206.5 tmp.106)
+      (begin (set! tmp.140 r12) (set! r12 (+ r12 24)))
+      (set! tmp.191 tmp.140)
+      (set! tmp.191 (+ tmp.191 2))
+      (set! tmp.107 tmp.191)
+      (mset! tmp.107 -2 L.fun/ascii-char15202.6.13)
+      (mset! tmp.107 6 0)
+      (set! fun/ascii-char15202.6 tmp.107)
+      (begin (set! tmp.141 r12) (set! r12 (+ r12 16)))
+      (set! tmp.192 tmp.141)
+      (set! tmp.192 (+ tmp.192 2))
+      (set! tmp.108 tmp.192)
+      (mset! tmp.108 -2 L.fun/empty15207.7.14)
+      (mset! tmp.108 6 0)
+      (set! fun/empty15207.7 tmp.108)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 24)))
+      (set! tmp.193 tmp.142)
+      (set! tmp.193 (+ tmp.193 2))
+      (set! tmp.109 tmp.193)
+      (mset! tmp.109 -2 L.fun/vector15208.8.15)
+      (mset! tmp.109 6 0)
+      (set! fun/vector15208.8 tmp.109)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 16)))
+      (set! tmp.194 tmp.143)
+      (set! tmp.194 (+ tmp.194 2))
+      (set! tmp.110 tmp.194)
+      (mset! tmp.110 -2 L.fun/ascii-char15203.9.16)
+      (mset! tmp.110 6 0)
+      (set! fun/ascii-char15203.9 tmp.110)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 16)))
+      (set! tmp.195 tmp.144)
+      (set! tmp.195 (+ tmp.195 2))
+      (set! tmp.111 tmp.195)
+      (mset! tmp.111 -2 L.fun/empty15197.10.17)
+      (mset! tmp.111 6 0)
+      (set! fun/empty15197.10 tmp.111)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.196 tmp.145)
+      (set! tmp.196 (+ tmp.196 2))
+      (set! tmp.112 tmp.196)
+      (mset! tmp.112 -2 L.fun/vector15209.11.18)
+      (mset! tmp.112 6 0)
+      (set! fun/vector15209.11 tmp.112)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 24)))
+      (set! tmp.197 tmp.146)
+      (set! tmp.197 (+ tmp.197 2))
+      (set! tmp.113 tmp.197)
+      (mset! tmp.113 -2 L.fun/empty15204.12.19)
+      (mset! tmp.113 6 0)
+      (set! fun/empty15204.12 tmp.113)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 24)))
+      (set! tmp.198 tmp.147)
+      (set! tmp.198 (+ tmp.198 2))
+      (set! tmp.114 tmp.198)
+      (mset! tmp.114 -2 L.fun/error15200.13.20)
+      (mset! tmp.114 6 0)
+      (set! fun/error15200.13 tmp.114)
+      (begin (set! tmp.148 r12) (set! r12 (+ r12 16)))
+      (set! tmp.199 tmp.148)
+      (set! tmp.199 (+ tmp.199 2))
+      (set! tmp.115 tmp.199)
+      (mset! tmp.115 -2 L.fun/any15199.14.21)
+      (mset! tmp.115 6 0)
+      (set! fun/any15199.14 tmp.115)
+      (begin (set! tmp.149 r12) (set! r12 (+ r12 16)))
+      (set! tmp.200 tmp.149)
+      (set! tmp.200 (+ tmp.200 2))
+      (set! tmp.116 tmp.200)
+      (mset! tmp.116 -2 L.fun/error15201.15.22)
+      (mset! tmp.116 6 0)
+      (set! fun/error15201.15 tmp.116)
+      (begin (set! tmp.150 r12) (set! r12 (+ r12 24)))
+      (set! tmp.201 tmp.150)
+      (set! tmp.201 (+ tmp.201 2))
+      (set! tmp.117 tmp.201)
+      (mset! tmp.117 -2 L.fun/any15198.16.23)
+      (mset! tmp.117 6 0)
+      (set! fun/any15198.16 tmp.117)
+      (begin (set! tmp.151 r12) (set! r12 (+ r12 16)))
+      (set! tmp.202 tmp.151)
+      (set! tmp.202 (+ tmp.202 2))
+      (set! tmp.118 tmp.202)
+      (mset! tmp.118 -2 L.fun/empty15205.17.24)
+      (mset! tmp.118 6 0)
+      (set! fun/empty15205.17 tmp.118)
+      (mset! vector-init-loop.26 14 vector-init-loop.26)
+      (mset! make-init-vector.1 14 vector-init-loop.26)
+      (mset! make-vector.76 14 make-init-vector.1)
+      (mset! fun/empty15196.4 14 fun/empty15197.10)
+      (mset! fun/empty15206.5 14 fun/empty15207.7)
+      (mset! fun/ascii-char15202.6 14 fun/ascii-char15203.9)
+      (mset! fun/vector15208.8 14 fun/vector15209.11)
+      (mset! fun/vector15209.11 14 make-vector.76)
+      (mset! fun/empty15204.12 14 fun/empty15205.17)
+      (mset! fun/error15200.13 14 fun/error15201.15)
+      (mset! fun/any15198.16 14 fun/any15199.14)
+      (begin (set! tmp.152 r12) (set! r12 (+ r12 24)))
+      (set! tmp.203 tmp.152)
+      (set! tmp.203 (+ tmp.203 2))
+      (set! tmp.119 tmp.203)
+      (mset! tmp.119 -2 L.lam.78.25)
+      (mset! tmp.119 6 0)
+      (set! lam.78 tmp.119)
+      (mset! lam.78 14 fun/empty15196.4)
+      (set! procedure0.23 lam.78)
+      (begin (set! tmp.153 r12) (set! r12 (+ r12 32)))
+      (set! tmp.204 tmp.153)
+      (set! tmp.204 (+ tmp.204 2))
+      (set! tmp.120 tmp.204)
+      (mset! tmp.120 -2 L.lam.79.26)
+      (mset! tmp.120 6 0)
+      (set! lam.79 tmp.120)
+      (mset! lam.79 14 fun/any15198.16)
+      (mset! lam.79 22 ascii-char?.77)
+      (set! procedure1.22 lam.79)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/error15200.13)
+          (set! r15 L.rp.28)
+          (jump L.fun/error15200.13.20 rbp r15 rdi)))
+      (set! error2.21 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdi fun/ascii-char15202.6)
+          (set! r15 L.rp.29)
+          (jump L.fun/ascii-char15202.6.13 rbp r15 rdi)))
+      (set! ascii-char3.20 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdi fun/empty15204.12)
+          (set! r15 L.rp.30)
+          (jump L.fun/empty15204.12.19 rbp r15 rdi)))
+      (set! empty4.19 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdi fun/empty15206.5)
+          (set! r15 L.rp.31)
+          (jump L.fun/empty15206.5.12 rbp r15 rdi)))
+      (set! empty5.18 rax)
+      (set! rdi fun/vector15208.8)
+      (set! r15 tmp-ra.174)
+      (jump L.fun/vector15208.8.15 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () ()))
+     (locals
+      (void5.18
+       ascii-char4.19
+       error3.20
+       error2.21
+       vector1.22
+       error0.23
+       fun/void17417.17
+       tmp.111
+       tmp.183
+       tmp.139
+       fun/error17406.16
+       tmp.110
+       tmp.182
+       tmp.138
+       fun/error17411.15
+       tmp.109
+       tmp.181
+       tmp.137
+       fun/error17407.14
+       tmp.108
+       tmp.180
+       tmp.136
+       fun/error17412.13
+       tmp.107
+       tmp.179
+       tmp.135
+       fun/ascii-char17414.12
+       tmp.106
+       tmp.178
+       tmp.134
+       fun/error17413.11
+       tmp.105
+       tmp.177
+       tmp.133
+       fun/void17416.10
+       tmp.104
+       tmp.176
+       tmp.132
+       fun/vector17409.9
+       tmp.103
+       tmp.175
+       tmp.131
+       fun/error17410.8
+       tmp.102
+       tmp.174
+       tmp.130
+       fun/vector17419.7
+       tmp.101
+       tmp.173
+       tmp.129
+       fun/ascii-char17415.6
+       tmp.100
+       tmp.172
+       tmp.128
+       fun/vector17418.5
+       tmp.99
+       tmp.171
+       tmp.127
+       fun/vector17408.4
+       tmp.98
+       tmp.170
+       tmp.126
+       make-vector.76
+       tmp.97
+       tmp.169
+       tmp.125
+       make-init-vector.1
+       tmp.96
+       tmp.168
+       tmp.124
+       vector-init-loop.26
+       tmp.95
+       tmp.167
+       tmp.123
+       tmp-ra.157)))
+    (define L.fun/void17417.17.23
+      ((new-frames ()) (locals (c.93 tmp-ra.140)))
+      (begin
+        (set! tmp-ra.140 r15)
+        (set! c.93 rdi)
+        (set! rax 30)
+        (jump tmp-ra.140 rbp rax)))
+    (define L.fun/error17406.16.22
+      ((new-frames ()) (locals (fun/error17407.14 c.92 tmp-ra.141)))
+      (begin
+        (set! tmp-ra.141 r15)
+        (set! c.92 rdi)
+        (set! fun/error17407.14 (mref c.92 14))
+        (set! rdi fun/error17407.14)
+        (set! r15 tmp-ra.141)
+        (jump L.fun/error17407.14.20 rbp r15 rdi)))
+    (define L.fun/error17411.15.21
+      ((new-frames ()) (locals (c.91 tmp-ra.142)))
+      (begin
+        (set! tmp-ra.142 r15)
+        (set! c.91 rdi)
+        (set! rax 10814)
+        (jump tmp-ra.142 rbp rax)))
+    (define L.fun/error17407.14.20
+      ((new-frames ()) (locals (c.90 tmp-ra.143)))
+      (begin
+        (set! tmp-ra.143 r15)
+        (set! c.90 rdi)
+        (set! rax 54078)
+        (jump tmp-ra.143 rbp rax)))
+    (define L.fun/error17412.13.19
+      ((new-frames ()) (locals (fun/error17413.11 c.89 tmp-ra.144)))
+      (begin
+        (set! tmp-ra.144 r15)
+        (set! c.89 rdi)
+        (set! fun/error17413.11 (mref c.89 14))
+        (set! rdi fun/error17413.11)
+        (set! r15 tmp-ra.144)
+        (jump L.fun/error17413.11.17 rbp r15 rdi)))
+    (define L.fun/ascii-char17414.12.18
+      ((new-frames ()) (locals (fun/ascii-char17415.6 c.88 tmp-ra.145)))
+      (begin
+        (set! tmp-ra.145 r15)
+        (set! c.88 rdi)
+        (set! fun/ascii-char17415.6 (mref c.88 14))
+        (set! rdi fun/ascii-char17415.6)
+        (set! r15 tmp-ra.145)
+        (jump L.fun/ascii-char17415.6.12 rbp r15 rdi)))
+    (define L.fun/error17413.11.17
+      ((new-frames ()) (locals (c.87 tmp-ra.146)))
+      (begin
+        (set! tmp-ra.146 r15)
+        (set! c.87 rdi)
+        (set! rax 13886)
+        (jump tmp-ra.146 rbp rax)))
+    (define L.fun/void17416.10.16
+      ((new-frames ()) (locals (fun/void17417.17 c.86 tmp-ra.147)))
+      (begin
+        (set! tmp-ra.147 r15)
+        (set! c.86 rdi)
+        (set! fun/void17417.17 (mref c.86 14))
+        (set! rdi fun/void17417.17)
+        (set! r15 tmp-ra.147)
+        (jump L.fun/void17417.17.23 rbp r15 rdi)))
+    (define L.fun/vector17409.9.15
+      ((new-frames ()) (locals (make-vector.76 c.85 tmp-ra.148)))
+      (begin
+        (set! tmp-ra.148 r15)
+        (set! c.85 rdi)
+        (set! make-vector.76 (mref c.85 14))
+        (set! rsi 64)
+        (set! rdi make-vector.76)
+        (set! r15 tmp-ra.148)
+        (jump L.make-vector.76.9 rbp r15 rdi rsi)))
+    (define L.fun/error17410.8.14
+      ((new-frames ()) (locals (fun/error17411.15 c.84 tmp-ra.149)))
+      (begin
+        (set! tmp-ra.149 r15)
+        (set! c.84 rdi)
+        (set! fun/error17411.15 (mref c.84 14))
+        (set! rdi fun/error17411.15)
+        (set! r15 tmp-ra.149)
+        (jump L.fun/error17411.15.21 rbp r15 rdi)))
+    (define L.fun/vector17419.7.13
+      ((new-frames ()) (locals (make-vector.76 c.83 tmp-ra.150)))
+      (begin
+        (set! tmp-ra.150 r15)
+        (set! c.83 rdi)
+        (set! make-vector.76 (mref c.83 14))
+        (set! rsi 64)
+        (set! rdi make-vector.76)
+        (set! r15 tmp-ra.150)
+        (jump L.make-vector.76.9 rbp r15 rdi rsi)))
+    (define L.fun/ascii-char17415.6.12
+      ((new-frames ()) (locals (c.82 tmp-ra.151)))
+      (begin
+        (set! tmp-ra.151 r15)
+        (set! c.82 rdi)
+        (set! rax 25902)
+        (jump tmp-ra.151 rbp rax)))
+    (define L.fun/vector17418.5.11
+      ((new-frames ()) (locals (fun/vector17419.7 c.81 tmp-ra.152)))
+      (begin
+        (set! tmp-ra.152 r15)
+        (set! c.81 rdi)
+        (set! fun/vector17419.7 (mref c.81 14))
+        (set! rdi fun/vector17419.7)
+        (set! r15 tmp-ra.152)
+        (jump L.fun/vector17419.7.13 rbp r15 rdi)))
+    (define L.fun/vector17408.4.10
+      ((new-frames ()) (locals (fun/vector17409.9 c.80 tmp-ra.153)))
+      (begin
+        (set! tmp-ra.153 r15)
+        (set! c.80 rdi)
+        (set! fun/vector17409.9 (mref c.80 14))
+        (set! rdi fun/vector17409.9)
+        (set! r15 tmp-ra.153)
+        (jump L.fun/vector17409.9.15 rbp r15 rdi)))
+    (define L.make-vector.76.9
+      ((new-frames ())
+       (locals
+        (c.79 make-init-vector.1 tmp-ra.154 tmp.113 tmp.52 tmp.158 tmp.112)))
+      (begin
+        (set! tmp-ra.154 r15)
+        (set! c.79 rdi)
+        (set! tmp.52 rsi)
+        (set! make-init-vector.1 (mref c.79 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.158 tmp.52)
+                      (set! tmp.158 (bitwise-and tmp.158 7))
+                      (set! tmp.113 tmp.158))
+                    (= tmp.113 0))
+                (set! tmp.112 14)
+                (set! tmp.112 6))
+              (!= tmp.112 6))
+          (begin
+            (set! rsi tmp.52)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.154)
+            (jump L.make-init-vector.1.8 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.154 rbp rax)))))
+    (define L.make-init-vector.1.8
+      ((new-frames ())
+       (locals
+        (tmp.25
+         tmp.94
+         tmp.162
+         tmp.114
+         tmp.115
+         tmp.161
+         tmp.116
+         tmp.160
+         tmp.117
+         tmp.159
+         vector-init-loop.26
+         tmp.24
+         c.78
+         tmp-ra.155)))
+      (begin
+        (set! tmp-ra.155 r15)
+        (set! c.78 rdi)
+        (set! tmp.24 rsi)
+        (set! vector-init-loop.26 (mref c.78 14))
+        (set! tmp.159 tmp.24)
+        (set! tmp.159 (arithmetic-shift-right tmp.159 3))
+        (set! tmp.117 tmp.159)
+        (set! tmp.160 1)
+        (set! tmp.160 (+ tmp.160 tmp.117))
+        (set! tmp.116 tmp.160)
+        (set! tmp.161 tmp.116)
+        (set! tmp.161 (* tmp.161 8))
+        (set! tmp.115 tmp.161)
+        (begin (set! tmp.114 r12) (set! r12 (+ r12 tmp.115)))
+        (set! tmp.162 tmp.114)
+        (set! tmp.162 (+ tmp.162 3))
+        (set! tmp.94 tmp.162)
+        (mset! tmp.94 -3 tmp.24)
+        (set! tmp.25 tmp.94)
+        (set! rcx tmp.25)
+        (set! rdx 0)
+        (set! rsi tmp.24)
+        (set! rdi vector-init-loop.26)
+        (set! r15 tmp-ra.155)
+        (jump L.vector-init-loop.26.7 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.26.7
+      ((new-frames ())
+       (locals
+        (c.77
+         tmp.163
+         tmp.121
+         tmp.164
+         tmp.120
+         tmp.165
+         tmp.119
+         tmp.166
+         tmp.122
+         vector-init-loop.26
+         tmp-ra.156
+         vec.28
+         len.27
+         i.29
+         tmp.118)))
+      (begin
+        (set! tmp-ra.156 r15)
+        (set! c.77 rdi)
+        (set! len.27 rsi)
+        (set! i.29 rdx)
+        (set! vec.28 rcx)
+        (set! vector-init-loop.26 (mref c.77 14))
+        (if (begin
+              (if (= len.27 i.29) (set! tmp.118 14) (set! tmp.118 6))
+              (!= tmp.118 6))
+          (begin (set! rax vec.28) (jump tmp-ra.156 rbp rax))
+          (begin
+            (set! tmp.163 i.29)
+            (set! tmp.163 (arithmetic-shift-right tmp.163 3))
+            (set! tmp.121 tmp.163)
+            (set! tmp.164 tmp.121)
+            (set! tmp.164 (* tmp.164 8))
+            (set! tmp.120 tmp.164)
+            (set! tmp.165 tmp.120)
+            (set! tmp.165 (+ tmp.165 5))
+            (set! tmp.119 tmp.165)
+            (mset! vec.28 tmp.119 0)
+            (set! tmp.166 i.29)
+            (set! tmp.166 (+ tmp.166 8))
+            (set! tmp.122 tmp.166)
+            (set! rcx vec.28)
+            (set! rdx tmp.122)
+            (set! rsi len.27)
+            (set! rdi vector-init-loop.26)
+            (set! r15 tmp-ra.156)
+            (jump L.vector-init-loop.26.7 rbp r15 rdi rsi rdx rcx)))))
+    (begin
+      (set! tmp-ra.157 r15)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 24)))
+      (set! tmp.167 tmp.123)
+      (set! tmp.167 (+ tmp.167 2))
+      (set! tmp.95 tmp.167)
+      (mset! tmp.95 -2 L.vector-init-loop.26.7)
+      (mset! tmp.95 6 24)
+      (set! vector-init-loop.26 tmp.95)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 24)))
+      (set! tmp.168 tmp.124)
+      (set! tmp.168 (+ tmp.168 2))
+      (set! tmp.96 tmp.168)
+      (mset! tmp.96 -2 L.make-init-vector.1.8)
+      (mset! tmp.96 6 8)
+      (set! make-init-vector.1 tmp.96)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 24)))
+      (set! tmp.169 tmp.125)
+      (set! tmp.169 (+ tmp.169 2))
+      (set! tmp.97 tmp.169)
+      (mset! tmp.97 -2 L.make-vector.76.9)
+      (mset! tmp.97 6 8)
+      (set! make-vector.76 tmp.97)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 24)))
+      (set! tmp.170 tmp.126)
+      (set! tmp.170 (+ tmp.170 2))
+      (set! tmp.98 tmp.170)
+      (mset! tmp.98 -2 L.fun/vector17408.4.10)
+      (mset! tmp.98 6 0)
+      (set! fun/vector17408.4 tmp.98)
+      (begin (set! tmp.127 r12) (set! r12 (+ r12 24)))
+      (set! tmp.171 tmp.127)
+      (set! tmp.171 (+ tmp.171 2))
+      (set! tmp.99 tmp.171)
+      (mset! tmp.99 -2 L.fun/vector17418.5.11)
+      (mset! tmp.99 6 0)
+      (set! fun/vector17418.5 tmp.99)
+      (begin (set! tmp.128 r12) (set! r12 (+ r12 16)))
+      (set! tmp.172 tmp.128)
+      (set! tmp.172 (+ tmp.172 2))
+      (set! tmp.100 tmp.172)
+      (mset! tmp.100 -2 L.fun/ascii-char17415.6.12)
+      (mset! tmp.100 6 0)
+      (set! fun/ascii-char17415.6 tmp.100)
+      (begin (set! tmp.129 r12) (set! r12 (+ r12 24)))
+      (set! tmp.173 tmp.129)
+      (set! tmp.173 (+ tmp.173 2))
+      (set! tmp.101 tmp.173)
+      (mset! tmp.101 -2 L.fun/vector17419.7.13)
+      (mset! tmp.101 6 0)
+      (set! fun/vector17419.7 tmp.101)
+      (begin (set! tmp.130 r12) (set! r12 (+ r12 24)))
+      (set! tmp.174 tmp.130)
+      (set! tmp.174 (+ tmp.174 2))
+      (set! tmp.102 tmp.174)
+      (mset! tmp.102 -2 L.fun/error17410.8.14)
+      (mset! tmp.102 6 0)
+      (set! fun/error17410.8 tmp.102)
+      (begin (set! tmp.131 r12) (set! r12 (+ r12 24)))
+      (set! tmp.175 tmp.131)
+      (set! tmp.175 (+ tmp.175 2))
+      (set! tmp.103 tmp.175)
+      (mset! tmp.103 -2 L.fun/vector17409.9.15)
+      (mset! tmp.103 6 0)
+      (set! fun/vector17409.9 tmp.103)
+      (begin (set! tmp.132 r12) (set! r12 (+ r12 24)))
+      (set! tmp.176 tmp.132)
+      (set! tmp.176 (+ tmp.176 2))
+      (set! tmp.104 tmp.176)
+      (mset! tmp.104 -2 L.fun/void17416.10.16)
+      (mset! tmp.104 6 0)
+      (set! fun/void17416.10 tmp.104)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 16)))
+      (set! tmp.177 tmp.133)
+      (set! tmp.177 (+ tmp.177 2))
+      (set! tmp.105 tmp.177)
+      (mset! tmp.105 -2 L.fun/error17413.11.17)
+      (mset! tmp.105 6 0)
+      (set! fun/error17413.11 tmp.105)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 24)))
+      (set! tmp.178 tmp.134)
+      (set! tmp.178 (+ tmp.178 2))
+      (set! tmp.106 tmp.178)
+      (mset! tmp.106 -2 L.fun/ascii-char17414.12.18)
+      (mset! tmp.106 6 0)
+      (set! fun/ascii-char17414.12 tmp.106)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 24)))
+      (set! tmp.179 tmp.135)
+      (set! tmp.179 (+ tmp.179 2))
+      (set! tmp.107 tmp.179)
+      (mset! tmp.107 -2 L.fun/error17412.13.19)
+      (mset! tmp.107 6 0)
+      (set! fun/error17412.13 tmp.107)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 16)))
+      (set! tmp.180 tmp.136)
+      (set! tmp.180 (+ tmp.180 2))
+      (set! tmp.108 tmp.180)
+      (mset! tmp.108 -2 L.fun/error17407.14.20)
+      (mset! tmp.108 6 0)
+      (set! fun/error17407.14 tmp.108)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 16)))
+      (set! tmp.181 tmp.137)
+      (set! tmp.181 (+ tmp.181 2))
+      (set! tmp.109 tmp.181)
+      (mset! tmp.109 -2 L.fun/error17411.15.21)
+      (mset! tmp.109 6 0)
+      (set! fun/error17411.15 tmp.109)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 24)))
+      (set! tmp.182 tmp.138)
+      (set! tmp.182 (+ tmp.182 2))
+      (set! tmp.110 tmp.182)
+      (mset! tmp.110 -2 L.fun/error17406.16.22)
+      (mset! tmp.110 6 0)
+      (set! fun/error17406.16 tmp.110)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 16)))
+      (set! tmp.183 tmp.139)
+      (set! tmp.183 (+ tmp.183 2))
+      (set! tmp.111 tmp.183)
+      (mset! tmp.111 -2 L.fun/void17417.17.23)
+      (mset! tmp.111 6 0)
+      (set! fun/void17417.17 tmp.111)
+      (mset! vector-init-loop.26 14 vector-init-loop.26)
+      (mset! make-init-vector.1 14 vector-init-loop.26)
+      (mset! make-vector.76 14 make-init-vector.1)
+      (mset! fun/vector17408.4 14 fun/vector17409.9)
+      (mset! fun/vector17418.5 14 fun/vector17419.7)
+      (mset! fun/vector17419.7 14 make-vector.76)
+      (mset! fun/error17410.8 14 fun/error17411.15)
+      (mset! fun/vector17409.9 14 make-vector.76)
+      (mset! fun/void17416.10 14 fun/void17417.17)
+      (mset! fun/ascii-char17414.12 14 fun/ascii-char17415.6)
+      (mset! fun/error17412.13 14 fun/error17413.11)
+      (mset! fun/error17406.16 14 fun/error17407.14)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/error17406.16)
+          (set! r15 L.rp.24)
+          (jump L.fun/error17406.16.22 rbp r15 rdi)))
+      (set! error0.23 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdi fun/vector17408.4)
+          (set! r15 L.rp.25)
+          (jump L.fun/vector17408.4.10 rbp r15 rdi)))
+      (set! vector1.22 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/error17410.8)
+          (set! r15 L.rp.26)
+          (jump L.fun/error17410.8.14 rbp r15 rdi)))
+      (set! error2.21 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/error17412.13)
+          (set! r15 L.rp.27)
+          (jump L.fun/error17412.13.19 rbp r15 rdi)))
+      (set! error3.20 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/ascii-char17414.12)
+          (set! r15 L.rp.28)
+          (jump L.fun/ascii-char17414.12.18 rbp r15 rdi)))
+      (set! ascii-char4.19 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdi fun/void17416.10)
+          (set! r15 L.rp.29)
+          (jump L.fun/void17416.10.16 rbp r15 rdi)))
+      (set! void5.18 rax)
+      (set! rdi fun/vector17418.5)
+      (set! r15 tmp-ra.157)
+      (jump L.fun/vector17418.5.11 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () () () () () () () () () () () () () () ()))
+     (locals
+      (empty5.16
+       ascii-char4.17
+       fixnum3.18
+       tmp.168
+       tmp.172
+       tmp.174
+       tmp.173
+       tmp.169
+       tmp.171
+       tmp.170
+       tmp.161
+       tmp.165
+       tmp.167
+       tmp.166
+       tmp.162
+       tmp.164
+       tmp.163
+       procedure2.19
+       lam.78
+       tmp.117
+       tmp.232
+       tmp.160
+       error1.20
+       error0.21
+       fun/ascii-char18591.15
+       tmp.116
+       tmp.231
+       tmp.159
+       fun/ascii-char18592.14
+       tmp.115
+       tmp.230
+       tmp.158
+       fun/empty18589.13
+       tmp.114
+       tmp.229
+       tmp.157
+       fun/error18585.12
+       tmp.113
+       tmp.228
+       tmp.156
+       fun/error18586.11
+       tmp.112
+       tmp.227
+       tmp.155
+       fun/empty18590.10
+       tmp.111
+       tmp.226
+       tmp.154
+       fun/vector18595.9
+       tmp.110
+       tmp.225
+       tmp.153
+       fun/vector18596.8
+       tmp.109
+       tmp.224
+       tmp.152
+       fun/empty18593.7
+       tmp.108
+       tmp.223
+       tmp.151
+       fun/error18588.6
+       tmp.107
+       tmp.222
+       tmp.150
+       fun/error18587.5
+       tmp.106
+       tmp.221
+       tmp.149
+       fun/empty18594.4
+       tmp.105
+       tmp.220
+       tmp.148
+       make-vector.74
+       tmp.104
+       tmp.219
+       tmp.147
+       make-init-vector.1
+       tmp.103
+       tmp.218
+       tmp.146
+       vector-init-loop.24
+       tmp.102
+       tmp.217
+       tmp.145
+       |-.75|
+       tmp.101
+       tmp.216
+       tmp.144
+       |+.76|
+       tmp.100
+       tmp.215
+       tmp.143
+       *.77
+       tmp.99
+       tmp.214
+       tmp.142
+       tmp-ra.194)))
+    (define L.lam.78.25
+      ((new-frames ()) (locals (fun/empty18589.13 c.97 tmp-ra.175)))
+      (begin
+        (set! tmp-ra.175 r15)
+        (set! c.97 rdi)
+        (set! fun/empty18589.13 (mref c.97 14))
+        (set! rdi fun/empty18589.13)
+        (set! r15 tmp-ra.175)
+        (jump L.fun/empty18589.13.22 rbp r15 rdi)))
+    (define L.fun/ascii-char18591.15.24
+      ((new-frames ()) (locals (fun/ascii-char18592.14 c.96 tmp-ra.176)))
+      (begin
+        (set! tmp-ra.176 r15)
+        (set! c.96 rdi)
+        (set! fun/ascii-char18592.14 (mref c.96 14))
+        (set! rdi fun/ascii-char18592.14)
+        (set! r15 tmp-ra.176)
+        (jump L.fun/ascii-char18592.14.23 rbp r15 rdi)))
+    (define L.fun/ascii-char18592.14.23
+      ((new-frames ()) (locals (c.95 tmp-ra.177)))
+      (begin
+        (set! tmp-ra.177 r15)
+        (set! c.95 rdi)
+        (set! rax 26414)
+        (jump tmp-ra.177 rbp rax)))
+    (define L.fun/empty18589.13.22
+      ((new-frames ()) (locals (fun/empty18590.10 c.94 tmp-ra.178)))
+      (begin
+        (set! tmp-ra.178 r15)
+        (set! c.94 rdi)
+        (set! fun/empty18590.10 (mref c.94 14))
+        (set! rdi fun/empty18590.10)
+        (set! r15 tmp-ra.178)
+        (jump L.fun/empty18590.10.19 rbp r15 rdi)))
+    (define L.fun/error18585.12.21
+      ((new-frames ()) (locals (fun/error18586.11 c.93 tmp-ra.179)))
+      (begin
+        (set! tmp-ra.179 r15)
+        (set! c.93 rdi)
+        (set! fun/error18586.11 (mref c.93 14))
+        (set! rdi fun/error18586.11)
+        (set! r15 tmp-ra.179)
+        (jump L.fun/error18586.11.20 rbp r15 rdi)))
+    (define L.fun/error18586.11.20
+      ((new-frames ()) (locals (c.92 tmp-ra.180)))
+      (begin
+        (set! tmp-ra.180 r15)
+        (set! c.92 rdi)
+        (set! rax 7998)
+        (jump tmp-ra.180 rbp rax)))
+    (define L.fun/empty18590.10.19
+      ((new-frames ()) (locals (c.91 tmp-ra.181)))
+      (begin
+        (set! tmp-ra.181 r15)
+        (set! c.91 rdi)
+        (set! rax 22)
+        (jump tmp-ra.181 rbp rax)))
+    (define L.fun/vector18595.9.18
+      ((new-frames ()) (locals (fun/vector18596.8 c.90 tmp-ra.182)))
+      (begin
+        (set! tmp-ra.182 r15)
+        (set! c.90 rdi)
+        (set! fun/vector18596.8 (mref c.90 14))
+        (set! rdi fun/vector18596.8)
+        (set! r15 tmp-ra.182)
+        (jump L.fun/vector18596.8.17 rbp r15 rdi)))
+    (define L.fun/vector18596.8.17
+      ((new-frames ()) (locals (make-vector.74 c.89 tmp-ra.183)))
+      (begin
+        (set! tmp-ra.183 r15)
+        (set! c.89 rdi)
+        (set! make-vector.74 (mref c.89 14))
+        (set! rsi 64)
+        (set! rdi make-vector.74)
+        (set! r15 tmp-ra.183)
+        (jump L.make-vector.74.12 rbp r15 rdi rsi)))
+    (define L.fun/empty18593.7.16
+      ((new-frames ()) (locals (fun/empty18594.4 c.88 tmp-ra.184)))
+      (begin
+        (set! tmp-ra.184 r15)
+        (set! c.88 rdi)
+        (set! fun/empty18594.4 (mref c.88 14))
+        (set! rdi fun/empty18594.4)
+        (set! r15 tmp-ra.184)
+        (jump L.fun/empty18594.4.13 rbp r15 rdi)))
+    (define L.fun/error18588.6.15
+      ((new-frames ()) (locals (c.87 tmp-ra.185)))
+      (begin
+        (set! tmp-ra.185 r15)
+        (set! c.87 rdi)
+        (set! rax 28990)
+        (jump tmp-ra.185 rbp rax)))
+    (define L.fun/error18587.5.14
+      ((new-frames ()) (locals (fun/error18588.6 c.86 tmp-ra.186)))
+      (begin
+        (set! tmp-ra.186 r15)
+        (set! c.86 rdi)
+        (set! fun/error18588.6 (mref c.86 14))
+        (set! rdi fun/error18588.6)
+        (set! r15 tmp-ra.186)
+        (jump L.fun/error18588.6.15 rbp r15 rdi)))
+    (define L.fun/empty18594.4.13
+      ((new-frames ()) (locals (c.85 tmp-ra.187)))
+      (begin
+        (set! tmp-ra.187 r15)
+        (set! c.85 rdi)
+        (set! rax 22)
+        (jump tmp-ra.187 rbp rax)))
+    (define L.make-vector.74.12
+      ((new-frames ())
+       (locals
+        (c.84 make-init-vector.1 tmp-ra.188 tmp.119 tmp.50 tmp.195 tmp.118)))
+      (begin
+        (set! tmp-ra.188 r15)
+        (set! c.84 rdi)
+        (set! tmp.50 rsi)
+        (set! make-init-vector.1 (mref c.84 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.195 tmp.50)
+                      (set! tmp.195 (bitwise-and tmp.195 7))
+                      (set! tmp.119 tmp.195))
+                    (= tmp.119 0))
+                (set! tmp.118 14)
+                (set! tmp.118 6))
+              (!= tmp.118 6))
+          (begin
+            (set! rsi tmp.50)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.188)
+            (jump L.make-init-vector.1.11 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.188 rbp rax)))))
+    (define L.make-init-vector.1.11
+      ((new-frames ())
+       (locals
+        (tmp.23
+         tmp.98
+         tmp.199
+         tmp.120
+         tmp.121
+         tmp.198
+         tmp.122
+         tmp.197
+         tmp.123
+         tmp.196
+         vector-init-loop.24
+         tmp.22
+         c.83
+         tmp-ra.189)))
+      (begin
+        (set! tmp-ra.189 r15)
+        (set! c.83 rdi)
+        (set! tmp.22 rsi)
+        (set! vector-init-loop.24 (mref c.83 14))
+        (set! tmp.196 tmp.22)
+        (set! tmp.196 (arithmetic-shift-right tmp.196 3))
+        (set! tmp.123 tmp.196)
+        (set! tmp.197 1)
+        (set! tmp.197 (+ tmp.197 tmp.123))
+        (set! tmp.122 tmp.197)
+        (set! tmp.198 tmp.122)
+        (set! tmp.198 (* tmp.198 8))
+        (set! tmp.121 tmp.198)
+        (begin (set! tmp.120 r12) (set! r12 (+ r12 tmp.121)))
+        (set! tmp.199 tmp.120)
+        (set! tmp.199 (+ tmp.199 3))
+        (set! tmp.98 tmp.199)
+        (mset! tmp.98 -3 tmp.22)
+        (set! tmp.23 tmp.98)
+        (set! rcx tmp.23)
+        (set! rdx 0)
+        (set! rsi tmp.22)
+        (set! rdi vector-init-loop.24)
+        (set! r15 tmp-ra.189)
+        (jump L.vector-init-loop.24.10 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.24.10
+      ((new-frames ())
+       (locals
+        (c.82
+         tmp.200
+         tmp.127
+         tmp.201
+         tmp.126
+         tmp.202
+         tmp.125
+         tmp.203
+         tmp.128
+         vector-init-loop.24
+         tmp-ra.190
+         vec.26
+         len.25
+         i.27
+         tmp.124)))
+      (begin
+        (set! tmp-ra.190 r15)
+        (set! c.82 rdi)
+        (set! len.25 rsi)
+        (set! i.27 rdx)
+        (set! vec.26 rcx)
+        (set! vector-init-loop.24 (mref c.82 14))
+        (if (begin
+              (if (= len.25 i.27) (set! tmp.124 14) (set! tmp.124 6))
+              (!= tmp.124 6))
+          (begin (set! rax vec.26) (jump tmp-ra.190 rbp rax))
+          (begin
+            (set! tmp.200 i.27)
+            (set! tmp.200 (arithmetic-shift-right tmp.200 3))
+            (set! tmp.127 tmp.200)
+            (set! tmp.201 tmp.127)
+            (set! tmp.201 (* tmp.201 8))
+            (set! tmp.126 tmp.201)
+            (set! tmp.202 tmp.126)
+            (set! tmp.202 (+ tmp.202 5))
+            (set! tmp.125 tmp.202)
+            (mset! vec.26 tmp.125 0)
+            (set! tmp.203 i.27)
+            (set! tmp.203 (+ tmp.203 8))
+            (set! tmp.128 tmp.203)
+            (set! rcx vec.26)
+            (set! rdx tmp.128)
+            (set! rsi len.25)
+            (set! rdi vector-init-loop.24)
+            (set! r15 tmp-ra.190)
+            (jump L.vector-init-loop.24.10 rbp r15 rdi rsi rdx rcx)))))
+    (define L.-.75.9
+      ((new-frames ())
+       (locals
+        (c.81
+         tmp.131
+         tmp.205
+         tmp.40
+         tmp.132
+         tmp.206
+         tmp-ra.191
+         tmp.130
+         tmp.41
+         tmp.204
+         tmp.129)))
+      (begin
+        (set! tmp-ra.191 r15)
+        (set! c.81 rdi)
+        (set! tmp.40 rsi)
+        (set! tmp.41 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.204 tmp.41)
+                      (set! tmp.204 (bitwise-and tmp.204 7))
+                      (set! tmp.130 tmp.204))
+                    (= tmp.130 0))
+                (set! tmp.129 14)
+                (set! tmp.129 6))
+              (!= tmp.129 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.205 tmp.40)
+                        (set! tmp.205 (bitwise-and tmp.205 7))
+                        (set! tmp.132 tmp.205))
+                      (= tmp.132 0))
+                  (set! tmp.131 14)
+                  (set! tmp.131 6))
+                (!= tmp.131 6))
+            (begin
+              (set! tmp.206 tmp.40)
+              (set! tmp.206 (- tmp.206 tmp.41))
+              (set! rax tmp.206)
+              (jump tmp-ra.191 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.191 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.191 rbp rax)))))
+    (define L.+.76.8
+      ((new-frames ())
+       (locals
+        (c.80
+         tmp.135
+         tmp.208
+         tmp.38
+         tmp.136
+         tmp.209
+         tmp-ra.192
+         tmp.134
+         tmp.39
+         tmp.207
+         tmp.133)))
+      (begin
+        (set! tmp-ra.192 r15)
+        (set! c.80 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.207 tmp.39)
+                      (set! tmp.207 (bitwise-and tmp.207 7))
+                      (set! tmp.134 tmp.207))
+                    (= tmp.134 0))
+                (set! tmp.133 14)
+                (set! tmp.133 6))
+              (!= tmp.133 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.208 tmp.38)
+                        (set! tmp.208 (bitwise-and tmp.208 7))
+                        (set! tmp.136 tmp.208))
+                      (= tmp.136 0))
+                  (set! tmp.135 14)
+                  (set! tmp.135 6))
+                (!= tmp.135 6))
+            (begin
+              (set! tmp.209 tmp.38)
+              (set! tmp.209 (+ tmp.209 tmp.39))
+              (set! rax tmp.209)
+              (jump tmp-ra.192 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.192 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.192 rbp rax)))))
+    (define L.*.77.7
+      ((new-frames ())
+       (locals
+        (c.79
+         tmp.139
+         tmp.211
+         tmp.36
+         tmp.140
+         tmp.213
+         tmp.141
+         tmp.212
+         tmp-ra.193
+         tmp.138
+         tmp.37
+         tmp.210
+         tmp.137)))
+      (begin
+        (set! tmp-ra.193 r15)
+        (set! c.79 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.210 tmp.37)
+                      (set! tmp.210 (bitwise-and tmp.210 7))
+                      (set! tmp.138 tmp.210))
+                    (= tmp.138 0))
+                (set! tmp.137 14)
+                (set! tmp.137 6))
+              (!= tmp.137 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.211 tmp.36)
+                        (set! tmp.211 (bitwise-and tmp.211 7))
+                        (set! tmp.140 tmp.211))
+                      (= tmp.140 0))
+                  (set! tmp.139 14)
+                  (set! tmp.139 6))
+                (!= tmp.139 6))
+            (begin
+              (set! tmp.212 tmp.37)
+              (set! tmp.212 (arithmetic-shift-right tmp.212 3))
+              (set! tmp.141 tmp.212)
+              (set! tmp.213 tmp.36)
+              (set! tmp.213 (* tmp.213 tmp.141))
+              (set! rax tmp.213)
+              (jump tmp-ra.193 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.193 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.193 rbp rax)))))
+    (begin
+      (set! tmp-ra.194 r15)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 16)))
+      (set! tmp.214 tmp.142)
+      (set! tmp.214 (+ tmp.214 2))
+      (set! tmp.99 tmp.214)
+      (mset! tmp.99 -2 L.*.77.7)
+      (mset! tmp.99 6 16)
+      (set! *.77 tmp.99)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 16)))
+      (set! tmp.215 tmp.143)
+      (set! tmp.215 (+ tmp.215 2))
+      (set! tmp.100 tmp.215)
+      (mset! tmp.100 -2 L.+.76.8)
+      (mset! tmp.100 6 16)
+      (set! |+.76| tmp.100)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 16)))
+      (set! tmp.216 tmp.144)
+      (set! tmp.216 (+ tmp.216 2))
+      (set! tmp.101 tmp.216)
+      (mset! tmp.101 -2 L.-.75.9)
+      (mset! tmp.101 6 16)
+      (set! |-.75| tmp.101)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.217 tmp.145)
+      (set! tmp.217 (+ tmp.217 2))
+      (set! tmp.102 tmp.217)
+      (mset! tmp.102 -2 L.vector-init-loop.24.10)
+      (mset! tmp.102 6 24)
+      (set! vector-init-loop.24 tmp.102)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 24)))
+      (set! tmp.218 tmp.146)
+      (set! tmp.218 (+ tmp.218 2))
+      (set! tmp.103 tmp.218)
+      (mset! tmp.103 -2 L.make-init-vector.1.11)
+      (mset! tmp.103 6 8)
+      (set! make-init-vector.1 tmp.103)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 24)))
+      (set! tmp.219 tmp.147)
+      (set! tmp.219 (+ tmp.219 2))
+      (set! tmp.104 tmp.219)
+      (mset! tmp.104 -2 L.make-vector.74.12)
+      (mset! tmp.104 6 8)
+      (set! make-vector.74 tmp.104)
+      (begin (set! tmp.148 r12) (set! r12 (+ r12 16)))
+      (set! tmp.220 tmp.148)
+      (set! tmp.220 (+ tmp.220 2))
+      (set! tmp.105 tmp.220)
+      (mset! tmp.105 -2 L.fun/empty18594.4.13)
+      (mset! tmp.105 6 0)
+      (set! fun/empty18594.4 tmp.105)
+      (begin (set! tmp.149 r12) (set! r12 (+ r12 24)))
+      (set! tmp.221 tmp.149)
+      (set! tmp.221 (+ tmp.221 2))
+      (set! tmp.106 tmp.221)
+      (mset! tmp.106 -2 L.fun/error18587.5.14)
+      (mset! tmp.106 6 0)
+      (set! fun/error18587.5 tmp.106)
+      (begin (set! tmp.150 r12) (set! r12 (+ r12 16)))
+      (set! tmp.222 tmp.150)
+      (set! tmp.222 (+ tmp.222 2))
+      (set! tmp.107 tmp.222)
+      (mset! tmp.107 -2 L.fun/error18588.6.15)
+      (mset! tmp.107 6 0)
+      (set! fun/error18588.6 tmp.107)
+      (begin (set! tmp.151 r12) (set! r12 (+ r12 24)))
+      (set! tmp.223 tmp.151)
+      (set! tmp.223 (+ tmp.223 2))
+      (set! tmp.108 tmp.223)
+      (mset! tmp.108 -2 L.fun/empty18593.7.16)
+      (mset! tmp.108 6 0)
+      (set! fun/empty18593.7 tmp.108)
+      (begin (set! tmp.152 r12) (set! r12 (+ r12 24)))
+      (set! tmp.224 tmp.152)
+      (set! tmp.224 (+ tmp.224 2))
+      (set! tmp.109 tmp.224)
+      (mset! tmp.109 -2 L.fun/vector18596.8.17)
+      (mset! tmp.109 6 0)
+      (set! fun/vector18596.8 tmp.109)
+      (begin (set! tmp.153 r12) (set! r12 (+ r12 24)))
+      (set! tmp.225 tmp.153)
+      (set! tmp.225 (+ tmp.225 2))
+      (set! tmp.110 tmp.225)
+      (mset! tmp.110 -2 L.fun/vector18595.9.18)
+      (mset! tmp.110 6 0)
+      (set! fun/vector18595.9 tmp.110)
+      (begin (set! tmp.154 r12) (set! r12 (+ r12 16)))
+      (set! tmp.226 tmp.154)
+      (set! tmp.226 (+ tmp.226 2))
+      (set! tmp.111 tmp.226)
+      (mset! tmp.111 -2 L.fun/empty18590.10.19)
+      (mset! tmp.111 6 0)
+      (set! fun/empty18590.10 tmp.111)
+      (begin (set! tmp.155 r12) (set! r12 (+ r12 16)))
+      (set! tmp.227 tmp.155)
+      (set! tmp.227 (+ tmp.227 2))
+      (set! tmp.112 tmp.227)
+      (mset! tmp.112 -2 L.fun/error18586.11.20)
+      (mset! tmp.112 6 0)
+      (set! fun/error18586.11 tmp.112)
+      (begin (set! tmp.156 r12) (set! r12 (+ r12 24)))
+      (set! tmp.228 tmp.156)
+      (set! tmp.228 (+ tmp.228 2))
+      (set! tmp.113 tmp.228)
+      (mset! tmp.113 -2 L.fun/error18585.12.21)
+      (mset! tmp.113 6 0)
+      (set! fun/error18585.12 tmp.113)
+      (begin (set! tmp.157 r12) (set! r12 (+ r12 24)))
+      (set! tmp.229 tmp.157)
+      (set! tmp.229 (+ tmp.229 2))
+      (set! tmp.114 tmp.229)
+      (mset! tmp.114 -2 L.fun/empty18589.13.22)
+      (mset! tmp.114 6 0)
+      (set! fun/empty18589.13 tmp.114)
+      (begin (set! tmp.158 r12) (set! r12 (+ r12 16)))
+      (set! tmp.230 tmp.158)
+      (set! tmp.230 (+ tmp.230 2))
+      (set! tmp.115 tmp.230)
+      (mset! tmp.115 -2 L.fun/ascii-char18592.14.23)
+      (mset! tmp.115 6 0)
+      (set! fun/ascii-char18592.14 tmp.115)
+      (begin (set! tmp.159 r12) (set! r12 (+ r12 24)))
+      (set! tmp.231 tmp.159)
+      (set! tmp.231 (+ tmp.231 2))
+      (set! tmp.116 tmp.231)
+      (mset! tmp.116 -2 L.fun/ascii-char18591.15.24)
+      (mset! tmp.116 6 0)
+      (set! fun/ascii-char18591.15 tmp.116)
+      (mset! vector-init-loop.24 14 vector-init-loop.24)
+      (mset! make-init-vector.1 14 vector-init-loop.24)
+      (mset! make-vector.74 14 make-init-vector.1)
+      (mset! fun/error18587.5 14 fun/error18588.6)
+      (mset! fun/empty18593.7 14 fun/empty18594.4)
+      (mset! fun/vector18596.8 14 make-vector.74)
+      (mset! fun/vector18595.9 14 fun/vector18596.8)
+      (mset! fun/error18585.12 14 fun/error18586.11)
+      (mset! fun/empty18589.13 14 fun/empty18590.10)
+      (mset! fun/ascii-char18591.15 14 fun/ascii-char18592.14)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/error18585.12)
+          (set! r15 L.rp.26)
+          (jump L.fun/error18585.12.21 rbp r15 rdi)))
+      (set! error0.21 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/error18587.5)
+          (set! r15 L.rp.27)
+          (jump L.fun/error18587.5.14 rbp r15 rdi)))
+      (set! error1.20 rax)
+      (begin (set! tmp.160 r12) (set! r12 (+ r12 24)))
+      (set! tmp.232 tmp.160)
+      (set! tmp.232 (+ tmp.232 2))
+      (set! tmp.117 tmp.232)
+      (mset! tmp.117 -2 L.lam.78.25)
+      (mset! tmp.117 6 0)
+      (set! lam.78 tmp.117)
+      (mset! lam.78 14 fun/empty18589.13)
+      (set! procedure2.19 lam.78)
+      (return-point L.rp.28
+        (begin
+          (set! rdx 224)
+          (set! rsi 1032)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.28)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.163 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdx 832)
+          (set! rsi 960)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.29)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.164 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdx tmp.164)
+          (set! rsi tmp.163)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.30)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.162 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx 1208)
+          (set! rsi 1416)
+          (set! rdi *.77)
+          (set! r15 L.rp.31)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.166 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx 912)
+          (set! rsi 16)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.32)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.167 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx tmp.167)
+          (set! rsi tmp.166)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.33)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.165 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx tmp.165)
+          (set! rsi tmp.162)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.34)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.161 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx 1408)
+          (set! rsi 1264)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.35)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.170 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx 1072)
+          (set! rsi 304)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.36)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.171 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx tmp.171)
+          (set! rsi tmp.170)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.37)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.169 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdx 808)
+          (set! rsi 952)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.38)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.173 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdx 1232)
+          (set! rsi 416)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.39)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.174 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx tmp.174)
+          (set! rsi tmp.173)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.40)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.172 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdx tmp.172)
+          (set! rsi tmp.169)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.41)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.168 rax)
+      (return-point L.rp.42
+        (begin
+          (set! rdx tmp.168)
+          (set! rsi tmp.161)
+          (set! rdi *.77)
+          (set! r15 L.rp.42)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! fixnum3.18 rax)
+      (return-point L.rp.43
+        (begin
+          (set! rdi fun/ascii-char18591.15)
+          (set! r15 L.rp.43)
+          (jump L.fun/ascii-char18591.15.24 rbp r15 rdi)))
+      (set! ascii-char4.17 rax)
+      (return-point L.rp.44
+        (begin
+          (set! rdi fun/empty18593.7)
+          (set! r15 L.rp.44)
+          (jump L.fun/empty18593.7.16 rbp r15 rdi)))
+      (set! empty5.16 rax)
+      (set! rdi fun/vector18595.9)
+      (set! r15 tmp-ra.194)
+      (jump L.fun/vector18595.9.18 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () () () () () () () () () () () () () () ()))
+     (locals
+      (error5.16
+       ascii-char4.17
+       ascii-char3.18
+       procedure2.19
+       lam.78
+       tmp.117
+       tmp.232
+       tmp.174
+       fixnum1.20
+       tmp.167
+       tmp.171
+       tmp.173
+       tmp.172
+       tmp.168
+       tmp.170
+       tmp.169
+       tmp.160
+       tmp.164
+       tmp.166
+       tmp.165
+       tmp.161
+       tmp.163
+       tmp.162
+       empty0.21
+       fun/vector19108.15
+       tmp.116
+       tmp.231
+       tmp.159
+       fun/ascii-char19112.14
+       tmp.115
+       tmp.230
+       tmp.158
+       fun/ascii-char19109.13
+       tmp.114
+       tmp.229
+       tmp.157
+       fun/error19114.12
+       tmp.113
+       tmp.228
+       tmp.156
+       fun/error19113.11
+       tmp.112
+       tmp.227
+       tmp.155
+       fun/ascii-char19111.10
+       tmp.111
+       tmp.226
+       tmp.154
+       fun/ascii-char19110.9
+       tmp.110
+       tmp.225
+       tmp.153
+       fun/void19115.8
+       tmp.109
+       tmp.224
+       tmp.152
+       fun/empty19105.7
+       tmp.108
+       tmp.223
+       tmp.151
+       fun/void19116.6
+       tmp.107
+       tmp.222
+       tmp.150
+       fun/vector19107.5
+       tmp.106
+       tmp.221
+       tmp.149
+       fun/empty19106.4
+       tmp.105
+       tmp.220
+       tmp.148
+       make-vector.74
+       tmp.104
+       tmp.219
+       tmp.147
+       make-init-vector.1
+       tmp.103
+       tmp.218
+       tmp.146
+       vector-init-loop.24
+       tmp.102
+       tmp.217
+       tmp.145
+       |-.75|
+       tmp.101
+       tmp.216
+       tmp.144
+       |+.76|
+       tmp.100
+       tmp.215
+       tmp.143
+       *.77
+       tmp.99
+       tmp.214
+       tmp.142
+       tmp-ra.194)))
+    (define L.lam.78.25
+      ((new-frames ()) (locals (fun/vector19107.5 c.97 tmp-ra.175)))
+      (begin
+        (set! tmp-ra.175 r15)
+        (set! c.97 rdi)
+        (set! fun/vector19107.5 (mref c.97 14))
+        (set! rdi fun/vector19107.5)
+        (set! r15 tmp-ra.175)
+        (jump L.fun/vector19107.5.14 rbp r15 rdi)))
+    (define L.fun/vector19108.15.24
+      ((new-frames ()) (locals (make-vector.74 c.96 tmp-ra.176)))
+      (begin
+        (set! tmp-ra.176 r15)
+        (set! c.96 rdi)
+        (set! make-vector.74 (mref c.96 14))
+        (set! rsi 64)
+        (set! rdi make-vector.74)
+        (set! r15 tmp-ra.176)
+        (jump L.make-vector.74.12 rbp r15 rdi rsi)))
+    (define L.fun/ascii-char19112.14.23
+      ((new-frames ()) (locals (c.95 tmp-ra.177)))
+      (begin
+        (set! tmp-ra.177 r15)
+        (set! c.95 rdi)
+        (set! rax 28718)
+        (jump tmp-ra.177 rbp rax)))
+    (define L.fun/ascii-char19109.13.22
+      ((new-frames ()) (locals (fun/ascii-char19110.9 c.94 tmp-ra.178)))
+      (begin
+        (set! tmp-ra.178 r15)
+        (set! c.94 rdi)
+        (set! fun/ascii-char19110.9 (mref c.94 14))
+        (set! rdi fun/ascii-char19110.9)
+        (set! r15 tmp-ra.178)
+        (jump L.fun/ascii-char19110.9.18 rbp r15 rdi)))
+    (define L.fun/error19114.12.21
+      ((new-frames ()) (locals (c.93 tmp-ra.179)))
+      (begin
+        (set! tmp-ra.179 r15)
+        (set! c.93 rdi)
+        (set! rax 2366)
+        (jump tmp-ra.179 rbp rax)))
+    (define L.fun/error19113.11.20
+      ((new-frames ()) (locals (fun/error19114.12 c.92 tmp-ra.180)))
+      (begin
+        (set! tmp-ra.180 r15)
+        (set! c.92 rdi)
+        (set! fun/error19114.12 (mref c.92 14))
+        (set! rdi fun/error19114.12)
+        (set! r15 tmp-ra.180)
+        (jump L.fun/error19114.12.21 rbp r15 rdi)))
+    (define L.fun/ascii-char19111.10.19
+      ((new-frames ()) (locals (fun/ascii-char19112.14 c.91 tmp-ra.181)))
+      (begin
+        (set! tmp-ra.181 r15)
+        (set! c.91 rdi)
+        (set! fun/ascii-char19112.14 (mref c.91 14))
+        (set! rdi fun/ascii-char19112.14)
+        (set! r15 tmp-ra.181)
+        (jump L.fun/ascii-char19112.14.23 rbp r15 rdi)))
+    (define L.fun/ascii-char19110.9.18
+      ((new-frames ()) (locals (c.90 tmp-ra.182)))
+      (begin
+        (set! tmp-ra.182 r15)
+        (set! c.90 rdi)
+        (set! rax 23086)
+        (jump tmp-ra.182 rbp rax)))
+    (define L.fun/void19115.8.17
+      ((new-frames ()) (locals (fun/void19116.6 c.89 tmp-ra.183)))
+      (begin
+        (set! tmp-ra.183 r15)
+        (set! c.89 rdi)
+        (set! fun/void19116.6 (mref c.89 14))
+        (set! rdi fun/void19116.6)
+        (set! r15 tmp-ra.183)
+        (jump L.fun/void19116.6.15 rbp r15 rdi)))
+    (define L.fun/empty19105.7.16
+      ((new-frames ()) (locals (fun/empty19106.4 c.88 tmp-ra.184)))
+      (begin
+        (set! tmp-ra.184 r15)
+        (set! c.88 rdi)
+        (set! fun/empty19106.4 (mref c.88 14))
+        (set! rdi fun/empty19106.4)
+        (set! r15 tmp-ra.184)
+        (jump L.fun/empty19106.4.13 rbp r15 rdi)))
+    (define L.fun/void19116.6.15
+      ((new-frames ()) (locals (c.87 tmp-ra.185)))
+      (begin
+        (set! tmp-ra.185 r15)
+        (set! c.87 rdi)
+        (set! rax 30)
+        (jump tmp-ra.185 rbp rax)))
+    (define L.fun/vector19107.5.14
+      ((new-frames ()) (locals (fun/vector19108.15 c.86 tmp-ra.186)))
+      (begin
+        (set! tmp-ra.186 r15)
+        (set! c.86 rdi)
+        (set! fun/vector19108.15 (mref c.86 14))
+        (set! rdi fun/vector19108.15)
+        (set! r15 tmp-ra.186)
+        (jump L.fun/vector19108.15.24 rbp r15 rdi)))
+    (define L.fun/empty19106.4.13
+      ((new-frames ()) (locals (c.85 tmp-ra.187)))
+      (begin
+        (set! tmp-ra.187 r15)
+        (set! c.85 rdi)
+        (set! rax 22)
+        (jump tmp-ra.187 rbp rax)))
+    (define L.make-vector.74.12
+      ((new-frames ())
+       (locals
+        (c.84 make-init-vector.1 tmp-ra.188 tmp.119 tmp.50 tmp.195 tmp.118)))
+      (begin
+        (set! tmp-ra.188 r15)
+        (set! c.84 rdi)
+        (set! tmp.50 rsi)
+        (set! make-init-vector.1 (mref c.84 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.195 tmp.50)
+                      (set! tmp.195 (bitwise-and tmp.195 7))
+                      (set! tmp.119 tmp.195))
+                    (= tmp.119 0))
+                (set! tmp.118 14)
+                (set! tmp.118 6))
+              (!= tmp.118 6))
+          (begin
+            (set! rsi tmp.50)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.188)
+            (jump L.make-init-vector.1.11 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.188 rbp rax)))))
+    (define L.make-init-vector.1.11
+      ((new-frames ())
+       (locals
+        (tmp.23
+         tmp.98
+         tmp.199
+         tmp.120
+         tmp.121
+         tmp.198
+         tmp.122
+         tmp.197
+         tmp.123
+         tmp.196
+         vector-init-loop.24
+         tmp.22
+         c.83
+         tmp-ra.189)))
+      (begin
+        (set! tmp-ra.189 r15)
+        (set! c.83 rdi)
+        (set! tmp.22 rsi)
+        (set! vector-init-loop.24 (mref c.83 14))
+        (set! tmp.196 tmp.22)
+        (set! tmp.196 (arithmetic-shift-right tmp.196 3))
+        (set! tmp.123 tmp.196)
+        (set! tmp.197 1)
+        (set! tmp.197 (+ tmp.197 tmp.123))
+        (set! tmp.122 tmp.197)
+        (set! tmp.198 tmp.122)
+        (set! tmp.198 (* tmp.198 8))
+        (set! tmp.121 tmp.198)
+        (begin (set! tmp.120 r12) (set! r12 (+ r12 tmp.121)))
+        (set! tmp.199 tmp.120)
+        (set! tmp.199 (+ tmp.199 3))
+        (set! tmp.98 tmp.199)
+        (mset! tmp.98 -3 tmp.22)
+        (set! tmp.23 tmp.98)
+        (set! rcx tmp.23)
+        (set! rdx 0)
+        (set! rsi tmp.22)
+        (set! rdi vector-init-loop.24)
+        (set! r15 tmp-ra.189)
+        (jump L.vector-init-loop.24.10 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.24.10
+      ((new-frames ())
+       (locals
+        (c.82
+         tmp.200
+         tmp.127
+         tmp.201
+         tmp.126
+         tmp.202
+         tmp.125
+         tmp.203
+         tmp.128
+         vector-init-loop.24
+         tmp-ra.190
+         vec.26
+         len.25
+         i.27
+         tmp.124)))
+      (begin
+        (set! tmp-ra.190 r15)
+        (set! c.82 rdi)
+        (set! len.25 rsi)
+        (set! i.27 rdx)
+        (set! vec.26 rcx)
+        (set! vector-init-loop.24 (mref c.82 14))
+        (if (begin
+              (if (= len.25 i.27) (set! tmp.124 14) (set! tmp.124 6))
+              (!= tmp.124 6))
+          (begin (set! rax vec.26) (jump tmp-ra.190 rbp rax))
+          (begin
+            (set! tmp.200 i.27)
+            (set! tmp.200 (arithmetic-shift-right tmp.200 3))
+            (set! tmp.127 tmp.200)
+            (set! tmp.201 tmp.127)
+            (set! tmp.201 (* tmp.201 8))
+            (set! tmp.126 tmp.201)
+            (set! tmp.202 tmp.126)
+            (set! tmp.202 (+ tmp.202 5))
+            (set! tmp.125 tmp.202)
+            (mset! vec.26 tmp.125 0)
+            (set! tmp.203 i.27)
+            (set! tmp.203 (+ tmp.203 8))
+            (set! tmp.128 tmp.203)
+            (set! rcx vec.26)
+            (set! rdx tmp.128)
+            (set! rsi len.25)
+            (set! rdi vector-init-loop.24)
+            (set! r15 tmp-ra.190)
+            (jump L.vector-init-loop.24.10 rbp r15 rdi rsi rdx rcx)))))
+    (define L.-.75.9
+      ((new-frames ())
+       (locals
+        (c.81
+         tmp.131
+         tmp.205
+         tmp.40
+         tmp.132
+         tmp.206
+         tmp-ra.191
+         tmp.130
+         tmp.41
+         tmp.204
+         tmp.129)))
+      (begin
+        (set! tmp-ra.191 r15)
+        (set! c.81 rdi)
+        (set! tmp.40 rsi)
+        (set! tmp.41 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.204 tmp.41)
+                      (set! tmp.204 (bitwise-and tmp.204 7))
+                      (set! tmp.130 tmp.204))
+                    (= tmp.130 0))
+                (set! tmp.129 14)
+                (set! tmp.129 6))
+              (!= tmp.129 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.205 tmp.40)
+                        (set! tmp.205 (bitwise-and tmp.205 7))
+                        (set! tmp.132 tmp.205))
+                      (= tmp.132 0))
+                  (set! tmp.131 14)
+                  (set! tmp.131 6))
+                (!= tmp.131 6))
+            (begin
+              (set! tmp.206 tmp.40)
+              (set! tmp.206 (- tmp.206 tmp.41))
+              (set! rax tmp.206)
+              (jump tmp-ra.191 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.191 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.191 rbp rax)))))
+    (define L.+.76.8
+      ((new-frames ())
+       (locals
+        (c.80
+         tmp.135
+         tmp.208
+         tmp.38
+         tmp.136
+         tmp.209
+         tmp-ra.192
+         tmp.134
+         tmp.39
+         tmp.207
+         tmp.133)))
+      (begin
+        (set! tmp-ra.192 r15)
+        (set! c.80 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.207 tmp.39)
+                      (set! tmp.207 (bitwise-and tmp.207 7))
+                      (set! tmp.134 tmp.207))
+                    (= tmp.134 0))
+                (set! tmp.133 14)
+                (set! tmp.133 6))
+              (!= tmp.133 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.208 tmp.38)
+                        (set! tmp.208 (bitwise-and tmp.208 7))
+                        (set! tmp.136 tmp.208))
+                      (= tmp.136 0))
+                  (set! tmp.135 14)
+                  (set! tmp.135 6))
+                (!= tmp.135 6))
+            (begin
+              (set! tmp.209 tmp.38)
+              (set! tmp.209 (+ tmp.209 tmp.39))
+              (set! rax tmp.209)
+              (jump tmp-ra.192 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.192 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.192 rbp rax)))))
+    (define L.*.77.7
+      ((new-frames ())
+       (locals
+        (c.79
+         tmp.139
+         tmp.211
+         tmp.36
+         tmp.140
+         tmp.213
+         tmp.141
+         tmp.212
+         tmp-ra.193
+         tmp.138
+         tmp.37
+         tmp.210
+         tmp.137)))
+      (begin
+        (set! tmp-ra.193 r15)
+        (set! c.79 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.210 tmp.37)
+                      (set! tmp.210 (bitwise-and tmp.210 7))
+                      (set! tmp.138 tmp.210))
+                    (= tmp.138 0))
+                (set! tmp.137 14)
+                (set! tmp.137 6))
+              (!= tmp.137 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.211 tmp.36)
+                        (set! tmp.211 (bitwise-and tmp.211 7))
+                        (set! tmp.140 tmp.211))
+                      (= tmp.140 0))
+                  (set! tmp.139 14)
+                  (set! tmp.139 6))
+                (!= tmp.139 6))
+            (begin
+              (set! tmp.212 tmp.37)
+              (set! tmp.212 (arithmetic-shift-right tmp.212 3))
+              (set! tmp.141 tmp.212)
+              (set! tmp.213 tmp.36)
+              (set! tmp.213 (* tmp.213 tmp.141))
+              (set! rax tmp.213)
+              (jump tmp-ra.193 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.193 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.193 rbp rax)))))
+    (begin
+      (set! tmp-ra.194 r15)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 16)))
+      (set! tmp.214 tmp.142)
+      (set! tmp.214 (+ tmp.214 2))
+      (set! tmp.99 tmp.214)
+      (mset! tmp.99 -2 L.*.77.7)
+      (mset! tmp.99 6 16)
+      (set! *.77 tmp.99)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 16)))
+      (set! tmp.215 tmp.143)
+      (set! tmp.215 (+ tmp.215 2))
+      (set! tmp.100 tmp.215)
+      (mset! tmp.100 -2 L.+.76.8)
+      (mset! tmp.100 6 16)
+      (set! |+.76| tmp.100)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 16)))
+      (set! tmp.216 tmp.144)
+      (set! tmp.216 (+ tmp.216 2))
+      (set! tmp.101 tmp.216)
+      (mset! tmp.101 -2 L.-.75.9)
+      (mset! tmp.101 6 16)
+      (set! |-.75| tmp.101)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.217 tmp.145)
+      (set! tmp.217 (+ tmp.217 2))
+      (set! tmp.102 tmp.217)
+      (mset! tmp.102 -2 L.vector-init-loop.24.10)
+      (mset! tmp.102 6 24)
+      (set! vector-init-loop.24 tmp.102)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 24)))
+      (set! tmp.218 tmp.146)
+      (set! tmp.218 (+ tmp.218 2))
+      (set! tmp.103 tmp.218)
+      (mset! tmp.103 -2 L.make-init-vector.1.11)
+      (mset! tmp.103 6 8)
+      (set! make-init-vector.1 tmp.103)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 24)))
+      (set! tmp.219 tmp.147)
+      (set! tmp.219 (+ tmp.219 2))
+      (set! tmp.104 tmp.219)
+      (mset! tmp.104 -2 L.make-vector.74.12)
+      (mset! tmp.104 6 8)
+      (set! make-vector.74 tmp.104)
+      (begin (set! tmp.148 r12) (set! r12 (+ r12 16)))
+      (set! tmp.220 tmp.148)
+      (set! tmp.220 (+ tmp.220 2))
+      (set! tmp.105 tmp.220)
+      (mset! tmp.105 -2 L.fun/empty19106.4.13)
+      (mset! tmp.105 6 0)
+      (set! fun/empty19106.4 tmp.105)
+      (begin (set! tmp.149 r12) (set! r12 (+ r12 24)))
+      (set! tmp.221 tmp.149)
+      (set! tmp.221 (+ tmp.221 2))
+      (set! tmp.106 tmp.221)
+      (mset! tmp.106 -2 L.fun/vector19107.5.14)
+      (mset! tmp.106 6 0)
+      (set! fun/vector19107.5 tmp.106)
+      (begin (set! tmp.150 r12) (set! r12 (+ r12 16)))
+      (set! tmp.222 tmp.150)
+      (set! tmp.222 (+ tmp.222 2))
+      (set! tmp.107 tmp.222)
+      (mset! tmp.107 -2 L.fun/void19116.6.15)
+      (mset! tmp.107 6 0)
+      (set! fun/void19116.6 tmp.107)
+      (begin (set! tmp.151 r12) (set! r12 (+ r12 24)))
+      (set! tmp.223 tmp.151)
+      (set! tmp.223 (+ tmp.223 2))
+      (set! tmp.108 tmp.223)
+      (mset! tmp.108 -2 L.fun/empty19105.7.16)
+      (mset! tmp.108 6 0)
+      (set! fun/empty19105.7 tmp.108)
+      (begin (set! tmp.152 r12) (set! r12 (+ r12 24)))
+      (set! tmp.224 tmp.152)
+      (set! tmp.224 (+ tmp.224 2))
+      (set! tmp.109 tmp.224)
+      (mset! tmp.109 -2 L.fun/void19115.8.17)
+      (mset! tmp.109 6 0)
+      (set! fun/void19115.8 tmp.109)
+      (begin (set! tmp.153 r12) (set! r12 (+ r12 16)))
+      (set! tmp.225 tmp.153)
+      (set! tmp.225 (+ tmp.225 2))
+      (set! tmp.110 tmp.225)
+      (mset! tmp.110 -2 L.fun/ascii-char19110.9.18)
+      (mset! tmp.110 6 0)
+      (set! fun/ascii-char19110.9 tmp.110)
+      (begin (set! tmp.154 r12) (set! r12 (+ r12 24)))
+      (set! tmp.226 tmp.154)
+      (set! tmp.226 (+ tmp.226 2))
+      (set! tmp.111 tmp.226)
+      (mset! tmp.111 -2 L.fun/ascii-char19111.10.19)
+      (mset! tmp.111 6 0)
+      (set! fun/ascii-char19111.10 tmp.111)
+      (begin (set! tmp.155 r12) (set! r12 (+ r12 24)))
+      (set! tmp.227 tmp.155)
+      (set! tmp.227 (+ tmp.227 2))
+      (set! tmp.112 tmp.227)
+      (mset! tmp.112 -2 L.fun/error19113.11.20)
+      (mset! tmp.112 6 0)
+      (set! fun/error19113.11 tmp.112)
+      (begin (set! tmp.156 r12) (set! r12 (+ r12 16)))
+      (set! tmp.228 tmp.156)
+      (set! tmp.228 (+ tmp.228 2))
+      (set! tmp.113 tmp.228)
+      (mset! tmp.113 -2 L.fun/error19114.12.21)
+      (mset! tmp.113 6 0)
+      (set! fun/error19114.12 tmp.113)
+      (begin (set! tmp.157 r12) (set! r12 (+ r12 24)))
+      (set! tmp.229 tmp.157)
+      (set! tmp.229 (+ tmp.229 2))
+      (set! tmp.114 tmp.229)
+      (mset! tmp.114 -2 L.fun/ascii-char19109.13.22)
+      (mset! tmp.114 6 0)
+      (set! fun/ascii-char19109.13 tmp.114)
+      (begin (set! tmp.158 r12) (set! r12 (+ r12 16)))
+      (set! tmp.230 tmp.158)
+      (set! tmp.230 (+ tmp.230 2))
+      (set! tmp.115 tmp.230)
+      (mset! tmp.115 -2 L.fun/ascii-char19112.14.23)
+      (mset! tmp.115 6 0)
+      (set! fun/ascii-char19112.14 tmp.115)
+      (begin (set! tmp.159 r12) (set! r12 (+ r12 24)))
+      (set! tmp.231 tmp.159)
+      (set! tmp.231 (+ tmp.231 2))
+      (set! tmp.116 tmp.231)
+      (mset! tmp.116 -2 L.fun/vector19108.15.24)
+      (mset! tmp.116 6 0)
+      (set! fun/vector19108.15 tmp.116)
+      (mset! vector-init-loop.24 14 vector-init-loop.24)
+      (mset! make-init-vector.1 14 vector-init-loop.24)
+      (mset! make-vector.74 14 make-init-vector.1)
+      (mset! fun/vector19107.5 14 fun/vector19108.15)
+      (mset! fun/empty19105.7 14 fun/empty19106.4)
+      (mset! fun/void19115.8 14 fun/void19116.6)
+      (mset! fun/ascii-char19111.10 14 fun/ascii-char19112.14)
+      (mset! fun/error19113.11 14 fun/error19114.12)
+      (mset! fun/ascii-char19109.13 14 fun/ascii-char19110.9)
+      (mset! fun/vector19108.15 14 make-vector.74)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/empty19105.7)
+          (set! r15 L.rp.26)
+          (jump L.fun/empty19105.7.16 rbp r15 rdi)))
+      (set! empty0.21 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdx 888)
+          (set! rsi 8)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.27)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.162 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdx 1120)
+          (set! rsi 944)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.28)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.163 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdx tmp.163)
+          (set! rsi tmp.162)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.29)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.161 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdx 616)
+          (set! rsi 1264)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.30)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.165 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx 1232)
+          (set! rsi 1776)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.31)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.166 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx tmp.166)
+          (set! rsi tmp.165)
+          (set! rdi *.77)
+          (set! r15 L.rp.32)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.164 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx tmp.164)
+          (set! rsi tmp.161)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.33)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.160 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx 1584)
+          (set! rsi 512)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.34)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.169 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx 1704)
+          (set! rsi 1576)
+          (set! rdi *.77)
+          (set! r15 L.rp.35)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.170 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx tmp.170)
+          (set! rsi tmp.169)
+          (set! rdi |-.75|)
+          (set! r15 L.rp.36)
+          (jump L.-.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.168 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx 1840)
+          (set! rsi 1648)
+          (set! rdi *.77)
+          (set! r15 L.rp.37)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.172 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdx 1512)
+          (set! rsi 936)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.38)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.173 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdx tmp.173)
+          (set! rsi tmp.172)
+          (set! rdi *.77)
+          (set! r15 L.rp.39)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.171 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx tmp.171)
+          (set! rsi tmp.168)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.40)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.167 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdx tmp.167)
+          (set! rsi tmp.160)
+          (set! rdi *.77)
+          (set! r15 L.rp.41)
+          (jump L.*.77.7 rbp r15 rdi rsi rdx)))
+      (set! fixnum1.20 rax)
+      (begin (set! tmp.174 r12) (set! r12 (+ r12 24)))
+      (set! tmp.232 tmp.174)
+      (set! tmp.232 (+ tmp.232 2))
+      (set! tmp.117 tmp.232)
+      (mset! tmp.117 -2 L.lam.78.25)
+      (mset! tmp.117 6 0)
+      (set! lam.78 tmp.117)
+      (mset! lam.78 14 fun/vector19107.5)
+      (set! procedure2.19 lam.78)
+      (return-point L.rp.42
+        (begin
+          (set! rdi fun/ascii-char19109.13)
+          (set! r15 L.rp.42)
+          (jump L.fun/ascii-char19109.13.22 rbp r15 rdi)))
+      (set! ascii-char3.18 rax)
+      (return-point L.rp.43
+        (begin
+          (set! rdi fun/ascii-char19111.10)
+          (set! r15 L.rp.43)
+          (jump L.fun/ascii-char19111.10.19 rbp r15 rdi)))
+      (set! ascii-char4.17 rax)
+      (return-point L.rp.44
+        (begin
+          (set! rdi fun/error19113.11)
+          (set! r15 L.rp.44)
+          (jump L.fun/error19113.11.20 rbp r15 rdi)))
+      (set! error5.16 rax)
+      (set! rdi fun/void19115.8)
+      (set! r15 tmp-ra.194)
+      (jump L.fun/void19115.8.17 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames (() () () () () ()))
+     (locals
+      (tmp.127
+       void5.18
+       empty4.19
+       error3.20
+       ascii-char2.21
+       empty1.22
+       procedure0.23
+       lam.77
+       tmp.109
+       tmp.161
+       tmp.126
+       fun/void20281.17
+       tmp.108
+       tmp.160
+       tmp.125
+       fun/ascii-char20274.16
+       tmp.107
+       tmp.159
+       tmp.124
+       fun/empty20272.15
+       tmp.106
+       tmp.158
+       tmp.123
+       fun/ascii-char20275.14
+       tmp.105
+       tmp.157
+       tmp.122
+       fun/error20276.13
+       tmp.104
+       tmp.156
+       tmp.121
+       fun/error20277.12
+       tmp.103
+       tmp.155
+       tmp.120
+       fun/empty20279.11
+       tmp.102
+       tmp.154
+       tmp.119
+       fun/void20280.10
+       tmp.101
+       tmp.153
+       tmp.118
+       fun/empty20273.9
+       tmp.100
+       tmp.152
+       tmp.117
+       fun/empty20278.8
+       tmp.99
+       tmp.151
+       tmp.116
+       fun/void20270.7
+       tmp.98
+       tmp.150
+       tmp.115
+       fun/any20283.6
+       tmp.97
+       tmp.149
+       tmp.114
+       fun/void20271.5
+       tmp.96
+       tmp.148
+       tmp.113
+       fun/any20282.4
+       tmp.95
+       tmp.147
+       tmp.112
+       pair?.76
+       tmp.94
+       tmp.146
+       tmp.111
+       tmp-ra.144)))
+    (define L.lam.77.22
+      ((new-frames ()) (locals (fun/void20270.7 c.93 tmp-ra.128)))
+      (begin
+        (set! tmp-ra.128 r15)
+        (set! c.93 rdi)
+        (set! fun/void20270.7 (mref c.93 14))
+        (set! rdi fun/void20270.7)
+        (set! r15 tmp-ra.128)
+        (jump L.fun/void20270.7.11 rbp r15 rdi)))
+    (define L.fun/void20281.17.21
+      ((new-frames ()) (locals (c.92 tmp-ra.129)))
+      (begin
+        (set! tmp-ra.129 r15)
+        (set! c.92 rdi)
+        (set! rax 30)
+        (jump tmp-ra.129 rbp rax)))
+    (define L.fun/ascii-char20274.16.20
+      ((new-frames ()) (locals (fun/ascii-char20275.14 c.91 tmp-ra.130)))
+      (begin
+        (set! tmp-ra.130 r15)
+        (set! c.91 rdi)
+        (set! fun/ascii-char20275.14 (mref c.91 14))
+        (set! rdi fun/ascii-char20275.14)
+        (set! r15 tmp-ra.130)
+        (jump L.fun/ascii-char20275.14.18 rbp r15 rdi)))
+    (define L.fun/empty20272.15.19
+      ((new-frames ()) (locals (fun/empty20273.9 c.90 tmp-ra.131)))
+      (begin
+        (set! tmp-ra.131 r15)
+        (set! c.90 rdi)
+        (set! fun/empty20273.9 (mref c.90 14))
+        (set! rdi fun/empty20273.9)
+        (set! r15 tmp-ra.131)
+        (jump L.fun/empty20273.9.13 rbp r15 rdi)))
+    (define L.fun/ascii-char20275.14.18
+      ((new-frames ()) (locals (c.89 tmp-ra.132)))
+      (begin
+        (set! tmp-ra.132 r15)
+        (set! c.89 rdi)
+        (set! rax 23086)
+        (jump tmp-ra.132 rbp rax)))
+    (define L.fun/error20276.13.17
+      ((new-frames ()) (locals (fun/error20277.12 c.88 tmp-ra.133)))
+      (begin
+        (set! tmp-ra.133 r15)
+        (set! c.88 rdi)
+        (set! fun/error20277.12 (mref c.88 14))
+        (set! rdi fun/error20277.12)
+        (set! r15 tmp-ra.133)
+        (jump L.fun/error20277.12.16 rbp r15 rdi)))
+    (define L.fun/error20277.12.16
+      ((new-frames ()) (locals (c.87 tmp-ra.134)))
+      (begin
+        (set! tmp-ra.134 r15)
+        (set! c.87 rdi)
+        (set! rax 28222)
+        (jump tmp-ra.134 rbp rax)))
+    (define L.fun/empty20279.11.15
+      ((new-frames ()) (locals (c.86 tmp-ra.135)))
+      (begin
+        (set! tmp-ra.135 r15)
+        (set! c.86 rdi)
+        (set! rax 22)
+        (jump tmp-ra.135 rbp rax)))
+    (define L.fun/void20280.10.14
+      ((new-frames ()) (locals (fun/void20281.17 c.85 tmp-ra.136)))
+      (begin
+        (set! tmp-ra.136 r15)
+        (set! c.85 rdi)
+        (set! fun/void20281.17 (mref c.85 14))
+        (set! rdi fun/void20281.17)
+        (set! r15 tmp-ra.136)
+        (jump L.fun/void20281.17.21 rbp r15 rdi)))
+    (define L.fun/empty20273.9.13
+      ((new-frames ()) (locals (c.84 tmp-ra.137)))
+      (begin
+        (set! tmp-ra.137 r15)
+        (set! c.84 rdi)
+        (set! rax 22)
+        (jump tmp-ra.137 rbp rax)))
+    (define L.fun/empty20278.8.12
+      ((new-frames ()) (locals (fun/empty20279.11 c.83 tmp-ra.138)))
+      (begin
+        (set! tmp-ra.138 r15)
+        (set! c.83 rdi)
+        (set! fun/empty20279.11 (mref c.83 14))
+        (set! rdi fun/empty20279.11)
+        (set! r15 tmp-ra.138)
+        (jump L.fun/empty20279.11.15 rbp r15 rdi)))
+    (define L.fun/void20270.7.11
+      ((new-frames ()) (locals (fun/void20271.5 c.82 tmp-ra.139)))
+      (begin
+        (set! tmp-ra.139 r15)
+        (set! c.82 rdi)
+        (set! fun/void20271.5 (mref c.82 14))
+        (set! rdi fun/void20271.5)
+        (set! r15 tmp-ra.139)
+        (jump L.fun/void20271.5.9 rbp r15 rdi)))
+    (define L.fun/any20283.6.10
+      ((new-frames ()) (locals (c.81 tmp-ra.140)))
+      (begin
+        (set! tmp-ra.140 r15)
+        (set! c.81 rdi)
+        (set! rax 41790)
+        (jump tmp-ra.140 rbp rax)))
+    (define L.fun/void20271.5.9
+      ((new-frames ()) (locals (c.80 tmp-ra.141)))
+      (begin
+        (set! tmp-ra.141 r15)
+        (set! c.80 rdi)
+        (set! rax 30)
+        (jump tmp-ra.141 rbp rax)))
+    (define L.fun/any20282.4.8
+      ((new-frames ()) (locals (fun/any20283.6 c.79 tmp-ra.142)))
+      (begin
+        (set! tmp-ra.142 r15)
+        (set! c.79 rdi)
+        (set! fun/any20283.6 (mref c.79 14))
+        (set! rdi fun/any20283.6)
+        (set! r15 tmp-ra.142)
+        (jump L.fun/any20283.6.10 rbp r15 rdi)))
+    (define L.pair?.76.7
+      ((new-frames ()) (locals (c.78 tmp-ra.143 tmp.145 tmp.67 tmp.110)))
+      (begin
+        (set! tmp-ra.143 r15)
+        (set! c.78 rdi)
+        (set! tmp.67 rsi)
+        (if (begin
+              (begin
+                (set! tmp.145 tmp.67)
+                (set! tmp.145 (bitwise-and tmp.145 7))
+                (set! tmp.110 tmp.145))
+              (= tmp.110 1))
+          (begin (set! rax 14) (jump tmp-ra.143 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.143 rbp rax)))))
+    (begin
+      (set! tmp-ra.144 r15)
+      (begin (set! tmp.111 r12) (set! r12 (+ r12 16)))
+      (set! tmp.146 tmp.111)
+      (set! tmp.146 (+ tmp.146 2))
+      (set! tmp.94 tmp.146)
+      (mset! tmp.94 -2 L.pair?.76.7)
+      (mset! tmp.94 6 8)
+      (set! pair?.76 tmp.94)
+      (begin (set! tmp.112 r12) (set! r12 (+ r12 24)))
+      (set! tmp.147 tmp.112)
+      (set! tmp.147 (+ tmp.147 2))
+      (set! tmp.95 tmp.147)
+      (mset! tmp.95 -2 L.fun/any20282.4.8)
+      (mset! tmp.95 6 0)
+      (set! fun/any20282.4 tmp.95)
+      (begin (set! tmp.113 r12) (set! r12 (+ r12 16)))
+      (set! tmp.148 tmp.113)
+      (set! tmp.148 (+ tmp.148 2))
+      (set! tmp.96 tmp.148)
+      (mset! tmp.96 -2 L.fun/void20271.5.9)
+      (mset! tmp.96 6 0)
+      (set! fun/void20271.5 tmp.96)
+      (begin (set! tmp.114 r12) (set! r12 (+ r12 16)))
+      (set! tmp.149 tmp.114)
+      (set! tmp.149 (+ tmp.149 2))
+      (set! tmp.97 tmp.149)
+      (mset! tmp.97 -2 L.fun/any20283.6.10)
+      (mset! tmp.97 6 0)
+      (set! fun/any20283.6 tmp.97)
+      (begin (set! tmp.115 r12) (set! r12 (+ r12 24)))
+      (set! tmp.150 tmp.115)
+      (set! tmp.150 (+ tmp.150 2))
+      (set! tmp.98 tmp.150)
+      (mset! tmp.98 -2 L.fun/void20270.7.11)
+      (mset! tmp.98 6 0)
+      (set! fun/void20270.7 tmp.98)
+      (begin (set! tmp.116 r12) (set! r12 (+ r12 24)))
+      (set! tmp.151 tmp.116)
+      (set! tmp.151 (+ tmp.151 2))
+      (set! tmp.99 tmp.151)
+      (mset! tmp.99 -2 L.fun/empty20278.8.12)
+      (mset! tmp.99 6 0)
+      (set! fun/empty20278.8 tmp.99)
+      (begin (set! tmp.117 r12) (set! r12 (+ r12 16)))
+      (set! tmp.152 tmp.117)
+      (set! tmp.152 (+ tmp.152 2))
+      (set! tmp.100 tmp.152)
+      (mset! tmp.100 -2 L.fun/empty20273.9.13)
+      (mset! tmp.100 6 0)
+      (set! fun/empty20273.9 tmp.100)
+      (begin (set! tmp.118 r12) (set! r12 (+ r12 24)))
+      (set! tmp.153 tmp.118)
+      (set! tmp.153 (+ tmp.153 2))
+      (set! tmp.101 tmp.153)
+      (mset! tmp.101 -2 L.fun/void20280.10.14)
+      (mset! tmp.101 6 0)
+      (set! fun/void20280.10 tmp.101)
+      (begin (set! tmp.119 r12) (set! r12 (+ r12 16)))
+      (set! tmp.154 tmp.119)
+      (set! tmp.154 (+ tmp.154 2))
+      (set! tmp.102 tmp.154)
+      (mset! tmp.102 -2 L.fun/empty20279.11.15)
+      (mset! tmp.102 6 0)
+      (set! fun/empty20279.11 tmp.102)
+      (begin (set! tmp.120 r12) (set! r12 (+ r12 16)))
+      (set! tmp.155 tmp.120)
+      (set! tmp.155 (+ tmp.155 2))
+      (set! tmp.103 tmp.155)
+      (mset! tmp.103 -2 L.fun/error20277.12.16)
+      (mset! tmp.103 6 0)
+      (set! fun/error20277.12 tmp.103)
+      (begin (set! tmp.121 r12) (set! r12 (+ r12 24)))
+      (set! tmp.156 tmp.121)
+      (set! tmp.156 (+ tmp.156 2))
+      (set! tmp.104 tmp.156)
+      (mset! tmp.104 -2 L.fun/error20276.13.17)
+      (mset! tmp.104 6 0)
+      (set! fun/error20276.13 tmp.104)
+      (begin (set! tmp.122 r12) (set! r12 (+ r12 16)))
+      (set! tmp.157 tmp.122)
+      (set! tmp.157 (+ tmp.157 2))
+      (set! tmp.105 tmp.157)
+      (mset! tmp.105 -2 L.fun/ascii-char20275.14.18)
+      (mset! tmp.105 6 0)
+      (set! fun/ascii-char20275.14 tmp.105)
+      (begin (set! tmp.123 r12) (set! r12 (+ r12 24)))
+      (set! tmp.158 tmp.123)
+      (set! tmp.158 (+ tmp.158 2))
+      (set! tmp.106 tmp.158)
+      (mset! tmp.106 -2 L.fun/empty20272.15.19)
+      (mset! tmp.106 6 0)
+      (set! fun/empty20272.15 tmp.106)
+      (begin (set! tmp.124 r12) (set! r12 (+ r12 24)))
+      (set! tmp.159 tmp.124)
+      (set! tmp.159 (+ tmp.159 2))
+      (set! tmp.107 tmp.159)
+      (mset! tmp.107 -2 L.fun/ascii-char20274.16.20)
+      (mset! tmp.107 6 0)
+      (set! fun/ascii-char20274.16 tmp.107)
+      (begin (set! tmp.125 r12) (set! r12 (+ r12 16)))
+      (set! tmp.160 tmp.125)
+      (set! tmp.160 (+ tmp.160 2))
+      (set! tmp.108 tmp.160)
+      (mset! tmp.108 -2 L.fun/void20281.17.21)
+      (mset! tmp.108 6 0)
+      (set! fun/void20281.17 tmp.108)
+      (mset! fun/any20282.4 14 fun/any20283.6)
+      (mset! fun/void20270.7 14 fun/void20271.5)
+      (mset! fun/empty20278.8 14 fun/empty20279.11)
+      (mset! fun/void20280.10 14 fun/void20281.17)
+      (mset! fun/error20276.13 14 fun/error20277.12)
+      (mset! fun/empty20272.15 14 fun/empty20273.9)
+      (mset! fun/ascii-char20274.16 14 fun/ascii-char20275.14)
+      (begin (set! tmp.126 r12) (set! r12 (+ r12 24)))
+      (set! tmp.161 tmp.126)
+      (set! tmp.161 (+ tmp.161 2))
+      (set! tmp.109 tmp.161)
+      (mset! tmp.109 -2 L.lam.77.22)
+      (mset! tmp.109 6 0)
+      (set! lam.77 tmp.109)
+      (mset! lam.77 14 fun/void20270.7)
+      (set! procedure0.23 lam.77)
+      (return-point L.rp.23
+        (begin
+          (set! rdi fun/empty20272.15)
+          (set! r15 L.rp.23)
+          (jump L.fun/empty20272.15.19 rbp r15 rdi)))
+      (set! empty1.22 rax)
+      (return-point L.rp.24
+        (begin
+          (set! rdi fun/ascii-char20274.16)
+          (set! r15 L.rp.24)
+          (jump L.fun/ascii-char20274.16.20 rbp r15 rdi)))
+      (set! ascii-char2.21 rax)
+      (return-point L.rp.25
+        (begin
+          (set! rdi fun/error20276.13)
+          (set! r15 L.rp.25)
+          (jump L.fun/error20276.13.17 rbp r15 rdi)))
+      (set! error3.20 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rdi fun/empty20278.8)
+          (set! r15 L.rp.26)
+          (jump L.fun/empty20278.8.12 rbp r15 rdi)))
+      (set! empty4.19 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/void20280.10)
+          (set! r15 L.rp.27)
+          (jump L.fun/void20280.10.14 rbp r15 rdi)))
+      (set! void5.18 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/any20282.4)
+          (set! r15 L.rp.28)
+          (jump L.fun/any20282.4.8 rbp r15 rdi)))
+      (set! tmp.127 rax)
+      (set! rsi tmp.127)
+      (set! rdi pair?.76)
+      (set! r15 tmp-ra.144)
+      (jump L.pair?.76.7 rbp r15 rdi rsi))))
+(check-by-interp
+ '(module
+    ((new-frames
+      (() () () () () () () () () () () () () () () () () () () () () ()))
+     (locals
+      (boolean5.16
+       tmp.182
+       empty4.17
+       fixnum3.18
+       tmp.175
+       tmp.179
+       tmp.181
+       tmp.180
+       tmp.176
+       tmp.178
+       tmp.177
+       tmp.168
+       tmp.172
+       tmp.174
+       tmp.173
+       tmp.169
+       tmp.171
+       tmp.170
+       boolean2.19
+       tmp.167
+       vector1.20
+       error0.21
+       fun/any21160.15
+       tmp.120
+       tmp.244
+       tmp.166
+       fun/error21157.14
+       tmp.119
+       tmp.243
+       tmp.165
+       fun/vector21158.13
+       tmp.118
+       tmp.242
+       tmp.164
+       fun/void21167.12
+       tmp.117
+       tmp.241
+       tmp.163
+       fun/vector21159.11
+       tmp.116
+       tmp.240
+       tmp.162
+       fun/error21156.10
+       tmp.115
+       tmp.239
+       tmp.161
+       fun/void21166.9
+       tmp.114
+       tmp.238
+       tmp.160
+       fun/empty21162.8
+       tmp.113
+       tmp.237
+       tmp.159
+       fun/any21164.7
+       tmp.112
+       tmp.236
+       tmp.158
+       fun/any21165.6
+       tmp.111
+       tmp.235
+       tmp.157
+       fun/any21161.5
+       tmp.110
+       tmp.234
+       tmp.156
+       fun/empty21163.4
+       tmp.109
+       tmp.233
+       tmp.155
+       make-vector.74
+       tmp.108
+       tmp.232
+       tmp.154
+       make-init-vector.1
+       tmp.107
+       tmp.231
+       tmp.153
+       vector-init-loop.24
+       tmp.106
+       tmp.230
+       tmp.152
+       empty?.75
+       tmp.105
+       tmp.229
+       tmp.151
+       |-.76|
+       tmp.104
+       tmp.228
+       tmp.150
+       *.77
+       tmp.103
+       tmp.227
+       tmp.149
+       |+.78|
+       tmp.102
+       tmp.226
+       tmp.148
+       vector?.79
+       tmp.101
+       tmp.225
+       tmp.147
+       tmp-ra.203)))
+    (define L.fun/any21160.15.26
+      ((new-frames ()) (locals (fun/any21161.5 c.99 tmp-ra.183)))
+      (begin
+        (set! tmp-ra.183 r15)
+        (set! c.99 rdi)
+        (set! fun/any21161.5 (mref c.99 14))
+        (set! rdi fun/any21161.5)
+        (set! r15 tmp-ra.183)
+        (jump L.fun/any21161.5.16 rbp r15 rdi)))
+    (define L.fun/error21157.14.25
+      ((new-frames ()) (locals (c.98 tmp-ra.184)))
+      (begin
+        (set! tmp-ra.184 r15)
+        (set! c.98 rdi)
+        (set! rax 26430)
+        (jump tmp-ra.184 rbp rax)))
+    (define L.fun/vector21158.13.24
+      ((new-frames ()) (locals (fun/vector21159.11 c.97 tmp-ra.185)))
+      (begin
+        (set! tmp-ra.185 r15)
+        (set! c.97 rdi)
+        (set! fun/vector21159.11 (mref c.97 14))
+        (set! rdi fun/vector21159.11)
+        (set! r15 tmp-ra.185)
+        (jump L.fun/vector21159.11.22 rbp r15 rdi)))
+    (define L.fun/void21167.12.23
+      ((new-frames ()) (locals (c.96 tmp-ra.186)))
+      (begin
+        (set! tmp-ra.186 r15)
+        (set! c.96 rdi)
+        (set! rax 30)
+        (jump tmp-ra.186 rbp rax)))
+    (define L.fun/vector21159.11.22
+      ((new-frames ()) (locals (make-vector.74 c.95 tmp-ra.187)))
+      (begin
+        (set! tmp-ra.187 r15)
+        (set! c.95 rdi)
+        (set! make-vector.74 (mref c.95 14))
+        (set! rsi 64)
+        (set! rdi make-vector.74)
+        (set! r15 tmp-ra.187)
+        (jump L.make-vector.74.14 rbp r15 rdi rsi)))
+    (define L.fun/error21156.10.21
+      ((new-frames ()) (locals (fun/error21157.14 c.94 tmp-ra.188)))
+      (begin
+        (set! tmp-ra.188 r15)
+        (set! c.94 rdi)
+        (set! fun/error21157.14 (mref c.94 14))
+        (set! rdi fun/error21157.14)
+        (set! r15 tmp-ra.188)
+        (jump L.fun/error21157.14.25 rbp r15 rdi)))
+    (define L.fun/void21166.9.20
+      ((new-frames ()) (locals (fun/void21167.12 c.93 tmp-ra.189)))
+      (begin
+        (set! tmp-ra.189 r15)
+        (set! c.93 rdi)
+        (set! fun/void21167.12 (mref c.93 14))
+        (set! rdi fun/void21167.12)
+        (set! r15 tmp-ra.189)
+        (jump L.fun/void21167.12.23 rbp r15 rdi)))
+    (define L.fun/empty21162.8.19
+      ((new-frames ()) (locals (fun/empty21163.4 c.92 tmp-ra.190)))
+      (begin
+        (set! tmp-ra.190 r15)
+        (set! c.92 rdi)
+        (set! fun/empty21163.4 (mref c.92 14))
+        (set! rdi fun/empty21163.4)
+        (set! r15 tmp-ra.190)
+        (jump L.fun/empty21163.4.15 rbp r15 rdi)))
+    (define L.fun/any21164.7.18
+      ((new-frames ()) (locals (fun/any21165.6 c.91 tmp-ra.191)))
+      (begin
+        (set! tmp-ra.191 r15)
+        (set! c.91 rdi)
+        (set! fun/any21165.6 (mref c.91 14))
+        (set! rdi fun/any21165.6)
+        (set! r15 tmp-ra.191)
+        (jump L.fun/any21165.6.17 rbp r15 rdi)))
+    (define L.fun/any21165.6.17
+      ((new-frames ()) (locals (make-vector.74 c.90 tmp-ra.192)))
+      (begin
+        (set! tmp-ra.192 r15)
+        (set! c.90 rdi)
+        (set! make-vector.74 (mref c.90 14))
+        (set! rsi 64)
+        (set! rdi make-vector.74)
+        (set! r15 tmp-ra.192)
+        (jump L.make-vector.74.14 rbp r15 rdi rsi)))
+    (define L.fun/any21161.5.16
+      ((new-frames ()) (locals (c.89 tmp-ra.193)))
+      (begin
+        (set! tmp-ra.193 r15)
+        (set! c.89 rdi)
+        (set! rax 1488)
+        (jump tmp-ra.193 rbp rax)))
+    (define L.fun/empty21163.4.15
+      ((new-frames ()) (locals (c.88 tmp-ra.194)))
+      (begin
+        (set! tmp-ra.194 r15)
+        (set! c.88 rdi)
+        (set! rax 22)
+        (jump tmp-ra.194 rbp rax)))
+    (define L.make-vector.74.14
+      ((new-frames ())
+       (locals
+        (c.87 make-init-vector.1 tmp-ra.195 tmp.122 tmp.50 tmp.204 tmp.121)))
+      (begin
+        (set! tmp-ra.195 r15)
+        (set! c.87 rdi)
+        (set! tmp.50 rsi)
+        (set! make-init-vector.1 (mref c.87 14))
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.204 tmp.50)
+                      (set! tmp.204 (bitwise-and tmp.204 7))
+                      (set! tmp.122 tmp.204))
+                    (= tmp.122 0))
+                (set! tmp.121 14)
+                (set! tmp.121 6))
+              (!= tmp.121 6))
+          (begin
+            (set! rsi tmp.50)
+            (set! rdi make-init-vector.1)
+            (set! r15 tmp-ra.195)
+            (jump L.make-init-vector.1.13 rbp r15 rdi rsi))
+          (begin (set! rax 2110) (jump tmp-ra.195 rbp rax)))))
+    (define L.make-init-vector.1.13
+      ((new-frames ())
+       (locals
+        (tmp.23
+         tmp.100
+         tmp.208
+         tmp.123
+         tmp.124
+         tmp.207
+         tmp.125
+         tmp.206
+         tmp.126
+         tmp.205
+         vector-init-loop.24
+         tmp.22
+         c.86
+         tmp-ra.196)))
+      (begin
+        (set! tmp-ra.196 r15)
+        (set! c.86 rdi)
+        (set! tmp.22 rsi)
+        (set! vector-init-loop.24 (mref c.86 14))
+        (set! tmp.205 tmp.22)
+        (set! tmp.205 (arithmetic-shift-right tmp.205 3))
+        (set! tmp.126 tmp.205)
+        (set! tmp.206 1)
+        (set! tmp.206 (+ tmp.206 tmp.126))
+        (set! tmp.125 tmp.206)
+        (set! tmp.207 tmp.125)
+        (set! tmp.207 (* tmp.207 8))
+        (set! tmp.124 tmp.207)
+        (begin (set! tmp.123 r12) (set! r12 (+ r12 tmp.124)))
+        (set! tmp.208 tmp.123)
+        (set! tmp.208 (+ tmp.208 3))
+        (set! tmp.100 tmp.208)
+        (mset! tmp.100 -3 tmp.22)
+        (set! tmp.23 tmp.100)
+        (set! rcx tmp.23)
+        (set! rdx 0)
+        (set! rsi tmp.22)
+        (set! rdi vector-init-loop.24)
+        (set! r15 tmp-ra.196)
+        (jump L.vector-init-loop.24.12 rbp r15 rdi rsi rdx rcx)))
+    (define L.vector-init-loop.24.12
+      ((new-frames ())
+       (locals
+        (c.85
+         tmp.209
+         tmp.130
+         tmp.210
+         tmp.129
+         tmp.211
+         tmp.128
+         tmp.212
+         tmp.131
+         vector-init-loop.24
+         tmp-ra.197
+         vec.26
+         len.25
+         i.27
+         tmp.127)))
+      (begin
+        (set! tmp-ra.197 r15)
+        (set! c.85 rdi)
+        (set! len.25 rsi)
+        (set! i.27 rdx)
+        (set! vec.26 rcx)
+        (set! vector-init-loop.24 (mref c.85 14))
+        (if (begin
+              (if (= len.25 i.27) (set! tmp.127 14) (set! tmp.127 6))
+              (!= tmp.127 6))
+          (begin (set! rax vec.26) (jump tmp-ra.197 rbp rax))
+          (begin
+            (set! tmp.209 i.27)
+            (set! tmp.209 (arithmetic-shift-right tmp.209 3))
+            (set! tmp.130 tmp.209)
+            (set! tmp.210 tmp.130)
+            (set! tmp.210 (* tmp.210 8))
+            (set! tmp.129 tmp.210)
+            (set! tmp.211 tmp.129)
+            (set! tmp.211 (+ tmp.211 5))
+            (set! tmp.128 tmp.211)
+            (mset! vec.26 tmp.128 0)
+            (set! tmp.212 i.27)
+            (set! tmp.212 (+ tmp.212 8))
+            (set! tmp.131 tmp.212)
+            (set! rcx vec.26)
+            (set! rdx tmp.131)
+            (set! rsi len.25)
+            (set! rdi vector-init-loop.24)
+            (set! r15 tmp-ra.197)
+            (jump L.vector-init-loop.24.12 rbp r15 rdi rsi rdx rcx)))))
+    (define L.empty?.75.11
+      ((new-frames ()) (locals (c.84 tmp-ra.198 tmp.213 tmp.61 tmp.132)))
+      (begin
+        (set! tmp-ra.198 r15)
+        (set! c.84 rdi)
+        (set! tmp.61 rsi)
+        (if (begin
+              (begin
+                (set! tmp.213 tmp.61)
+                (set! tmp.213 (bitwise-and tmp.213 255))
+                (set! tmp.132 tmp.213))
+              (= tmp.132 22))
+          (begin (set! rax 14) (jump tmp-ra.198 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.198 rbp rax)))))
+    (define L.-.76.10
+      ((new-frames ())
+       (locals
+        (c.83
+         tmp.135
+         tmp.215
+         tmp.40
+         tmp.136
+         tmp.216
+         tmp-ra.199
+         tmp.134
+         tmp.41
+         tmp.214
+         tmp.133)))
+      (begin
+        (set! tmp-ra.199 r15)
+        (set! c.83 rdi)
+        (set! tmp.40 rsi)
+        (set! tmp.41 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.214 tmp.41)
+                      (set! tmp.214 (bitwise-and tmp.214 7))
+                      (set! tmp.134 tmp.214))
+                    (= tmp.134 0))
+                (set! tmp.133 14)
+                (set! tmp.133 6))
+              (!= tmp.133 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.215 tmp.40)
+                        (set! tmp.215 (bitwise-and tmp.215 7))
+                        (set! tmp.136 tmp.215))
+                      (= tmp.136 0))
+                  (set! tmp.135 14)
+                  (set! tmp.135 6))
+                (!= tmp.135 6))
+            (begin
+              (set! tmp.216 tmp.40)
+              (set! tmp.216 (- tmp.216 tmp.41))
+              (set! rax tmp.216)
+              (jump tmp-ra.199 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.199 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.199 rbp rax)))))
+    (define L.*.77.9
+      ((new-frames ())
+       (locals
+        (c.82
+         tmp.139
+         tmp.218
+         tmp.36
+         tmp.140
+         tmp.220
+         tmp.141
+         tmp.219
+         tmp-ra.200
+         tmp.138
+         tmp.37
+         tmp.217
+         tmp.137)))
+      (begin
+        (set! tmp-ra.200 r15)
+        (set! c.82 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.217 tmp.37)
+                      (set! tmp.217 (bitwise-and tmp.217 7))
+                      (set! tmp.138 tmp.217))
+                    (= tmp.138 0))
+                (set! tmp.137 14)
+                (set! tmp.137 6))
+              (!= tmp.137 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.218 tmp.36)
+                        (set! tmp.218 (bitwise-and tmp.218 7))
+                        (set! tmp.140 tmp.218))
+                      (= tmp.140 0))
+                  (set! tmp.139 14)
+                  (set! tmp.139 6))
+                (!= tmp.139 6))
+            (begin
+              (set! tmp.219 tmp.37)
+              (set! tmp.219 (arithmetic-shift-right tmp.219 3))
+              (set! tmp.141 tmp.219)
+              (set! tmp.220 tmp.36)
+              (set! tmp.220 (* tmp.220 tmp.141))
+              (set! rax tmp.220)
+              (jump tmp-ra.200 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.200 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.200 rbp rax)))))
+    (define L.+.78.8
+      ((new-frames ())
+       (locals
+        (c.81
+         tmp.144
+         tmp.222
+         tmp.38
+         tmp.145
+         tmp.223
+         tmp-ra.201
+         tmp.143
+         tmp.39
+         tmp.221
+         tmp.142)))
+      (begin
+        (set! tmp-ra.201 r15)
+        (set! c.81 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.221 tmp.39)
+                      (set! tmp.221 (bitwise-and tmp.221 7))
+                      (set! tmp.143 tmp.221))
+                    (= tmp.143 0))
+                (set! tmp.142 14)
+                (set! tmp.142 6))
+              (!= tmp.142 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.222 tmp.38)
+                        (set! tmp.222 (bitwise-and tmp.222 7))
+                        (set! tmp.145 tmp.222))
+                      (= tmp.145 0))
+                  (set! tmp.144 14)
+                  (set! tmp.144 6))
+                (!= tmp.144 6))
+            (begin
+              (set! tmp.223 tmp.38)
+              (set! tmp.223 (+ tmp.223 tmp.39))
+              (set! rax tmp.223)
+              (jump tmp-ra.201 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.201 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.201 rbp rax)))))
+    (define L.vector?.79.7
+      ((new-frames ()) (locals (c.80 tmp-ra.202 tmp.224 tmp.66 tmp.146)))
+      (begin
+        (set! tmp-ra.202 r15)
+        (set! c.80 rdi)
+        (set! tmp.66 rsi)
+        (if (begin
+              (begin
+                (set! tmp.224 tmp.66)
+                (set! tmp.224 (bitwise-and tmp.224 7))
+                (set! tmp.146 tmp.224))
+              (= tmp.146 3))
+          (begin (set! rax 14) (jump tmp-ra.202 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.202 rbp rax)))))
+    (begin
+      (set! tmp-ra.203 r15)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 16)))
+      (set! tmp.225 tmp.147)
+      (set! tmp.225 (+ tmp.225 2))
+      (set! tmp.101 tmp.225)
+      (mset! tmp.101 -2 L.vector?.79.7)
+      (mset! tmp.101 6 8)
+      (set! vector?.79 tmp.101)
+      (begin (set! tmp.148 r12) (set! r12 (+ r12 16)))
+      (set! tmp.226 tmp.148)
+      (set! tmp.226 (+ tmp.226 2))
+      (set! tmp.102 tmp.226)
+      (mset! tmp.102 -2 L.+.78.8)
+      (mset! tmp.102 6 16)
+      (set! |+.78| tmp.102)
+      (begin (set! tmp.149 r12) (set! r12 (+ r12 16)))
+      (set! tmp.227 tmp.149)
+      (set! tmp.227 (+ tmp.227 2))
+      (set! tmp.103 tmp.227)
+      (mset! tmp.103 -2 L.*.77.9)
+      (mset! tmp.103 6 16)
+      (set! *.77 tmp.103)
+      (begin (set! tmp.150 r12) (set! r12 (+ r12 16)))
+      (set! tmp.228 tmp.150)
+      (set! tmp.228 (+ tmp.228 2))
+      (set! tmp.104 tmp.228)
+      (mset! tmp.104 -2 L.-.76.10)
+      (mset! tmp.104 6 16)
+      (set! |-.76| tmp.104)
+      (begin (set! tmp.151 r12) (set! r12 (+ r12 16)))
+      (set! tmp.229 tmp.151)
+      (set! tmp.229 (+ tmp.229 2))
+      (set! tmp.105 tmp.229)
+      (mset! tmp.105 -2 L.empty?.75.11)
+      (mset! tmp.105 6 8)
+      (set! empty?.75 tmp.105)
+      (begin (set! tmp.152 r12) (set! r12 (+ r12 24)))
+      (set! tmp.230 tmp.152)
+      (set! tmp.230 (+ tmp.230 2))
+      (set! tmp.106 tmp.230)
+      (mset! tmp.106 -2 L.vector-init-loop.24.12)
+      (mset! tmp.106 6 24)
+      (set! vector-init-loop.24 tmp.106)
+      (begin (set! tmp.153 r12) (set! r12 (+ r12 24)))
+      (set! tmp.231 tmp.153)
+      (set! tmp.231 (+ tmp.231 2))
+      (set! tmp.107 tmp.231)
+      (mset! tmp.107 -2 L.make-init-vector.1.13)
+      (mset! tmp.107 6 8)
+      (set! make-init-vector.1 tmp.107)
+      (begin (set! tmp.154 r12) (set! r12 (+ r12 24)))
+      (set! tmp.232 tmp.154)
+      (set! tmp.232 (+ tmp.232 2))
+      (set! tmp.108 tmp.232)
+      (mset! tmp.108 -2 L.make-vector.74.14)
+      (mset! tmp.108 6 8)
+      (set! make-vector.74 tmp.108)
+      (begin (set! tmp.155 r12) (set! r12 (+ r12 16)))
+      (set! tmp.233 tmp.155)
+      (set! tmp.233 (+ tmp.233 2))
+      (set! tmp.109 tmp.233)
+      (mset! tmp.109 -2 L.fun/empty21163.4.15)
+      (mset! tmp.109 6 0)
+      (set! fun/empty21163.4 tmp.109)
+      (begin (set! tmp.156 r12) (set! r12 (+ r12 16)))
+      (set! tmp.234 tmp.156)
+      (set! tmp.234 (+ tmp.234 2))
+      (set! tmp.110 tmp.234)
+      (mset! tmp.110 -2 L.fun/any21161.5.16)
+      (mset! tmp.110 6 0)
+      (set! fun/any21161.5 tmp.110)
+      (begin (set! tmp.157 r12) (set! r12 (+ r12 24)))
+      (set! tmp.235 tmp.157)
+      (set! tmp.235 (+ tmp.235 2))
+      (set! tmp.111 tmp.235)
+      (mset! tmp.111 -2 L.fun/any21165.6.17)
+      (mset! tmp.111 6 0)
+      (set! fun/any21165.6 tmp.111)
+      (begin (set! tmp.158 r12) (set! r12 (+ r12 24)))
+      (set! tmp.236 tmp.158)
+      (set! tmp.236 (+ tmp.236 2))
+      (set! tmp.112 tmp.236)
+      (mset! tmp.112 -2 L.fun/any21164.7.18)
+      (mset! tmp.112 6 0)
+      (set! fun/any21164.7 tmp.112)
+      (begin (set! tmp.159 r12) (set! r12 (+ r12 24)))
+      (set! tmp.237 tmp.159)
+      (set! tmp.237 (+ tmp.237 2))
+      (set! tmp.113 tmp.237)
+      (mset! tmp.113 -2 L.fun/empty21162.8.19)
+      (mset! tmp.113 6 0)
+      (set! fun/empty21162.8 tmp.113)
+      (begin (set! tmp.160 r12) (set! r12 (+ r12 24)))
+      (set! tmp.238 tmp.160)
+      (set! tmp.238 (+ tmp.238 2))
+      (set! tmp.114 tmp.238)
+      (mset! tmp.114 -2 L.fun/void21166.9.20)
+      (mset! tmp.114 6 0)
+      (set! fun/void21166.9 tmp.114)
+      (begin (set! tmp.161 r12) (set! r12 (+ r12 24)))
+      (set! tmp.239 tmp.161)
+      (set! tmp.239 (+ tmp.239 2))
+      (set! tmp.115 tmp.239)
+      (mset! tmp.115 -2 L.fun/error21156.10.21)
+      (mset! tmp.115 6 0)
+      (set! fun/error21156.10 tmp.115)
+      (begin (set! tmp.162 r12) (set! r12 (+ r12 24)))
+      (set! tmp.240 tmp.162)
+      (set! tmp.240 (+ tmp.240 2))
+      (set! tmp.116 tmp.240)
+      (mset! tmp.116 -2 L.fun/vector21159.11.22)
+      (mset! tmp.116 6 0)
+      (set! fun/vector21159.11 tmp.116)
+      (begin (set! tmp.163 r12) (set! r12 (+ r12 16)))
+      (set! tmp.241 tmp.163)
+      (set! tmp.241 (+ tmp.241 2))
+      (set! tmp.117 tmp.241)
+      (mset! tmp.117 -2 L.fun/void21167.12.23)
+      (mset! tmp.117 6 0)
+      (set! fun/void21167.12 tmp.117)
+      (begin (set! tmp.164 r12) (set! r12 (+ r12 24)))
+      (set! tmp.242 tmp.164)
+      (set! tmp.242 (+ tmp.242 2))
+      (set! tmp.118 tmp.242)
+      (mset! tmp.118 -2 L.fun/vector21158.13.24)
+      (mset! tmp.118 6 0)
+      (set! fun/vector21158.13 tmp.118)
+      (begin (set! tmp.165 r12) (set! r12 (+ r12 16)))
+      (set! tmp.243 tmp.165)
+      (set! tmp.243 (+ tmp.243 2))
+      (set! tmp.119 tmp.243)
+      (mset! tmp.119 -2 L.fun/error21157.14.25)
+      (mset! tmp.119 6 0)
+      (set! fun/error21157.14 tmp.119)
+      (begin (set! tmp.166 r12) (set! r12 (+ r12 24)))
+      (set! tmp.244 tmp.166)
+      (set! tmp.244 (+ tmp.244 2))
+      (set! tmp.120 tmp.244)
+      (mset! tmp.120 -2 L.fun/any21160.15.26)
+      (mset! tmp.120 6 0)
+      (set! fun/any21160.15 tmp.120)
+      (mset! vector-init-loop.24 14 vector-init-loop.24)
+      (mset! make-init-vector.1 14 vector-init-loop.24)
+      (mset! make-vector.74 14 make-init-vector.1)
+      (mset! fun/any21165.6 14 make-vector.74)
+      (mset! fun/any21164.7 14 fun/any21165.6)
+      (mset! fun/empty21162.8 14 fun/empty21163.4)
+      (mset! fun/void21166.9 14 fun/void21167.12)
+      (mset! fun/error21156.10 14 fun/error21157.14)
+      (mset! fun/vector21159.11 14 make-vector.74)
+      (mset! fun/vector21158.13 14 fun/vector21159.11)
+      (mset! fun/any21160.15 14 fun/any21161.5)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/error21156.10)
+          (set! r15 L.rp.27)
+          (jump L.fun/error21156.10.21 rbp r15 rdi)))
+      (set! error0.21 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/vector21158.13)
+          (set! r15 L.rp.28)
+          (jump L.fun/vector21158.13.24 rbp r15 rdi)))
+      (set! vector1.20 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdi fun/any21160.15)
+          (set! r15 L.rp.29)
+          (jump L.fun/any21160.15.26 rbp r15 rdi)))
+      (set! tmp.167 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rsi tmp.167)
+          (set! rdi empty?.75)
+          (set! r15 L.rp.30)
+          (jump L.empty?.75.11 rbp r15 rdi rsi)))
+      (set! boolean2.19 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx 416)
+          (set! rsi 208)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.31)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.170 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx 512)
+          (set! rsi 1088)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.32)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.171 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx tmp.171)
+          (set! rsi tmp.170)
+          (set! rdi *.77)
+          (set! r15 L.rp.33)
+          (jump L.*.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.169 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx 1080)
+          (set! rsi 296)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.34)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.173 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx 1416)
+          (set! rsi 168)
+          (set! rdi *.77)
+          (set! r15 L.rp.35)
+          (jump L.*.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.174 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx tmp.174)
+          (set! rsi tmp.173)
+          (set! rdi *.77)
+          (set! r15 L.rp.36)
+          (jump L.*.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.172 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx tmp.172)
+          (set! rsi tmp.169)
+          (set! rdi |+.78|)
+          (set! r15 L.rp.37)
+          (jump L.+.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.168 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdx 88)
+          (set! rsi 448)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.38)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.177 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdx 1616)
+          (set! rsi 1416)
+          (set! rdi *.77)
+          (set! r15 L.rp.39)
+          (jump L.*.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.178 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx tmp.178)
+          (set! rsi tmp.177)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.40)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.176 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdx 200)
+          (set! rsi 984)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.41)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.180 rax)
+      (return-point L.rp.42
+        (begin
+          (set! rdx 1048)
+          (set! rsi 1776)
+          (set! rdi |-.76|)
+          (set! r15 L.rp.42)
+          (jump L.-.76.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.181 rax)
+      (return-point L.rp.43
+        (begin
+          (set! rdx tmp.181)
+          (set! rsi tmp.180)
+          (set! rdi |+.78|)
+          (set! r15 L.rp.43)
+          (jump L.+.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.179 rax)
+      (return-point L.rp.44
+        (begin
+          (set! rdx tmp.179)
+          (set! rsi tmp.176)
+          (set! rdi |+.78|)
+          (set! r15 L.rp.44)
+          (jump L.+.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.175 rax)
+      (return-point L.rp.45
+        (begin
+          (set! rdx tmp.175)
+          (set! rsi tmp.168)
+          (set! rdi *.77)
+          (set! r15 L.rp.45)
+          (jump L.*.77.9 rbp r15 rdi rsi rdx)))
+      (set! fixnum3.18 rax)
+      (return-point L.rp.46
+        (begin
+          (set! rdi fun/empty21162.8)
+          (set! r15 L.rp.46)
+          (jump L.fun/empty21162.8.19 rbp r15 rdi)))
+      (set! empty4.17 rax)
+      (return-point L.rp.47
+        (begin
+          (set! rdi fun/any21164.7)
+          (set! r15 L.rp.47)
+          (jump L.fun/any21164.7.18 rbp r15 rdi)))
+      (set! tmp.182 rax)
+      (return-point L.rp.48
+        (begin
+          (set! rsi tmp.182)
+          (set! rdi vector?.79)
+          (set! r15 L.rp.48)
+          (jump L.vector?.79.7 rbp r15 rdi rsi)))
+      (set! boolean5.16 rax)
+      (set! rdi fun/void21166.9)
+      (set! r15 tmp-ra.203)
+      (jump L.fun/void21166.9.20 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames
+      (() () () () () () () () () () () () () () () () () () () () () ()))
+     (locals
+      (void5.16
+       fixnum4.17
+       tmp.160
+       tmp.164
+       tmp.166
+       tmp.165
+       tmp.161
+       tmp.163
+       tmp.162
+       tmp.153
+       tmp.157
+       tmp.159
+       tmp.158
+       tmp.154
+       tmp.156
+       tmp.155
+       boolean3.18
+       tmp.152
+       void2.19
+       error1.20
+       boolean0.21
+       tmp.151
+       fun/any23215.15
+       tmp.116
+       tmp.216
+       tmp.150
+       fun/ascii-char23226.14
+       tmp.115
+       tmp.215
+       tmp.149
+       fun/error23217.13
+       tmp.114
+       tmp.214
+       tmp.148
+       fun/ascii-char23225.12
+       tmp.113
+       tmp.213
+       tmp.147
+       fun/any23216.11
+       tmp.112
+       tmp.212
+       tmp.146
+       fun/void23219.10
+       tmp.111
+       tmp.211
+       tmp.145
+       fun/any23221.9
+       tmp.110
+       tmp.210
+       tmp.144
+       fun/void23220.8
+       tmp.109
+       tmp.209
+       tmp.143
+       fun/void23224.7
+       tmp.108
+       tmp.208
+       tmp.142
+       fun/void23223.6
+       tmp.107
+       tmp.207
+       tmp.141
+       fun/error23218.5
+       tmp.106
+       tmp.206
+       tmp.140
+       fun/any23222.4
+       tmp.105
+       tmp.205
+       tmp.139
+       cons.74
+       tmp.104
+       tmp.204
+       tmp.138
+       pair?.75
+       tmp.103
+       tmp.203
+       tmp.137
+       boolean?.76
+       tmp.102
+       tmp.202
+       tmp.136
+       |+.77|
+       tmp.101
+       tmp.201
+       tmp.135
+       *.78
+       tmp.100
+       tmp.200
+       tmp.134
+       |-.79|
+       tmp.99
+       tmp.199
+       tmp.133
+       tmp-ra.185)))
+    (define L.fun/any23215.15.24
+      ((new-frames ()) (locals (fun/any23216.11 c.97 tmp-ra.167)))
+      (begin
+        (set! tmp-ra.167 r15)
+        (set! c.97 rdi)
+        (set! fun/any23216.11 (mref c.97 14))
+        (set! rdi fun/any23216.11)
+        (set! r15 tmp-ra.167)
+        (jump L.fun/any23216.11.20 rbp r15 rdi)))
+    (define L.fun/ascii-char23226.14.23
+      ((new-frames ()) (locals (c.96 tmp-ra.168)))
+      (begin
+        (set! tmp-ra.168 r15)
+        (set! c.96 rdi)
+        (set! rax 22830)
+        (jump tmp-ra.168 rbp rax)))
+    (define L.fun/error23217.13.22
+      ((new-frames ()) (locals (fun/error23218.5 c.95 tmp-ra.169)))
+      (begin
+        (set! tmp-ra.169 r15)
+        (set! c.95 rdi)
+        (set! fun/error23218.5 (mref c.95 14))
+        (set! rdi fun/error23218.5)
+        (set! r15 tmp-ra.169)
+        (jump L.fun/error23218.5.14 rbp r15 rdi)))
+    (define L.fun/ascii-char23225.12.21
+      ((new-frames ()) (locals (fun/ascii-char23226.14 c.94 tmp-ra.170)))
+      (begin
+        (set! tmp-ra.170 r15)
+        (set! c.94 rdi)
+        (set! fun/ascii-char23226.14 (mref c.94 14))
+        (set! rdi fun/ascii-char23226.14)
+        (set! r15 tmp-ra.170)
+        (jump L.fun/ascii-char23226.14.23 rbp r15 rdi)))
+    (define L.fun/any23216.11.20
+      ((new-frames ()) (locals (cons.74 c.93 tmp-ra.171)))
+      (begin
+        (set! tmp-ra.171 r15)
+        (set! c.93 rdi)
+        (set! cons.74 (mref c.93 14))
+        (set! rdx 2720)
+        (set! rsi 816)
+        (set! rdi cons.74)
+        (set! r15 tmp-ra.171)
+        (jump L.cons.74.12 rbp r15 rdi rsi rdx)))
+    (define L.fun/void23219.10.19
+      ((new-frames ()) (locals (fun/void23220.8 c.92 tmp-ra.172)))
+      (begin
+        (set! tmp-ra.172 r15)
+        (set! c.92 rdi)
+        (set! fun/void23220.8 (mref c.92 14))
+        (set! rdi fun/void23220.8)
+        (set! r15 tmp-ra.172)
+        (jump L.fun/void23220.8.17 rbp r15 rdi)))
+    (define L.fun/any23221.9.18
+      ((new-frames ()) (locals (fun/any23222.4 c.91 tmp-ra.173)))
+      (begin
+        (set! tmp-ra.173 r15)
+        (set! c.91 rdi)
+        (set! fun/any23222.4 (mref c.91 14))
+        (set! rdi fun/any23222.4)
+        (set! r15 tmp-ra.173)
+        (jump L.fun/any23222.4.13 rbp r15 rdi)))
+    (define L.fun/void23220.8.17
+      ((new-frames ()) (locals (c.90 tmp-ra.174)))
+      (begin
+        (set! tmp-ra.174 r15)
+        (set! c.90 rdi)
+        (set! rax 30)
+        (jump tmp-ra.174 rbp rax)))
+    (define L.fun/void23224.7.16
+      ((new-frames ()) (locals (c.89 tmp-ra.175)))
+      (begin
+        (set! tmp-ra.175 r15)
+        (set! c.89 rdi)
+        (set! rax 30)
+        (jump tmp-ra.175 rbp rax)))
+    (define L.fun/void23223.6.15
+      ((new-frames ()) (locals (fun/void23224.7 c.88 tmp-ra.176)))
+      (begin
+        (set! tmp-ra.176 r15)
+        (set! c.88 rdi)
+        (set! fun/void23224.7 (mref c.88 14))
+        (set! rdi fun/void23224.7)
+        (set! r15 tmp-ra.176)
+        (jump L.fun/void23224.7.16 rbp r15 rdi)))
+    (define L.fun/error23218.5.14
+      ((new-frames ()) (locals (c.87 tmp-ra.177)))
+      (begin
+        (set! tmp-ra.177 r15)
+        (set! c.87 rdi)
+        (set! rax 46654)
+        (jump tmp-ra.177 rbp rax)))
+    (define L.fun/any23222.4.13
+      ((new-frames ()) (locals (cons.74 c.86 tmp-ra.178)))
+      (begin
+        (set! tmp-ra.178 r15)
+        (set! c.86 rdi)
+        (set! cons.74 (mref c.86 14))
+        (set! rdx 3496)
+        (set! rsi 320)
+        (set! rdi cons.74)
+        (set! r15 tmp-ra.178)
+        (jump L.cons.74.12 rbp r15 rdi rsi rdx)))
+    (define L.cons.74.12
+      ((new-frames ())
+       (locals (tmp.98 tmp.186 tmp.117 tmp.70 tmp.69 c.85 tmp-ra.179)))
+      (begin
+        (set! tmp-ra.179 r15)
+        (set! c.85 rdi)
+        (set! tmp.69 rsi)
+        (set! tmp.70 rdx)
+        (begin (set! tmp.117 r12) (set! r12 (+ r12 16)))
+        (set! tmp.186 tmp.117)
+        (set! tmp.186 (+ tmp.186 1))
+        (set! tmp.98 tmp.186)
+        (mset! tmp.98 -1 tmp.69)
+        (mset! tmp.98 7 tmp.70)
+        (set! rax tmp.98)
+        (jump tmp-ra.179 rbp rax)))
+    (define L.pair?.75.11
+      ((new-frames ()) (locals (c.84 tmp-ra.180 tmp.187 tmp.65 tmp.118)))
+      (begin
+        (set! tmp-ra.180 r15)
+        (set! c.84 rdi)
+        (set! tmp.65 rsi)
+        (if (begin
+              (begin
+                (set! tmp.187 tmp.65)
+                (set! tmp.187 (bitwise-and tmp.187 7))
+                (set! tmp.118 tmp.187))
+              (= tmp.118 1))
+          (begin (set! rax 14) (jump tmp-ra.180 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.180 rbp rax)))))
+    (define L.boolean?.76.10
+      ((new-frames ()) (locals (c.83 tmp-ra.181 tmp.188 tmp.60 tmp.119)))
+      (begin
+        (set! tmp-ra.181 r15)
+        (set! c.83 rdi)
+        (set! tmp.60 rsi)
+        (if (begin
+              (begin
+                (set! tmp.188 tmp.60)
+                (set! tmp.188 (bitwise-and tmp.188 247))
+                (set! tmp.119 tmp.188))
+              (= tmp.119 6))
+          (begin (set! rax 14) (jump tmp-ra.181 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.181 rbp rax)))))
+    (define L.+.77.9
+      ((new-frames ())
+       (locals
+        (c.82
+         tmp.122
+         tmp.190
+         tmp.38
+         tmp.123
+         tmp.191
+         tmp-ra.182
+         tmp.121
+         tmp.39
+         tmp.189
+         tmp.120)))
+      (begin
+        (set! tmp-ra.182 r15)
+        (set! c.82 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.189 tmp.39)
+                      (set! tmp.189 (bitwise-and tmp.189 7))
+                      (set! tmp.121 tmp.189))
+                    (= tmp.121 0))
+                (set! tmp.120 14)
+                (set! tmp.120 6))
+              (!= tmp.120 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.190 tmp.38)
+                        (set! tmp.190 (bitwise-and tmp.190 7))
+                        (set! tmp.123 tmp.190))
+                      (= tmp.123 0))
+                  (set! tmp.122 14)
+                  (set! tmp.122 6))
+                (!= tmp.122 6))
+            (begin
+              (set! tmp.191 tmp.38)
+              (set! tmp.191 (+ tmp.191 tmp.39))
+              (set! rax tmp.191)
+              (jump tmp-ra.182 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.182 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.182 rbp rax)))))
+    (define L.*.78.8
+      ((new-frames ())
+       (locals
+        (c.81
+         tmp.126
+         tmp.193
+         tmp.36
+         tmp.127
+         tmp.195
+         tmp.128
+         tmp.194
+         tmp-ra.183
+         tmp.125
+         tmp.37
+         tmp.192
+         tmp.124)))
+      (begin
+        (set! tmp-ra.183 r15)
+        (set! c.81 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.192 tmp.37)
+                      (set! tmp.192 (bitwise-and tmp.192 7))
+                      (set! tmp.125 tmp.192))
+                    (= tmp.125 0))
+                (set! tmp.124 14)
+                (set! tmp.124 6))
+              (!= tmp.124 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.193 tmp.36)
+                        (set! tmp.193 (bitwise-and tmp.193 7))
+                        (set! tmp.127 tmp.193))
+                      (= tmp.127 0))
+                  (set! tmp.126 14)
+                  (set! tmp.126 6))
+                (!= tmp.126 6))
+            (begin
+              (set! tmp.194 tmp.37)
+              (set! tmp.194 (arithmetic-shift-right tmp.194 3))
+              (set! tmp.128 tmp.194)
+              (set! tmp.195 tmp.36)
+              (set! tmp.195 (* tmp.195 tmp.128))
+              (set! rax tmp.195)
+              (jump tmp-ra.183 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.183 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.183 rbp rax)))))
+    (define L.-.79.7
+      ((new-frames ())
+       (locals
+        (c.80
+         tmp.131
+         tmp.197
+         tmp.40
+         tmp.132
+         tmp.198
+         tmp-ra.184
+         tmp.130
+         tmp.41
+         tmp.196
+         tmp.129)))
+      (begin
+        (set! tmp-ra.184 r15)
+        (set! c.80 rdi)
+        (set! tmp.40 rsi)
+        (set! tmp.41 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.196 tmp.41)
+                      (set! tmp.196 (bitwise-and tmp.196 7))
+                      (set! tmp.130 tmp.196))
+                    (= tmp.130 0))
+                (set! tmp.129 14)
+                (set! tmp.129 6))
+              (!= tmp.129 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.197 tmp.40)
+                        (set! tmp.197 (bitwise-and tmp.197 7))
+                        (set! tmp.132 tmp.197))
+                      (= tmp.132 0))
+                  (set! tmp.131 14)
+                  (set! tmp.131 6))
+                (!= tmp.131 6))
+            (begin
+              (set! tmp.198 tmp.40)
+              (set! tmp.198 (- tmp.198 tmp.41))
+              (set! rax tmp.198)
+              (jump tmp-ra.184 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.184 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.184 rbp rax)))))
+    (begin
+      (set! tmp-ra.185 r15)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 16)))
+      (set! tmp.199 tmp.133)
+      (set! tmp.199 (+ tmp.199 2))
+      (set! tmp.99 tmp.199)
+      (mset! tmp.99 -2 L.-.79.7)
+      (mset! tmp.99 6 16)
+      (set! |-.79| tmp.99)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 16)))
+      (set! tmp.200 tmp.134)
+      (set! tmp.200 (+ tmp.200 2))
+      (set! tmp.100 tmp.200)
+      (mset! tmp.100 -2 L.*.78.8)
+      (mset! tmp.100 6 16)
+      (set! *.78 tmp.100)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 16)))
+      (set! tmp.201 tmp.135)
+      (set! tmp.201 (+ tmp.201 2))
+      (set! tmp.101 tmp.201)
+      (mset! tmp.101 -2 L.+.77.9)
+      (mset! tmp.101 6 16)
+      (set! |+.77| tmp.101)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 16)))
+      (set! tmp.202 tmp.136)
+      (set! tmp.202 (+ tmp.202 2))
+      (set! tmp.102 tmp.202)
+      (mset! tmp.102 -2 L.boolean?.76.10)
+      (mset! tmp.102 6 8)
+      (set! boolean?.76 tmp.102)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 16)))
+      (set! tmp.203 tmp.137)
+      (set! tmp.203 (+ tmp.203 2))
+      (set! tmp.103 tmp.203)
+      (mset! tmp.103 -2 L.pair?.75.11)
+      (mset! tmp.103 6 8)
+      (set! pair?.75 tmp.103)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 16)))
+      (set! tmp.204 tmp.138)
+      (set! tmp.204 (+ tmp.204 2))
+      (set! tmp.104 tmp.204)
+      (mset! tmp.104 -2 L.cons.74.12)
+      (mset! tmp.104 6 16)
+      (set! cons.74 tmp.104)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 24)))
+      (set! tmp.205 tmp.139)
+      (set! tmp.205 (+ tmp.205 2))
+      (set! tmp.105 tmp.205)
+      (mset! tmp.105 -2 L.fun/any23222.4.13)
+      (mset! tmp.105 6 0)
+      (set! fun/any23222.4 tmp.105)
+      (begin (set! tmp.140 r12) (set! r12 (+ r12 16)))
+      (set! tmp.206 tmp.140)
+      (set! tmp.206 (+ tmp.206 2))
+      (set! tmp.106 tmp.206)
+      (mset! tmp.106 -2 L.fun/error23218.5.14)
+      (mset! tmp.106 6 0)
+      (set! fun/error23218.5 tmp.106)
+      (begin (set! tmp.141 r12) (set! r12 (+ r12 24)))
+      (set! tmp.207 tmp.141)
+      (set! tmp.207 (+ tmp.207 2))
+      (set! tmp.107 tmp.207)
+      (mset! tmp.107 -2 L.fun/void23223.6.15)
+      (mset! tmp.107 6 0)
+      (set! fun/void23223.6 tmp.107)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 16)))
+      (set! tmp.208 tmp.142)
+      (set! tmp.208 (+ tmp.208 2))
+      (set! tmp.108 tmp.208)
+      (mset! tmp.108 -2 L.fun/void23224.7.16)
+      (mset! tmp.108 6 0)
+      (set! fun/void23224.7 tmp.108)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 16)))
+      (set! tmp.209 tmp.143)
+      (set! tmp.209 (+ tmp.209 2))
+      (set! tmp.109 tmp.209)
+      (mset! tmp.109 -2 L.fun/void23220.8.17)
+      (mset! tmp.109 6 0)
+      (set! fun/void23220.8 tmp.109)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 24)))
+      (set! tmp.210 tmp.144)
+      (set! tmp.210 (+ tmp.210 2))
+      (set! tmp.110 tmp.210)
+      (mset! tmp.110 -2 L.fun/any23221.9.18)
+      (mset! tmp.110 6 0)
+      (set! fun/any23221.9 tmp.110)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.211 tmp.145)
+      (set! tmp.211 (+ tmp.211 2))
+      (set! tmp.111 tmp.211)
+      (mset! tmp.111 -2 L.fun/void23219.10.19)
+      (mset! tmp.111 6 0)
+      (set! fun/void23219.10 tmp.111)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 24)))
+      (set! tmp.212 tmp.146)
+      (set! tmp.212 (+ tmp.212 2))
+      (set! tmp.112 tmp.212)
+      (mset! tmp.112 -2 L.fun/any23216.11.20)
+      (mset! tmp.112 6 0)
+      (set! fun/any23216.11 tmp.112)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 24)))
+      (set! tmp.213 tmp.147)
+      (set! tmp.213 (+ tmp.213 2))
+      (set! tmp.113 tmp.213)
+      (mset! tmp.113 -2 L.fun/ascii-char23225.12.21)
+      (mset! tmp.113 6 0)
+      (set! fun/ascii-char23225.12 tmp.113)
+      (begin (set! tmp.148 r12) (set! r12 (+ r12 24)))
+      (set! tmp.214 tmp.148)
+      (set! tmp.214 (+ tmp.214 2))
+      (set! tmp.114 tmp.214)
+      (mset! tmp.114 -2 L.fun/error23217.13.22)
+      (mset! tmp.114 6 0)
+      (set! fun/error23217.13 tmp.114)
+      (begin (set! tmp.149 r12) (set! r12 (+ r12 16)))
+      (set! tmp.215 tmp.149)
+      (set! tmp.215 (+ tmp.215 2))
+      (set! tmp.115 tmp.215)
+      (mset! tmp.115 -2 L.fun/ascii-char23226.14.23)
+      (mset! tmp.115 6 0)
+      (set! fun/ascii-char23226.14 tmp.115)
+      (begin (set! tmp.150 r12) (set! r12 (+ r12 24)))
+      (set! tmp.216 tmp.150)
+      (set! tmp.216 (+ tmp.216 2))
+      (set! tmp.116 tmp.216)
+      (mset! tmp.116 -2 L.fun/any23215.15.24)
+      (mset! tmp.116 6 0)
+      (set! fun/any23215.15 tmp.116)
+      (mset! fun/any23222.4 14 cons.74)
+      (mset! fun/void23223.6 14 fun/void23224.7)
+      (mset! fun/any23221.9 14 fun/any23222.4)
+      (mset! fun/void23219.10 14 fun/void23220.8)
+      (mset! fun/any23216.11 14 cons.74)
+      (mset! fun/ascii-char23225.12 14 fun/ascii-char23226.14)
+      (mset! fun/error23217.13 14 fun/error23218.5)
+      (mset! fun/any23215.15 14 fun/any23216.11)
+      (return-point L.rp.25
+        (begin
+          (set! rdi fun/any23215.15)
+          (set! r15 L.rp.25)
+          (jump L.fun/any23215.15.24 rbp r15 rdi)))
+      (set! tmp.151 rax)
+      (return-point L.rp.26
+        (begin
+          (set! rsi tmp.151)
+          (set! rdi pair?.75)
+          (set! r15 L.rp.26)
+          (jump L.pair?.75.11 rbp r15 rdi rsi)))
+      (set! boolean0.21 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdi fun/error23217.13)
+          (set! r15 L.rp.27)
+          (jump L.fun/error23217.13.22 rbp r15 rdi)))
+      (set! error1.20 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdi fun/void23219.10)
+          (set! r15 L.rp.28)
+          (jump L.fun/void23219.10.19 rbp r15 rdi)))
+      (set! void2.19 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdi fun/any23221.9)
+          (set! r15 L.rp.29)
+          (jump L.fun/any23221.9.18 rbp r15 rdi)))
+      (set! tmp.152 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rsi tmp.152)
+          (set! rdi boolean?.76)
+          (set! r15 L.rp.30)
+          (jump L.boolean?.76.10 rbp r15 rdi rsi)))
+      (set! boolean3.18 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx 344)
+          (set! rsi 1720)
+          (set! rdi |+.77|)
+          (set! r15 L.rp.31)
+          (jump L.+.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.155 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx 728)
+          (set! rsi 1304)
+          (set! rdi *.78)
+          (set! r15 L.rp.32)
+          (jump L.*.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.156 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx tmp.156)
+          (set! rsi tmp.155)
+          (set! rdi *.78)
+          (set! r15 L.rp.33)
+          (jump L.*.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.154 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx 1728)
+          (set! rsi 344)
+          (set! rdi |+.77|)
+          (set! r15 L.rp.34)
+          (jump L.+.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.158 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx 904)
+          (set! rsi 96)
+          (set! rdi |+.77|)
+          (set! r15 L.rp.35)
+          (jump L.+.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.159 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx tmp.159)
+          (set! rsi tmp.158)
+          (set! rdi |+.77|)
+          (set! r15 L.rp.36)
+          (jump L.+.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.157 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx tmp.157)
+          (set! rsi tmp.154)
+          (set! rdi *.78)
+          (set! r15 L.rp.37)
+          (jump L.*.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.153 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdx 32)
+          (set! rsi 1472)
+          (set! rdi *.78)
+          (set! r15 L.rp.38)
+          (jump L.*.78.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.162 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdx 360)
+          (set! rsi 1312)
+          (set! rdi |+.77|)
+          (set! r15 L.rp.39)
+          (jump L.+.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.163 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx tmp.163)
+          (set! rsi tmp.162)
+          (set! rdi |-.79|)
+          (set! r15 L.rp.40)
+          (jump L.-.79.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.161 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdx 928)
+          (set! rsi 1296)
+          (set! rdi |+.77|)
+          (set! r15 L.rp.41)
+          (jump L.+.77.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.165 rax)
+      (return-point L.rp.42
+        (begin
+          (set! rdx 1760)
+          (set! rsi 1640)
+          (set! rdi |-.79|)
+          (set! r15 L.rp.42)
+          (jump L.-.79.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.166 rax)
+      (return-point L.rp.43
+        (begin
+          (set! rdx tmp.166)
+          (set! rsi tmp.165)
+          (set! rdi |-.79|)
+          (set! r15 L.rp.43)
+          (jump L.-.79.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.164 rax)
+      (return-point L.rp.44
+        (begin
+          (set! rdx tmp.164)
+          (set! rsi tmp.161)
+          (set! rdi |-.79|)
+          (set! r15 L.rp.44)
+          (jump L.-.79.7 rbp r15 rdi rsi rdx)))
+      (set! tmp.160 rax)
+      (return-point L.rp.45
+        (begin
+          (set! rdx tmp.160)
+          (set! rsi tmp.153)
+          (set! rdi *.78)
+          (set! r15 L.rp.45)
+          (jump L.*.78.8 rbp r15 rdi rsi rdx)))
+      (set! fixnum4.17 rax)
+      (return-point L.rp.46
+        (begin
+          (set! rdi fun/void23223.6)
+          (set! r15 L.rp.46)
+          (jump L.fun/void23223.6.15 rbp r15 rdi)))
+      (set! void5.16 rax)
+      (set! rdi fun/ascii-char23225.12)
+      (set! r15 tmp-ra.185)
+      (jump L.fun/ascii-char23225.12.21 rbp r15 rdi))))
+(check-by-interp
+ '(module
+    ((new-frames
+      (()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()
+       ()))
+     (locals
+      (empty5.14
+       boolean4.15
+       tmp.176
+       fixnum3.16
+       tmp.169
+       tmp.173
+       tmp.175
+       tmp.174
+       tmp.170
+       tmp.172
+       tmp.171
+       tmp.162
+       tmp.166
+       tmp.168
+       tmp.167
+       tmp.163
+       tmp.165
+       tmp.164
+       fixnum2.17
+       tmp.155
+       tmp.159
+       tmp.161
+       tmp.160
+       tmp.156
+       tmp.158
+       tmp.157
+       tmp.148
+       tmp.152
+       tmp.154
+       tmp.153
+       tmp.149
+       tmp.151
+       tmp.150
+       procedure1.18
+       lam.78
+       tmp.113
+       tmp.224
+       tmp.147
+       empty0.19
+       fun/empty24034.13
+       tmp.112
+       tmp.223
+       tmp.146
+       fun/any24032.12
+       tmp.111
+       tmp.222
+       tmp.145
+       fun/pair24036.11
+       tmp.110
+       tmp.221
+       tmp.144
+       fun/any24033.10
+       tmp.109
+       tmp.220
+       tmp.143
+       fun/any24030.9
+       tmp.108
+       tmp.219
+       tmp.142
+       fun/any24031.8
+       tmp.107
+       tmp.218
+       tmp.141
+       fun/pair24037.7
+       tmp.106
+       tmp.217
+       tmp.140
+       fun/empty24028.6
+       tmp.105
+       tmp.216
+       tmp.139
+       fun/empty24029.5
+       tmp.104
+       tmp.215
+       tmp.138
+       fun/empty24035.4
+       tmp.103
+       tmp.214
+       tmp.137
+       cons.72
+       tmp.102
+       tmp.213
+       tmp.136
+       procedure?.73
+       tmp.101
+       tmp.212
+       tmp.135
+       |-.74|
+       tmp.100
+       tmp.211
+       tmp.134
+       *.75
+       tmp.99
+       tmp.210
+       tmp.133
+       |+.76|
+       tmp.98
+       tmp.209
+       tmp.132
+       empty?.77
+       tmp.97
+       tmp.208
+       tmp.131
+       tmp-ra.194)))
+    (define L.lam.78.23
+      ((new-frames (()))
+       (locals (tmp.114 procedure?.73 fun/any24030.9 c.95 tmp-ra.177)))
+      (begin
+        (set! tmp-ra.177 r15)
+        (set! c.95 rdi)
+        (set! fun/any24030.9 (mref c.95 14))
+        (set! procedure?.73 (mref c.95 22))
+        (return-point L.rp.24
+          (begin
+            (set! rdi fun/any24030.9)
+            (set! r15 L.rp.24)
+            (jump L.fun/any24030.9.18 rbp r15 rdi)))
+        (set! tmp.114 rax)
+        (set! rsi tmp.114)
+        (set! rdi procedure?.73)
+        (set! r15 tmp-ra.177)
+        (jump L.procedure?.73.11 rbp r15 rdi rsi)))
+    (define L.fun/empty24034.13.22
+      ((new-frames ()) (locals (fun/empty24035.4 c.94 tmp-ra.178)))
+      (begin
+        (set! tmp-ra.178 r15)
+        (set! c.94 rdi)
+        (set! fun/empty24035.4 (mref c.94 14))
+        (set! rdi fun/empty24035.4)
+        (set! r15 tmp-ra.178)
+        (jump L.fun/empty24035.4.13 rbp r15 rdi)))
+    (define L.fun/any24032.12.21
+      ((new-frames ()) (locals (fun/any24033.10 c.93 tmp-ra.179)))
+      (begin
+        (set! tmp-ra.179 r15)
+        (set! c.93 rdi)
+        (set! fun/any24033.10 (mref c.93 14))
+        (set! rdi fun/any24033.10)
+        (set! r15 tmp-ra.179)
+        (jump L.fun/any24033.10.19 rbp r15 rdi)))
+    (define L.fun/pair24036.11.20
+      ((new-frames ()) (locals (fun/pair24037.7 c.92 tmp-ra.180)))
+      (begin
+        (set! tmp-ra.180 r15)
+        (set! c.92 rdi)
+        (set! fun/pair24037.7 (mref c.92 14))
+        (set! rdi fun/pair24037.7)
+        (set! r15 tmp-ra.180)
+        (jump L.fun/pair24037.7.16 rbp r15 rdi)))
+    (define L.fun/any24033.10.19
+      ((new-frames ()) (locals (c.91 tmp-ra.181)))
+      (begin
+        (set! tmp-ra.181 r15)
+        (set! c.91 rdi)
+        (set! rax 22574)
+        (jump tmp-ra.181 rbp rax)))
+    (define L.fun/any24030.9.18
+      ((new-frames ()) (locals (fun/any24031.8 c.90 tmp-ra.182)))
+      (begin
+        (set! tmp-ra.182 r15)
+        (set! c.90 rdi)
+        (set! fun/any24031.8 (mref c.90 14))
+        (set! rdi fun/any24031.8)
+        (set! r15 tmp-ra.182)
+        (jump L.fun/any24031.8.17 rbp r15 rdi)))
+    (define L.fun/any24031.8.17
+      ((new-frames ()) (locals (c.89 tmp-ra.183)))
+      (begin
+        (set! tmp-ra.183 r15)
+        (set! c.89 rdi)
+        (set! rax 6)
+        (jump tmp-ra.183 rbp rax)))
+    (define L.fun/pair24037.7.16
+      ((new-frames ()) (locals (cons.72 c.88 tmp-ra.184)))
+      (begin
+        (set! tmp-ra.184 r15)
+        (set! c.88 rdi)
+        (set! cons.72 (mref c.88 14))
+        (set! rdx 2408)
+        (set! rsi 400)
+        (set! rdi cons.72)
+        (set! r15 tmp-ra.184)
+        (jump L.cons.72.12 rbp r15 rdi rsi rdx)))
+    (define L.fun/empty24028.6.15
+      ((new-frames ()) (locals (fun/empty24029.5 c.87 tmp-ra.185)))
+      (begin
+        (set! tmp-ra.185 r15)
+        (set! c.87 rdi)
+        (set! fun/empty24029.5 (mref c.87 14))
+        (set! rdi fun/empty24029.5)
+        (set! r15 tmp-ra.185)
+        (jump L.fun/empty24029.5.14 rbp r15 rdi)))
+    (define L.fun/empty24029.5.14
+      ((new-frames ()) (locals (c.86 tmp-ra.186)))
+      (begin
+        (set! tmp-ra.186 r15)
+        (set! c.86 rdi)
+        (set! rax 22)
+        (jump tmp-ra.186 rbp rax)))
+    (define L.fun/empty24035.4.13
+      ((new-frames ()) (locals (c.85 tmp-ra.187)))
+      (begin
+        (set! tmp-ra.187 r15)
+        (set! c.85 rdi)
+        (set! rax 22)
+        (jump tmp-ra.187 rbp rax)))
+    (define L.cons.72.12
+      ((new-frames ())
+       (locals (tmp.96 tmp.195 tmp.115 tmp.68 tmp.67 c.84 tmp-ra.188)))
+      (begin
+        (set! tmp-ra.188 r15)
+        (set! c.84 rdi)
+        (set! tmp.67 rsi)
+        (set! tmp.68 rdx)
+        (begin (set! tmp.115 r12) (set! r12 (+ r12 16)))
+        (set! tmp.195 tmp.115)
+        (set! tmp.195 (+ tmp.195 1))
+        (set! tmp.96 tmp.195)
+        (mset! tmp.96 -1 tmp.67)
+        (mset! tmp.96 7 tmp.68)
+        (set! rax tmp.96)
+        (jump tmp-ra.188 rbp rax)))
+    (define L.procedure?.73.11
+      ((new-frames ()) (locals (c.83 tmp-ra.189 tmp.196 tmp.66 tmp.116)))
+      (begin
+        (set! tmp-ra.189 r15)
+        (set! c.83 rdi)
+        (set! tmp.66 rsi)
+        (if (begin
+              (begin
+                (set! tmp.196 tmp.66)
+                (set! tmp.196 (bitwise-and tmp.196 7))
+                (set! tmp.116 tmp.196))
+              (= tmp.116 2))
+          (begin (set! rax 14) (jump tmp-ra.189 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.189 rbp rax)))))
+    (define L.-.74.10
+      ((new-frames ())
+       (locals
+        (c.82
+         tmp.119
+         tmp.198
+         tmp.38
+         tmp.120
+         tmp.199
+         tmp-ra.190
+         tmp.118
+         tmp.39
+         tmp.197
+         tmp.117)))
+      (begin
+        (set! tmp-ra.190 r15)
+        (set! c.82 rdi)
+        (set! tmp.38 rsi)
+        (set! tmp.39 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.197 tmp.39)
+                      (set! tmp.197 (bitwise-and tmp.197 7))
+                      (set! tmp.118 tmp.197))
+                    (= tmp.118 0))
+                (set! tmp.117 14)
+                (set! tmp.117 6))
+              (!= tmp.117 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.198 tmp.38)
+                        (set! tmp.198 (bitwise-and tmp.198 7))
+                        (set! tmp.120 tmp.198))
+                      (= tmp.120 0))
+                  (set! tmp.119 14)
+                  (set! tmp.119 6))
+                (!= tmp.119 6))
+            (begin
+              (set! tmp.199 tmp.38)
+              (set! tmp.199 (- tmp.199 tmp.39))
+              (set! rax tmp.199)
+              (jump tmp-ra.190 rbp rax))
+            (begin (set! rax 830) (jump tmp-ra.190 rbp rax)))
+          (begin (set! rax 830) (jump tmp-ra.190 rbp rax)))))
+    (define L.*.75.9
+      ((new-frames ())
+       (locals
+        (c.81
+         tmp.123
+         tmp.201
+         tmp.34
+         tmp.124
+         tmp.203
+         tmp.125
+         tmp.202
+         tmp-ra.191
+         tmp.122
+         tmp.35
+         tmp.200
+         tmp.121)))
+      (begin
+        (set! tmp-ra.191 r15)
+        (set! c.81 rdi)
+        (set! tmp.34 rsi)
+        (set! tmp.35 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.200 tmp.35)
+                      (set! tmp.200 (bitwise-and tmp.200 7))
+                      (set! tmp.122 tmp.200))
+                    (= tmp.122 0))
+                (set! tmp.121 14)
+                (set! tmp.121 6))
+              (!= tmp.121 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.201 tmp.34)
+                        (set! tmp.201 (bitwise-and tmp.201 7))
+                        (set! tmp.124 tmp.201))
+                      (= tmp.124 0))
+                  (set! tmp.123 14)
+                  (set! tmp.123 6))
+                (!= tmp.123 6))
+            (begin
+              (set! tmp.202 tmp.35)
+              (set! tmp.202 (arithmetic-shift-right tmp.202 3))
+              (set! tmp.125 tmp.202)
+              (set! tmp.203 tmp.34)
+              (set! tmp.203 (* tmp.203 tmp.125))
+              (set! rax tmp.203)
+              (jump tmp-ra.191 rbp rax))
+            (begin (set! rax 318) (jump tmp-ra.191 rbp rax)))
+          (begin (set! rax 318) (jump tmp-ra.191 rbp rax)))))
+    (define L.+.76.8
+      ((new-frames ())
+       (locals
+        (c.80
+         tmp.128
+         tmp.205
+         tmp.36
+         tmp.129
+         tmp.206
+         tmp-ra.192
+         tmp.127
+         tmp.37
+         tmp.204
+         tmp.126)))
+      (begin
+        (set! tmp-ra.192 r15)
+        (set! c.80 rdi)
+        (set! tmp.36 rsi)
+        (set! tmp.37 rdx)
+        (if (begin
+              (if (begin
+                    (begin
+                      (set! tmp.204 tmp.37)
+                      (set! tmp.204 (bitwise-and tmp.204 7))
+                      (set! tmp.127 tmp.204))
+                    (= tmp.127 0))
+                (set! tmp.126 14)
+                (set! tmp.126 6))
+              (!= tmp.126 6))
+          (if (begin
+                (if (begin
+                      (begin
+                        (set! tmp.205 tmp.36)
+                        (set! tmp.205 (bitwise-and tmp.205 7))
+                        (set! tmp.129 tmp.205))
+                      (= tmp.129 0))
+                  (set! tmp.128 14)
+                  (set! tmp.128 6))
+                (!= tmp.128 6))
+            (begin
+              (set! tmp.206 tmp.36)
+              (set! tmp.206 (+ tmp.206 tmp.37))
+              (set! rax tmp.206)
+              (jump tmp-ra.192 rbp rax))
+            (begin (set! rax 574) (jump tmp-ra.192 rbp rax)))
+          (begin (set! rax 574) (jump tmp-ra.192 rbp rax)))))
+    (define L.empty?.77.7
+      ((new-frames ()) (locals (c.79 tmp-ra.193 tmp.207 tmp.59 tmp.130)))
+      (begin
+        (set! tmp-ra.193 r15)
+        (set! c.79 rdi)
+        (set! tmp.59 rsi)
+        (if (begin
+              (begin
+                (set! tmp.207 tmp.59)
+                (set! tmp.207 (bitwise-and tmp.207 255))
+                (set! tmp.130 tmp.207))
+              (= tmp.130 22))
+          (begin (set! rax 14) (jump tmp-ra.193 rbp rax))
+          (begin (set! rax 6) (jump tmp-ra.193 rbp rax)))))
+    (begin
+      (set! tmp-ra.194 r15)
+      (begin (set! tmp.131 r12) (set! r12 (+ r12 16)))
+      (set! tmp.208 tmp.131)
+      (set! tmp.208 (+ tmp.208 2))
+      (set! tmp.97 tmp.208)
+      (mset! tmp.97 -2 L.empty?.77.7)
+      (mset! tmp.97 6 8)
+      (set! empty?.77 tmp.97)
+      (begin (set! tmp.132 r12) (set! r12 (+ r12 16)))
+      (set! tmp.209 tmp.132)
+      (set! tmp.209 (+ tmp.209 2))
+      (set! tmp.98 tmp.209)
+      (mset! tmp.98 -2 L.+.76.8)
+      (mset! tmp.98 6 16)
+      (set! |+.76| tmp.98)
+      (begin (set! tmp.133 r12) (set! r12 (+ r12 16)))
+      (set! tmp.210 tmp.133)
+      (set! tmp.210 (+ tmp.210 2))
+      (set! tmp.99 tmp.210)
+      (mset! tmp.99 -2 L.*.75.9)
+      (mset! tmp.99 6 16)
+      (set! *.75 tmp.99)
+      (begin (set! tmp.134 r12) (set! r12 (+ r12 16)))
+      (set! tmp.211 tmp.134)
+      (set! tmp.211 (+ tmp.211 2))
+      (set! tmp.100 tmp.211)
+      (mset! tmp.100 -2 L.-.74.10)
+      (mset! tmp.100 6 16)
+      (set! |-.74| tmp.100)
+      (begin (set! tmp.135 r12) (set! r12 (+ r12 16)))
+      (set! tmp.212 tmp.135)
+      (set! tmp.212 (+ tmp.212 2))
+      (set! tmp.101 tmp.212)
+      (mset! tmp.101 -2 L.procedure?.73.11)
+      (mset! tmp.101 6 8)
+      (set! procedure?.73 tmp.101)
+      (begin (set! tmp.136 r12) (set! r12 (+ r12 16)))
+      (set! tmp.213 tmp.136)
+      (set! tmp.213 (+ tmp.213 2))
+      (set! tmp.102 tmp.213)
+      (mset! tmp.102 -2 L.cons.72.12)
+      (mset! tmp.102 6 16)
+      (set! cons.72 tmp.102)
+      (begin (set! tmp.137 r12) (set! r12 (+ r12 16)))
+      (set! tmp.214 tmp.137)
+      (set! tmp.214 (+ tmp.214 2))
+      (set! tmp.103 tmp.214)
+      (mset! tmp.103 -2 L.fun/empty24035.4.13)
+      (mset! tmp.103 6 0)
+      (set! fun/empty24035.4 tmp.103)
+      (begin (set! tmp.138 r12) (set! r12 (+ r12 16)))
+      (set! tmp.215 tmp.138)
+      (set! tmp.215 (+ tmp.215 2))
+      (set! tmp.104 tmp.215)
+      (mset! tmp.104 -2 L.fun/empty24029.5.14)
+      (mset! tmp.104 6 0)
+      (set! fun/empty24029.5 tmp.104)
+      (begin (set! tmp.139 r12) (set! r12 (+ r12 24)))
+      (set! tmp.216 tmp.139)
+      (set! tmp.216 (+ tmp.216 2))
+      (set! tmp.105 tmp.216)
+      (mset! tmp.105 -2 L.fun/empty24028.6.15)
+      (mset! tmp.105 6 0)
+      (set! fun/empty24028.6 tmp.105)
+      (begin (set! tmp.140 r12) (set! r12 (+ r12 24)))
+      (set! tmp.217 tmp.140)
+      (set! tmp.217 (+ tmp.217 2))
+      (set! tmp.106 tmp.217)
+      (mset! tmp.106 -2 L.fun/pair24037.7.16)
+      (mset! tmp.106 6 0)
+      (set! fun/pair24037.7 tmp.106)
+      (begin (set! tmp.141 r12) (set! r12 (+ r12 16)))
+      (set! tmp.218 tmp.141)
+      (set! tmp.218 (+ tmp.218 2))
+      (set! tmp.107 tmp.218)
+      (mset! tmp.107 -2 L.fun/any24031.8.17)
+      (mset! tmp.107 6 0)
+      (set! fun/any24031.8 tmp.107)
+      (begin (set! tmp.142 r12) (set! r12 (+ r12 24)))
+      (set! tmp.219 tmp.142)
+      (set! tmp.219 (+ tmp.219 2))
+      (set! tmp.108 tmp.219)
+      (mset! tmp.108 -2 L.fun/any24030.9.18)
+      (mset! tmp.108 6 0)
+      (set! fun/any24030.9 tmp.108)
+      (begin (set! tmp.143 r12) (set! r12 (+ r12 16)))
+      (set! tmp.220 tmp.143)
+      (set! tmp.220 (+ tmp.220 2))
+      (set! tmp.109 tmp.220)
+      (mset! tmp.109 -2 L.fun/any24033.10.19)
+      (mset! tmp.109 6 0)
+      (set! fun/any24033.10 tmp.109)
+      (begin (set! tmp.144 r12) (set! r12 (+ r12 24)))
+      (set! tmp.221 tmp.144)
+      (set! tmp.221 (+ tmp.221 2))
+      (set! tmp.110 tmp.221)
+      (mset! tmp.110 -2 L.fun/pair24036.11.20)
+      (mset! tmp.110 6 0)
+      (set! fun/pair24036.11 tmp.110)
+      (begin (set! tmp.145 r12) (set! r12 (+ r12 24)))
+      (set! tmp.222 tmp.145)
+      (set! tmp.222 (+ tmp.222 2))
+      (set! tmp.111 tmp.222)
+      (mset! tmp.111 -2 L.fun/any24032.12.21)
+      (mset! tmp.111 6 0)
+      (set! fun/any24032.12 tmp.111)
+      (begin (set! tmp.146 r12) (set! r12 (+ r12 24)))
+      (set! tmp.223 tmp.146)
+      (set! tmp.223 (+ tmp.223 2))
+      (set! tmp.112 tmp.223)
+      (mset! tmp.112 -2 L.fun/empty24034.13.22)
+      (mset! tmp.112 6 0)
+      (set! fun/empty24034.13 tmp.112)
+      (mset! fun/empty24028.6 14 fun/empty24029.5)
+      (mset! fun/pair24037.7 14 cons.72)
+      (mset! fun/any24030.9 14 fun/any24031.8)
+      (mset! fun/pair24036.11 14 fun/pair24037.7)
+      (mset! fun/any24032.12 14 fun/any24033.10)
+      (mset! fun/empty24034.13 14 fun/empty24035.4)
+      (return-point L.rp.25
+        (begin
+          (set! rdi fun/empty24028.6)
+          (set! r15 L.rp.25)
+          (jump L.fun/empty24028.6.15 rbp r15 rdi)))
+      (set! empty0.19 rax)
+      (begin (set! tmp.147 r12) (set! r12 (+ r12 32)))
+      (set! tmp.224 tmp.147)
+      (set! tmp.224 (+ tmp.224 2))
+      (set! tmp.113 tmp.224)
+      (mset! tmp.113 -2 L.lam.78.23)
+      (mset! tmp.113 6 0)
+      (set! lam.78 tmp.113)
+      (mset! lam.78 14 fun/any24030.9)
+      (mset! lam.78 22 procedure?.73)
+      (set! procedure1.18 lam.78)
+      (return-point L.rp.26
+        (begin
+          (set! rdx 912)
+          (set! rsi 1112)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.26)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.150 rax)
+      (return-point L.rp.27
+        (begin
+          (set! rdx 704)
+          (set! rsi 1808)
+          (set! rdi *.75)
+          (set! r15 L.rp.27)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.151 rax)
+      (return-point L.rp.28
+        (begin
+          (set! rdx tmp.151)
+          (set! rsi tmp.150)
+          (set! rdi *.75)
+          (set! r15 L.rp.28)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.149 rax)
+      (return-point L.rp.29
+        (begin
+          (set! rdx 360)
+          (set! rsi 752)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.29)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.153 rax)
+      (return-point L.rp.30
+        (begin
+          (set! rdx 1632)
+          (set! rsi 272)
+          (set! rdi *.75)
+          (set! r15 L.rp.30)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.154 rax)
+      (return-point L.rp.31
+        (begin
+          (set! rdx tmp.154)
+          (set! rsi tmp.153)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.31)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.152 rax)
+      (return-point L.rp.32
+        (begin
+          (set! rdx tmp.152)
+          (set! rsi tmp.149)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.32)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.148 rax)
+      (return-point L.rp.33
+        (begin
+          (set! rdx 384)
+          (set! rsi 320)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.33)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.157 rax)
+      (return-point L.rp.34
+        (begin
+          (set! rdx 352)
+          (set! rsi 536)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.34)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.158 rax)
+      (return-point L.rp.35
+        (begin
+          (set! rdx tmp.158)
+          (set! rsi tmp.157)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.35)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.156 rax)
+      (return-point L.rp.36
+        (begin
+          (set! rdx 368)
+          (set! rsi 968)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.36)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.160 rax)
+      (return-point L.rp.37
+        (begin
+          (set! rdx 1216)
+          (set! rsi 40)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.37)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.161 rax)
+      (return-point L.rp.38
+        (begin
+          (set! rdx tmp.161)
+          (set! rsi tmp.160)
+          (set! rdi *.75)
+          (set! r15 L.rp.38)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.159 rax)
+      (return-point L.rp.39
+        (begin
+          (set! rdx tmp.159)
+          (set! rsi tmp.156)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.39)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.155 rax)
+      (return-point L.rp.40
+        (begin
+          (set! rdx tmp.155)
+          (set! rsi tmp.148)
+          (set! rdi *.75)
+          (set! r15 L.rp.40)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! fixnum2.17 rax)
+      (return-point L.rp.41
+        (begin
+          (set! rdx 336)
+          (set! rsi 2000)
+          (set! rdi *.75)
+          (set! r15 L.rp.41)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.164 rax)
+      (return-point L.rp.42
+        (begin
+          (set! rdx 1488)
+          (set! rsi 320)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.42)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.165 rax)
+      (return-point L.rp.43
+        (begin
+          (set! rdx tmp.165)
+          (set! rsi tmp.164)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.43)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.163 rax)
+      (return-point L.rp.44
+        (begin
+          (set! rdx 1240)
+          (set! rsi 352)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.44)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.167 rax)
+      (return-point L.rp.45
+        (begin
+          (set! rdx 320)
+          (set! rsi 984)
+          (set! rdi *.75)
+          (set! r15 L.rp.45)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.168 rax)
+      (return-point L.rp.46
+        (begin
+          (set! rdx tmp.168)
+          (set! rsi tmp.167)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.46)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.166 rax)
+      (return-point L.rp.47
+        (begin
+          (set! rdx tmp.166)
+          (set! rsi tmp.163)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.47)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.162 rax)
+      (return-point L.rp.48
+        (begin
+          (set! rdx 848)
+          (set! rsi 1624)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.48)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.171 rax)
+      (return-point L.rp.49
+        (begin
+          (set! rdx 48)
+          (set! rsi 304)
+          (set! rdi *.75)
+          (set! r15 L.rp.49)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.172 rax)
+      (return-point L.rp.50
+        (begin
+          (set! rdx tmp.172)
+          (set! rsi tmp.171)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.50)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.170 rax)
+      (return-point L.rp.51
+        (begin
+          (set! rdx 800)
+          (set! rsi 616)
+          (set! rdi |+.76|)
+          (set! r15 L.rp.51)
+          (jump L.+.76.8 rbp r15 rdi rsi rdx)))
+      (set! tmp.174 rax)
+      (return-point L.rp.52
+        (begin
+          (set! rdx 464)
+          (set! rsi 528)
+          (set! rdi |-.74|)
+          (set! r15 L.rp.52)
+          (jump L.-.74.10 rbp r15 rdi rsi rdx)))
+      (set! tmp.175 rax)
+      (return-point L.rp.53
+        (begin
+          (set! rdx tmp.175)
+          (set! rsi tmp.174)
+          (set! rdi *.75)
+          (set! r15 L.rp.53)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.173 rax)
+      (return-point L.rp.54
+        (begin
+          (set! rdx tmp.173)
+          (set! rsi tmp.170)
+          (set! rdi *.75)
+          (set! r15 L.rp.54)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! tmp.169 rax)
+      (return-point L.rp.55
+        (begin
+          (set! rdx tmp.169)
+          (set! rsi tmp.162)
+          (set! rdi *.75)
+          (set! r15 L.rp.55)
+          (jump L.*.75.9 rbp r15 rdi rsi rdx)))
+      (set! fixnum3.16 rax)
+      (return-point L.rp.56
+        (begin
+          (set! rdi fun/any24032.12)
+          (set! r15 L.rp.56)
+          (jump L.fun/any24032.12.21 rbp r15 rdi)))
+      (set! tmp.176 rax)
+      (return-point L.rp.57
+        (begin
+          (set! rsi tmp.176)
+          (set! rdi empty?.77)
+          (set! r15 L.rp.57)
+          (jump L.empty?.77.7 rbp r15 rdi rsi)))
+      (set! boolean4.15 rax)
+      (return-point L.rp.58
+        (begin
+          (set! rdi fun/empty24034.13)
+          (set! r15 L.rp.58)
+          (jump L.fun/empty24034.13.22 rbp r15 rdi)))
+      (set! empty5.14 rax)
+      (set! rdi fun/pair24036.11)
+      (set! r15 tmp-ra.194)
+      (jump L.fun/pair24036.11.20 rbp r15 rdi))))

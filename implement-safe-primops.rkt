@@ -13,7 +13,7 @@
 
 ; represents dependcies of a label and its underlying function labels
 
-(define fill0-lab (fresh-label 'fill0))
+(define fill0-lab (fresh 'fill0))
 (define fill0-def
   (let ([vec (fresh 'vec)]
         [off (fresh 'off)]
@@ -25,7 +25,7 @@
              (let ([,(fresh 'ignored) (unsafe-vector-set! ,vec ,off 0)])
                (call ,fill0-lab ,vec (unsafe-fx+ ,off 1) ,len))
              (void))))))
-(define make-init-vector-label (fresh-label 'make-init-vector))
+(define make-init-vector-label (fresh 'make-init-vector))
 (define make-init-vector-def
   (let ([n (fresh 'n)]
         [vec (fresh 'vec)])
@@ -37,7 +37,7 @@
                  ,vec))
              ,ERROR-NEGATIVE-FIXNUM)))))
 
-(define unsafe-vector-set!-label (fresh-label 'vector-set!u))
+(define unsafe-vector-set!-label (fresh 'vector-set!u))
 (define unsafe-vector-set!-def
   (let ([vec (fresh 'vec)]
         [off (fresh 'off)]
@@ -51,7 +51,7 @@
              ,ERROR-VECTOR-SET-OOB)))
     ))
 
-(define unsafe-vector-ref-label (fresh-label 'vector-refu))
+(define unsafe-vector-ref-label (fresh 'vector-refu))
 (define unsafe-vector-ref-def
   (let ([vec (fresh 'vec)]
         [off (fresh 'off)])
@@ -83,9 +83,11 @@
     (car unsafe-car (pair?) ())
     (cdr unsafe-cdr (pair?) ())
 
+    (procedure-arity unsafe-procedure-arity (procedure?) ())
+
     ,@(map (lambda (x) `(,x 'passthrough '(any?) ()))
            '(fixnum? boolean? empty? void? ascii-char? error? pair?
-                     vector? not))
+                     vector? procedure? not))
     ,@(map (lambda (x) `(,x 'passthrough '(any? any?) ()))
            '(cons eq?))))
 
@@ -107,13 +109,13 @@
                    #f)]))
 
 
-;; (list prim-f (or primop label 'passthrough)) -> (listof ((list primop '()) or (list (call label) (listof def))))
+;; (list prim-f (or primop label 'passthrough)) -> (listof ((list primop '()) or (list (call aloc) (listof def))))
 (define (gen-defs entry)
   (match entry
     [`(,prim-f 'passthrough ,_ ,_) (list prim-f '())]
     [`(,prim-f ,inner ,type* ,def*)
      (let* ([i* (range (length type*))]
-            [lab (fresh-label prim-f)]
+            [lab (fresh prim-f)]
             [param* (map (λ(i type)
                            (fresh (~a type i))) i* type*)]
             [pred* (map (λ (type? param)
@@ -125,29 +127,30 @@
              (cons `(define ,lab
                       (lambda ,param*
                         ,(make-if (apply make-and pred*)
-                                  (if (label? inner)
+                                  (if (aloc? inner)
                                       `(call ,inner ,@param*)
                                       `(,inner ,@param*))
                                   ERROR-BAD-TYPE-CHECK)))
                    def*)))]))
 
-;; association list mapping prim-f to (list (primop or label) (listof unsafe-def))
+;; association list mapping prim-f to (list (primop or aloc) (listof unsafe-def))
 ;; interp. it is a dict that maps the prim-f to its corresponding primop or label
-;;            alongside the label's needed definitions, if it exists 
+;;            alongside the label's needed definitions, if it exists
 (define DEF-ENV (filter cdr (map cons (map car prim-f-specs)
                                  (map gen-defs prim-f-specs))))
 (define (implement-safe-primops p)
 
   ; usage is a a set of all prim-f referenced in this program p
   (define usage (mutable-seteq))
-  ; usage is a a set of all label referenced by primops corresponding to the prim-fs in usage set
-  ;  triv -> (unsafe-triv or label or primop)
+  ; usage is a a set of all aloc referenced by primops corresponding to the prim-fs in usage set
+  ;  triv -> (unsafe-triv or aloc or primop)
   ;; EFFECT: adds referenced prim-f to usage
   (define (implement-triv! triv)
     (match triv
       [(? (or/c label? aloc? int61? boolean? 'empty ascii-char-literal?)) triv]
       [`(error ,(? uint8?)) triv]
       ['(void) triv]
+      [`(lambda ,aloc* ,value) `(lambda ,aloc* ,(implement-value! value))]
       [prim-f (set-add! usage prim-f)
               (car (dict-ref DEF-ENV prim-f))]))
 
@@ -187,40 +190,42 @@
 
 (module+ test
   (require rackunit
-           cpsc411/langs/v8)
+           cpsc411/langs/v9)
   (define (peek x)
     ; (pretty-display x)
     x)
 
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (peek (interp-exprs-unique-lang-v8 p))
-                  (interp-exprs-unsafe-data-lang-v8 (peek (implement-safe-primops p)))))
+    (check-equal? (peek (interp-exprs-unique-lang-v9 p))
+                  (interp-exprs-unsafe-data-lang-v9 (peek (implement-safe-primops p)))))
   (check-by-interp `(module 1))
   (check-by-interp `(module #t))
   (check-by-interp `(module #f))
   (check-by-interp `(module #\a))
 
-  (check-by-interp `(module (define L.fact.0
+  (check-by-interp `(module (define fact.0
                               (lambda (x.0)
                                 (if (call <= x.0 1)
                                     1
-                                    (call * x.0 (call L.fact.0 (call - x.0 1))))))
-                      (call L.fact.0 5)
+                                    (call * x.0 (call fact.0 (call - x.0 1))))))
+                      (call fact.0 5)
                       ))
-
-  (check-by-interp `(module (define L.fact.0
+  (check-by-interp `(module (let ([sub1.0 (lambda (x.0)
+                                          (call - x.0 1))])
+                              (call sub1.0 5))))
+  (check-by-interp `(module (define fact.0
                               (lambda (x.0 a.0)
                                 (if (call <= x.0 1)
                                     a.0
-                                    (call L.fact.0 (call - x.0 1) (call * x.0 a.0)))))
-                      (call L.fact.0 5 1)
+                                    (call fact.0 (call - x.0 1) (call * x.0 a.0)))))
+                      (call fact.0 5 1)
                       ))
 
   (check-by-interp
-   `(module (define L.fib.0
+   `(module (define fib.0
               (lambda (x.0)
                 (if (call <= x.0 1)
                     x.0
-                    (call + (call L.fib.0 (call - x.0 1)) (call L.fib.0 (call - x.0 2))))))
-      (call L.fib.0 5)
+                    (call + (call fib.0 (call - x.0 1)) (call fib.0 (call - x.0 2))))))
+      (call fib.0 5)
       )))

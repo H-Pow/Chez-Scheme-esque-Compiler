@@ -52,9 +52,11 @@
 (define structop '(cons car cdr make-vector vector-length vector-set! vector-ref))
 (define structop? (compose not false? (curry memq structop)))
 
-(define procedureop '(procedure? procedure-arity))
+(define procedureop '(procedure-arity))
 (define procedureop? (compose not false? (curry memq procedureop)))
 
+(define procedureop/unsafe '(unsafe-procedure-arity))
+(define procedureop/unsafe? (compose not false? (curry memq procedureop/unsafe)))
 
 (define unop
   '(fixnum? boolean?
@@ -68,7 +70,8 @@
             unsafe-vector-length
             unsafe-make-vector
             pair?
-            vector?))
+            vector?
+            procedure?))
 (define unop? (compose not false? (curryr memq unop)))
 
 (define prim-f `(,@binop ,@unop ,@structop ,@procedureop))
@@ -108,7 +111,7 @@
 (define (pair/tagged? fn)
   (and (int64? fn) (eq? (bitwise-and (current-pair-mask) fn) (current-pair-tag))))
 
-(define primop `(,@binop/unsafe ,@unop))
+(define primop `(,@binop/unsafe ,@unop ,@procedureop/unsafe))
 (define primop? (compose not false? (curryr memq primop)))
 
 (define imperative-primop?

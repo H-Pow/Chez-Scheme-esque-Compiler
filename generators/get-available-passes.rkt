@@ -1,7 +1,7 @@
 #lang racket
 (require "interrogator-get.rkt"
          )
-         
+
 (provide (all-defined-out))
 
 (define (get-available-passes milestone-num)
@@ -16,16 +16,23 @@
                          [_ #f]
                          )
                        ))
-  ;  (pretty-display passes/raw)
-  (let loop ([passes/raw passes/raw]
-             [passes '()])
-    (match passes/raw
-      [`(">" ,do-something ,rest ...)
-       (with-handlers ([exn:fail? (λ (_) (loop rest passes))])
-         (let ([pass (read (open-input-string do-something))])
-           (when (eq? (car pass) 'quote) (error pass))
-           (loop rest (cons (car pass) passes))))
-       ]
-      [`("<" ,_output ,rest ...) (loop rest passes)]
-      ['() (reverse passes)])))
-; (get-available-passes 9)
+  (define passes/rawstr (apply ~a passes/raw))
+  (define (custom-split str)
+    (define init-str* (string-split str "\n"))
+    (let loop ([src-str* (rest init-str*)]
+               [curr-str (first init-str*)]
+               [end-str* '()])
+      (if (empty? src-str*)
+          (reverse (cons curr-str end-str*))
+          (if (string-prefix? (first src-str*) "  ")
+              (loop (rest src-str*)
+                    (string-append curr-str (first src-str*))
+                    end-str*)
+              (loop (rest src-str*)
+                    (first src-str*)
+                    (cons curr-str end-str*))))))
+  (define passes/rawstrsplit (custom-split passes/rawstr))
+  (define passes-with-input (filter (λ(x) (string-prefix? x ">"))
+                                    passes/rawstrsplit))
+  (map (λ(x) (car (read (open-input-string (substring x 1))))) passes-with-input))
+; (pretty-display (get-available-passes 9))

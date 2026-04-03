@@ -51,18 +51,16 @@
           (close-output-port file)
           ))))
 
-; (for [(complexity (range 7))]
-;   (for [(ntests (range (arithmetic-shift 2 complexity)))]
-;     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
-;     (generate/file complexity complexity)
-;     )
-
-;   )
-
-(for [(complexity (range 4 7))]
+(for [(complexity (range 7))]
   (for [(ntests (range (arithmetic-shift 2 complexity)))]
     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
     (generate/file complexity complexity)
     )
-
   )
+
+; (for [(complexity (range 4 7))]
+;   (for [(ntests (range (arithmetic-shift 2 complexity)))]
+;     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
+;     (generate/file complexity complexity)
+;     )
+;   )

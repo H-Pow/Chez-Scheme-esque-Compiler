@@ -78,3 +78,67 @@
   (match p
     [`(module ,value)
      `(module ,(optimize-value value))]))
+
+
+(module+ test
+  (require rackunit
+           cpsc411/langs/v9)
+  (define (fail-if-invalid p)
+    ; (pretty-write p)
+    (when (not (just-exprs-lang-v9? p))
+      (error
+       (~a
+        (pretty-format p)
+        "\n is not a semantically valid "
+        "just-exprs-lang-v9"
+        " program")))
+    p)
+  (define-syntax-rule
+    (check-by-interp p)
+    (check-equal?
+     (interp-just-exprs-lang-v9 p)
+     (interp-just-exprs-lang-v9 (fail-if-invalid (optimize-direct-calls p)))))
+  (let ([x (fresh 'x)]
+        [y (fresh 'y)]
+        [z (fresh 'z)]
+        [+/sym 'unsafe-fx+])
+    (check-by-interp `(module (unsafe-procedure-call (lambda (,x) ,x) 1)))
+    (check-by-interp `(module (let ([,x (unsafe-make-vector 1)])
+                                (begin
+                                  (unsafe-vector-set! ,x 0 1)
+                                  (unsafe-procedure-call
+                                   (lambda (,z) ,z)
+                                   (begin
+                                     (unsafe-vector-set! ,x 0 2)
+                                     67))))))
+    (check-by-interp `(module (let ([,x (unsafe-make-vector 1)])
+                                (begin
+                                  (unsafe-vector-set! ,x 0 1)
+                                  (unsafe-procedure-call
+                                   (lambda (,z) (unsafe-vector-ref ,x 0))
+                                   (begin
+                                     (unsafe-vector-set! ,x 0 2)
+                                     67))))))
+    (check-by-interp `(module (unsafe-procedure-call
+                               (lambda (,x)
+                                 (unsafe-procedure-call (lambda (,y) ,y) ,x)) 1)))
+    (check-by-interp
+     `(module (unsafe-procedure-call (if (eq? 1 0)
+                                         (lambda (,x) ,x)
+                                         (letrec ([,y (lambda (,x)
+                                                        (,+/sym ,x 1))])
+                                           ,y))
+                                     1)))
+    (check-by-interp
+     `(module (unsafe-procedure-call
+               (lambda (,z)
+                 (unsafe-procedure-call
+                  (if (eq? 1 ,z)
+                      (lambda (,x) ,x)
+                      (letrec ([,y (lambda (,x)
+                                     (,+/sym ,x 1))])
+                        ,y))
+                  ,z))
+               1)))
+    )
+  )

@@ -119,6 +119,7 @@
 ; (define implement-mops values)
 ; (define expose-allocation-pointer values)
 
+(require "dox-lambdas.rkt")
 (require "uniquify.rkt")
 (require "implement-safe-primops.rkt")
 (require "sequentialize-let.rkt")
@@ -155,6 +156,7 @@
   (require (submod "normalize-bind.rkt" test))
   (require (submod "impose-calling-conventions.rkt" test))
   (require (submod "select-instructions.rkt" test))
+  (require (submod "dox-lambdas.rkt" test))
   ; (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "expose-basic-blocks.rkt" test))

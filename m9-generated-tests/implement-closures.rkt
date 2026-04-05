@@ -10,7 +10,7 @@
      (~a
       (pretty-format p)
       "\n is not a semantically valid "
-      "proc-exposed-lang-v9"
+      "output"
       " program")))
   p)
 (define-syntax-rule

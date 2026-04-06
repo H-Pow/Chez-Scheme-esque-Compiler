@@ -120,6 +120,7 @@
 ; (define expose-allocation-pointer values)
 
 (require "uniquify.rkt")
+(require "optimize-direct-calls.rkt")
 (require "implement-safe-primops.rkt")
 (require "sequentialize-let.rkt")
 (require "normalize-bind.rkt")
@@ -150,6 +151,7 @@
    file/glob)
    
   (require (submod "uniquify.rkt" test))
+  (require (submod "optimize-direct-calls.rkt" test))
   (require (submod "implement-safe-primops.rkt" test))
   (require (submod "sequentialize-let.rkt" test))
   (require (submod "normalize-bind.rkt" test))

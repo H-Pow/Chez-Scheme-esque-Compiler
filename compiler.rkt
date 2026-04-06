@@ -119,6 +119,30 @@
    values
    values
    values))
+(require "dox-lambdas.rkt")
+(require "uniquify.rkt")
+(require "optimize-direct-calls.rkt")
+(require "implement-safe-primops.rkt")
+(require "sequentialize-let.rkt")
+(require "normalize-bind.rkt")
+(require "uncover-free.rkt")
+(require "convert-closures.rkt")
+(require "select-instructions.rkt")
+(require "target-nested-asm-lang-v2/all-exports.rkt")
+(require "flatten-begins.rkt")
+(require "patch-instructions.rkt")
+(require "expose-basic-blocks.rkt")
+(require "assign-frame-variables.rkt")
+(require "implement-fvars.rkt")
+(require "resolve-predicates.rkt")
+(require "generate-x64.rkt")
+(require "expose-allocation-pointer.rkt")
+(require "implement-mops.rkt")
+
+(require "specify-representation.rkt")
+(require "remove-complex-opera.rkt")
+(require "flatten-program.rkt")
+(require "impose-calling-conventions.rkt")
 
 ;; You can modify this pass list, e.g., by adding other
 ;; optimization, debugging, or validation passes.
@@ -174,7 +198,32 @@
    rackunit/text-ui
    cpsc411/langs/v9
    cpsc411/langs/v10
-   cpsc411/test-suite/public/v10)
+   cpsc411/test-suite/public/v10
+   file/glob)
+   
+  (require (submod "uniquify.rkt" test))
+  (require (submod "optimize-direct-calls.rkt" test))
+  (require (submod "implement-safe-primops.rkt" test))
+  (require (submod "sequentialize-let.rkt" test))
+  (require (submod "normalize-bind.rkt" test))
+  (require (submod "uncover-free.rkt" test))
+  (require (submod "convert-closures.rkt" test))
+  (require (submod "impose-calling-conventions.rkt" test))
+  (require (submod "select-instructions.rkt" test))
+  (require (submod "dox-lambdas.rkt" test))
+  ; (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
+  (require (submod "implement-fvars.rkt" test))
+  (require (submod "expose-basic-blocks.rkt" test))
+  (require (submod "resolve-predicates.rkt" test))
+;   (require (submod "specify-representation.rkt" test))
+  (require (submod "flatten-program.rkt" test))
+;   (require (submod "patch-instructions.rkt" test))
+  ; (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "m8-generated-tests/**.rkt"))
+  ;; You can modify this pass list, e.g., by adding other
+  ;; optimization, debugging, or validation passes.
+  ;; Doing this may provide additional debugging info when running the rest
+  ;; suite.
 
   (run-tests
    (v10-public-test-suite

@@ -1,7 +1,7 @@
 #lang racket
 (require cpsc411/compiler-lib
          racket/random
-         cpsc411/langs/v9)
+         cpsc411/langs/v11)
 (provide generate/p
          pass-map
          pass-lang-map
@@ -159,15 +159,17 @@
     ((call not) ,(cons '(any?) 'boolean))
     ((and) ,(cons '() 'boolean))
     ((or) ,(cons '() 'boolean))
-    ,@(for/fold ([and-or-macro '()])
+    ,@(for/fold ([and-or-begin-macro '()])
                 ([type type-check])
-        (append and-or-macro
+        (append and-or-begin-macro
                 (for/fold ([macros '()])
                           ([i (range 1 8)])
                   (append macros
                           (list (cons `(and) (cons (make-list i type) type))
-                                (cons `(or) (cons (make-list 1 type) type))))))
-        )))
+                                (cons `(or) (cons (make-list i type) type))
+                                (cons `(begin) (cons (make-list i type) type))))))
+        )
+    ))
 
 (define (select-var/returns env expected-type)
   (filter (λ(entry) (eq? (cddr entry) expected-type)) env))
@@ -187,7 +189,7 @@
                   (random-ref type-check))
   )
 (define (random/zero k)
-  (if (<= k)
+  (if (<= k 0)
       k
       (random k)))
 ; hard set this so it is easier to deal with
@@ -201,7 +203,10 @@
     ['ascii-char? (integer->char (random 65 123))]
     ['error? `(error ,(random 0 255))]
     ['pair? `(call cons ,(random 0 255) ,(random 256 512))]
-    ['vector? `(call make-vector ,VECTOR-DEF-SIZE)]
+    ['vector? (match (random 8)
+                  [1 `(make-vector ,VECTOR-DEF-SIZE)]
+                  [(? (</c 4)) (list->vector (range VECTOR-DEF-SIZE))]
+                  [_ `(vector ,@(map add1 (range VECTOR-DEF-SIZE)))])]
     ['procedure? `(lambda () (random 512 1024))]
     ['any? (generate-triv env (random-ref type-check))])
   )
@@ -219,14 +224,39 @@
                                   env
                                   (λ (def* val)
                                     (define vec (car (random-ref available-vectors)))
-                                    (define pos (sub1 (random/zero VECTOR-DEF-SIZE)))
+                                    (define pos (random/zero VECTOR-DEF-SIZE))
                                     (define env/updated
-                                      (dict-set env `(call vector-ref ,vec ,pos)
-                                                (cons '() vector-set-type)))
-                                    (k def* env/updated `(call vector-set! ,vec ,pos ,val)))
+                                      (dict-set
+                                       (dict-set env `(vector-ref ,vec ,pos) (cons '() vector-set-type))
+                                       `(call vector-ref ,vec ,pos)
+                                       (cons '() vector-set-type)))
+                                    (k def* env/updated `(vector-set! ,vec ,pos ,val)))
                                   vector-set-type)))]
+    ['vector?
+     (generate-vector recur-depth iter-depth env
+                      (λ (def* vec _)
+                        (k def* env vec)))]
     ['any? (generate-type/concrete recur-depth iter-depth env k (random-ref type-check))]
     [_ (return (generate-triv env expected-type))])
+  )
+;; int int env (def vector (listof typedef?) -> X) -> X
+(define (generate-vector recur-depth iter-depth env k)
+  (if (<= recur-depth 0)
+      (k (mutable-seteq) (generate-triv env 'vector?) (make-list VECTOR-DEF-SIZE 'fixnum?))
+      (let ([def*/updated (mutable-seteq)]
+            [vec (make-vector VECTOR-DEF-SIZE)]
+            [type* (map (λ(_) (random-ref type-check)) (range VECTOR-DEF-SIZE))])
+        (for ([i (range VECTOR-DEF-SIZE)]
+              [type type*])
+          (vector-set! vec i (generate-value (sub1 recur-depth)
+                                             iter-depth
+                                             env
+                                             (λ (def* val)
+                                               (set-union! def*/updated def*)
+                                               (list val))
+                                             type)))
+        (k def*/updated vec type*)
+        ))
   )
 ;; int int env (def lambda (listof typedef?) -> X) typedef? -> X
 (define (generate-lambda recur-depth iter-depth env k expected-type)
@@ -289,16 +319,16 @@
                                      `(cons ,car-val ,cdr-val))
                                    cdr-type))
                                 car-type))]
-      ['vector? (generate-value recur-depth/new
-                                iter-depth/new
-                                env
-                                (λ (def*2 val)
-                                  (set-union! def* def*2)
-                                  (set! env/updated (dict-set env/updated  `(call vector-length ,name) (cons '() 'fixnum?)))
-                                  (for ([i (range VECTOR-DEF-SIZE)])
-                                    (set! env/updated (dict-set env/updated  `(call vector-ref ,name ,i) (cons '() 'fixnum?))))
-                                  val)
-                                'vector?)]
+      ['vector? (generate-vector recur-depth/new
+                                 iter-depth/new
+                                 env
+                                 (λ (def*2 val types)
+                                   (set-union! def* def*2)
+                                   (set! env/updated (dict-set env/updated  `(call vector-length ,name) (cons '() 'fixnum?)))
+                                   (for ([i (range VECTOR-DEF-SIZE)]
+                                         [type types])
+                                     (set! env/updated (dict-set env/updated  `(call vector-ref ,name ,i) (cons '() type))))
+                                   val))]
       ['procedure?
        (let ([ret-type (random-ref type-check)])
          (generate-lambda recur-depth/new
@@ -308,6 +338,8 @@
                             (set-union! def* def*2)
                             (set! env/updated
                                   (dict-set env/updated `(call ,name) (cons param-type* ret-type)))
+                            (set! env/updated
+                                  (dict-set env/updated `(,name) (cons param-type* ret-type)))
                             val)
                           ret-type))]
       [_ (generate-value recur-depth/new iter-depth/new env
@@ -476,7 +508,7 @@
   (define (interp/catch-error x)
     (call-with-exception-handler (λ (y) (displayln (cons y (pretty-format x)))
                                    (raise y))
-                                 (thunk (interp-exprs-lang-v9 x))))
+                                 (thunk (interp-racketish-surface x))))
 
 
   (for-each interp/catch-error (map (λ(x) (generate/p 3 3)) (range 999)))

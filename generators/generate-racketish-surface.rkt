@@ -194,6 +194,7 @@
       (random k)))
 ; hard set this so it is easier to deal with
 (define VECTOR-DEF-SIZE 8)
+(define QUOTE-DEF-SIZE 8)
 (define (generate-triv env expected-type)
   (match expected-type
     ['fixnum? (random 0 255)]
@@ -202,12 +203,16 @@
     ['void? '(void)]
     ['ascii-char? (integer->char (random 65 123))]
     ['error? `(error ,(random 0 255))]
-    ['pair? `(call cons ,(random 0 255) ,(random 256 512))]
+    ['pair? (match (random 2)
+              [0 `(call cons ,(random 0 255) ,(random 256 512))]
+              [1 `(cons ,(random 0 255) ,(random 256 512))])]
+    ['quote? `'(,(random 0 255) ,(random 256 512))]
     ['vector? (match (random 8)
-                  [1 `(make-vector ,VECTOR-DEF-SIZE)]
-                  [(? (</c 4)) (list->vector (range VECTOR-DEF-SIZE))]
-                  [_ `(vector ,@(map add1 (range VECTOR-DEF-SIZE)))])]
-    ['procedure? `(lambda () (random 512 1024))]
+                [1 `(make-vector ,VECTOR-DEF-SIZE)]
+                ; disabled: interpretor does not support vector literals
+                ; [(? (</c 4)) (list->vector (range VECTOR-DEF-SIZE))]
+                [_ `(vector ,@(map add1 (range VECTOR-DEF-SIZE)))])]
+    ['procedure? `(lambda () ,(random 512 1024))]
     ['any? (generate-triv env (random-ref type-check))])
   )
 ;; int int env (def env value -> X) typecheck? ->  X
@@ -236,9 +241,34 @@
      (generate-vector recur-depth iter-depth env
                       (λ (def* vec _)
                         (k def* env vec)))]
+    ['pair?
+     (generate-quote recur-depth iter-depth env
+                     (λ (def* vec _)
+                       (k def* env vec)))]
     ['any? (generate-type/concrete recur-depth iter-depth env k (random-ref type-check))]
     [_ (return (generate-triv env expected-type))])
   )
+;; int int env (def pair (listof typedef?) -> X) -> X
+(define (generate-quote recur-depth iter-depth env k)
+  (if (<= recur-depth 0)
+      (k (mutable-seteq) (generate-triv env 'quote?) (make-list 2 'fixnum))
+      (let* ([def* (mutable-seteq)]
+             [type* (map (λ(_) (random-ref type-check)) (range QUOTE-DEF-SIZE))]
+             [val* (for/foldr ([val* '()])
+                     ([i (range QUOTE-DEF-SIZE)]
+                      [type type*])
+                     (generate-value (sub1 recur-depth)
+                                     iter-depth
+                                     env
+                                     (λ (def*2 val)
+                                       (set-union! def* def*2)
+                                       (cons val val*))
+                                     type))])
+        (k def*
+           (if (zero? (random 2))
+               val*
+               (cons 'quote val*))
+           type*))))
 ;; int int env (def vector (listof typedef?) -> X) -> X
 (define (generate-vector recur-depth iter-depth env k)
   (if (<= recur-depth 0)
@@ -298,36 +328,53 @@
   (define iter-depth/new (- iter-depth n-var))
   (define def* (mutable-seteq))
   (define env/updated env)
+  (define (env-set! key val)
+    (set! env/updated (dict-set env/updated key val)))
   (define (gen-val/typed! name type)
     (match type
-      ['pair? (let ([car-type (random-ref type-check)]
-                    [cdr-type (random-ref type-check)])
-                (generate-value (sub1 recur-depth/new)
-                                iter-depth/new
-                                env
-                                (λ (def*2 car-val)
-                                  (generate-value
-                                   (sub1 recur-depth/new)
-                                   iter-depth/new
-                                   env
-                                   (λ (def*3 cdr-val)
-                                     (set-union! def* def*2 def*3)
-                                     (set! env/updated
-                                           (dict-set env/updated `(call car ,name) (cons '() car-type)))
-                                     (set! env/updated
-                                           (dict-set env/updated `(call cdr ,name) (cons '() cdr-type)))
-                                     `(cons ,car-val ,cdr-val))
-                                   cdr-type))
-                                car-type))]
+      ['pair? (if (zero? (random 8))
+                  (let ([car-type (random-ref type-check)]
+                        [cdr-type (random-ref type-check)])
+                    (generate-value (sub1 recur-depth/new)
+                                    iter-depth/new
+                                    env
+                                    (λ (def*2 car-val)
+                                      (generate-value
+                                       (sub1 recur-depth/new)
+                                       iter-depth/new
+                                       env
+                                       (λ (def*3 cdr-val)
+                                         (set-union! def* def*2 def*3)
+                                         (set! env/updated
+                                               (dict-set env/updated `(call car ,name) (cons '() car-type)))
+                                         (set! env/updated
+                                               (dict-set env/updated `(call cdr ,name) (cons '() cdr-type)))
+                                         `(cons ,car-val ,cdr-val))
+                                       cdr-type))
+                                    car-type))
+                  (generate-quote recur-depth/new
+                                  iter-depth/new
+                                  env
+                                  (λ (def*2 val type*)
+                                    (set-union! def* def*2)
+                                    (let record-type-to-env! ([name name]
+                                                              [type* type*])
+                                      (match type*
+                                        [`(,type) (env-set! `(car ,name) (cons '() type))
+                                                  (env-set! `(cdr ,name) (cons '() 'empty?))]
+                                        [`(,type ,type*/rest ...)
+                                         (env-set! `(car ,name) (cons '() type))
+                                         (record-type-to-env! `(cdr ,name) type*/rest)]))
+                                    `(,@val))))]
       ['vector? (generate-vector recur-depth/new
                                  iter-depth/new
                                  env
                                  (λ (def*2 val types)
                                    (set-union! def* def*2)
-                                   (set! env/updated (dict-set env/updated  `(call vector-length ,name) (cons '() 'fixnum?)))
+                                   (env-set! `(call vector-length ,name) (cons '() 'fixnum?))
                                    (for ([i (range VECTOR-DEF-SIZE)]
                                          [type types])
-                                     (set! env/updated (dict-set env/updated  `(call vector-ref ,name ,i) (cons '() type))))
+                                     (env-set! `(call vector-ref ,name ,i) (cons '() type)))
                                    val))]
       ['procedure?
        (let ([ret-type (random-ref type-check)])
@@ -511,5 +558,5 @@
                                  (thunk (interp-racketish-surface x))))
 
 
-  (for-each interp/catch-error (map (λ(x) (generate/p 3 3)) (range 999)))
+  (for-each interp/catch-error (map (λ(x) (generate/p 4 4)) (range 999)))
   )

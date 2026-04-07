@@ -86,6 +86,7 @@
 (define type-check '(fixnum? boolean? empty? void? ascii-char? error? pair?
                              vector?
                              procedure?))
+(define type-check/sexp '(fixnum? boolean? empty? ascii-char? sexp?))
 (define type-check? (compose not false? (curryr memq type-check)))
 (define type-check-map
   (list
@@ -207,10 +208,10 @@
               [0 `(call cons ,(random 0 255) ,(random 256 512))]
               [1 `(cons ,(random 0 255) ,(random 256 512))])]
     ['quote? `'(,(random 0 255) ,(random 256 512))]
+    ['sexp? `(,(random 0 255) ,(random 256 512))]
     ['vector? (match (random 8)
                 [1 `(make-vector ,VECTOR-DEF-SIZE)]
-                ; disabled: interpretor does not support vector literals
-                ; [(? (</c 4)) (list->vector (range VECTOR-DEF-SIZE))]
+                [(? (</c 4)) (list->vector (range VECTOR-DEF-SIZE))]
                 [_ `(vector ,@(map add1 (range VECTOR-DEF-SIZE)))])]
     ['procedure? `(lambda () ,(random 512 1024))]
     ['any? (generate-triv env (random-ref type-check))])
@@ -250,25 +251,22 @@
   )
 ;; int int env (def pair (listof typedef?) -> X) -> X
 (define (generate-quote recur-depth iter-depth env k)
+  (define (remap-type type)
+    (if (eq? type 'sexp?)
+        'pair?
+        type))
   (if (<= recur-depth 0)
       (k (mutable-seteq) (generate-triv env 'quote?) (make-list 2 'fixnum))
       (let* ([def* (mutable-seteq)]
-             [type* (map (λ(_) (random-ref type-check)) (range QUOTE-DEF-SIZE))]
+             [type* (map (λ(_) (random-ref type-check/sexp)) (range QUOTE-DEF-SIZE))]
              [val* (for/foldr ([val* '()])
                      ([i (range QUOTE-DEF-SIZE)]
                       [type type*])
-                     (generate-value (sub1 recur-depth)
-                                     iter-depth
-                                     env
-                                     (λ (def*2 val)
-                                       (set-union! def* def*2)
-                                       (cons val val*))
-                                     type))])
+                     (cons (generate-triv env type)
+                           val*))])
         (k def*
-           (if (zero? (random 2))
-               val*
-               (cons 'quote val*))
-           type*))))
+           `'(,@val*)
+           (map remap-type type*)))))
 ;; int int env (def vector (listof typedef?) -> X) -> X
 (define (generate-vector recur-depth iter-depth env k)
   (if (<= recur-depth 0)
@@ -474,6 +472,7 @@
 (define pass-map
   (list
    #;(cons 'check-exprs-lang #f)
+   (cons 'expand-macros 'interp-racketish-surface)
    (cons 'uniquify 'interp-exprs-lang-v9)
    (cons 'implement-safe-primops 'interp-exprs-unique-lang-v9)
    (cons 'implement-safe-call 'interp-exprs-unsafe-data-lang-v9)
@@ -512,6 +511,7 @@
 (define pass-lang-map
   (list
    #;(cons 'check-exprs-lang #f)
+   (cons 'expand-macros 'racketish-surface)
    (cons 'uniquify 'exprs-lang-v9)
    (cons 'implement-safe-primops 'exprs-unique-lang-v9)
    (cons 'implement-safe-call 'exprs-unsafe-data-lang-v9)

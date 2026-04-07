@@ -1,6 +1,6 @@
 #lang racket
 
-(require "generate-exprs-lang-v9.rkt"
+(require "generate-racketish-surface.rkt"
          "get-passes-content.rkt"
          "testable.rkt"
          cpsc411/langs/v11)
@@ -27,6 +27,7 @@
         (pretty-write `(require rackunit
                                 cpsc411/compiler-lib
                                 cpsc411/ptr-run-time
+                                cpsc411/langs/v9
                                 ,(string->symbol (~a "cpsc411/langs/v" language-version))
                                 ,(~a "../" pass-name ".rkt")) file)
         (pretty-write `(define (fail-if-invalid p)

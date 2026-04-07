@@ -86,6 +86,8 @@
 (define type-check '(fixnum? boolean? empty? void? ascii-char? error? pair?
                              vector?
                              procedure?))
+(define type-check/p '(fixnum? boolean? empty? void? ascii-char? error? pair?
+                             vector?))
 (define type-check/sexp '(fixnum? boolean? empty? ascii-char? sexp?))
 (define type-check? (compose not false? (curryr memq type-check)))
 (define type-check-map
@@ -187,7 +189,7 @@
                   DEFAULT-ENV
                   (λ (def* val)
                     `(module ,@(set->list def*) ,val))
-                  (random-ref type-check))
+                  (random-ref type-check/p))
   )
 (define (random/zero k)
   (if (<= k 0)

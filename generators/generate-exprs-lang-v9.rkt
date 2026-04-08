@@ -154,7 +154,7 @@
     ['error? `(error ,(random 0 255))]
     ['pair? `(call cons ,(random 0 255) ,(random 256 512))]
     ['vector? `(call make-vector ,VECTOR-DEF-SIZE)]
-    ['procedure? `(lambda () (random 512 1024))]
+    ['procedure? `(lambda () ,(random 512 1024))]
     ['any? (generate-triv env (random-ref type-check))])
   )
 ;; int int env (def env value -> X) typecheck? ->  X

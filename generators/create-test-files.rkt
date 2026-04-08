@@ -1,12 +1,13 @@
 #lang racket
 
-(require "generate-exprs-lang-v9.rkt"
+(require "generate-racketish-surface.rkt"
          "get-passes-content.rkt"
          "testable.rkt"
-         cpsc411/langs/v9)
+         cpsc411/langs/v11)
 
-(define current-milestone 9)
-(define interpretor interp-exprs-lang-v9)
+(define current-milestone 10)
+(define language-version 11)
+(define interpretor interp-racketish-surface)
 (define out-folder (~a "m" current-milestone "-generated-tests" ))
 (when (not (directory-exists? out-folder)) (make-directory out-folder))
 
@@ -26,7 +27,8 @@
         (pretty-write `(require rackunit
                                 cpsc411/compiler-lib
                                 cpsc411/ptr-run-time
-                                ,(string->symbol (~a "cpsc411/langs/v" current-milestone))
+                                cpsc411/langs/v9
+                                ,(string->symbol (~a "cpsc411/langs/v" language-version))
                                 ,(~a "../" pass-name ".rkt")) file)
         (pretty-write `(define (fail-if-invalid p)
                          (when (not (,trg-lang?/sym p))
@@ -51,8 +53,8 @@
           (close-output-port file)
           ))))
 
-(for [(complexity (range 7))]
-  (for [(ntests (range (arithmetic-shift 2 complexity)))]
+(for [(complexity (range 5))]
+  (for [(ntests (range (arithmetic-shift 4 complexity)))]
     (displayln (format "generating test #~a for complexity ~a..." (add1 ntests) complexity))
     (generate/file complexity complexity)
     )

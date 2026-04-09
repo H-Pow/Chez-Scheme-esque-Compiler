@@ -1,0 +1,159 @@
+#lang racket
+
+(require cpsc411/compiler-lib
+         "common.rkt")
+
+;; make an if expr using the given parameter
+(define (make-if pred truecase falsecase)
+  `(if ,pred ,truecase ,falsecase))
+
+;; make an if expr representing and logic using the given predicates
+;;     skips over #t to save on number of if generated
+;;     shortcircuits and produce #f immediately on encoutering a #f in the chain
+(define (make-and . pred)
+  (cond
+    [(empty? pred) #t]
+    [(empty? (rest pred))
+     (first pred)]
+    [(eq? #t (first pred)) (apply make-and (rest pred))]
+    [(false? (first pred)) #f]
+    [else (make-if (first pred) (apply make-and (rest pred))
+                   #f)]))
+
+;; make an if expr representing or logic using the given predicates
+;;     skips over #f to save on number of if generated
+;;     shortcircuits and produce #t immediately on encoutering a #t in the chain
+(define (make-or . pred)
+  (cond
+    [(empty? pred) #f]
+    [(empty? (rest pred))
+     (first pred)]
+    [(eq? #t (first pred))
+     #t]
+    [(false? (first pred)) (apply make-or (rest pred))]
+    [else
+     ; it is ok to not use fresh since we only need x in this postion
+     `(let ([pred/or ,(first pred)])
+        ,(make-if 'pred/or
+                  'pred/or
+                  (apply make-or (rest pred))))]
+    ))
+
+(define (make-begin/macro . es)
+  (cond
+    [(empty? es) '(void)]
+    [(empty? (rest es)) (first es)]
+    [else `(let ([begin-e ,(first es)])
+             ,(make-if '(error? begin-e)
+                       'begin-e
+                       (apply make-begin/macro (rest es))))]))
+
+; zero is allowed for make-vector in racket
+(define (make-vector/macro . item*)
+  (let ([size (length item*)])
+    `(let ([vec (make-vector ,size)])
+       ,(apply make-begin/macro (append (map (λ(i item)
+                                               `(vector-set! vec ,i ,item))
+                                             (range size)
+                                             item*)
+                                        '(vec))))))
+
+(define (make-quote/macro sexpr)
+  (match sexpr
+    [`'(,sexpr ,sexpr* ...)
+     `(cons ,(make-quote/macro `',sexpr)
+            ,(make-quote/macro `',sexpr*))]
+    [`'() 'empty]
+    [`',v v]))
+
+
+(module+ test
+  (require rackunit)
+  (define-syntax-rule (check-and a b)
+    (check-equal? (apply make-and a)
+                  b))
+
+  (check-and '() #t)
+  (check-and '(a) 'a)
+  (check-and '(#t) #t)
+  (check-and '(#f) #f)
+  (check-and '(#f a b c) #f)
+  (check-and '(a b) (make-if 'a
+                             'b
+                             #f))
+  (check-and '(a b c)
+             (make-if 'a
+                      (make-if 'b
+                               'c
+                               #f)
+                      #f))
+
+  (define-syntax check-or
+    (syntax-rules  ()
+      [(_ a b) (check-match (apply make-or a)
+                            b)]
+      [(_ a b pred)
+       (check-match (apply make-or a)
+                    b
+                    pred)]))
+
+  (check-or '() #f)
+  (check-or '(a) 'a)
+  (check-or '(#t) #t)
+  (check-or '(#f) #f)
+  (check-or '(#t a b c) #t)
+  (check-or '(a b) `(let ([,sym a])
+                      (if ,sym
+                          ,sym
+                          b))
+            (symbol? sym))
+  (check-or '(a b c)
+            `(let ([,sym1 a])
+               (if ,sym1
+                   ,sym1
+                   (let ([,sym2 b])
+                     (if ,sym2
+                         ,sym2
+                         c))))
+            (andmap symbol? (list sym1 sym2)))
+  (define-syntax check-begin/macro
+    (syntax-rules ()
+      ([_ a b] (check-match (apply make-begin/macro a) b))
+      ([_ a b pred] (check-match (apply make-begin/macro a) b pred))))
+
+  (check-begin/macro '()
+                     '(void))
+  (check-begin/macro '(a)
+                     'a)
+  (check-begin/macro '(a b)
+                     `(let ([,sym a])
+                        (if (error? ,sym)
+                            ,sym
+                            b))
+                     (symbol? sym))
+
+  (define-syntax check-vector/macro
+    (syntax-rules ()
+      ([_ a b] (check-match (apply make-vector/macro a) b))
+      ([_ a b pred] (check-match (apply make-vector/macro a) b pred))))
+
+  (check-vector/macro '()
+                      `(let ([vec (make-vector 0)])
+                         vec))
+  (check-vector/macro '(a)
+                      `(let ([,vec (make-vector 1)])
+                         (let ([,v (vector-set! ,vec 0 a)])
+                           (if (error? ,v)
+                               ,v
+                               ,vec)))
+                      (andmap symbol? (list v vec)))
+  (define-syntax-rule (check-quote/macro a b)
+    (check-equal? (make-quote/macro a)
+                  b))
+  (check-quote/macro ''() 'empty)
+  (check-quote/macro ''#f #f)
+  (check-quote/macro ''(1 2 3) '(cons 1 (cons 2 (cons 3 empty))))
+  (check-quote/macro ''((1 2 3)) '(cons (cons 1 (cons 2 (cons 3 empty))) empty))
+  
+  
+  )

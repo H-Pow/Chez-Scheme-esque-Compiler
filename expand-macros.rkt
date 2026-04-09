@@ -3,13 +3,19 @@
 (require cpsc411/compiler-lib
          "common.rkt")
 
+(provide expand-macros)
+;; let src represent racketish-surface
+;; let trg represent exprs-lang-v9
+
 ;; make an if expr using the given parameter
+;; src-value src-value src-value -> src-value
 (define (make-if pred truecase falsecase)
   `(if ,pred ,truecase ,falsecase))
 
 ;; make an if expr representing and logic using the given predicates
 ;;     skips over #t to save on number of if generated
 ;;     shortcircuits and produce #f immediately on encoutering a #f in the chain
+;; src-value ... -> src-value
 (define (make-and . pred)
   (cond
     [(empty? pred) #t]
@@ -23,6 +29,7 @@
 ;; make an if expr representing or logic using the given predicates
 ;;     skips over #f to save on number of if generated
 ;;     shortcircuits and produce #t immediately on encoutering a #t in the chain
+;; src-value ... -> src-value
 (define (make-or . pred)
   (cond
     [(empty? pred) #f]
@@ -39,6 +46,7 @@
                   (apply make-or (rest pred))))]
     ))
 
+;; src-value ... -> src-value
 (define (make-begin/macro . es)
   (cond
     [(empty? es) '(void)]
@@ -48,7 +56,8 @@
                        'begin-e
                        (apply make-begin/macro (rest es))))]))
 
-; zero is allowed for make-vector in racket
+;; zero is allowed for make-vector in racket
+;; src-value ... -> src-value
 (define (make-vector/macro . item*)
   (let ([size (length item*)])
     `(let ([vec (make-vector ,size)])
@@ -58,6 +67,7 @@
                                              item*)
                                         '(vec))))))
 
+;; src-sexpr -> src-quote
 (define (make-quote/macro sexpr)
   (match sexpr
     [`'(,sexpr ,sexpr* ...)
@@ -65,6 +75,83 @@
             ,(make-quote/macro `',sexpr*))]
     [`'() 'empty]
     [`',v v]))
+
+(define MACRO-ID-MAP
+  `([and . ,make-and]
+    [or . ,make-or]
+    [begin . ,make-begin/macro]
+    [vector . ,make-vector/macro]))
+
+(define (macro-id? mid)
+  ((compose not false?) (memq mid (map car MACRO-ID-MAP))))
+;; src-macro-id -> (src-value ... -> src-value)
+(define (macro-id->fun mid)
+  (dict-ref MACRO-ID-MAP mid (thunk (error (format "Invalid macro-id ~v" mid)))))
+
+
+(define (expand-macros p)
+  ; triv	 	::=	 	x
+  ;     |	 	fixnum
+  ;     |	 	prim-f-
+  ;     |	 	#t
+  ;     |	 	#f
+  ;     |	 	empty
+  ;     |	 	(void)
+  ;     |	 	(error uint8)
+  ;     |	 	ascii-char-literal
+  ;     |	 	(lambda (x ...) value)
+  ;     |	 	vec-literal-
+  ; value	 	::=	 	triv
+  ;  	|	 	(quote s-expr)-
+  ;  	|	 	(value value ...)-
+  ;  	|	 	(macro-id value ...)-
+  ;  	|	 	(let ([x value] ...) value)
+  ;  	|	 	(if value value value)
+  ;  	|	 	(call value value ...)
+  ;; src-value -> trg-value
+  ;; this inlines both the src-triv and src-val
+  (define (expand-value val)
+    (let loop ([val val])
+      (match val
+        [`(call ,val* ...)
+         `(call ,@(map loop val*))]
+        [`(if ,val0 ,val1 ,val2)
+         (make-if (loop val0)
+                  (loop val1)
+                  (loop val2))]
+        [`(let ([,x* ,val*] ...) ,val0)
+         (let* ([val*/updated (map loop val*)]
+                [letpair*/updated (map list x* val*/updated)])
+           `(let ,letpair*/updated
+              ,(loop val0)))]
+        [`(,(? macro-id? mid) ,val* ...)
+         (loop (apply (macro-id->fun mid) val*))]
+        [(vector item* ...)
+         ; i am lazy
+         (loop `(vector ,@item*))]
+        [(? (or/c name? prim-f? fixnum? #t #f 'empty
+                  ascii-char-literal?)) val]
+        [`(lambda ,param* ,val)
+         `(lambda ,param* ,(expand-value val))]
+        ['(void) val]
+        [`(error ,(? uint8?)) val]
+        [`',_
+         (loop (make-quote/macro val))]
+        [`(,value ,value* ...)
+         `(call ,(loop value)
+                ,@(map loop value*))]))
+    )
+  ; p	 	::=	 	(module (define x (lambda (x ...) value)) ... value)
+  (define (expand-def def)
+    (match def
+      [`(define ,x (lambda ,param* ,val))
+       `(define ,x (lambda ,param* ,(expand-value val)))]))
+  (match p
+    [`(module ,def* ... ,val)
+     `(module ,@(map expand-def def*)
+        ,(expand-value val))])
+  )
+
 
 
 (module+ test
@@ -154,6 +241,6 @@
   (check-quote/macro ''#f #f)
   (check-quote/macro ''(1 2 3) '(cons 1 (cons 2 (cons 3 empty))))
   (check-quote/macro ''((1 2 3)) '(cons (cons 1 (cons 2 (cons 3 empty))) empty))
-  
-  
+
+
   )

@@ -23,6 +23,7 @@
      (first pred)]
     [(eq? #t (first pred)) (apply make-and (rest pred))]
     [(false? (first pred)) #f]
+    ; although we can use open-recursion to expand on this, it saves some recursion to expand it out here
     [else (make-if (first pred) (apply make-and (rest pred))
                    #f)]))
 
@@ -38,11 +39,12 @@
     [(eq? #t (first pred))
      #t]
     [(false? (first pred)) (apply make-or (rest pred))]
+    ; although we can use open-recursion to expand on this, it saves some recursion to expand it out here
     [else
-     ; it is ok to not use fresh since we only need x in this postion
-     `(let ([pred/or ,(first pred)])
-        ,(make-if 'pred/or
-                  'pred/or
+      (define sym (fresh 'pred/or))
+     `(let ([,sym ,(first pred)])
+        ,(make-if ,sym
+                  ,sym
                   (apply make-or (rest pred))))]
     ))
 
@@ -51,9 +53,12 @@
   (cond
     [(empty? es) '(void)]
     [(empty? (rest es)) (first es)]
-    [else `(let ([begin-e ,(first es)])
-             ,(make-if '(error? begin-e)
-                       'begin-e
+    ; although we can use open-recursion to expand on this, it saves some recursion to expand it out here
+    [else 
+      (define sym (fresh 'begin-tmp))
+      `(let ([,sym,(first es)])
+             ,(make-if `(error? ,sym)
+                       sym
                        (apply make-begin/macro (rest es))))]))
 
 ;; zero is allowed for make-vector in racket

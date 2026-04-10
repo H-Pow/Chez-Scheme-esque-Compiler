@@ -44,105 +44,34 @@
  implement-mops
  generate-x64)
 
-;; TODO: Fill in.
-;; You'll want to merge milestone-9 code in
-
-;; Stubs; remove or replace with your definitions.
-(define-values (uniquify
-                expand-macros
-                implement-safe-primops
-                implement-safe-call
-                define->letrec
-                optimize-direct-calls
-                dox-lambdas
-                uncover-free
-                convert-closures
-                optimize-known-calls
-                hoist-lambdas
-                implement-closures
-                specify-representation
-                remove-complex-opera*
-                sequentialize-let
-                normalize-bind
-                impose-calling-conventions
-                select-instructions
-                expose-allocation-pointer
-                uncover-locals
-                undead-analysis
-                conflict-analysis
-                assign-call-undead-variables
-                allocate-frames
-                assign-registers
-                assign-frame-variables
-                replace-locations
-                implement-fvars
-                optimize-predicates
-                expose-basic-blocks
-                resolve-predicates
-                flatten-program
-                patch-instructions
-                implement-mops
-                generate-x64)
-  (values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values
-   values))
-(require "dox-lambdas.rkt")
-(require "uniquify.rkt")
-(require "optimize-direct-calls.rkt")
-(require "implement-safe-primops.rkt")
-(require "sequentialize-let.rkt")
-(require "normalize-bind.rkt")
-(require "uncover-free.rkt")
-(require "convert-closures.rkt")
-(require "select-instructions.rkt")
-(require "target-nested-asm-lang-v2/all-exports.rkt")
-(require "flatten-begins.rkt")
-(require "patch-instructions.rkt")
-(require "expose-basic-blocks.rkt")
-(require "assign-frame-variables.rkt")
-(require "implement-fvars.rkt")
-(require "resolve-predicates.rkt")
-(require "generate-x64.rkt")
-(require "expose-allocation-pointer.rkt")
-(require "implement-mops.rkt")
-
-(require "specify-representation.rkt")
-(require "remove-complex-opera.rkt")
-(require "flatten-program.rkt")
-(require "impose-calling-conventions.rkt")
+(require "expand-macros.rkt"
+         "uniquify.rkt"
+         "implement-safe-primops.rkt"
+         "implement-safe-call.rkt"
+         (file "define->letrec.rkt")
+         "optimize-direct-calls.rkt"
+         "dox-lambdas.rkt"
+         "uncover-free.rkt"
+         "convert-closures.rkt"
+         "optimize-known-calls.rkt"
+         "hoist-lambdas.rkt"
+         "implement-closures.rkt"
+         "specify-representation.rkt"
+         "remove-complex-opera.rkt"
+         "sequentialize-let.rkt"
+         "normalize-bind.rkt"
+         "impose-calling-conventions.rkt"
+         "select-instructions.rkt"
+         "expose-allocation-pointer.rkt"
+         "target-nested-asm-lang-v2/all-exports.rkt"
+         "assign-frame-variables.rkt"
+         "implement-fvars.rkt"
+         "expose-basic-blocks.rkt"
+         "resolve-predicates.rkt"
+         "flatten-program.rkt"
+         "patch-instructions.rkt"
+         "implement-mops.rkt"
+         "generate-x64.rkt")
 
 ;; You can modify this pass list, e.g., by adding other
 ;; optimization, debugging, or validation passes.
@@ -217,13 +146,12 @@
   (require (submod "resolve-predicates.rkt" test))
 ;   (require (submod "specify-representation.rkt" test))
   (require (submod "flatten-program.rkt" test))
+  (require (submod "expand-macros.rkt" test))
 ;   (require (submod "patch-instructions.rkt" test))
   ; (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
   (for-each (λ(p) (dynamic-require p #f)) (glob "m8-generated-tests/**.rkt"))
-  ;; You can modify this pass list, e.g., by adding other
-  ;; optimization, debugging, or validation passes.
-  ;; Doing this may provide additional debugging info when running the rest
-  ;; suite.
+  (for-each (λ(p) (dynamic-require p #f)) (glob "m9-generated-tests/**.rkt"))
+  (for-each (λ(p) (dynamic-require p #f)) (glob "m10-generated-tests/**.rkt"))
 
   (run-tests
    (v10-public-test-suite

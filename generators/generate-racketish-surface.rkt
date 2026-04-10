@@ -282,7 +282,7 @@
                                              env
                                              (λ (def* val)
                                                (set-union! def*/updated def*)
-                                               (list val))
+                                               val)
                                              type)))
         (k def*/updated vec type*)
         ))

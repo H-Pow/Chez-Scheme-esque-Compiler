@@ -20,1238 +20,1127 @@
   (interp-racketish-surface p)
   (interp-exprs-lang-v9 (fail-if-invalid (expand-macros p)))))
 
-(check-by-interp '(module #t))
-(check-by-interp '(module #t))
-(check-by-interp '(module 226))
-(check-by-interp '(module (void)))
-(check-by-interp '(module (let () (error 209))))
-(check-by-interp '(module (let () (error 221))))
-(check-by-interp '(module (begin #\b #\_ #\c #\q #\V #\p #\R)))
-(check-by-interp '(module (begin (error 172) (error 172))))
+(check-by-interp '(module empty))
+(check-by-interp '(module (error 240)))
+(check-by-interp '(module empty))
+(check-by-interp '(module #\x))
+(check-by-interp '(module (and empty empty)))
+(check-by-interp '(module (let () 212)))
 (check-by-interp
- '(module (define fun/void8493 (lambda () (void))) (call fun/void8493)))
-(check-by-interp '(module (call * 11 130)))
+ '(module (define fun/fixnum8485 (lambda () 60)) (call fun/fixnum8485)))
 (check-by-interp
  '(module
-    (define fun/ascii-char8498 (lambda () #\U))
-    (call fun/ascii-char8498)))
+    (define fun/ascii-char8488 (lambda () #\A))
+    (call fun/ascii-char8488)))
 (check-by-interp
  '(module
-    (define fun/ascii-char8501 (lambda () #\v))
-    (call fun/ascii-char8501)))
+    (define fun/ascii-char8491 (lambda () #\Z))
+    (call fun/ascii-char8491)))
+(check-by-interp '(module (or #\h #\l #\K #\i #\m #\y)))
+(check-by-interp '(module (if #t 219 101)))
+(check-by-interp
+ '(module (define fun/empty8500 (lambda () empty)) (call fun/empty8500)))
 (check-by-interp
  '(module
-    (begin
-      (begin #\V #\f #\E #\n #\\)
-      (let () #\I)
-      (let ((void0 (void))) #\k))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8506 (lambda () #\L))
-    (define fun/ascii-char8507 (lambda () #\i))
-    (or (let ((procedure0 (lambda () (vector 1 2 3 4 5 6 7 8)))) #\G)
-        (if #f #\[ #\\)
-        (call fun/ascii-char8506)
-        (if #t #\V #\V)
-        (if #f #\i #\N)
-        (call fun/ascii-char8507))))
-(check-by-interp '(module (let () #\U)))
-(check-by-interp '(module (if #f (void) (void))))
-(check-by-interp '(module (let () empty)))
-(check-by-interp
- '(module
-    (define fun/error8516 (lambda () (call fun/error8517)))
-    (define fun/error8517 (lambda () (error 112)))
-    (call fun/error8516)))
-(check-by-interp '(module (let () 110)))
-(check-by-interp
- '(module
-    (define fun/error8523 (lambda () (error 210)))
-    (define fun/error8522 (lambda () (call fun/error8523)))
-    (call fun/error8522)))
-(check-by-interp '(module (begin (if #t (void) (void)))))
-(check-by-interp '(module (if #t 46 97)))
-(check-by-interp
- '(module
-    (define fun/void8531 (lambda () (void)))
-    (define fun/void8530 (lambda () (call fun/void8531)))
-    (call fun/void8530)))
-(check-by-interp
- '(module
-    (define fun/void8534 (lambda () (void)))
-    (define fun/void8535 (lambda () (void)))
-    (begin
-      (let ((boolean0 #f)) (void))
-      (let ((empty0 empty)) (void))
-      (call fun/void8534)
-      (if #t (void) (void))
-      (call fun/void8535)
-      (and (void) (void) (void) (void) (void) (void) (void))
-      (begin (void)))))
-(check-by-interp
- '(module
-    (define fun/void8539 (lambda () (void)))
-    (define fun/void8538 (lambda () (call fun/void8539)))
-    (call fun/void8538)))
-(check-by-interp '(module (if #t #\i #\t)))
-(check-by-interp '(module (call * (or 84 193 207 91 149) (or 174 79))))
-(check-by-interp
- '(module
-    (define fun/error8546 (lambda () (let () (error 83))))
-    (call fun/error8546)))
-(check-by-interp
- '(module
-    (define fun/empty8549 (lambda (oprand0) (let () empty)))
-    (call fun/empty8549 (let ((error0 (error 90))) (error 239)))))
-(check-by-interp
- '(module
-    (define fun/void8553 (lambda () (call fun/void8554)))
-    (define fun/void8554 (lambda () (void)))
-    (define fun/void8552 (lambda (oprand0) (call fun/void8553)))
-    (call fun/void8552 (if #f 221 247))))
-(check-by-interp
- '(module
-    (define fun/error8557 (lambda () (error 161)))
-    (and (let ((error0 (error 194))) (error 152))
-         (begin
-           (if #f (error 108) (error 68))
-           (and (error 192))
-           (if #f (error 126) (error 57))
-           (begin (error 31) (error 219) (error 86))
-           (if #t (error 147) (error 181))
-           (call fun/error8557)
-           (begin (error 211))))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8562 (lambda (oprand0) #\n))
-    (define fun/ascii-char8561 (lambda (oprand0) #\l))
-    (define fun/boolean8560 (lambda () #f))
-    (if (call fun/boolean8560)
-      (call fun/ascii-char8561 #f)
-      (call fun/ascii-char8562 '(31 309)))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8565 (lambda () #\C))
-    (let ((procedure0 (lambda () (call fun/ascii-char8565))))
-      (let ((error0 (error 99))) (void)))))
-(check-by-interp
- '(module (let ((ascii-char0 (or #\A #\^ #\k))) (if #f 249 139))))
-(check-by-interp
- '(module
-    (define fun/fixnum8570 (lambda () (let () 159)))
-    (call fun/fixnum8570)))
-(check-by-interp
- '(module
-    (define fun/void8573 (lambda () (if #f (void) (void))))
-    (call fun/void8573)))
-(check-by-interp '(module (let () (or empty))))
-(check-by-interp
- '(module (call pair? (let ((error0 (error 167)) (boolean1 #f)) (error 233)))))
-(check-by-interp '(module (let () (let () (void)))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8582 (lambda () #\H))
-    (let ((void0 (if #t (void) (void)))) (call fun/ascii-char8582))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8585 (lambda () (if #f #\r #\D)))
-    (call fun/ascii-char8585)))
-(check-by-interp
- '(module
-    (define fun/ascii-char8591 (lambda (oprand0) (call fun/ascii-char8592)))
-    (define fun/ascii-char8592 (lambda () #\L))
-    (define fun/ascii-char8595 (lambda () #\v))
-    (define fun/vector8594 (lambda () (vector 1 2 3 4 5 6 7 8)))
-    (define fun/vector8593 (lambda (oprand0) (call fun/vector8594)))
-    (call fun/ascii-char8591 (call fun/vector8593 (call fun/ascii-char8595)))))
-(check-by-interp '(module (let () (let () empty))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8602 (lambda () #\J))
-    (define fun/ascii-char8604 (lambda () #\_))
-    (define fun/ascii-char8603 (lambda () #\N))
-    (begin
-      (or (let ((pair0 '(141 498)) (boolean1 #f)) #\B)
-          (begin #\V #\B)
-          (let ((procedure0 (lambda () (void)))) #\Z)
-          (call fun/ascii-char8602)
-          (let ((fixnum0 12) (ascii-char1 #\R)) #\e))
-      (or (call fun/ascii-char8603))
-      (or (call fun/ascii-char8604)
-          (let ((fixnum0 190) (error1 (error 40))) #\])
-          (or #\L #\l)
-          (and #\I #\p #\d #\L)
-          (or #\T #\\ #\Y #\V #\y #\_ #\F))
-      (let ((fixnum0 45)) #\j)
-      (if #f #\A #\c)
-      (if #f #\U #\e))))
-(check-by-interp
- '(module
-    (define fun/error8607 (lambda (oprand0) (error 187)))
-    (let () (call fun/error8607 #t))))
-(check-by-interp
- '(module
-    (define fun/error8610 (lambda (oprand0) (error 137)))
-    (if (if #f #f #t) (let () (error 47)) (call fun/error8610 6))))
-(check-by-interp
- '(module
-    (define fun/boolean8613 (lambda (oprand0) #t))
-    (define fun/void8614 (lambda (oprand0) (void)))
-    (if (call fun/boolean8613 #\I)
-      (if #t (void) (void))
-      (call fun/void8614 #f))))
-(check-by-interp
- '(module
-    (begin
-      (let ((ascii-char0 #\r)) #\C)
-      (if #f #\G #\R)
-      (let () #\t)
-      (let () #\t))))
-(check-by-interp
- '(module
-    (define fun/error8619 (lambda (oprand0) (error 75)))
-    (if (if #f #t #f) (call fun/error8619 #f) (if #f (error 23) (error 167)))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8622 (lambda () (call fun/ascii-char8623)))
-    (define fun/ascii-char8623 (lambda () (call fun/ascii-char8624)))
-    (define fun/ascii-char8624 (lambda () #\q))
-    (call fun/ascii-char8622)))
-(check-by-interp
- '(module
-    (define fun/empty8627 (lambda (oprand0) (if #f empty empty)))
-    (define fun/empty8630 (lambda () empty))
-    (define fun/empty8629 (lambda (oprand0) empty))
-    (define fun/empty8628 (lambda () empty))
     (and (let () empty)
-         (call fun/empty8627 (let ((ascii-char0 #\B)) #t))
-         (if #t empty empty)
-         (if #t empty empty)
-         (and (or empty empty empty empty empty empty empty)
-              (if #t empty empty)
-              (and empty empty empty empty empty)
-              (if #f empty empty)
-              (call fun/empty8628))
-         (begin
-           (call fun/empty8629 #f)
-           (let ((fixnum0 174)) empty)
-           (call fun/empty8630)
-           (or empty empty empty empty)
-           (let ((pair0 '(202 322)) (vector1 #(0 1 2 3 4 5 6 7))) empty)
-           (or empty empty empty empty empty empty empty)))))
+         (and empty empty empty empty empty empty)
+         (if #t empty empty))))
 (check-by-interp
  '(module
-    (if (if #t #f #t)
-      (if #f (error 46) (error 150))
-      (let ((procedure0 (lambda () 143))) (error 251)))))
-(check-by-interp
- '(module
-    (let ((error0 (if #t (error 72) (error 35)))
-          (fixnum1 (or 162 92 198 13 140 114 150)))
-      (or #f #t #t #f #f #t #t))))
-(check-by-interp '(module (if (if #f #t #f) (let () (void)) (begin (void)))))
-(check-by-interp
- '(module (if (if #t #t #t) (let ((ascii-char0 #\H)) 50) (begin 184 213 114))))
-(check-by-interp
- '(module
-    (and (let ((void0 (void)) (empty1 empty)) (error 173))
-         (or (let ((boolean0 #t)) (error 149))
-             (let ((pair0 '(227 467))) (error 230))
-             (if #t (error 139) (error 80))))))
-(check-by-interp
- '(module
-    (define fun/empty8650 (lambda () (if #t empty empty)))
-    (define fun/empty8649 (lambda () empty))
+    (define fun/void8514 (lambda () (void)))
+    (define fun/void8513 (lambda () (void)))
     (begin
+      (if #f (void) (void))
+      (call fun/void8513)
+      (let ((vector0 #(0 1 2 3 4 5 6 7))) (void))
+      (begin (void) (void) (void) (void))
+      (let () (void))
+      (let () (void))
+      (call fun/void8514))))
+(check-by-interp '(module (let () empty)))
+(check-by-interp '(module (let () #\Y)))
+(check-by-interp
+ '(module
+    (define fun/empty8524 (lambda () (if #f empty empty)))
+    (call fun/empty8524)))
+(check-by-interp '(module (if #t empty empty)))
+(check-by-interp '(module (let ((fixnum0 33)) #t)))
+(check-by-interp
+ '(module
+    (define fun/void8531 (lambda () (if #f (void) (void))))
+    (call fun/void8531)))
+; (check-by-interp
+;  '(module
+;     (define fun/error8534 (lambda () (error 82)))
+;     (define fun/error8535 (lambda () (error 60)))
+;     (and (or (error 39) (error 193) (error 124) (error 73) (error 75))
+;          (if #f (error 124) (error 124))
+;          (call fun/error8534)
+;          (call fun/error8535)
+;          (if #f (error 148) (error 136))
+;          (let ((procedure0 (lambda () (error 109)))) (error 64))
+;          (begin (error 54) (error 109) (error 200)))))
+(check-by-interp
+ '(module
+    (define fun/void8538 (lambda () (void)))
+    (and (and (void) (void)) (call fun/void8538))))
+(check-by-interp '(module (if #f #\_ #\i)))
+(check-by-interp
+ '(module
+    (define fun/fixnum8543 (lambda () (call fun/fixnum8544)))
+    (define fun/fixnum8544 (lambda () 117))
+    (call fun/fixnum8543)))
+(check-by-interp '(module (if #f (error 164) (error 184))))
+(check-by-interp '(module (let () #\Z)))
+(check-by-interp
+ '(module
+    (define fun/fixnum8551 (lambda () (if #t 67 129)))
+    (call fun/fixnum8551)))
+(check-by-interp
+ '(module
+    (define fun/error8558 (lambda () (call fun/error8559)))
+    (define fun/error8559 (lambda () (error 186)))
+    (call fun/error8558)))
+(check-by-interp
+ '(module
+    (define fun/void8562 (lambda () (call fun/void8563)))
+    (define fun/void8565 (lambda () (void)))
+    (define fun/void8564 (lambda () (call fun/void8565)))
+    (define fun/void8563 (lambda () (void)))
+    (and (call fun/void8562)
+         (let ((void0 (void)) (error1 (error 196))) (void))
+         (call fun/void8564))))
+(check-by-interp
+ '(module
+    (define fun/ascii-char8568 (lambda (oprand0) (call fun/ascii-char8569)))
+    (define fun/ascii-char8569 (lambda () #\X))
+    (call fun/ascii-char8568 (if #t 65 125))))
+(check-by-interp
+ '(module
+    (let ((vector0
+           #((make-vector 8)
+             '(206 384)
+             '(188 505)
+             #\l
+             '(154 282)
+             (void)
+             (lambda () 892)
+             #f))
+          (void1 (begin (void) (void) (void) (void) (void))))
+      (let () 170))))
+(check-by-interp
+ '(module
+    (define fun/boolean8574 (lambda (oprand0) #f))
+    (if (call fun/boolean8574 (make-vector 8))
+      (if #t #\C #\])
+      (let ((void0 (void)) (pair1 '(184 385))) #\Y))))
+(check-by-interp
+ '(module
+    (define fun/empty8578 (lambda () (call fun/empty8579)))
+    (define fun/empty8579 (lambda () empty))
+    (define fun/empty8577 (lambda (oprand0) (if #f empty empty)))
+    (and (let ((ascii-char0 #\^)) empty)
+         (call fun/empty8577 (and empty empty empty empty))
+         (let () empty)
+         (let ((procedure0 (lambda () #f)) (fixnum1 204)) empty)
+         (call fun/empty8578))))
+(check-by-interp
+ '(module
+    (define fun/vector8584 (lambda () (vector 1 2 3 4 5 6 7 8)))
+    (define fun/fixnum8582 (lambda () 234))
+    (define fun/fixnum8583 (lambda (oprand0) (if #f 70 77)))
+    (call
+     >=
+     (call * (let () 78) (call fun/fixnum8582))
+     (call fun/fixnum8583 (call fun/vector8584)))))
+(check-by-interp
+ '(module
+    (define fun/empty8588 (lambda (oprand0) (let () empty)))
+    (define fun/empty8587 (lambda () empty))
+    (or (if #f empty empty)
+        (if #f empty empty)
+        (let () empty)
+        (if #f empty empty)
+        (and (if #t empty empty)
+             (let ((fixnum0 114)) empty)
+             (if #t empty empty)
+             (or empty empty empty empty empty empty empty)
+             (let () empty)
+             (call fun/empty8587)
+             (let ((fixnum0 110)) empty))
+        (let () empty)
+        (call fun/empty8588 (begin 203 29 74 228 185)))))
+(check-by-interp
+ '(module
+    (define fun/empty8592 (lambda () (if #t empty empty)))
+    (define fun/empty8594 (lambda (oprand0) (if #f empty empty)))
+    (define fun/empty8593 (lambda (oprand0) (let () empty)))
+    (define fun/empty8591 (lambda (oprand0) empty))
+    (define fun/empty8595 (lambda () empty))
+    (begin
+      (let ((pair0 '(253 358)) (pair1 '(169 295))) empty)
       (or (if #f empty empty)
           (if #f empty empty)
-          (call fun/empty8649)
-          (and empty empty empty)
-          (if #t empty empty)
-          (if #f empty empty))
-      (and (if #f empty empty)
-           (let () empty)
-           (or empty empty empty)
-           (let ((procedure0 (lambda () '(98 276))) (boolean1 #f)) empty)
-           (if #t empty empty))
-      (call fun/empty8650)
-      (begin (and empty empty) (if #t empty empty)))))
+          (begin empty empty empty empty empty empty)
+          (let () empty)
+          (call fun/empty8591 139))
+      (call fun/empty8592)
+      (call fun/empty8593 (let ((pair0 '(112 452))) (error 248)))
+      (call fun/empty8594 (or (error 149)))
+      (let () empty)
+      (and (call fun/empty8595) (if #t empty empty)))))
 (check-by-interp
  '(module
-    (define fun/error8653 (lambda () (call fun/error8654)))
-    (define fun/error8654 (lambda () (call fun/error8655)))
-    (define fun/error8655 (lambda () (error 74)))
-    (call fun/error8653)))
+    (define fun/fixnum8598 (lambda () 203))
+    (define fun/fixnum8599 (lambda () 64))
+    (and (begin
+           (call fun/fixnum8598)
+           (let () 107)
+           (call fun/fixnum8599)
+           (if #t 192 15)))))
 (check-by-interp
  '(module
-    (define fun/ascii-char8662 (lambda () (if #f #\i #\S)))
-    (define fun/ascii-char8658 (lambda () (call fun/ascii-char8659)))
-    (define fun/ascii-char8659 (lambda () #\f))
-    (define fun/ascii-char8660 (lambda (oprand0) (call fun/ascii-char8661)))
-    (define fun/ascii-char8661 (lambda () #\C))
-    (begin
-      (call fun/ascii-char8658)
-      (let () #\Q)
-      (call fun/ascii-char8660 (or empty))
-      (call fun/ascii-char8662))))
+    (define fun/fixnum8602 (lambda (oprand0) (call fun/fixnum8603)))
+    (define fun/fixnum8604 (lambda () 49))
+    (define fun/fixnum8603 (lambda () (call fun/fixnum8604)))
+    (call fun/fixnum8602 (if #t '(141 350) '(232 266)))))
 (check-by-interp
  '(module
-    (if (if #f #t #t)
-      (let ((error0 (error 214))) (void))
-      (if #f (void) (void)))))
+    (define fun/error8609 (lambda () (error 43)))
+    (define fun/error8608 (lambda () (error 155)))
+    (define fun/error8607 (lambda (oprand0) oprand0))
+    (or (or (call fun/error8607 (error 221))
+            (call fun/error8608)
+            (and (error 37)
+                 (error 42)
+                 (error 98)
+                 (error 1)
+                 (error 165)
+                 (error 150))
+            (if #f (error 91) (error 43))
+            (begin (error 171) (error 153) (error 111) (error 206) (error 173))
+            (call fun/error8609))
+        (if #t (error 249) (error 66))
+        (let () (error 165)))))
 (check-by-interp
  '(module
-    (define fun/any7325 (lambda (oprand0 oprand1) (error 124)))
-    (if (begin (let () #t) (let () #t))
-      (error? (call fun/any7325 #\K (lambda () 713)))
-      (if #f #f #t))))
+    (define fun/fixnum8612 (lambda () (call fun/fixnum8613)))
+    (define fun/fixnum8614 (lambda () 46))
+    (define fun/fixnum8613 (lambda () (call fun/fixnum8614)))
+    (call fun/fixnum8612)))
+(check-by-interp '(module (and (if #f 144 165))))
+(check-by-interp
+ '(module (if (if #t #f #f) (if #t (void) (void)) (or (void) (void)))))
+(check-by-interp '(module (if (if #f #t #t) (or #\[ #\F) (if #f #\H #\B))))
+(check-by-interp '(module (let () (if #t empty empty))))
 (check-by-interp
  '(module
-    (define fun/any8476 (lambda (oprand0) 169))
-    (if (call void? (call fun/any8476 (lambda () 1020)))
-      (let ((procedure0 (lambda () '(215 403)))
-            (error1 (error 137))
-            (error2 (error 179)))
-        #f)
-      (let ((vector0 #(0 1 2 3 4 5 6 7))) #t))))
-(check-by-interp
- '(module
-    (if (call fixnum? (if #t 194 (vector 1 2 3 4 5 6 7 8)))
-      (let ((pair0 '(82 500))) empty)
-      (let ((fixnum0 88)) empty))))
-(check-by-interp
- '(module
-    (define fun/empty8484 (lambda () (if #t empty empty)))
-    (define fun/empty8483 (lambda () (call fun/empty8484)))
-    (call fun/empty8483)))
-(check-by-interp
- '(module
-    (if (let ((ascii-char0 #\`)) #t)
-      (if #f (void) (void))
-      (if #t (void) (void)))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8493 (lambda () #\d))
-    (define fun/void8489 (lambda (oprand0 oprand1) (call fun/void8490)))
-    (define fun/pair8497 (lambda (oprand0) (let ((boolean0 #t)) '(243 369))))
-    (define fun/void8495 (lambda (oprand0 oprand1) (call fun/void8496)))
-    (define fun/void8490 (lambda () (call fun/void8491)))
-    (define fun/ascii-char8494 (lambda () #\e))
-    (define fun/void8496 (lambda () (void)))
-    (define fun/pair8498 (lambda () '(164 306)))
-    (define fun/ascii-char8492
-      (lambda (oprand0 oprand1) (call fun/ascii-char8493)))
-    (define fun/void8491 (lambda () (void)))
+    (define fun/boolean8626 (lambda (oprand0) #f))
+    (define fun/boolean8625 (lambda (oprand0) (if #t #t #f)))
     (call
-     fun/void8489
-     (and (call
-           fun/ascii-char8492
-           (if #t (error 139) (error 166))
-           (let ((vector0 (vector 1 2 3 4 5 6 7 8))) (void)))
-          (if #t #\j #\G)
-          (begin
-            (or #\h #\H)
-            (let ((pair0 '(222 394)) (error1 (error 102))) #\E)
-            (let ((boolean0 #f) (void1 (void)) (boolean2 #f)) #\s)
-            (let ((boolean0 #f) (pair1 '(165 270)) (fixnum2 165)) #\k)
-            (call fun/ascii-char8494)
-            (let ((pair0 '(123 483)) (void1 (void)) (void2 (void))) #\D))
-          (let () #\\))
-     (call
-      fun/void8495
-      (call fun/pair8497 (call fun/pair8498))
-      (let ((empty0 empty) (ascii-char1 #\d)) (lambda () 530))))))
+     fun/boolean8625
+     (or (if #f #f #f)
+         (if #f #f #t)
+         (call fun/boolean8626 #(0 1 2 3 4 5 6 7))
+         (let ((procedure0 (lambda () #(0 1 2 3 4 5 6 7)))
+               (vector1 (make-vector 8)))
+           #t)
+         (let ((ascii-char0 #\B)
+               (procedure1 (lambda () (vector 1 2 3 4 5 6 7 8))))
+           #t)))))
+(check-by-interp '(module (let () (let ((void0 (void))) (void)))))
 (check-by-interp
  '(module
-    (define fun/empty8501 (lambda (oprand0 oprand1) empty))
-    (let ()
-      (and (if #f empty empty)
-           (begin empty empty empty empty)
-           (call fun/empty8501 136 (lambda () 643))))))
+    (define fun/empty8631 (lambda (oprand0) (if #t empty empty)))
+    (call fun/empty8631 (let ((error0 (error 175))) '(187 430)))))
 (check-by-interp
  '(module
-    (let ((void0 (let () (void)))
-          (procedure1 (lambda () (let () #t)))
-          (boolean2 (and (let () #f))))
-      (and (if #f #\n #\v) (and #\E #\a #\b)))))
+    (define fun/empty8634 (lambda () (if #t empty empty)))
+    (call fun/empty8634)))
 (check-by-interp
  '(module
-    (let ((void0 (let ((pair0 '(107 481)) (boolean1 #t)) (void))))
-      (if #f 61 215))))
+    (define fun/vector8638 (lambda () #(0 1 2 3 4 5 6 7)))
+    (define fun/void8637 (lambda () (void)))
+    (define fun/fixnum8639 (lambda () 23))
+    (let ((void0 (call fun/void8637))
+          (procedure1 (lambda () (call fun/vector8638))))
+      (call fun/fixnum8639))))
 (check-by-interp
  '(module
-    (define fun/void8478 (lambda () (void)))
-    (define fun/void8477 (lambda (oprand0) (call fun/void8478)))
-    (define fun/ascii-char8479 (lambda (oprand0) #\F))
-    (let () (call fun/void8477 (call fun/ascii-char8479 111)))))
+    (define fun/fixnum8642 (lambda () 171))
+    (if (let () #f) (if #f 157 104) (call fun/fixnum8642))))
 (check-by-interp
  '(module
-    (define fun/error8483 (lambda () (call fun/error8484)))
-    (define fun/error8484 (lambda () (error 156)))
-    (define fun/error8482 (lambda (oprand0) (call fun/error8483)))
-    (call
-     fun/error8482
-     (if (call < 248 54)
-       (begin (void) (void) (void) (void) (void))
-       (let ((error0 (error 120))) (void))))))
+    (let ((vector0 #(112 (lambda () 928) empty #f (void) #\t empty empty)))
+      (let ((ascii-char0 #\P)) (void)))))
 (check-by-interp
  '(module
-    (define fun/void8487 (lambda (oprand0 oprand1) oprand1))
-    (define fun/void8488
-      (lambda (oprand0) (vector-set! oprand0 3 #(0 1 2 3 4 5 6 7))))
-    (let ()
-      (and (let ((ascii-char0 #\j) (empty1 empty) (pair2 '(146 308))) (void))
-           (call fun/void8487 148 (void))
-           (call fun/void8488 (vector 1 2 3 4 5 6 7 8))
-           (if #t (void) (void))))))
+    (define fun/ascii-char8647
+      (lambda () (let ((vector0 #(0 1 2 3 4 5 6 7))) #\])))
+    (define fun/ascii-char8648 (lambda (oprand0) #\u))
+    (or (call fun/ascii-char8647)
+        (let ((procedure0 (lambda () (lambda () 813)))) #\r)
+        (or (call fun/ascii-char8648 220)
+            (let ((procedure0 (lambda () (error 180))) (error1 (error 170)))
+              #\C)
+            (begin #\\ #\^))
+        (let ((error0 (error 253))) #\R)
+        (if #f #\K #\m))))
 (check-by-interp
  '(module
-    (define fun/empty8491
-      (lambda (oprand0 oprand1) (let () (call fun/empty8492))))
-    (define fun/empty8492 (lambda () empty))
-    (define fun/error8493 (lambda (oprand0 oprand1) (error 123)))
-    (call
-     fun/empty8491
-     (let ((error0 (if #t (error 178) (error 194))))
-       (and (void) (void) (void) (void)))
-     (if (let () #t) (let () (error 47)) (call fun/error8493 #t #t)))))
-(check-by-interp
- '(module
-    (define fun/pair8504 (lambda (oprand0 oprand1) '(175 296)))
-    (define fun/void8499 (lambda (oprand0) (void)))
-    (define fun/void8501
-      (lambda (oprand0 oprand1) (vector-set! oprand0 5 #\I)))
-    (define fun/void8498 (lambda () (void)))
-    (define fun/fixnum8502 (lambda (oprand0) (let () 229)))
-    (define fun/pair8503 (lambda () '(187 408)))
-    (define fun/void8497 (lambda (oprand0 oprand1) (let () (void))))
-    (define fun/void8500 (lambda (oprand0) (void)))
-    (define fun/fixnum8496 (lambda (oprand0 oprand1) (let () (if #t 39 232))))
-    (call
-     fun/fixnum8496
-     (and (call fun/void8497 (if #f 182 177) (if #f '(128 289) '(177 385)))
-          (or (if #f (void) (void)))
-          (let ((procedure0 (lambda () '(6 507)))
-                (ascii-char1 #\M)
-                (fixnum2 199))
-            (void))
-          (if #f (void) (void))
-          (let ((empty0 empty)
-                (procedure1 (lambda () (vector 1 2 3 4 5 6 7 8))))
-            (void))
-          (or (if #t (void) (void))
-              (begin (void))
-              (let ((boolean0 #t)
-                    (error1 (error 35))
-                    (procedure2 (lambda () empty)))
-                (void))
-              (call fun/void8498)
-              (call fun/void8499 (error 96))
-              (call fun/void8500 #f)
-              (call fun/void8501 (vector 1 2 3 4 5 6 7 8) (error 127))))
-     (call
-      fun/fixnum8502
-      (begin
-        (and '(234 272))
-        (let ((error0 (error 104))
-              (procedure1 (lambda () #(0 1 2 3 4 5 6 7)))
-              (ascii-char2 #\M))
-          '(43 459))
-        (or '(92 487))
-        (begin '(23 399) '(163 314))
-        (call fun/pair8503)
-        (if #t '(59 331) '(18 310))
-        (call fun/pair8504 (void) (lambda () 998)))))))
-(check-by-interp
- '(module
-    (define fun/empty8510 (lambda (oprand0 oprand1) empty))
-    (define fun/empty8513 (lambda (oprand0) (call fun/empty8514)))
-    (define fun/empty8514 (lambda () empty))
-    (define fun/fixnum8507
-      (lambda (oprand0 oprand1)
-        (if (if #t #t #f) (call fun/fixnum8508) (call fun/fixnum8509))))
-    (define fun/empty8511 (lambda (oprand0 oprand1) empty))
-    (define fun/empty8512 (lambda () empty))
-    (define fun/fixnum8509 (lambda () 4))
-    (define fun/fixnum8508 (lambda () 17))
-    (call
-     fun/fixnum8507
-     (and (and (call fun/empty8510 (error 189) '(54 464))
-               (call fun/empty8511 #t 41)
-               (if #f empty empty)
-               (call fun/empty8512)
-               (let ((error0 (error 217)) (boolean1 #t)) empty)
-               (let () empty))
-          (call fun/empty8513 (if #t (lambda () 622) (lambda () 523))))
-     (if (< 93 14)
-       (let ((boolean0 #t) (vector1 (vector 1 2 3 4 5 6 7 8)) (boolean2 #f))
-         (void))
-       (let ((empty0 empty) (empty1 empty)) (void))))))
-(check-by-interp
- '(module
-    (define fun/boolean8517 (lambda (oprand0) #f))
-    (or (if (call fun/boolean8517 (lambda () 918))
-          (or #\L)
-          (let ((vector0 (vector 1 2 3 4 5 6 7 8))
-                (void1 (void))
-                (boolean2 #f))
-            #\v)))))
-(check-by-interp
- '(module
-    (define fun/vector8521 (lambda (oprand0 oprand1) (if #f oprand0 oprand0)))
-    (define fun/fixnum8520 (lambda (oprand0) (let () 69)))
-    (call
-     *
-     (call
-      fun/fixnum8520
-      (call
-       fun/vector8521
-       (let () (vector 1 2 3 4 5 6 7 8))
-       (if #f '(25 278) '(168 487))))
-     (if (let () #f) (begin 232 165 174) (if #f 106 28)))))
-(check-by-interp
- '(module
-    (define fun/fixnum8525 (lambda () (call fun/fixnum8526)))
-    (define fun/empty8524 (lambda () (if #f empty empty)))
-    (define fun/fixnum8526 (lambda () 54))
-    (let ((empty0 (call fun/empty8524)) (ascii-char1 (if #f #\P #\J)))
-      (call fun/fixnum8525))))
-(check-by-interp
- '(module
-    (define fun/fixnum8529 (lambda (oprand0 oprand1) (let () 49)))
-    (define fun/fixnum8530 (lambda () 148))
-    (if (let () #f)
-      (call
-       fun/fixnum8529
-       (let ((ascii-char0 #\v)) (error 22))
-       (call fun/fixnum8530))
-      (if #t 68 222))))
-(check-by-interp
- '(module
-    (define fun/void8536 (lambda () (void)))
-    (define fun/empty8533 (lambda (oprand0) (call fun/empty8534)))
-    (define fun/empty8534 (lambda () (if #t empty empty)))
-    (define fun/ascii-char8535 (lambda () #\V))
-    (call
-     fun/empty8533
-     (let ((ascii-char0 (call fun/ascii-char8535))
-           (void1 (if #t (void) (void)))
-           (void2 (call fun/void8536)))
-       (if #f (vector 1 2 3 4 5 6 7 8) (vector 1 2 3 4 5 6 7 8))))))
-(check-by-interp
- '(module
-    (define fun/empty8542 (lambda (oprand0) empty))
-    (define fun/empty8544 (lambda () (call fun/empty8545)))
-    (define fun/empty8539 (lambda (oprand0) empty))
-    (define fun/empty8545 (lambda () empty))
-    (define fun/empty8547 (lambda () (let () empty)))
-    (define fun/void8541 (lambda () (void)))
-    (define fun/empty8546 (lambda (oprand0) empty))
-    (define fun/void8540 (lambda () (void)))
-    (define fun/empty8543 (lambda (oprand0 oprand1) empty))
-    (begin
-      (if (call >= 2 186)
-        (call fun/empty8539 #t)
-        (let ((procedure0 (lambda (oprand0 oprand1) #\_))) empty))
-      (let ((fixnum0 (or 131 147 135 70))
-            (vector1
-             #(((make-vector 8))
-               (#t)
-               (#t)
-               (empty)
-               (#\_)
-               (111)
-               (194)
-               ((lambda () 699))))
-            (error2 (or (error 173) (error 54) (error 170) (error 170))))
-        (and empty empty empty empty empty))
-      (let ((void0 (call fun/void8540))
-            (ascii-char1 (let () #\t))
-            (void2 (call fun/void8541)))
-        (and empty empty empty))
-      (and (if #f empty empty)
-           (let ((boolean0 #t) (pair1 '(42 383))) empty)
-           (if #t empty empty)
-           (let () empty)
-           (let ((vector0 (vector 1 2 3 4 5 6 7 8))
-                 (procedure1 (lambda () empty))
-                 (empty2 empty))
-             empty)
-           (if #f empty empty))
-      (begin
-        (begin
-          (if #f empty empty)
-          (or empty empty empty empty empty)
-          (let ((boolean0 #f)) empty)
-          (let ((pair0 '(205 503)) (boolean1 #f) (pair2 '(178 296))) empty)
-          (call fun/empty8542 (error 60))
-          (and empty empty))
-        (let ((vector0 #(0 1 2 3 4 5 6 7))
-              (pair1 '(168 348))
-              (error2 (error 250)))
-          empty)
-        (begin
-          (begin empty empty)
-          (if #f empty empty)
-          (call fun/empty8543 #f #\l)
-          (or empty empty empty empty empty)
-          (if #t empty empty)
-          (if #f empty empty))
-        (call fun/empty8544)
-        (or (let ((ascii-char0 #\G) (vector1 #(0 1 2 3 4 5 6 7)) (boolean2 #f))
-              empty)
-            (let ((fixnum0 247) (ascii-char1 #\T)) empty)
-            (call fun/empty8546 (lambda () 652))
-            (let ((vector0 #(0 1 2 3 4 5 6 7)) (fixnum1 146)) empty)
-            (or empty empty empty empty)
-            (let ((fixnum0 152) (error1 (error 182))) empty))
-        (call fun/empty8547)))))
-(check-by-interp
- '(module
-    (define fun/fixnum8552 (lambda () (call fun/fixnum8553 235)))
-    (define fun/boolean8550 (lambda (oprand0 oprand1) (call fun/boolean8551)))
-    (define fun/fixnum8553 (lambda (oprand0) oprand0))
-    (define fun/boolean8551 (lambda () #f))
-    (if (call
-         fun/boolean8550
-         (if #t #\C #\o)
-         (begin
-           '(107 348)
-           '(203 496)
-           '(79 267)
-           '(239 409)
-           '(77 484)
-           '(220 290)
-           '(89 469)))
-      (call fun/fixnum8552)
-      (let () 134))))
-(check-by-interp
- '(module
-    (define fun/fixnum8556 (lambda (oprand0 oprand1) (if #t 71 190)))
-    (if (let ((pair0 '(177 360)) (empty1 empty) (boolean2 #f)) #t)
-      (let ((pair0 '(210 266))) 198)
-      (call fun/fixnum8556 (if #t empty empty) (begin '(103 399) '(19 508))))))
-(check-by-interp
- '(module
-    (define fun/pair8560 (lambda (oprand0) '(5 421)))
-    (define fun/procedure8559 (lambda () (lambda () 550)))
+    (define fun/void8651 (lambda () (void)))
     (let ((vector0
-           #(((let () (void)))
-             ((let () 84))
-             ((let ((pair0 '(115 428)) (empty1 empty)) (void)))
-             ((or 69 50 147 112 173))
-             ((let () empty))
-             ((call fun/procedure8559))
-             ((if #f empty empty))
-             ((call fun/pair8560 #t)))))
-      (if #f #\J #\`))))
+           #(empty
+             (vector 1 2 3 4 5 6 7 8)
+             (void)
+             (error 187)
+             #t
+             (error 0)
+             #\A
+             110)))
+      (call fun/void8651))))
 (check-by-interp
  '(module
-    (define fun/error7326 (lambda () (if #f (error 41) (error 41))))
-    (define fun/any7325 (lambda () (vector 1 2 3 4 5 6 7 8)))
-    (define fun/error7327 (lambda (oprand0 oprand1) (error 150)))
-    (if (ascii-char? (call fun/any7325))
-      (call fun/error7326)
-      (or (and (error 73) (error 249) (error 226))
-          (begin (error 136) (error 134) (error 216) (error 132))
-          (if #t (error 103) (error 151))
-          (call fun/error7327 (void) (vector 1 2 3 4 5 6 7 8))
-          (let ((fixnum0 172)) (error 184))
-          (begin (error 89) (error 219))))))
+    (define fun/void8654 (lambda (oprand0) (if #f (void) (void))))
+    (call
+     fun/void8654
+     (let ((procedure0 (lambda (oprand0) #t))) (lambda () 908)))))
 (check-by-interp
  '(module
-    (define fun/ascii-char8478 (lambda () (if #t #\t #\O)))
-    (if (or (if #t #t #t)
-            (let () #t)
-            (begin #t #t #f #t #f #f #t)
-            (and #f #t #f #t))
-      (let () #\k)
-      (call fun/ascii-char8478))))
-(check-by-interp
- '(module (let ((boolean0 (ascii-char? (if #f #\l 229)))) (let () (void)))))
+    (define fun/ascii-char8657 (lambda (oprand0) #\^))
+    (let () (call fun/ascii-char8657 (void)))))
 (check-by-interp
  '(module
-    (define fun/fixnum8485 (lambda (oprand0) oprand0))
-    (define fun/boolean8483 (lambda (oprand0 oprand1) (let () #t)))
-    (define fun/fixnum8484 (lambda () (call fun/fixnum8485 41)))
-    (if (call
-         fun/boolean8483
-         (if #t (void) (void))
-         (or (lambda () 845)
-             (lambda () 630)
-             (lambda () 689)
-             (lambda () 943)
-             (lambda () 1016)
-             (lambda () 978)
-             (lambda () 974)))
-      (call fun/fixnum8484)
-      (if #t 109 42))))
+    (define fun/fixnum8661 (lambda () 122))
+    (define fun/empty8660 (lambda () empty))
+    (let ((empty0 (call fun/empty8660)) (boolean1 (or #f)))
+      (call fun/fixnum8661))))
 (check-by-interp
  '(module
-    (define fun/pair8489 (lambda () '(183 488)))
-    (define fun/pair8488 (lambda () '(88 319)))
-    (let ((ascii-char0 (if #t #\T #\Q))
-          (vector1
-           #(((let () empty))
-             ((error? (lambda () 656)))
-             ((call fun/pair8488))
-             ((if #t (error 221) (error 62)))
-             ((empty? (void)))
-             ((if #f empty empty))
-             ((call fun/pair8489))
-             ((if #f '(201 424) '(65 350))))))
+    (define fun/fixnum8664 (lambda (oprand0) 40))
+    (or (and (if #t 75 131)
+             (begin 219 29 199 203 163)
+             (call fun/fixnum8664 '(205 453))))))
+(check-by-interp
+ '(module
+    (define fun/error8667 (lambda (oprand0) (if #t (error 243) (error 182))))
+    (call fun/error8667 (if #f #\k #\l))))
+(check-by-interp
+ '(module
+    (define fun/empty8670 (lambda () empty))
+    (define fun/empty8671 (lambda () (if #f empty empty)))
+    (begin
+      (or (call fun/empty8670) (if #f empty empty) (and empty))
+      (call fun/empty8671))))
+(check-by-interp
+ '(module
+    (define fun/void8674 (lambda () (void)))
+    (let () (call fun/void8674))))
+(check-by-interp
+ '(module
+    (define fun/void8678 (lambda () (void)))
+    (define fun/any8677 (lambda () 207))
+    (let ((boolean0 (call fixnum? (call fun/any8677)))
+          (pair1 '(#t (60 352) #\U #f #\h (183 445) #f #t))
+          (vector2
+           #((begin '(210 265))
+             (let () (error 49))
+             (let () (lambda () 607))
+             (call fun/void8678)
+             (if #f (void) (void))
+             (let () 179)
+             (if #t (lambda () 687) (lambda () 691))
+             (and 216 101 8 78 234))))
       (let () (void)))))
 (check-by-interp
  '(module
+    (define fun/error8682 (lambda () (error 7)))
+    (define fun/boolean8683 (lambda () #f))
+    (define fun/error8681 (lambda () (call fun/error8682)))
+    (define fun/boolean8684 (lambda () #t))
+    (let ((pair0 '((218 271) #t (220 505) (246 281) #t empty (148 289) #\e))
+          (error1 (call fun/error8681))
+          (procedure2 (lambda () (let () #(0 1 2 3 4 5 6 7)))))
+      (or (if #f #f #t)
+          (procedure? (error 58))
+          (call fun/boolean8683)
+          (call fun/boolean8684)
+          (begin #f #t #t)
+          (or #f #f #t #f)))))
+(check-by-interp
+ '(module
+    (define fun/error8688 (lambda () (error 156)))
+    (define fun/error8687 (lambda (oprand0 oprand1) (call fun/error8688)))
     (begin
+      (or (or (let ((error0 (error 234))) (error 178))
+              (if #t (error 31) (error 214))
+              (if #f (error 168) (error 132)))
+          (let ((pair0 '(29 492))) (error 235))
+          (if #f (error 222) (error 127))
+          (let ((vector0 (vector 1 2 3 4 5 6 7 8))) (error 216))
+          (let () (error 117))
+          (call fun/error8687 (if #f (void) (void)) (if #f empty empty))))))
+(check-by-interp
+ '(module
+    (define fun/void8692 (lambda (oprand0 oprand1) (void)))
+    (define fun/void8693 (lambda (oprand0 oprand1) (let () (void))))
+    (define fun/boolean8691 (lambda () #f))
+    (define fun/void8694 (lambda () (void)))
+    (if (or (let ((pair0 '(214 273)) (error1 (error 15))) #t)
+            (boolean? #\^)
+            (call fun/boolean8691)
+            (error? #f)
+            (if #t #f #f))
+      (and (let ((procedure0 (lambda () (error 38)))
+                 (error1 (error 99))
+                 (empty2 empty))
+             (void))
+           (let () (void))
+           (if #t (void) (void))
+           (call fun/void8692 #\t (error 161))
+           (and (void) (void) (void))
+           (and (void) (void) (void) (void)))
+      (call fun/void8693 (begin 26 21 162 104 106) (call fun/void8694)))))
+(check-by-interp
+ '(module
+    (define fun/error8697 (lambda () (let () (error 156))))
+    (let ((error0 (call fun/error8697)) (error1 (let () (error 2))))
+      (if #t (error 191) (error 77)))))
+(check-by-interp
+ '(module
+    (define fun/void8702 (lambda () (void)))
+    (define fun/void8701 (lambda () (call fun/void8702)))
+    (define fun/empty8700 (lambda () empty))
+    (let ((empty0
+           (or (let () empty)
+               (if #t empty empty)
+               (let () empty)
+               (and empty empty empty)
+               (let () empty)
+               (call fun/empty8700)
+               (if #t empty empty)))
+          (ascii-char1 (if #f #\m #\F))
+          (void2 (call fun/void8701)))
+      (if #f #t #t))))
+(check-by-interp
+ '(module
+    (define fun/void8706 (lambda (oprand0 oprand1) (let () oprand1)))
+    (define fun/void8714 (lambda () (call fun/void8715)))
+    (define fun/void8713 (lambda () (void)))
+    (define fun/void8705 (lambda () (void)))
+    (define fun/void8708 (lambda (oprand0) (void)))
+    (define fun/void8709 (lambda () (void)))
+    (define fun/void8710 (lambda (oprand0) (void)))
+    (define fun/boolean8712 (lambda () #f))
+    (define fun/void8715 (lambda () (void)))
+    (define fun/void8711
+      (lambda (oprand0 oprand1) (vector-set! oprand1 5 oprand0)))
+    (define fun/void8707 (lambda (oprand0) oprand0))
+    (and (let ((empty0 (if #f empty empty)))
+           (and (void) (void) (void) (void) (void)))
+         (and (if #f (void) (void))
+              (or (and (void) (void))
+                  (if #t (void) (void))
+                  (call fun/void8705)
+                  (if #f (void) (void))
+                  (if #f (void) (void))
+                  (let () (void))
+                  (begin (void) (void)))
+              (call fun/void8706 (if #t (void) (void)) (if #f (void) (void)))
+              (let ((vector0 #(0 1 2 3 4 5 6 7))
+                    (ascii-char1 #\n)
+                    (vector2 #(0 1 2 3 4 5 6 7)))
+                (void))
+              (and (or (void) (void))
+                   (call fun/void8707 (void))
+                   (if #t (void) (void))
+                   (if #t (void) (void))
+                   (call fun/void8708 #\d)
+                   (let ((error0 (error 213))) (void))))
+         (if (let ((boolean0 #f)) #t)
+           (call fun/void8709)
+           (call fun/void8710 empty))
+         (let () (call fun/void8711 (lambda () 1012) (vector 1 2 3 4 5 6 7 8)))
+         (if (call fun/boolean8712)
+           (let ((pair0 '(164 281))
+                 (vector1 (vector 1 2 3 4 5 6 7 8))
+                 (error2 (error 86)))
+             (void))
+           (call fun/void8713))
+         (or (if #f (void) (void))
+             (call fun/void8714)
+             (let ((fixnum0 202) (error1 (error 86))) (void))))))
+(check-by-interp
+ '(module
+    (define fun/boolean8722 (lambda () #t))
+    (define fun/fixnum8721
+      (lambda ()
+        (if (call fun/boolean8722)
+          (let ((empty0 empty)) 242)
+          (let ((pair0 '(87 424)) (fixnum1 124)) 132))))
+    (call fun/fixnum8721)))
+(check-by-interp
+ '(module
+    (define fun/ascii-char8726 (lambda () (if #t #\H #\a)))
+    (define fun/ascii-char8725 (lambda () #\s))
+    (begin
+      (begin (and (call fun/ascii-char8725)) (if #f #\k #\i) (if #t #\C #\E))
+      (call fun/ascii-char8726)
+      (let ((vector0
+             #((make-vector 8)
+               #\\
+               (lambda () 1020)
+               231
+               (void)
+               #\o
+               212
+               (error 79))))
+        (call vector-ref vector0 5)))))
+(check-by-interp
+ '(module
+    (define fun/empty8731 (lambda () empty))
+    (define fun/pair8730 (lambda () (if #t '(220 397) '(228 458))))
+    (define fun/empty8729 (lambda (oprand0 oprand1) (if #f empty empty)))
+    (or (let () (begin empty empty))
+        (call fun/empty8729 (call fun/pair8730) (let () (error 128)))
+        (let ((vector0
+               #((vector 1 2 3 4 5 6 7 8)
+                 #t
+                 (error 169)
+                 (void)
+                 31
+                 (error 119)
+                 (lambda () 773)
+                 (void)))
+              (procedure1 (lambda () (let () empty)))
+              (empty2 (let () empty)))
+          (call fun/empty8731))
+        (if (let ((error0 (error 40))
+                  (vector1 (vector 1 2 3 4 5 6 7 8))
+                  (boolean2 #t))
+              #t)
+          (or empty empty empty empty empty empty empty)
+          (begin empty empty empty))
+        (if (pair? '(61 385)) (if #t empty empty) (and empty))
+        (let () (if #f empty empty)))))
+(check-by-interp
+ '(module
+    (define fun/error8736 (lambda () (call fun/error8737)))
+    (define fun/boolean8735 (lambda () #f))
+    (define fun/error8737 (lambda () (error 242)))
+    (define fun/boolean8734 (lambda () (call fun/boolean8735)))
+    (let ((procedure0 (lambda () (let () #t)))
+          (boolean1 (call fun/boolean8734))
+          (ascii-char2 (if #t #\z #\u)))
+      (call fun/error8736))))
+(check-by-interp
+ '(module
+    (define fun/void8741 (lambda () (void)))
+    (define fun/void8740 (lambda (oprand0 oprand1) (void)))
+    (let ()
       (begin
-        (let ((empty0 empty) (fixnum1 21) (ascii-char2 #\F)) (void))
+        (call fun/void8740 191 72)
+        (begin (void) (void) (void) (void) (void) (void))
+        (call fun/void8741)
         (let () (void))
-        (if #f (void) (void))))))
+        (or (void) (void) (void) (void) (void))
+        (let ((fixnum0 189)) (void))))))
 (check-by-interp
  '(module
-    (define fun/empty8494
-      (lambda ()
-        (call fun/empty8495 (call fun/procedure8496 (call fun/fixnum8498)))))
-    (define fun/fixnum8498 (lambda () 65))
-    (define fun/procedure8496 (lambda (oprand0) (call fun/procedure8497)))
-    (define fun/procedure8497 (lambda () (lambda () 609)))
-    (define fun/empty8495 (lambda (oprand0) (let () empty)))
-    (call fun/empty8494)))
-(check-by-interp
- '(module
-    (define fun/error8502 (lambda () (call fun/error8503)))
-    (define fun/error8501 (lambda (oprand0) (call fun/error8502)))
-    (define fun/error8503 (lambda () (error 198)))
-    (define fun/ascii-char8504 (lambda () (let ((fixnum0 151)) #\v)))
-    (call fun/error8501 (call fun/ascii-char8504))))
-(check-by-interp
- '(module
-    (define fun/fixnum8511 (lambda () 138))
-    (define fun/fixnum8507 (lambda (oprand0 oprand1) (call fun/fixnum8508)))
-    (define fun/fixnum8508 (lambda () (call fun/fixnum8509)))
-    (define fun/fixnum8509 (lambda () 2))
-    (define fun/boolean8510 (lambda (oprand0 oprand1) #t))
+    (define fun/empty8745 (lambda () (call fun/empty8746)))
+    (define fun/empty8744 (lambda (oprand0) (call fun/empty8745)))
+    (define fun/vector8748 (lambda () #(0 1 2 3 4 5 6 7)))
+    (define fun/empty8746 (lambda () (call fun/empty8747)))
+    (define fun/empty8747 (lambda () empty))
     (call
-     fun/fixnum8507
-     (if (call fun/boolean8510 #(0 1 2 3 4 5 6 7) (void))
-       (let ((ascii-char0 #\f)
-             (ascii-char1 #\L)
-             (procedure2 (lambda () (error 84))))
-         172)
-       (call fun/fixnum8511))
-     (let ()
-       (let ((error0 (error 108)) (fixnum1 32) (void2 (void)))
-         (lambda () 674))))))
+     fun/empty8744
+     (let ((fixnum0 (+ 209 230)) (fixnum1 (let () 196)))
+       (call fun/vector8748)))))
+(check-by-interp '(module (let () (if #f (void) (void)))))
 (check-by-interp
  '(module
-    (define fun/empty8515 (lambda () empty))
-    (define fun/empty8514 (lambda () (call fun/empty8515)))
-    (let ((boolean0 (<= (let () 15) (let ((void0 (void))) 193))))
-      (call fun/empty8514))))
+    (define fun/boolean8753 (lambda (oprand0) #t))
+    (if (let ((ascii-char0 #\q) (void1 (void)) (boolean2 #t)) #t)
+      (let ((empty0 empty) (fixnum1 19) (boolean2 #f)) #t)
+      (or (call ascii-char? (lambda () 526))
+          (if #f #t #t)
+          (call fun/boolean8753 195)
+          (begin #f #f #t #t #t #t #f)))))
 (check-by-interp
  '(module
-    (define fun/ascii-char8518 (lambda () #\C))
-    (define fun/ascii-char8520 (lambda (oprand0) oprand0))
-    (define fun/fixnum8523 (lambda (oprand0) 219))
-    (define fun/ascii-char8522 (lambda (oprand0) #\]))
-    (define fun/ascii-char8521
-      (lambda () (call fun/ascii-char8522 (call fun/fixnum8523 (error 113)))))
-    (define fun/ascii-char8519
-      (lambda (oprand0 oprand1) (if #t oprand0 oprand0)))
-    (and (let ((void0 (let () (void)))
-               (pair1 '(#\M #\\ (118 358) (16 483) empty #t #t #t)))
-           (call fun/ascii-char8518))
-         (and (call fun/ascii-char8519 (or #\d) (if #t '(212 434) '(140 331)))
-              (let () #\T)
-              (if #f #\_ #\J)
-              (let ((procedure0 (lambda (oprand0) 53)) (pair1 '(151 317)))
-                #\b))
-         (let ((boolean0
-                (let ((empty0 empty)
-                      (procedure1 (lambda () #(0 1 2 3 4 5 6 7))))
-                  #t)))
-           (call fun/ascii-char8520 #\g))
-         (call fun/ascii-char8521)
-         (and (let () #\k)
-              (let ((vector0 (vector 1 2 3 4 5 6 7 8))) #\\)
-              (if #t #\x #\n))
-         (let ((ascii-char0 (if #t #\x #\o)) (void1 (let () (void))))
-           (if #t #\C #\Z)))))
+    (define fun/boolean8757 (lambda () #f))
+    (define fun/boolean8756 (lambda (oprand0 oprand1) (call fun/boolean8757)))
+    (if (call
+         fun/boolean8756
+         (let ((void0 (void))) (vector 1 2 3 4 5 6 7 8))
+         (call >= 111 213))
+      (if #t #\Q #\p)
+      (let ((empty0 empty) (fixnum1 94)) #\l))))
 (check-by-interp
  '(module
-    (define fun/ascii-char8527 (lambda () (call fun/ascii-char8528)))
-    (define fun/ascii-char8528 (lambda () (let ((pair0 '(127 352))) #\Y)))
-    (define fun/ascii-char8526
-      (lambda (oprand0 oprand1) (let () (let () oprand0))))
-    (define fun/void8530 (lambda (oprand0) (call fun/void8531)))
-    (define fun/void8531 (lambda () (void)))
-    (define fun/void8529
-      (lambda ()
-        (call fun/void8530 (let ((fixnum0 149) (empty1 empty)) (error 140)))))
-    (call fun/ascii-char8526 (call fun/ascii-char8527) (call fun/void8529))))
-(check-by-interp
- '(module
-    (define fun/ascii-char8545 (lambda () (call fun/ascii-char8546)))
-    (define fun/ascii-char8542
-      (lambda (oprand0 oprand1) (call fun/ascii-char8543)))
-    (define fun/ascii-char8536 (lambda () #\b))
-    (define fun/ascii-char8539 (lambda (oprand0 oprand1) (let () #\l)))
-    (define fun/ascii-char8535 (lambda () (call fun/ascii-char8536)))
-    (define fun/boolean8540 (lambda (oprand0 oprand1) (let () #f)))
-    (define fun/void8537 (lambda () (void)))
-    (define fun/ascii-char8538 (lambda () #\J))
-    (define fun/ascii-char8543 (lambda () #\x))
-    (define fun/ascii-char8546 (lambda () #\O))
-    (define fun/boolean8548 (lambda () #t))
-    (define fun/boolean8547 (lambda () (call fun/boolean8548)))
-    (define fun/fixnum8541 (lambda () 67))
-    (define fun/ascii-char8544
-      (lambda (oprand0 oprand1) (call fun/ascii-char8545)))
-    (define fun/ascii-char8534
-      (lambda (oprand0 oprand1) (call fun/ascii-char8535)))
-    (begin
-      (call
-       fun/ascii-char8534
-       (if #f (lambda () 968) (lambda () 631))
-       (let () empty))
-      (if (let ((boolean0 #f) (empty1 empty)) #f)
-        (let ((error0 (error 211)) (ascii-char1 #\U)) #\b)
-        (begin #\f #\` #\a #\O #\` #\O #\J))
-      (let ((pair0 '((8 450) (143 368) 110 empty empty #t #\B empty))
-            (vector1
-             #(((lambda () 902))
-               ((error 179))
-               ('(17 299))
-               (#\E)
-               ((void))
-               ((vector 1 2 3 4 5 6 7 8))
-               (empty)
-               ((lambda () 959))))
-            (void2 (call fun/void8537)))
-        (call fun/ascii-char8538))
-      (call
-       fun/ascii-char8539
-       (if #f #f #t)
-       (call
-        fun/boolean8540
-        (or empty empty empty empty)
-        (call fun/fixnum8541)))
-      (and (if #t #\i #\[)
-           (call
-            fun/ascii-char8542
-            (let ((fixnum0 241) (boolean1 #f)) (void))
-            (if #f #f #f))
-           (let ((boolean0 #f) (boolean1 #f)) #\m)
-           (if #t #\Y #\W))
-      (call
-       fun/ascii-char8544
-       (call procedure? (if #f (error 129) #\`))
-       (call fun/boolean8547)))))
-(check-by-interp
- '(module
-    (define fun/empty8551 (lambda () (call fun/empty8552)))
-    (define fun/empty8552 (lambda () empty))
-    (let ((procedure0 (lambda (oprand0 oprand1) (call fun/empty8551))))
-      (let () (error 218)))))
-(check-by-interp
- '(module
-    (define fun/empty8561 (lambda (oprand0) empty))
-    (define fun/error8560
-      (lambda (oprand0 oprand1) (let () (if #f (error 4) (error 184)))))
-    (define fun/empty8562 (lambda (oprand0 oprand1) empty))
-    (define fun/boolean8563 (lambda (oprand0) #f))
-    (call
-     fun/error8560
-     (if (if #f #f #f)
-       (call fun/empty8561 (void))
-       (call fun/empty8562 (vector 1 2 3 4 5 6 7 8) (lambda () 807)))
-     (if (call fun/boolean8563 (vector 1 2 3 4 5 6 7 8))
-       (if #t #t #f)
-       (let () #f)))))
-(check-by-interp
- '(module
-    (define fun/fixnum8572 (lambda () (call fun/fixnum8573)))
-    (define fun/fixnum8575 (lambda () 182))
-    (define fun/fixnum8573 (lambda () 219))
-    (define fun/fixnum8574 (lambda () (call fun/fixnum8575)))
-    (let ((fixnum0 (call fun/fixnum8572))
-          (error1 (and (let () (error 252))))
-          (empty2 (let () empty)))
-      (call fun/fixnum8574))))
-(check-by-interp
- '(module
-    (define fun/empty8585 (lambda () (call fun/empty8586)))
-    (define fun/empty8584 (lambda (oprand0) (call fun/empty8585)))
-    (define fun/empty8586 (lambda () empty))
-    (call
-     fun/empty8584
-     (let ((error0
-            (begin (error 207) (error 104) (error 16) (error 167) (error 61)))
-           (error1
-            (and (error 129)
-                 (error 74)
-                 (error 177)
-                 (error 101)
-                 (error 159)
-                 (error 164))))
-       (begin (error 161) (error 194) (error 177))))))
-(check-by-interp
- '(module
-    (define fun/error8591 (lambda () (error 47)))
-    (define fun/pair8592 (lambda (oprand0) (if #f '(232 299) '(190 484))))
-    (define fun/error8589 (lambda (oprand0 oprand1) (call fun/error8590)))
-    (define fun/error8590 (lambda () (call fun/error8591)))
-    (call
-     fun/error8589
-     (call fun/pair8592 (let ((ascii-char0 #\_) (fixnum1 180)) (void)))
-     (let ((vector0
-            #((empty)
-              ((error 230))
-              ((void))
-              ('(167 385))
-              ((void))
-              (empty)
-              (#\c)
-              (#\t)))
-           (vector1
-            #(((error 207))
-              ((lambda () 674))
-              ((vector 1 2 3 4 5 6 7 8))
-              (#(0 1 2 3 4 5 6 7))
-              (#f)
-              ('(232 259))
-              (#f)
-              ((void)))))
-       (let ((empty0 empty)) #\i)))))
-(check-by-interp
- '(module
-    (define fun/empty8599
-      (lambda (oprand0)
-        (if (let () #f) (call fun/empty8600) (call fun/empty8601))))
-    (define fun/empty8600 (lambda () empty))
-    (define fun/empty8601 (lambda () empty))
-    (call
-     fun/empty8599
-     (if (if #t #t #f)
-       (let ((boolean0 #f) (empty1 empty) (pair2 '(41 412))) 165)
-       (let ((vector0 (vector 1 2 3 4 5 6 7 8)) (fixnum1 112)) 110)))))
-(check-by-interp
- '(module
-    (define fun/boolean8604 (lambda () (call fun/boolean8605 #f)))
-    (define fun/ascii-char8607 (lambda (oprand0 oprand1) #\J))
-    (define fun/boolean8605 (lambda (oprand0) oprand0))
-    (define fun/ascii-char8606 (lambda (oprand0 oprand1) #\d))
-    (if (call fun/boolean8604)
-      (let ((empty0 empty)) #\g)
-      (or (and #\R)
-          (call fun/ascii-char8606 (void) #t)
-          (call fun/ascii-char8607 '(124 438) (lambda () 729))
-          (let ((error0 (error 165)) (error1 (error 92))) #\n)))))
-(check-by-interp
- '(module
-    (define fun/boolean8612 (lambda (oprand0) #f))
-    (define fun/boolean8611 (lambda () (call fun/boolean8612 empty)))
-    (define fun/boolean8610 (lambda () (if #f #t #f)))
-    (if (call fun/boolean8610) (call fun/boolean8611) (if #t #t #t))))
-(check-by-interp
- '(module
-    (define fun/boolean8615 (lambda (oprand0 oprand1) oprand0))
-    (define fun/boolean8620 (lambda () #t))
-    (define fun/pair8619 (lambda () '(87 327)))
-    (define fun/boolean8617 (lambda (oprand0 oprand1) (call fun/boolean8618)))
-    (define fun/boolean8618 (lambda () #f))
-    (define fun/any8616 (lambda (oprand0) #f))
-    (or (call fun/boolean8615 (let () #t) (if #f #f #t))
-        (or (call void? (call fun/any8616 (lambda () 764)))
-            (call
-             fun/boolean8617
-             (call fun/pair8619)
-             (if #f (error 130) (error 231)))
-            (or (call fun/boolean8620))))))
-(check-by-interp
- '(module
-    (define fun/fixnum8628 (lambda (oprand0 oprand1) 40))
-    (define fun/fixnum8625 (lambda (oprand0 oprand1) 150))
-    (define fun/boolean8624 (lambda () #f))
-    (define fun/fixnum8623
-      (lambda (oprand0 oprand1) (if (call fun/boolean8624) oprand1 oprand1)))
-    (define fun/fixnum8626 (lambda () 248))
-    (define fun/fixnum8627 (lambda () 9))
-    (call
-     fun/fixnum8623
-     (and (or (if #f (error 187) (error 49))
-              (let ((boolean0 #f)
-                    (ascii-char1 #\K)
-                    (procedure2 (lambda () 176)))
-                (error 222))
-              (let () (error 137))
-              (let () (error 215))
-              (let ((vector0 #(0 1 2 3 4 5 6 7)) (error1 (error 145)))
-                (error 187))
-              (if #t (error 104) (error 57))
-              (let () (error 110)))
-          (let ((error0 (error 197)) (error1 (error 17))) (error 143))
-          (if #t (error 11) (error 74))
-          (let ((boolean0 #f) (boolean1 #f) (fixnum2 69)) (error 137)))
-     (and (or (call fun/fixnum8625 (error 175) (vector 1 2 3 4 5 6 7 8))
-              (call fun/fixnum8626)
-              (call fun/fixnum8627)
-              (if #f 197 59)
-              (let ((empty0 empty) (error1 (error 52)) (boolean2 #f)) 82))
-          (and (begin 32)
-               (call fun/fixnum8628 #(0 1 2 3 4 5 6 7) empty)
-               (let ((pair0 '(182 324)) (error1 (error 85))) 6)
-               (and 113)
-               (let ((boolean0 #f) (error1 (error 212))) 58)
-               (if #f 124 111))
-          (if #t 60 147)
-          (begin
-            (if #f 74 149)
-            (and 18 18 233 91 193)
-            (or 235 137)
-            (if #t 238 229)
-            (let ((vector0 (vector 1 2 3 4 5 6 7 8))
-                  (empty1 empty)
-                  (vector2 #(0 1 2 3 4 5 6 7)))
-              217))
-          (call
-           -
-           (let ((void0 (void)) (pair1 (cons #\O #f))) 76)
-           (let ((empty0 empty)
-                 (boolean1 #t)
-                 (vector2 (vector 1 2 3 4 5 6 7 8)))
-             153))
-          (or (and 2 39 133 67 231 24 90)
-              (let () 98)
-              (or 35 137 221 20 185 134)
-              (or 208 29 116 147)
-              (if #f 16 82)
-              (if #t 165 6))))))
-(check-by-interp
- '(module
-    (define fun/boolean8631 (lambda (oprand0) #t))
-    (define fun/pair8635 (lambda (oprand0) '(16 418)))
-    (define fun/fixnum8634 (lambda () 33))
-    (define fun/fixnum8636 (lambda () (if #f 72 52)))
-    (define fun/boolean8632 (lambda () #t))
-    (define fun/fixnum8633 (lambda (oprand0) (call fun/fixnum8634)))
-    (if (or (call fun/boolean8631 #\f)
-            (> 237 82)
-            (let () #t)
-            (<= 191 13)
-            (call fun/boolean8632))
-      (call fun/fixnum8633 (call fun/pair8635 #\F))
-      (call fun/fixnum8636))))
-(check-by-interp
- '(module
-    (define fun/void8639 (lambda (oprand0) (if #t (void) (void))))
-    (define fun/void8640 (lambda (oprand0 oprand1) (void)))
-    (if (if #f #t #t)
-      (call fun/void8639 (if #t #t #t))
-      (or (call fun/void8640 #t #\I)
-          (if #f (void) (void))
-          (let () (void))
-          (if #t (void) (void))
-          (or (void) (void) (void) (void) (void))
-          (or (void) (void))))))
-(check-by-interp
- '(module
-    (define fun/empty8643 (lambda (oprand0 oprand1) oprand0))
-    (call
-     fun/empty8643
-     (begin (if #t empty empty))
-     (ascii-char? (let ((vector0 (make-vector 8))) 146)))))
-(check-by-interp
- '(module
-    (define fun/fixnum8646 (lambda (oprand0) 187))
-    (define fun/fixnum8647 (lambda () 188))
-    (define fun/fixnum8648 (lambda (oprand0 oprand1) oprand1))
-    (define fun/fixnum8649 (lambda (oprand0 oprand1) 114))
-    (call
-     >
-     (begin (begin (call fun/fixnum8646 #\q) (if #f 81 95)))
-     (and (+ (and 251 7 101 18 141 162 193) (and 104 226 68 97 159 210))
-          (let ((procedure0 (lambda (oprand0 oprand1) oprand0))) 198)
-          (or (let () 226)
-              (call - 94 208)
-              (if #f 33 168)
-              (call fun/fixnum8647)
-              (let ((boolean0 #t) (ascii-char1 #\Q)) 98)
-              (let ((boolean0 #t) (boolean1 #f) (vector2 #(0 1 2 3 4 5 6 7)))
-                58)
-              (let ((void0 (void)) (error1 (error 253)) (pair2 '(103 494)))
-                245))
-          (let ((boolean0 #t) (pair1 '(131 435)) (procedure2 (lambda () 174)))
-            130)
-          (and (if #t 35 220)
-               (if #t 36 135)
-               (call fun/fixnum8648 '(124 432) 82)
-               (or 152 68 140 42)
-               (call fun/fixnum8649 empty #\j)
-               (if #f 143 40))
-          (if #t 8 110)))))
-(check-by-interp
- '(module
-    (define fun/void8652 (lambda (oprand0 oprand1) (void)))
-    (define fun/void8656 (lambda (oprand0 oprand1) (if #t (void) (void))))
-    (define fun/void8655 (lambda () (void)))
-    (define fun/void8654 (lambda (oprand0) (let ((empty0 empty)) (void))))
-    (define fun/void8653 (lambda (oprand0 oprand1) (let () (void))))
-    (begin
-      (if (let ((boolean0 #f) (pair1 '(247 312)) (error2 (error 55))) #f)
-        (call fun/void8652 #\O empty)
-        (begin (void) (void)))
-      (if (begin #t #f)
-        (if #t (void) (void))
-        (begin (void) (void) (void) (void) (void) (void)))
-      (call
-       fun/void8653
-       (if #t '(38 339) '(84 401))
-       (let ((error0 (error 143)) (error1 (error 119))) (error 96)))
-      (begin
-        (and (let ((ascii-char0 #\M) (vector1 #(0 1 2 3 4 5 6 7))) (void))
-             (begin (void) (void) (void)))
-        (let ((vector0 #(0 1 2 3 4 5 6 7)) (error1 (error 186))) (void))
-        (let ((procedure0 (lambda () 121))) (void))
-        (call fun/void8654 (if #t #\a #\r))
-        (if #t (void) (void))
-        (if #f (void) (void))
-        (if #f (void) (void)))
-      (let ((void0 (call fun/void8655)))
-        (let ((pair0 '(100 256)) (pair1 '(1 424))) (void)))
-      (call
-       fun/void8656
-       (let ((ascii-char0 #\B) (pair1 '(147 339))) #\N)
-       (let ((vector0 (vector 1 2 3 4 5 6 7 8)) (procedure1 (lambda () 228)))
-         (error 218))))))
-(check-by-interp
- '(module
-    (define fun/void8659 (lambda (oprand0) (void)))
-    (let ((void0 (let ((ascii-char0 #\s)) (void))))
-      (and (if #f (void) (void))
-           (begin (void) (void))
-           (call fun/void8659 #f)))))
-(check-by-interp
- '(module
-    (define fun/error8662
-      (lambda () (let ((ascii-char0 #\N) (ascii-char1 #\R)) (error 192))))
-    (and (if (let ((void0 (void)) (boolean1 #f) (vector2 (make-vector 8))) #f)
-           (if #f (error 241) (error 134))
-           (let ((fixnum0 190) (error1 (error 76))) (error 56)))
-         (let ((empty0 (begin empty empty empty empty))
-               (pair1 '(134 (154 498) 95 empty #\M (118 510) #f #\])))
-           (if #t (error 132) (error 79)))
-         (call fun/error8662))))
-(check-by-interp
- '(module
-    (define fun/empty8665 (lambda (oprand0) (let ((void0 (void))) empty)))
-    (if (let () #f)
-      (call
-       fun/empty8665
-       (let ((vector0 #(0 1 2 3 4 5 6 7)) (empty1 empty)) #\H))
-      (let ((vector0 (vector 1 2 3 4 5 6 7 8)) (boolean1 #t)) empty))))
-(check-by-interp
- '(module
-    (define fun/fixnum8668 (lambda () 84))
-    (define fun/pair8669 (lambda () '(33 355)))
-    (define fun/fixnum8670 (lambda () 116))
-    (let ((vector0
-           #(((let () (error 47)))
-             ((and (error 83)))
-             ((if #t '(212 273) '(6 506)))
-             ((begin (make-vector 8) #(0 1 2 3 4 5 6 7) #(0 1 2 3 4 5 6 7)))
-             ((call fun/fixnum8668))
-             ((call fun/pair8669))
-             ((if #t empty empty))
-             ((call fun/fixnum8670))))
+    (define fun/empty8761 (lambda () empty))
+    (define fun/empty8760 (lambda () empty))
+    (let ((empty0
+           (or (call fun/empty8760) (if #t empty empty) (call fun/empty8761)))
           (empty1 (let () empty)))
-      (let ((procedure0 (lambda () empty))) (void)))))
+      (and (let ((pair0 '(164 328))) #\Z)
+           (and #\r #\Z #\j #\j #\^)
+           (if #t #\V #\R)
+           (let ((fixnum0 98)) #\X)))))
 (check-by-interp
  '(module
-    (define fun/error8673 (lambda () (call fun/error8674)))
-    (define fun/error8674 (lambda () (error 213)))
-    (define fun/error8675 (lambda () (call fun/error8676)))
-    (define fun/error8676 (lambda () (error 24)))
-    (let ((fixnum0 (let () 133))
-          (error1 (call fun/error8673))
-          (procedure2 (lambda () (call fun/error8675))))
-      (if #t 142 249))))
+    (define fun/fixnum8766 (lambda (oprand0) 66))
+    (define fun/fixnum8765 (lambda () (call fun/fixnum8766 empty)))
+    (define fun/boolean8764 (lambda (oprand0 oprand1) (let () #f)))
+    (if (call
+         fun/boolean8764
+         (or (lambda () 522) (lambda () 662))
+         (let ((ascii-char0 #\z)) (void)))
+      (let ((vector0 (vector 1 2 3 4 5 6 7 8)) (fixnum1 211)) 23)
+      (call fun/fixnum8765))))
+(check-by-interp
+ '(module (let ((boolean0 (let ((fixnum0 179)) #t))) (if #f empty empty))))
 (check-by-interp
  '(module
-    (let ((void0 (if #t (void) (void))) (empty1 (if #t empty empty)))
-      (if #f #\X #\M))))
-(check-by-interp
- '(module
-    (define fun/boolean8687 (lambda () #f))
-    (define fun/boolean8686 (lambda (oprand0) (call fun/boolean8687)))
-    (define fun/boolean8685 (lambda () #f))
-    (define fun/void8681 (lambda (oprand0) (call fun/void8682)))
-    (define fun/boolean8684 (lambda () (call fun/boolean8685)))
-    (define fun/void8682 (lambda () (if #f (void) (void))))
-    (define fun/boolean8683 (lambda (oprand0 oprand1) (call fun/boolean8684)))
+    (define fun/fixnum8773 (lambda (oprand0) (call fun/fixnum8774)))
+    (define fun/fixnum8771 (lambda () (call fun/fixnum8772 #f)))
+    (define fun/fixnum8775 (lambda (oprand0) 117))
+    (define fun/fixnum8774 (lambda () 126))
+    (define fun/fixnum8772 (lambda (oprand0) 87))
     (call
-     fun/void8681
-     (call
-      fun/boolean8683
-      (if #f (vector 1 2 3 4 5 6 7 8) (vector 1 2 3 4 5 6 7 8))
-      (call fun/boolean8686 (if #t (lambda () 628) (lambda () 577)))))))
+     +
+     (and (let () 213)
+          (call fun/fixnum8771)
+          (if #t 219 12)
+          (if #f 137 140)
+          (call fun/fixnum8773 (* 130 63))
+          (let () 156))
+     (if (let ((fixnum0 100) (pair1 '(19 454)) (pair2 '(5 453))) #f)
+       (+ 124 32)
+       (call fun/fixnum8775 '(111 440))))))
+(check-by-interp '(module (let () (or (if #t #t #t)))))
 (check-by-interp
  '(module
-    (define fun/error8693 (lambda (oprand0) (error 130)))
-    (define fun/boolean8690 (lambda () (if #f #f #f)))
-    (define fun/empty8691 (lambda (oprand0 oprand1) (call fun/empty8692)))
-    (define fun/empty8692 (lambda () empty))
-    (if (call fun/boolean8690)
-      (let ((empty0 empty)) empty)
-      (call fun/empty8691 (call fun/error8693 #\r) (begin #\x #\U #\O)))))
+    (define fun/empty8780 (lambda () empty))
+    (if (error? (if #t #t #\e))
+      (and (and empty empty empty empty empty)
+           (if #t empty empty)
+           (if #t empty empty)
+           (call fun/empty8780)
+           (let ((pair0 '(18 445))
+                 (vector1 (vector 1 2 3 4 5 6 7 8))
+                 (pair2 '(194 316)))
+             empty)
+           (if #t empty empty))
+      (if #f empty empty))))
 (check-by-interp
  '(module
-    (define fun/empty8699 (lambda () empty))
-    (define fun/empty8698 (lambda () empty))
-    (define fun/ascii-char8697 (lambda () #\Y))
-    (define fun/procedure8696 (lambda () (lambda () 758)))
-    (let ((vector0
-           #(((call fun/procedure8696))
-             ((let () empty))
-             ((if #t empty empty))
-             ((let () #\_))
-             ((begin 156 226 114))
-             ((void? 9))
-             ((let () '(41 429)))
-             ((call fun/ascii-char8697))))
-          (error1
-           (and (or (error 116) (error 83))
-                (if #t (error 231) (error 0))
-                (let () (error 12))
-                (if #f (error 179) (error 209))
-                (let () (error 198))))
-          (void2 (if #f (void) (void))))
-      (or (if #t empty empty)
-          (let () empty)
-          (call fun/empty8698)
-          (begin empty empty empty)
-          (and empty empty)
+    (define fun/boolean8789 (lambda (oprand0) #t))
+    (define fun/boolean8790 (lambda (oprand0 oprand1) #t))
+    (define fun/ascii-char8791 (lambda (oprand0) (if #t #\m #\`)))
+    (define fun/void8788 (lambda () (void)))
+    (define fun/void8786 (lambda () (void)))
+    (define fun/ascii-char8785 (lambda () #\k))
+    (define fun/ascii-char8783
+      (lambda (oprand0 oprand1) (call fun/ascii-char8784)))
+    (define fun/void8787 (lambda (oprand0) (vector-set! oprand0 1 '(56 441))))
+    (define fun/ascii-char8784 (lambda () (call fun/ascii-char8785)))
+    (or (call
+         fun/ascii-char8783
+         (begin
+           (let () (void))
+           (and (void) (void) (void) (void) (void) (void))
+           (or (void))
+           (begin (void) (void))
+           (call fun/void8786)
+           (call fun/void8787 (vector 1 2 3 4 5 6 7 8))
+           (call fun/void8788))
+         (let ((error0 (error 149))) (error 198)))
+        (let ((vector0
+               #(empty #\Y 211 '(19 491) #\U '(239 358) 70 (error 150))))
+          (if #f #\^ #\W))
+        (if (call fun/boolean8789 (lambda () 792))
+          (or #\[ #\W #\R #\Y)
+          (if #t #\a #\^))
+        (if (call fun/boolean8790 empty 240)
+          (if #t #\v #\d)
+          (and #\j #\H #\a #\E #\h #\K))
+        (call
+         fun/ascii-char8791
+         (or (if #t (make-vector 8) (vector 1 2 3 4 5 6 7 8))
+             (and (vector 1 2 3 4 5 6 7 8)
+                  (vector 1 2 3 4 5 6 7 8)
+                  (vector 1 2 3 4 5 6 7 8)))))))
+(check-by-interp
+ '(module
+    (define fun/empty8795 (lambda (oprand0 oprand1) (let () empty)))
+    (define fun/boolean8796 (lambda (oprand0) #t))
+    (define fun/empty8794 (lambda (oprand0) empty))
+    (begin
+      (or (let ((boolean0 #f) (boolean1 #f) (empty2 empty)) empty)
+          (and (let ((empty0 empty)) empty)
+               (call fun/empty8794 (lambda () 949))
+               (let () empty))
+          (call
+           fun/empty8795
+           (call fun/boolean8796 #(0 1 2 3 4 5 6 7))
+           (if #t (lambda () 556) (lambda () 797)))
           (if #t empty empty)
-          (call fun/empty8699)))))
+          (if #f empty empty)
+          (begin
+            (let ((error0 (error 163)) (pair1 '(164 444)) (ascii-char2 #\d))
+              empty)
+            (if #t empty empty))))))
 (check-by-interp
  '(module
-    (define fun/error8703 (lambda () (error 178)))
-    (define fun/error8702 (lambda (oprand0) (call fun/error8703)))
-    (let () (call fun/error8702 (if #t (lambda () 781) (lambda () 718))))))
+    (define fun/void8801 (lambda () (void)))
+    (define fun/void8800 (lambda () (call fun/void8801)))
+    (define fun/void8799 (lambda () (call fun/void8800)))
+    (call fun/void8799)))
 (check-by-interp
  '(module
-    (define fun/ascii-char8706 (lambda () #\D))
-    (let ((empty0 (if #t empty empty)))
-      (or (if #f #\m #\w)
-          (call fun/ascii-char8706)
-          (let ((error0 (error 46)) (boolean1 #f)) #\N)
-          (if #t #\` #\M)
-          (begin #\n #\L #\c)
-          (if #t #\L #\m)
-          (and #\u #\I #\S #\T)))))
+    (define fun/any8804 (lambda (oprand0 oprand1) (error 108)))
+    (if (call fixnum? (call fun/any8804 empty (void)))
+      (let ((boolean0 #f) (boolean1 #t)) #t)
+      (<
+       (and 154 56 94 97 119 21)
+       (let ((void0 (void)) (vector1 (vector 1 2 3 4 5 6 7 8)) (void2 (void)))
+         92)))))
 (check-by-interp
  '(module
-    (define fun/void8714 (lambda () (let ((void0 (void))) (void))))
-    (define fun/void8713 (lambda () (call fun/void8714)))
-    (call fun/void8713)))
+    (define fun/fixnum8807
+      (lambda () (let ((pair0 (cons #\j (error 63)))) 37)))
+    (let () (call fun/fixnum8807))))
+(check-by-interp
+ '(module
+    (let ((void0 (if #t (void) (void))))
+      (let ((void0 (void)) (empty1 empty)) (void)))))
+(check-by-interp
+ '(module
+    (let ((empty0 (let ((fixnum0 108) (error1 (error 116))) empty)))
+      (if #f empty empty))))
+(check-by-interp
+ '(module
+    (let ((empty0 (or (or empty empty)))
+          (ascii-char1
+           (begin
+             (begin #\_ #\Z #\u #\Q)
+             (let () #\^)
+             (let () #\l)
+             (let () #\m)))
+          (error2 (let () (error 52))))
+      (let () 18))))
+(check-by-interp
+ '(module
+    (call
+     +
+     (and (if #t 94 161))
+     (let ((pair0 '(empty 205 #f (34 258) #\L empty #f 84))) (if #f 39 166)))))
+(check-by-interp
+ '(module
+    (define fun/ascii-char8826 (lambda () #\k))
+    (define fun/ascii-char8823
+      (lambda ()
+        (if (call fun/boolean8824 '(112 300))
+          (call fun/ascii-char8825)
+          (call fun/ascii-char8826))))
+    (define fun/ascii-char8825 (lambda () #\r))
+    (define fun/boolean8824 (lambda (oprand0) #f))
+    (call fun/ascii-char8823)))
+(check-by-interp
+ '(module
+    (define fun/boolean8831 (lambda () (call fun/boolean8832)))
+    (define fun/boolean8829 (lambda (oprand0) (call fun/boolean8830)))
+    (define fun/boolean8832 (lambda () #t))
+    (define fun/boolean8830 (lambda () (call fun/boolean8831)))
+    (call
+     fun/boolean8829
+     (if (let ((void0 (void))) #f)
+       (if #f empty empty)
+       (let ((void0 (void))) empty)))))
+(check-by-interp
+ '(module
+    (if (begin
+          (let () #t)
+          (and #t #f #f #t #t #t #t)
+          (if #t #f #f)
+          (if #f #f #t)
+          (let () #f))
+      (let ((error0 (error 211)) (boolean1 #f) (boolean2 #t)) (void))
+      (let ((ascii-char0 #\F)
+            (vector1 (vector 1 2 3 4 5 6 7 8))
+            (ascii-char2 #\L))
+        (void)))))
+(check-by-interp
+ '(module
+    (define fun/ascii-char8840 (lambda (oprand0 oprand1) #\M))
+    (define fun/ascii-char8839 (lambda (oprand0 oprand1) #\q))
+    (define fun/ascii-char8841 (lambda (oprand0 oprand1) #\p))
+    (define fun/boolean8837 (lambda (oprand0 oprand1) (call fun/boolean8838)))
+    (define fun/boolean8838 (lambda () #f))
+    (if (call
+         fun/boolean8837
+         (begin (error 9) (error 98) (error 17) (error 22))
+         (begin
+           #(0 1 2 3 4 5 6 7)
+           (vector 1 2 3 4 5 6 7 8)
+           (vector 1 2 3 4 5 6 7 8)))
+      (and (if #t #\D #\R)
+           (begin #\X #\b #\B #\o #\t)
+           (call fun/ascii-char8839 empty (make-vector 8))
+           (if #f #\B #\R)
+           (call fun/ascii-char8840 (void) #f)
+           (let ((pair0 '(60 439)) (empty1 empty)) #\F))
+      (begin
+        (and #\N #\V #\y #\d)
+        (if #f #\M #\T)
+        (begin #\s #\t #\r #\W)
+        (let ((procedure0 (lambda () (void)))
+              (empty1 empty)
+              (error2 (error 52)))
+          #\T)
+        (or #\d #\w #\l #\W)
+        (begin #\L #\K #\S #\W #\W)
+        (call fun/ascii-char8841 empty 118)))))
+(check-by-interp
+ '(module
+    (let ((boolean0 (let ((ascii-char0 #\U) (error1 (error 199))) #f)))
+      (let ((boolean0 #f)) #\K))))
+(check-by-interp
+ '(module
+    (define fun/error8847 (lambda () (call fun/error8848)))
+    (define fun/error8846 (lambda (oprand0 oprand1) (call fun/error8847)))
+    (define fun/pair8849 (lambda (oprand0) '(200 421)))
+    (define fun/fixnum8851 (lambda (oprand0) 236))
+    (define fun/fixnum8850 (lambda (oprand0) 31))
+    (define fun/error8852 (lambda () (call fun/error8853)))
+    (define fun/error8848 (lambda () (error 200)))
+    (define fun/error8853 (lambda () (error 51)))
+    (define fun/error8854 (lambda () (if #f (error 82) (error 144))))
+    (define fun/error8855 (lambda () (error 63)))
+    (or (call
+         fun/error8846
+         (begin (begin '(116 426) '(249 432)) (call fun/pair8849 #f))
+         (* (call fun/fixnum8850 '(106 289)) (call fun/fixnum8851 (void))))
+        (or (if #f (error 28) (error 67))
+            (call fun/error8852)
+            (and (let ((boolean0 #f)
+                       (vector1 #(0 1 2 3 4 5 6 7))
+                       (pair2 '(223 355)))
+                   (error 185))
+                 (let ((ascii-char0 #\R)) (error 120))
+                 (if #f (error 82) (error 203))
+                 (if #t (error 72) (error 18))
+                 (let ((fixnum0 211) (ascii-char1 #\O) (void2 (void)))
+                   (error 201))
+                 (if #t (error 204) (error 149))))
+        (call fun/error8854)
+        (let ((error0 (call fun/error8855))
+              (vector1
+               #(#\P
+                 #t
+                 #t
+                 (lambda () 731)
+                 (error 110)
+                 (error 120)
+                 (error 249)
+                 (lambda () 807)))
+              (void2 (let () (void))))
+          (let () (error 11)))
+        (let ((procedure0 (lambda (oprand0) (or #f #t))))
+          (let () (error 252))))))
+(check-by-interp
+ '(module
+    (define fun/fixnum8859 (lambda () 240))
+    (define fun/fixnum8863 (lambda () 189))
+    (define fun/fixnum8864 (lambda (oprand0) (let () 246)))
+    (define fun/void8861
+      (lambda (oprand0 oprand1)
+        (vector-set! oprand1 5 (vector-set! oprand1 3 oprand0))))
+    (define fun/error8865 (lambda (oprand0) (error 210)))
+    (define fun/fixnum8858 (lambda () (if #f 223 114)))
+    (define fun/fixnum8860 (lambda (oprand0 oprand1) (let () 190)))
+    (define fun/empty8862 (lambda (oprand0) empty))
+    (begin
+      (or (if #t 73 215)
+          (call fun/fixnum8858)
+          (let ((procedure0 (lambda () #\V))
+                (error1 (error 143))
+                (void2 (void)))
+            166))
+      (let ((pair0 '(empty #\t 164 empty 177 #\o (44 451) #\H))
+            (fixnum1 (call fun/fixnum8859)))
+        (if #t 42 198))
+      (begin
+        (call
+         fun/fixnum8860
+         (call fun/void8861 #\J (vector 1 2 3 4 5 6 7 8))
+         (call fun/empty8862 186))
+        (- (if #f 32 170) (call fun/fixnum8863))
+        (let ((fixnum0 208) (fixnum1 116)) 46)
+        (let ((empty0 empty) (boolean1 #f)) 65)
+        (if #f 71 196)
+        (let ((void0 (void)) (error1 (error 115)) (pair2 '(253 276))) 7))
+      (call
+       fun/fixnum8864
+       (or (and (error 62)) (call fun/error8865 (lambda () 976)))))))
+(check-by-interp
+ '(module
+    (define fun/fixnum8869 (lambda () 144))
+    (define fun/fixnum8868 (lambda (oprand0 oprand1) (call fun/fixnum8869)))
+    (if (let ((empty0 empty)
+              (vector1 (vector 1 2 3 4 5 6 7 8))
+              (procedure2 (lambda () '(148 308))))
+          #f)
+      (if #f 51 196)
+      (call
+       fun/fixnum8868
+       (or (void) (void) (void) (void) (void) (void) (void))
+       (begin #f #t)))))
+(check-by-interp
+ '(module
+    (define fun/fixnum8875 (lambda (oprand0) (call fun/fixnum8876)))
+    (define fun/fixnum8873 (lambda () (let () 155)))
+    (define fun/fixnum8874
+      (lambda () (call fun/fixnum8875 (call fun/pair8877 #\N))))
+    (define fun/fixnum8872 (lambda (oprand0) (call fun/fixnum8873)))
+    (define fun/fixnum8876 (lambda () 203))
+    (define fun/pair8877 (lambda (oprand0) '(28 385)))
+    (call fun/fixnum8872 (call fun/fixnum8874))))
+(check-by-interp
+ '(module
+    (if (let ((void0 (void))) #t)
+      (let ((empty0 empty) (empty1 empty) (boolean2 #t)) #\w)
+      (if #t #\F #\w))))
+(check-by-interp
+ '(module
+    (define fun/empty8882 (lambda () (call fun/empty8883 (void))))
+    (define fun/empty8885 (lambda (oprand0 oprand1) empty))
+    (define fun/empty8883 (lambda (oprand0) empty))
+    (define fun/empty8884 (lambda () empty))
+    (if (if #t #t #t)
+      (call fun/empty8882)
+      (and (call fun/empty8884)
+           (or empty)
+           (call fun/empty8885 (error 63) '(99 348))
+           (let ((pair0 '(87 285)) (procedure1 (lambda () #(0 1 2 3 4 5 6 7))))
+             empty)
+           (or empty empty empty empty empty empty empty)
+           (let ((error0 (error 188))) empty)
+           (begin empty empty empty empty empty)))))
+(check-by-interp
+ '(module
+    (let ((pair0 '(#\j #t #\z (42 508) 140 (214 430) #\L (23 329))))
+      (let ((error0 (error 125))) (error 135)))))
+(check-by-interp
+ '(module
+    (define fun/ascii-char8895 (lambda () #\I))
+    (define fun/boolean8892 (lambda (oprand0 oprand1) (call fun/boolean8893)))
+    (define fun/boolean8893 (lambda () #f))
+    (define fun/ascii-char8894 (lambda () (call fun/ascii-char8895)))
+    (if (call fun/boolean8892 (and 186 17 70 72 191 38) (and (void) (void)))
+      (call fun/ascii-char8894)
+      (if #t #\u #\M))))
+(check-by-interp
+ '(module
+    (define fun/empty8899 (lambda (oprand0) (call fun/empty8900)))
+    (define fun/error8902 (lambda (oprand0) (let () (error 138))))
+    (define fun/empty8900 (lambda () (call fun/empty8901)))
+    (define fun/empty8898
+      (lambda () (call fun/empty8899 (call fun/error8902 (if #t #\C #\I)))))
+    (define fun/empty8901 (lambda () empty))
+    (call fun/empty8898)))
+(check-by-interp
+ '(module
+    (define fun/empty8905 (lambda (oprand0) (let () empty)))
+    (let ()
+      (call
+       fun/empty8905
+       (let ((void0 (void)) (procedure1 (lambda () #\W)) (fixnum2 220))
+         '(141 422))))))
+(check-by-interp
+ '(module
+    (define fun/fixnum8912 (lambda (oprand0 oprand1) oprand0))
+    (define fun/error8911
+      (lambda (oprand0 oprand1) (if #f (error 227) (error 92))))
+    (define fun/empty8908
+      (lambda (oprand0)
+        (if (call fun/boolean8909) (let () empty) (call fun/empty8910))))
+    (define fun/boolean8909 (lambda () #f))
+    (define fun/empty8910 (lambda () empty))
+    (call
+     fun/empty8908
+     (call
+      fun/error8911
+      (call fun/fixnum8912 (begin 193 248 139) (if #f #f #t))
+      (if #f 172 187)))))
+(check-by-interp
+ '(module
+    (define fun/empty8915
+      (lambda () (call fun/empty8916 (call fun/ascii-char8917 (if #t #t #f)))))
+    (define fun/empty8916 (lambda (oprand0) (if #t empty empty)))
+    (define fun/ascii-char8917 (lambda (oprand0) #\t))
+    (call fun/empty8915)))
+(check-by-interp
+ '(module
+    (define fun/void8925 (lambda (oprand0 oprand1) oprand0))
+    (define fun/fixnum8922 (lambda () 32))
+    (define fun/void8928 (lambda (oprand0 oprand1) (let () (void))))
+    (define fun/fixnum8921 (lambda () (call fun/fixnum8922)))
+    (define fun/fixnum8920 (lambda (oprand0 oprand1) (call fun/fixnum8921)))
+    (define fun/void8924 (lambda () (void)))
+    (define fun/void8923
+      (lambda (oprand0)
+        (let () (vector-set! oprand0 3 (vector-set! oprand0 4 '(148 417))))))
+    (define fun/void8926 (lambda () (void)))
+    (define fun/void8927
+      (lambda () (let ((vector0 (vector 1 2 3 4 5 6 7 8))) (void))))
+    (call
+     fun/fixnum8920
+     (call fun/void8923 (if #t (vector 1 2 3 4 5 6 7 8) #(0 1 2 3 4 5 6 7)))
+     (or (begin
+           (call fun/void8924)
+           (and (void) (void) (void) (void) (void) (void))
+           (let ((pair0 '(23 408))
+                 (vector1 (vector 1 2 3 4 5 6 7 8))
+                 (procedure2 (lambda () (lambda () 738))))
+             (void))
+           (call fun/void8925 (void) empty)
+           (let ((ascii-char0 #\p) (error1 (error 127))) (void))
+           (call fun/void8926))
+         (call fun/void8927)
+         (call
+          fun/void8928
+          (let ((error0 (error 214)) (fixnum1 220) (fixnum2 214)) '(245 379))
+          (if #t '(229 508) '(135 424)))
+         (if #t (void) (void))))))
+(check-by-interp
+ '(module (and (if (begin #f #f #f #f #t) (or (void)) (if #t (void) (void))))))
+(check-by-interp
+ '(module
+    (define fun/boolean8934 (lambda () #t))
+    (define fun/fixnum8933
+      (lambda () (if (call fun/boolean8934) (if #t 180 142) (let () 34))))
+    (call fun/fixnum8933)))
+(check-by-interp '(module (let () (let () (error 250)))))
+(check-by-interp
+ '(module
+    (define fun/void8949 (lambda (oprand0 oprand1) (let () (void))))
+    (define fun/void8950 (lambda () (void)))
+    (define fun/void8951 (lambda () (void)))
+    (if (call
+         ascii-char?
+         (let ((procedure0 (lambda (oprand0) (lambda () 1019)))
+               (pair1 '(69 333)))
+           (error 189)))
+      (call fun/void8949 (if #t 226 18) (begin #\Y #\t #\l #\s #\g #\V #\A))
+      (or (let ((pair0 '(202 321)) (pair1 '(143 414))) (void))
+          (if #t (void) (void))
+          (call fun/void8950)
+          (if #t (void) (void))
+          (or (void))
+          (call fun/void8951)))))
+(check-by-interp
+ '(module (or (begin (let ((boolean0 #f) (empty1 empty)) (void))))))
+(check-by-interp
+ '(module
+    (define fun/error8958 (lambda () (if #t (error 216) (error 110))))
+    (define fun/error8956 (lambda () (call fun/error8957)))
+    (define fun/error8957 (lambda () (call fun/error8958)))
+    (call fun/error8956)))
+(check-by-interp
+ '(module
+    (define fun/error8961 (lambda () (call fun/error8962)))
+    (define fun/error8962 (lambda () (error 73)))
+    (let ((pair0 '((104 475) 0 #f empty 169 #t empty empty))
+          (boolean1 (let () #f)))
+      (call fun/error8961))))
+(check-by-interp
+ '(module
+    (define fun/ascii-char8966 (lambda (oprand0 oprand1) #\j))
+    (define fun/ascii-char8965 (lambda (oprand0 oprand1) #\g))
+    (if (if #t #t #f)
+      (or (if #t #\r #\`)
+          (or #\Q #\E #\E)
+          (if #f #\k #\J)
+          (if #f #\M #\v)
+          (call fun/ascii-char8965 #f (make-vector 8))
+          (call fun/ascii-char8966 #(0 1 2 3 4 5 6 7) 235))
+      (let ((ascii-char0 #\n) (ascii-char1 #\B)) #\O))))
+(check-by-interp
+ '(module
+    (define fun/void8969 (lambda () (void)))
+    (let ((ascii-char0 (if #f #\a #\S))
+          (procedure1
+           (lambda ()
+             (or (and (void))
+                 (call fun/void8969)
+                 (if #f (void) (void))
+                 (let () (void))
+                 (let () (void))
+                 (if #f (void) (void))
+                 (let () (void)))))
+          (procedure2 (lambda () (let () #f))))
+      (if #t (error 237) (error 2)))))
+(check-by-interp
+ '(module
+    (define fun/boolean8974 (lambda () #t))
+    (define fun/boolean8973 (lambda (oprand0) (call fun/boolean8974)))
+    (define fun/boolean8972
+      (lambda ()
+        (call fun/boolean8973 (if #f (lambda () 569) (lambda () 967)))))
+    (call fun/boolean8972)))
+(check-by-interp
+ '(module
+    (define fun/boolean8978 (lambda (oprand0) #t))
+    (define fun/procedure8982 (lambda () (let () (lambda () 845))))
+    (define fun/void8979 (lambda (oprand0 oprand1) (call fun/void8980)))
+    (define fun/void8977 (lambda () (void)))
+    (define fun/void8980 (lambda () (call fun/void8981)))
+    (define fun/void8981 (lambda () (void)))
+    (and (let ((void0 (call fun/void8977))
+               (boolean1 (call pair? '(70 501)))
+               (empty2 (if #t empty empty)))
+           (if #t (void) (void)))
+         (if (call fun/boolean8978 #\P)
+           (if #f (void) (void))
+           (or (void) (void)))
+         (call
+          fun/void8979
+          (let ((fixnum0 64) (empty1 empty)) (vector 1 2 3 4 5 6 7 8))
+          (call fun/procedure8982)))))
+(check-by-interp
+ '(module
+    (define fun/fixnum8985 (lambda (oprand0) 23))
+    (if (call
+         >
+         (call fun/fixnum8985 '(175 398))
+         (begin 21 243 246 134 143 161 37))
+      (let ((pair0 '(131 509))) (void))
+      (let ((procedure0 (lambda () #\v)) (fixnum1 181) (pair2 '(38 400)))
+        (void)))))
+(check-by-interp
+ '(module
+    (define fun/void8988
+      (lambda ()
+        (if (call fun/boolean8989 '(233 346))
+          (call fun/void8990 74)
+          (if #f (void) (void)))))
+    (define fun/boolean8989 (lambda (oprand0) #f))
+    (define fun/void8990 (lambda (oprand0) (void)))
+    (call fun/void8988)))
+(check-by-interp
+ '(module
+    (define fun/fixnum8993 (lambda (oprand0) (call fun/fixnum8994)))
+    (define fun/fixnum8994 (lambda () (if #f 82 210)))
+    (call fun/fixnum8993 (let () (let ((empty0 empty)) (lambda () 562))))))
+(check-by-interp
+ '(module
+    (define fun/error8998 (lambda () (call fun/error8999)))
+    (define fun/error8999 (lambda () (error 87)))
+    (define fun/boolean9002 (lambda () #t))
+    (define fun/error8997 (lambda (oprand0) (call fun/error8998)))
+    (define fun/boolean9001 (lambda () (call fun/boolean9002)))
+    (define fun/procedure9000
+      (lambda (oprand0) (if oprand0 (lambda () 608) (lambda () 525))))
+    (call fun/error8997 (call fun/procedure9000 (call fun/boolean9001)))))

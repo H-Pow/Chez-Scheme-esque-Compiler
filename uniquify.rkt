@@ -30,7 +30,7 @@
        (define env/updated (for/foldr ([env/updated env])
                              ([x x*]
                               [aloc aloc*])
-                              (dict-set! env/updated x aloc) 
+                              (dict-set env/updated x aloc) 
                              ))
       `(lambda ,aloc* ,(uniquify-value value env/updated))]
       [(? (or/c name? prim-f?)) (dict-ref env triv)]))

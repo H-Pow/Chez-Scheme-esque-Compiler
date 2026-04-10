@@ -43,8 +43,8 @@
     [else
       (define sym (fresh 'pred/or))
      `(let ([,sym ,(first pred)])
-        ,(make-if ,sym
-                  ,sym
+        ,(make-if sym
+                  sym
                   (apply make-or (rest pred))))]
     ))
 

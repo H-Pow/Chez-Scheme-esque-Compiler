@@ -3,7 +3,7 @@
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          cpsc411/langs/v8
-         "../target-nested-asm-lang-v2/optimize-predicates.rkt")
+         "../optimize-predicates.rkt")
 (define (fail-if-invalid p)
   (when (not (nested-asm-lang-fvars-v8? p))
     (error

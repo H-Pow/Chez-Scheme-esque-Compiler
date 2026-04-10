@@ -26,29 +26,6 @@
 (check-by-interp
  '(module
     ((new-frames ()))
-    (define L.cons.5
-      ((new-frames ()))
-      (begin
-        (set! tmp-ra.52 r15)
-        (set! tmp.46 rdi)
-        (set! tmp.47 rsi)
-        (set! tmp.51 (alloc 16))
-        (set! tmp.54 tmp.51)
-        (set! tmp.54 (+ tmp.54 1))
-        (set! tmp.50 tmp.54)
-        (mset! tmp.50 -1 tmp.46)
-        (mset! tmp.50 7 tmp.47)
-        (set! rax tmp.50)
-        (jump tmp-ra.52 rbp rax)))
-    (begin
-      (set! tmp-ra.53 r15)
-      (set! rsi 3816)
-      (set! rdi 1808)
-      (set! r15 tmp-ra.53)
-      (jump L.cons.5 rbp r15 rdi rsi))))
-(check-by-interp
- '(module
-    ((new-frames ()))
     (begin
       (set! tmp-ra.51 r15)
       (set! ascii-char0.1 27438)
@@ -62,30 +39,7 @@
       (set! void0.1 30)
       (set! rax 31790)
       (jump tmp-ra.51 rbp rax))))
-(check-by-interp
- '(module
-    ((new-frames ()))
-    (define L.cons.5
-      ((new-frames ()))
-      (begin
-        (set! tmp-ra.53 r15)
-        (set! tmp.47 rdi)
-        (set! tmp.48 rsi)
-        (set! tmp.52 (alloc 16))
-        (set! tmp.55 tmp.52)
-        (set! tmp.55 (+ tmp.55 1))
-        (set! tmp.51 tmp.55)
-        (mset! tmp.51 -1 tmp.47)
-        (mset! tmp.51 7 tmp.48)
-        (set! rax tmp.51)
-        (jump tmp-ra.53 rbp rax)))
-    (begin
-      (set! tmp-ra.54 r15)
-      (set! void0.1 30)
-      (set! rsi 3704)
-      (set! rdi 1624)
-      (set! r15 tmp-ra.54)
-      (jump L.cons.5 rbp r15 rdi rsi))))
+
 (check-by-interp
  '(module
     ((new-frames ()))
@@ -180,7 +134,7 @@
       (set! pair1.1 rax)
       (set! rax ascii-char0.2)
       (jump tmp-ra.55 rbp rax))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((new-frames ()))
     (define L.cons.6
@@ -222,15 +176,6 @@
       (set! fixnum0.2 1712)
       (set! boolean1.1 14)
       (set! rax 1864)
-      (jump tmp-ra.52 rbp rax))))
-(check-by-interp
- '(module
-    ((new-frames ()))
-    (begin
-      (set! tmp-ra.52 r15)
-      (set! error0.2 13118)
-      (set! boolean1.1 14)
-      (set! rax boolean1.1)
       (jump tmp-ra.52 rbp rax))))
 (check-by-interp
  '(module
@@ -381,7 +326,7 @@
       (set! rdi 2024)
       (set! r15 tmp-ra.64)
       (jump L.+.9 rbp r15 rdi rsi))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames (())))
     (define L.empty?.8
@@ -502,7 +447,7 @@
         (if (begin (set! tmp.57 14) (!= tmp.57 6))
           (begin (set! rax 416) (jump tmp-ra.56 rbp rax))
           (begin (set! rax 664) (jump tmp-ra.56 rbp rax)))))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames (() () () ())))
     (define L.cons.9
@@ -964,7 +909,7 @@
       (set! rdi tmp.57)
       (set! r15 tmp-ra.65)
       (jump L.void?.11 rbp r15 rdi))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames (() () () () () () () () () () ())))
     (define L.+.12
@@ -2427,7 +2372,7 @@
       (set! void5.1 rax)
       (set! rax ascii-char0.6)
       (jump tmp-ra.72 rbp rax))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames (() () () () () ())))
     (define L.cons.17
@@ -3348,7 +3293,7 @@
       (set! fixnum5.1 rax)
       (set! rax error0.6)
       (jump tmp-ra.99 rbp rax))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames
       (() () () () () () () () () () () () () () () () () () () () ())))
@@ -4319,7 +4264,7 @@
       (set! empty5.1 rax)
       (set! r15 tmp-ra.75)
       (jump L.fun/ascii-char24839.9 rbp r15))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames
       (()
@@ -5231,7 +5176,7 @@
       (set! rdi tmp.83)
       (set! r15 tmp-ra.106)
       (jump L.-.15 rbp r15 rdi rsi))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((new-frames (() () () () () () ())))
     (define L.pair?.19

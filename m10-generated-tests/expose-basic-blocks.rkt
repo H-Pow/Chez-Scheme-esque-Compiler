@@ -2,6 +2,7 @@
 (require rackunit
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
+         cpsc411/langs/v8
          cpsc411/langs/v9
          cpsc411/langs/v11
          "../expose-basic-blocks.rkt")

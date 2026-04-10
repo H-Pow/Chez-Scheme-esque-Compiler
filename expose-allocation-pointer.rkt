@@ -1,6 +1,5 @@
 #lang racket
 (require cpsc411/compiler-lib
-         cpsc411/langs/v8
          "common.rkt")
 
 (provide expose-allocation-pointer)

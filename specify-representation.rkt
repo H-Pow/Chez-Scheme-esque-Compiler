@@ -1,7 +1,5 @@
 #lang racket
 (require cpsc411/compiler-lib
-         cpsc411/langs/v8
-         cpsc411/langs/v9
          "common.rkt")
 
 (provide specify-representation)

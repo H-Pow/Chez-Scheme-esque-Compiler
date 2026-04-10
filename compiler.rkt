@@ -44,6 +44,9 @@
  implement-mops
  generate-x64)
 
+;; TODO: Fill in.
+;; You'll want to merge milestone-9 code in
+
 (require "expand-macros.rkt"
          "uniquify.rkt"
          "implement-safe-primops.rkt"
@@ -63,9 +66,16 @@
          "impose-calling-conventions.rkt"
          "select-instructions.rkt"
          "expose-allocation-pointer.rkt"
-         "target-nested-asm-lang-v2/all-exports.rkt"
+         "uncover-locals.rkt"
+         "undead-analysis.rkt"
+         "conflict-analysis.rkt"
+         "assign-call-undead-variables.rkt"
+         "allocate-frames.rkt"
+         "assign-registers.rkt"
          "assign-frame-variables.rkt"
+         "replace-locations.rkt"
          "implement-fvars.rkt"
+         "optimize-predicates.rkt"
          "expose-basic-blocks.rkt"
          "resolve-predicates.rkt"
          "flatten-program.rkt"
@@ -140,11 +150,9 @@
   (require (submod "impose-calling-conventions.rkt" test))
   (require (submod "select-instructions.rkt" test))
   (require (submod "dox-lambdas.rkt" test))
-  ; (require (submod "target-nested-asm-lang-v2/all-exports.rkt" test))
   (require (submod "implement-fvars.rkt" test))
   (require (submod "expose-basic-blocks.rkt" test))
   (require (submod "resolve-predicates.rkt" test))
-;   (require (submod "specify-representation.rkt" test))
   (require (submod "flatten-program.rkt" test))
   (require (submod "expand-macros.rkt" test))
 ;   (require (submod "patch-instructions.rkt" test))

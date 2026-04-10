@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../target-nested-asm-lang-v2/assign-registers.rkt" assign-registers))
+         (only-in "../assign-registers.rkt" assign-registers))
 
 (define (check-asm-pred-lang-v7/framed p)
   (if (asm-pred-lang-v7/framed? p) p #f))

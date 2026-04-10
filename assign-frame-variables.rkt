@@ -1,8 +1,7 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         cpsc411/graph-lib
-         cpsc411/langs/v6)
+         cpsc411/graph-lib)
 
 (provide assign-frame-variables)
 

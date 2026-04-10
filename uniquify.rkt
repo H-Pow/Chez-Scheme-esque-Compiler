@@ -150,7 +150,7 @@
                           (lambda (,a)
                             (call ,+ ,a 1)))
                   (call ,+ 1))
-               (and (label? +)
+               (and (aloc? +)
                     (aloc? a)))
   (check-match (uniquify '(module (define fact
                                     (lambda (p)
@@ -167,7 +167,7 @@
                                                   (call * (call cdr ,p) (call car ,p)))))))
                   (call ,fact (call cons 5 1)))
                (and (aloc? p)
-                    (label? fact)))
+                    (aloc? fact)))
   (check-match (uniquify '(module (define fact
                                     (lambda (v)
                                       (let [(n (call vector-ref v 0))
@@ -195,6 +195,5 @@
                     (let [(,_00 (call vector-set! ,v0 0 5))
                           (,_10 (call vector-set! ,v0 1 1))]
                       (call ,fact ,v0))))
-               (and (andmap aloc? (list v n acc _0 _1 v0 _00 _10))
-                    (label? fact)))
+               (andmap aloc? (list v fact n acc _0 _1 v0 _00 _10)))
   )

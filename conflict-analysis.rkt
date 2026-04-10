@@ -2,7 +2,7 @@
 
 (require cpsc411/compiler-lib
          cpsc411/graph-lib
-         "../common.rkt")
+         "common.rkt")
 
 ;; Asm-pred-lang-v6/undead
 ; p	 	::=	 	(module info (define label info tail) ... tail)

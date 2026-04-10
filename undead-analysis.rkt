@@ -1,7 +1,7 @@
 #lang racket
 
 (require cpsc411/compiler-lib
-         "../common.rkt")
+         "common.rkt")
 
 (provide undead-analysis)
 

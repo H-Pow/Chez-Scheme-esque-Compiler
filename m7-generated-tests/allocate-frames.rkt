@@ -1,7 +1,7 @@
 #lang racket
 (require rackunit
          cpsc411/langs/v7
-         (only-in "../target-nested-asm-lang-v2/allocate-frames.rkt" allocate-frames))
+         (only-in "../allocate-frames.rkt" allocate-frames))
 
 (define (check-asm-pred-lang-v7/pre-framed p)
   (if (asm-pred-lang-v7/pre-framed? p) p #f))

@@ -45,8 +45,7 @@
 ;; TODO: Fill in.
 ;; You'll want to merge milestone-9 code in
 
-(require "expand-macros.rkt"
-         "uniquify.rkt"
+(require "uniquify.rkt"
          "implement-safe-primops.rkt"
          "implement-safe-call.rkt"
          "define-letrec.rkt"
@@ -60,8 +59,8 @@
          "specify-representation.rkt"
          "remove-complex-opera.rkt"
          "sequentialize-let.rkt"
-         "normalize-bind.rkt"
          "impose-calling-conventions.rkt"
+         "normalize-bind.rkt"
          "select-instructions.rkt"
          "expose-allocation-pointer.rkt"
          "uncover-locals.rkt"
@@ -72,14 +71,15 @@
          "assign-registers.rkt"
          "assign-frame-variables.rkt"
          "replace-locations.rkt"
-         "implement-fvars.rkt"
          "optimize-predicates.rkt"
+         "implement-fvars.rkt"
          "expose-basic-blocks.rkt"
          "resolve-predicates.rkt"
          "flatten-program.rkt"
          "patch-instructions.rkt"
          "implement-mops.rkt"
-         "generate-x64.rkt")
+         "generate-x64.rkt"
+         "expand-macros.rkt")
 
 ;; You can modify this pass list, e.g., by adding other
 ;; optimization, debugging, or validation passes.

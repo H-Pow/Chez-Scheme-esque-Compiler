@@ -167,5 +167,4 @@
                   (interp-imp-cmf-lang-v5 (peek (impose-calling-conventions p)))))
   (define-syntax-rule (check-by-interp-v6 p)
     (check-equal? (interp-proc-imp-cmf-lang-v6 (peek p))
-                  (interp-imp-cmf-lang-v6 (peek (impose-calling-conventions p)))))
-  )
+                  (interp-imp-cmf-lang-v6 (peek (impose-calling-conventions p))))))

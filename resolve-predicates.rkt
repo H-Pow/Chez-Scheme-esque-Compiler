@@ -47,5 +47,4 @@
   (define-syntax-rule (check-resolve-predicates bpl4 expected)
     (check resolve-predicates bpl4 expected))
   (define-syntax-rule (check-by-interp p)
-    (check-equal? (interp-block-pred-lang-v6 p) (interp-block-asm-lang-v6 (resolve-predicates p))))
-)
+    (check-equal? (interp-block-pred-lang-v6 p) (interp-block-asm-lang-v6 (resolve-predicates p)))))

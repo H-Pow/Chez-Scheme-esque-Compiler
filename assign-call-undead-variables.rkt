@@ -5,7 +5,6 @@
 
 (provide assign-call-undead-variables)
 
-
 ;; (Asm-pred-lang-v8/conflicts p) -> (Asm-pred-lang-v8/pre-framed p)
 ;; Compiles Asm-pred-lang-v8/conflicts to Asm-pred-lang-v8/pre-framed by pre-assigning
 ;; all variables in the call-undead sets to frame variables.
@@ -71,5 +70,4 @@
            cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-asm-pred-lang-v6/conflicts p)
-                  (interp-asm-pred-lang-v6/pre-framed (assign-call-undead-variables p))))
-      )
+                  (interp-asm-pred-lang-v6/pre-framed (assign-call-undead-variables p)))))

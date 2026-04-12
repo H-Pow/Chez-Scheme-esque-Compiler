@@ -5,8 +5,6 @@
 
 (provide flatten-program)
 
-
-
 ;; (Block-asm-lang-v8 p) -> (Para-asm-lang-v8 p)
 ;; Compile Block-asm-lang v8 to Para-asm-lang v8 by flattening basic blocks into labeled instructions.
 (define (flatten-program bal4)

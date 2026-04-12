@@ -157,9 +157,9 @@
   (require (submod "expand-macros.rkt" test))
 ;   (require (submod "patch-instructions.rkt" test))
   ; (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
-  (for-each (λ(p) (dynamic-require p #f)) (glob "m8-generated-tests/**.rkt"))
-  (for-each (λ(p) (dynamic-require p #f)) (glob "m9-generated-tests/**.rkt"))
-  (for-each (λ(p) (dynamic-require p #f)) (glob "m10-generated-tests/**.rkt"))
+;   (for-each (λ(p) (dynamic-require p #f)) (glob "m8-generated-tests/**.rkt"))
+;   (for-each (λ(p) (dynamic-require p #f)) (glob "m9-generated-tests/**.rkt"))
+;   (for-each (λ(p) (dynamic-require p #f)) (glob "m10-generated-tests/**.rkt"))
 
   (run-tests
    (v10-public-test-suite

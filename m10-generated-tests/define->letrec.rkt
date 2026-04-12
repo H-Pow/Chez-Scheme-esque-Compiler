@@ -5,7 +5,7 @@
          cpsc411/langs/v8
          cpsc411/langs/v9
          cpsc411/langs/v11
-         (file "../define->letrec.rkt"))
+         (file "../define-letrec.rkt"))
 (define (fail-if-invalid p)
   (when (not (just-exprs-lang-v9? p))
     (error

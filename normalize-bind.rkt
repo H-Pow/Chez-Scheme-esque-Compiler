@@ -46,7 +46,6 @@
       [`(mref ,aloc ,opand) (k `(mref ,aloc ,opand))]
       [`(alloc ,opand) (k `(alloc ,opand))]
       [`(,binop ,triv1 ,triv2)
-       #:when (binop/ptr? binop)
        (k `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2)))]
       [triv (k (normalize-triv triv))]))
   (define (normalize-pred pred)

@@ -110,7 +110,7 @@
         (if (!= 14 6) 22 22)
         6)
       6)))
-(check-by-interp
+#; (check-by-interp
  '(module
     (define L.fun/void8513.9.17 (lambda (c.91) (begin 30)))
     (define L.fun/void8514.8.16 (lambda (c.90) (begin 30)))

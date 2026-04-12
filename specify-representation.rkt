@@ -59,15 +59,15 @@
       [`unsafe-car `(mref ,(specify-value (first values)) ,(car-offset))]
       [`unsafe-cdr `(mref ,(specify-value (first values)) ,(cdr-offset))]
       [`unsafe-make-vector
-       (define base (fresh-label))
+       (define base (fresh))
        (define total-size
-         (+ (current-vector-base-displacement)
-            (arithmetic-shift (specify-value (first values)) (current-vector-shift))))
+         `(+ ,(current-vector-base-displacement)
+             (arithmetic-shift-right ,(specify-value (first values)) ,(- (current-vector-shift)))))
        `(let ([,base (+ (alloc ,total-size) ,(current-vector-tag))])
           (begin
             (mset! ,base
-                   ,(* -1 (current-vector-tag))
-                   ,(- total-size (current-vector-base-displacement)))
+                   ,(- (current-vector-tag))
+                   (- ,total-size ,(current-vector-base-displacement)))
             ,base))]
       [`unsafe-vector-length
        `(mref ,(specify-value (first values))
@@ -86,7 +86,7 @@
       [`unsafe-fx- `(- ,(specify-value (first values)) ,(specify-value (second values)))]
       ;; added for M8
       [`cons
-       (define base (fresh-label))
+       (define base (fresh))
        `(let ([,base (+ (alloc ,(current-pair-size)) ,(current-pair-tag))])
           (begin
             (mset! ,base
@@ -112,7 +112,7 @@
                   ,(specify-value (second values)))
                ,(specify-value (third values)))]
       [`make-procedure
-       (define base (fresh-label))
+       (define base (fresh))
        `(let ([,base (+ (alloc (+ ,(current-procedure-environment-displacement)
                                   ,(specify-value (third values))))
                         ,(current-procedure-tag))])

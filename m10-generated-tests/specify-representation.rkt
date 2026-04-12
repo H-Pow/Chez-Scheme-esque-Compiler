@@ -5,6 +5,7 @@
          cpsc411/langs/v8
          cpsc411/langs/v9
          cpsc411/langs/v11
+         cpsc411/test-suite/utils
          "../specify-representation.rkt")
 (define (fail-if-invalid p)
   (when (not (exprs-bits-lang-v8? p))
@@ -19,7 +20,7 @@
  (check-by-interp p)
  (check-equal?
   (interp-proc-exposed-lang-v9 p)
-  (interp-exprs-bits-lang-v8 (fail-if-invalid (specify-representation p)))))
+  (ptr->v (interp-exprs-bits-lang-v8 (fail-if-invalid (specify-representation p))))))
 
 (check-by-interp '(module empty))
 (check-by-interp '(module (error 240)))

@@ -25,10 +25,10 @@
       ;; label or aloc
       [_ triv]))
 
-  (define (specify-primop primop values)
+  (define (specify-primop primop values^)
 
     (define (evaluate-unop mask tag)
-      `(if (= (bitwise-and 5 10) ,tag)
+      `(if (= (bitwise-and ,(specify-value (first values^)) ,mask) ,tag)
            ,(current-true-ptr)
            ,(current-false-ptr)))
 
@@ -48,7 +48,7 @@
       [`ascii-char? (evaluate-unop (current-ascii-char-mask) (current-ascii-char-tag))]
       [`error? (evaluate-unop (current-error-mask) (current-error-tag))]
       [`not
-       `(if (= ,(specify-value (first values)) ,(current-false-ptr))
+       `(if (= ,(specify-value (first values^)) ,(current-false-ptr))
             ,(current-true-ptr)
             ,(current-false-ptr))]
       [`pair? (evaluate-unop (current-pair-mask) (current-pair-tag))]
@@ -56,13 +56,13 @@
       ;; added for m9
       [`procedure? (evaluate-unop (current-procedure-mask) (current-procedure-tag))]
       ;; (car|cdr)-offset both incorporate detagging
-      [`unsafe-car `(mref ,(specify-value (first values)) ,(car-offset))]
-      [`unsafe-cdr `(mref ,(specify-value (first values)) ,(cdr-offset))]
+      [`unsafe-car `(mref ,(specify-value (first values^)) ,(car-offset))]
+      [`unsafe-cdr `(mref ,(specify-value (first values^)) ,(cdr-offset))]
       [`unsafe-make-vector
        (define base (fresh))
        (define total-size
          `(+ ,(current-vector-base-displacement)
-             (arithmetic-shift-right ,(specify-value (first values)) ,(- (current-vector-shift)))))
+             (arithmetic-shift-right ,(specify-value (first values^)) ,(- (current-vector-shift)))))
        `(let ([,base (+ (alloc ,total-size) ,(current-vector-tag))])
           (begin
             (mset! ,base
@@ -70,20 +70,20 @@
                    (- ,total-size ,(current-vector-base-displacement)))
             ,base))]
       [`unsafe-vector-length
-       `(mref ,(specify-value (first values))
+       `(mref ,(specify-value (first values^))
               ,(- (current-vector-length-displacement) (current-vector-tag)))]
       [`unsafe-procedure-arity
-       `(mref ,(specify-value (first values))
+       `(mref ,(specify-value (first values^))
               ,(- (current-procedure-arity-displacement) (current-procedure-tag)))]
       [`unsafe-procedure-label
-       `(mref ,(specify-value (first values))
+       `(mref ,(specify-value (first values^))
               ,(- (current-procedure-label-displacement) (current-procedure-tag)))]
       ;;
       [`unsafe-fx*
-       `(* ,(specify-value (first values))
-           (arithmetic-shift-right ,(specify-value (second values)) ,(current-fixnum-shift)))]
-      [`unsafe-fx+ `(+ ,(specify-value (first values)) ,(specify-value (second values)))]
-      [`unsafe-fx- `(- ,(specify-value (first values)) ,(specify-value (second values)))]
+       `(* ,(specify-value (first values^))
+           (arithmetic-shift-right ,(specify-value (second values^)) ,(current-fixnum-shift)))]
+      [`unsafe-fx+ `(+ ,(specify-value (first values^)) ,(specify-value (second values^)))]
+      [`unsafe-fx- `(- ,(specify-value (first values^)) ,(specify-value (second values^)))]
       ;; added for M8
       [`cons
        (define base (fresh))
@@ -91,49 +91,49 @@
           (begin
             (mset! ,base
                    ,(- (current-car-displacement) (current-pair-tag))
-                   ,(specify-value (first values)))
+                   ,(specify-value (first values^)))
             (mset! ,base
                    ,(- (current-cdr-displacement) (current-pair-tag))
-                   ,(specify-value (second values)))
+                   ,(specify-value (second values^)))
             ,base))]
       [`unsafe-vector-ref
-       `(mref ,(specify-value (first values))
-              (- (+ ,(specify-value (second values)) ,(current-vector-base-displacement))
+       `(mref ,(specify-value (first values^))
+              (- (+ ,(specify-value (second values^)) ,(current-vector-base-displacement))
                  ,(current-vector-tag)))]
 
       [`unsafe-procedure-ref
-       `(mref ,(specify-value (first values))
-              (- (+ ,(specify-value (second values)) ,(current-procedure-environment-displacement))
+       `(mref ,(specify-value (first values^))
+              (- (+ ,(specify-value (second values^)) ,(current-procedure-environment-displacement))
                  ,(current-procedure-tag)))]
 
       [`unsafe-vector-set!
-       `(mset! ,(specify-value (first values))
+       `(mset! ,(specify-value (first values^))
                (+ ,(- (current-vector-base-displacement) (current-vector-tag))
-                  ,(specify-value (second values)))
-               ,(specify-value (third values)))]
+                  ,(specify-value (second values^)))
+               ,(specify-value (third values^)))]
       [`make-procedure
        (define base (fresh))
        `(let ([,base (+ (alloc (+ ,(current-procedure-environment-displacement)
-                                  ,(specify-value (third values))))
+                                  ,(specify-value (third values^))))
                         ,(current-procedure-tag))])
           (begin
             (mset! ,base
                    ,(- (current-procedure-label-displacement) (current-procedure-tag))
-                   ,(specify-value (first values)))
+                   ,(specify-value (first values^)))
             (mset! ,base
                    ,(- (current-procedure-arity-displacement) (current-procedure-tag))
-                   ,(specify-value (second values)))
+                   ,(specify-value (second values^)))
             ,base))]
       [`unsafe-procedure-set!
-       `(mset! ,(specify-value (first values))
-               (+ ,(specify-value (second values))
+       `(mset! ,(specify-value (first values^))
+               (+ ,(specify-value (second values^))
                   ,(- (current-procedure-environment-displacement) (current-procedure-tag)))
-               ,(specify-value (third values)))]
+               ,(specify-value (third values^)))]
 
       [_
 
-       `(if (,(unsafe-binop->relop primop) ,(specify-value (first values))
-                                           ,(specify-value (second values)))
+       `(if (,(unsafe-binop->relop primop) ,(specify-value (first values^))
+                                           ,(specify-value (second values^)))
             ,(current-true-ptr)
             ,(current-false-ptr))]))
 
@@ -143,10 +143,10 @@
           ,effects ...)
        `(begin
           ,@(map specify-effect effects))]
-      [`(,primop ,values ...)
+      [`(,primop ,values^ ...)
        ;; update this
        #:when (primop? primop)
-       (specify-primop primop values)]))
+       (specify-primop primop values^)]))
 
   (define (specify-value value)
     (match value
@@ -154,13 +154,13 @@
        `(if (!= ,(specify-value v1) ,(current-false-ptr))
             ,(specify-value v2)
             ,(specify-value v3))]
-      [`(let ([,alocs ,values] ...) ,body-value)
+      [`(let ([,alocs ,values^] ...) ,body-value)
        ;; don't want to unquote splice the map result, or we lose outer brackets ([]
        ;;                                                                        []
        ;;                                                                        [])
-       `(let ,(map (lambda (aloc value) `[,aloc ,(specify-value value)]) alocs values)
+       `(let ,(map (lambda (aloc value) `[,aloc ,(specify-value value)]) alocs values^)
           ,(specify-value body-value))]
-      [`(call ,values ...) `(call ,@(map specify-value values))]
+      [`(call ,values^ ...) `(call ,@(map specify-value values^))]
       [`(begin
           ,effects ...
           ,val)
@@ -168,9 +168,9 @@
           ,@(map specify-effect effects)
           ,(specify-value val))]
 
-      [`(,primop ,values ...)
+      [`(,primop ,values^ ...)
        #:when (primop? primop)
-       (specify-primop primop values)]
+       (specify-primop primop values^)]
 
       [_ (specify-triv value)]))
 

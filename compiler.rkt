@@ -49,7 +49,7 @@
          "uniquify.rkt"
          "implement-safe-primops.rkt"
          "implement-safe-call.rkt"
-         (file "define->letrec.rkt")
+         "define-letrec.rkt"
          "optimize-direct-calls.rkt"
          "dox-lambdas.rkt"
          "uncover-free.rkt"

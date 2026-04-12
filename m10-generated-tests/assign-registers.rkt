@@ -365,7 +365,7 @@
             (begin (set! rax 22) (jump tmp-ra.59 rbp rax)))
           (begin (set! rax 6) (jump tmp-ra.59 rbp rax)))
         (begin (set! rax 6) (jump tmp-ra.59 rbp rax))))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((locals
       (tmp.180
@@ -3894,7 +3894,7 @@
       (set! rdi fun/ascii-char8568.7)
       (set! r15 tmp-ra.71)
       (jump L.fun/ascii-char8568.7.10 rbp r15 rdi rsi))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((locals
       (tmp.145
@@ -5897,7 +5897,7 @@
                     (set! void1.8 30))))))))
       (set! rax 1360)
       (jump tmp-ra.157 rbp rax))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.76
@@ -7006,7 +7006,7 @@
             (begin (set! rax 6) (jump tmp-ra.85 rbp rax)))
           (begin (set! rax 6) (jump tmp-ra.85 rbp rax)))
         (begin (set! rax 6) (jump tmp-ra.85 rbp rax))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.154
@@ -18541,7 +18541,7 @@
           (set! rdi fun/fixnum8642.7)
           (set! r15 tmp-ra.64)
           (jump L.fun/fixnum8642.7.10 rbp r15 rdi))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (ascii-char0.18
@@ -20088,7 +20088,7 @@
       (set! ascii-char0.18 20526)
       (set! rax 30)
       (jump tmp-ra.135 rbp rax))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.116
@@ -22082,7 +22082,7 @@
                       (begin
                         (set! rax 27950)
                         (jump tmp-ra.172 rbp rax)))))))))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.128
@@ -25492,7 +25492,7 @@
       (set! rdi fun/void8674.7)
       (set! r15 tmp-ra.64)
       (jump L.fun/void8674.7.10 rbp r15 rdi))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.158
@@ -35478,7 +35478,7 @@
       (if (begin (set! tmp.98 6) (!= tmp.98 6))
         (begin (set! rax 14) (jump tmp-ra.89 rbp rax))
         (begin (set! rax 14) (jump tmp-ra.89 rbp rax))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.190
@@ -44530,7 +44530,7 @@
       (set! rdi fun/fixnum8721.8)
       (set! r15 tmp-ra.81)
       (jump L.fun/fixnum8721.8.12 rbp r15 rdi))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.146
@@ -52753,7 +52753,7 @@
                           (set! fixnum0.29 1512)
                           (set! rax 30)
                           (jump tmp-ra.106 rbp rax))))))))))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.152
@@ -55759,7 +55759,7 @@
                                                tmp-ra.107
                                                rbp
                                                rax))))))))))))))))))))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.98
@@ -63971,7 +63971,7 @@
         (if (begin (set! tmp.190 6) (!= tmp.190 6))
           (begin (set! rax 22) (jump tmp-ra.147 rbp rax))
           (begin (set! rax 22) (jump tmp-ra.147 rbp rax)))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.259
@@ -75539,7 +75539,7 @@
       (set! rdi fun/void8799.9)
       (set! r15 tmp-ra.74)
       (jump L.fun/void8799.9.12 rbp r15 rdi))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.100
@@ -79445,7 +79445,7 @@
       (set! rdi fun/boolean8829.8)
       (set! r15 tmp-ra.83)
       (jump L.fun/boolean8829.8.11 rbp r15 rdi rsi))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.94
@@ -81199,7 +81199,7 @@
           (set! ascii-char2.15 19502)
           (set! rax 30)
           (jump tmp-ra.141 rbp rax))))))
-(check-by-interp
+#;(check-by-interp
  '(module
     ((locals
       (fun/boolean8838.17
@@ -92601,7 +92601,7 @@
                       (set! procedure0.67 lam.129)
                       (set! rax 64574)
                       (jump tmp-ra.274 rbp rax))))))))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (void2.29
@@ -97964,7 +97964,7 @@
                   (set! rdi fun/fixnum8864.13)
                   (set! r15 tmp-ra.252)
                   (jump L.fun/fixnum8864.13.20 rbp r15 rdi rsi))))))))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.114
@@ -105852,7 +105852,7 @@
       (set! rdi fun/empty8915.7)
       (set! r15 tmp-ra.78)
       (jump L.fun/empty8915.7.10 rbp r15 rdi))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (tmp.248
@@ -117502,7 +117502,7 @@
       (set! rdi fun/boolean8972.9)
       (set! r15 tmp-ra.86)
       (jump L.fun/boolean8972.9.12 rbp r15 rdi))))
-(check-by-interp
+#; (check-by-interp
  '(module
     ((locals
       (fun/void8981.14

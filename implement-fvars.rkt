@@ -75,7 +75,7 @@
     (match fx
       ;; opand and index are same
       [`(mset! ,loc ,index ,triv)
-       `(set! ,(implement-loc loc) ,(implement-opand index) ,(implement-triv triv))]
+       `(mset! ,(implement-loc loc) ,(implement-opand index) ,(implement-triv triv))]
       [`(set! ,loc1 (mref ,loc2 ,index))
        `(set! ,(implement-loc loc1) (mref ,(implement-loc loc2) ,(implement-opand index)))]
       [`(set! ,loc ,(? triv? triv)) `(set! ,(implement-loc loc) ,(implement-triv triv))]

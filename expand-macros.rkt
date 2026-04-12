@@ -94,6 +94,8 @@
   (dict-ref MACRO-ID-MAP mid (thunk (error (format "Invalid macro-id ~v" mid)))))
 
 
+;; (Racketish-Surface p) -> (Exprs-lang-v9 p)
+;; Expands all racketish-surface macros
 (define (expand-macros p)
   ; triv	 	::=	 	x
   ;     |	 	fixnum

@@ -4,29 +4,10 @@
          "common.rkt")
 
 (provide assign-call-undead-variables)
-;; asm-pred-lang-v6/conflicts
-#|
-p	 	::=	 	(module info (define label info tail) ... tail)
 
-info	 ::=	(#:from-contract (info/c (new-frames (frame ...)) (locals (aloc ...))
-                (call-undead (loc ...)) (conflicts ((loc (loc ...)) ...))))
 
-frame	 ::=	(aloc ...)
-|#
-
-;; asm-pred-lang-v6/pre-framed
-#|
-p	 	 ::=	 (module info (define label info tail) ... tail)
-
-info	 ::=	 (#:from-contract (info/c (new-frames (frame ...)) (locals (aloc ...))
-                 (call-undead (loc ...)) (conflicts ((loc (loc ...)) ...))
-                 (assignment ((aloc fvar) ...))))
-
-frame	 ::=	 (aloc ...)
-|#
-
-;; (asm-pred-lang-v6/conflicts p) -> (asm-pred-lang-v6/pre-framed p)
-;; Compiles Asm-pred-lang-v6/conflicts to Asm-pred-lang-v6/pre-framed by pre-assigning
+;; (Asm-pred-lang-v8/conflicts p) -> (Asm-pred-lang-v8/pre-framed p)
+;; Compiles Asm-pred-lang-v8/conflicts to Asm-pred-lang-v8/pre-framed by pre-assigning
 ;; all variables in the call-undead sets to frame variables.
 (define (assign-call-undead-variables p)
 

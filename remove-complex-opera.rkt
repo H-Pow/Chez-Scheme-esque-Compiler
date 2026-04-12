@@ -7,11 +7,10 @@
 
 
 
-;; exprs-bits-lang-v7 p -> values-bits-lang-v7 p
+;; (Exprs-bits-lang-v8 p) -> (Values-bits-lang-v8 p)
 ;; Performs the monadic form transformation, 
 ;; unnesting all non-trivial operators and operands to binops, 
 ;; calls, and relopss, making data flow explicit and simple to implement imperatively.
-
 (define (remove-complex-opera* p)
 
   (define (rco-def def)

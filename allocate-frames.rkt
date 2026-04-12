@@ -112,5 +112,4 @@
            cpsc411/langs/v6)
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-asm-pred-lang-v6/pre-framed p)
-                  (interp-asm-pred-lang-v6/framed (allocate-frames p))))
-  )
+                  (interp-asm-pred-lang-v6/framed (allocate-frames p)))))

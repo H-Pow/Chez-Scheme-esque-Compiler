@@ -60,12 +60,11 @@
       [`unsafe-cdr `(mref ,(specify-value (first values^)) ,(cdr-offset))]
       [`unsafe-make-vector
        (define base (fresh 'vector-base))
-       (define total-size-aloc (fresh 'apparent-size))
+       (define total-size-aloc (fresh 'size/bytes))
        (define n-items (specify-value (first values^)))
        (define total-size
          `(+ ,(current-vector-base-displacement)
              (* ,n-items ,(current-word-size-bytes))))
-       ;  (define apparent-size)
        `(let ([,total-size-aloc ,total-size])
           (let ([,base (+ (alloc ,total-size-aloc) ,(current-vector-tag))])
             (begin

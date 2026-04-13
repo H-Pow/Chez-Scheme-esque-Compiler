@@ -1,9 +1,18 @@
 #lang racket
 
 (require cpsc411/compiler-lib
+         cpsc411/langs/v8
          "common.rkt")
 
 (provide remove-complex-opera*)
+
+(define (fail-if-invalid p)
+  (when (not (values-bits-lang-v8? p))
+    (error
+     ("\n is not a semantically valid "
+      "values-bits-lang-v8"
+      " program")))
+  p)
 
 ;; (Exprs-bits-lang-v8 p) -> (Values-bits-lang-v8 p)
 ;; Performs the monadic form transformation,
@@ -119,7 +128,7 @@
       [(? label?) (k triv)]
       [_ (let ([fresh-aloc (fresh)]) `(let ([,fresh-aloc ,(rco-value triv)]) ,(k fresh-aloc)))]))
 
-  (match p
+  (match (fail-if-invalid p)
     [`(module ,defs ...
         ,tail)
      `(module ,@(map rco-def defs) ,(rco-tail tail)

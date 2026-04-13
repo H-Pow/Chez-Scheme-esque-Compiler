@@ -32,8 +32,8 @@
        (for-each (lambda (label fn)
                    (match fn
                      [`(lambda (,alocs ...) ,body)
-                      (set! defs
-                            (append defs `((define ,label (lambda ,alocs ,(hoist-value body))))))]))
+                      (define hoisted-body (hoist-value body))
+                      (set! defs (append defs `((define ,label (lambda ,alocs ,hoisted-body)))))]))
                  labels
                  fns)
        (hoist-value body-value)]

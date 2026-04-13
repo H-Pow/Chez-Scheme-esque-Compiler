@@ -15,10 +15,14 @@
 ;; Compiles Values-unique-lang v8 to Imp-mf-lang v8 by picking a particular
 ;; order to implement let expressions using set!.
 (define (sequentialize-let p)
+  ;; let src-X represent X non-terminal in Values-bits-lang-v8
+  ;; let trg-X represent X non-terminal in Imp-mf-lang-v8
+  ;; aloc src-value -> `(set! ,aloc ,trg-value)
   (define (make-fx+ aloc value)
     (make-fx aloc (seq-let-value value)))
   (define (seq-let-effect fx)
     (match fx
+    ; seq-let-value is called in make-fx+
       [`(let ([,aloc* ,val*] ...) ,fx) (make-begin (map make-fx+ aloc* val*) (seq-let-effect fx))]
       [`(begin
           ,fx* ...
@@ -35,6 +39,7 @@
        `(if ,(seq-let-pred pred0)
             ,(seq-let-pred pred1)
             ,(seq-let-pred pred2))]
+    ; seq-let-value is called in make-fx+
       [`(let ([,aloc* ,val*] ...) ,pred) (make-begin (map make-fx+ aloc* val*) (seq-let-pred pred))]
       [`(not ,pred) `(not ,(seq-let-pred pred))]
       [`(begin

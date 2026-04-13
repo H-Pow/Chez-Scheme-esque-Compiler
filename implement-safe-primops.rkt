@@ -21,7 +21,7 @@
     `(define ,fill0-lab
        (lambda (,vec ,off ,len)
          (if (unsafe-fx< ,off ,len)
-             (let ([,(fresh 'ignored) (unsafe-vector-set! ,vec ,off 0)])
+             (begin (unsafe-vector-set! ,vec ,off 0)
                (call ,fill0-lab ,vec (unsafe-fx+ ,off 1) ,len))
              (void))))))
 (define make-init-vector-label (fresh 'make-init-vector))
@@ -45,7 +45,9 @@
          (if (if (unsafe-fx>= ,off 0)
                  (unsafe-fx< ,off (unsafe-vector-length ,vec))
                  #f)
-             (unsafe-vector-set! ,vec ,off ,val)
+             (begin 
+              (unsafe-vector-set! ,vec ,off ,val)
+              (void))
              ,ERROR-VECTOR-SET-OOB)))))
 
 (define unsafe-vector-ref-label (fresh 'vector-refu))
@@ -133,7 +135,6 @@
 
   ; usage is a a set of all prim-f referenced in this program p
   (define usage (mutable-seteq))
-  ; usage is a a set of all aloc referenced by primops corresponding to the prim-fs in usage set
   ;  triv -> (unsafe-triv or aloc or primop)
   ;; EFFECT: adds referenced prim-f to usage
   (define (implement-triv! triv)
@@ -145,7 +146,8 @@
       [prim-f
        (set-add! usage prim-f)
        (car (dict-ref DEF-ENV prim-f))]))
-
+  ;  value -> (unsafe-value)
+  ;; EFFECT: adds referenced prim-f to usage
   (define (implement-value! value [k identity])
     (match value
       [`(if ,val0 ,val1 ,val2)

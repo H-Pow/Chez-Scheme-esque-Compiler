@@ -1,6 +1,7 @@
 #lang racket
 
 (require cpsc411/compiler-lib
+         cpsc411/langs/v8
          "common.rkt")
 
 (provide remove-complex-opera*)
@@ -24,9 +25,9 @@
       [`(true) pred]
       [`(false) pred]
       [`(not ,pred) `(not ,(rco-pred pred))]
-      [`(let ([,alocs ,values] ...) ,pred)
+      [`(let ([,alocs ,values^] ...) ,pred)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `(,aloc ,(rco-value value)))
           ,(rco-pred pred))]
       [`(if ,pred1 ,pred2 ,pred3)
@@ -52,9 +53,9 @@
        `(begin
           ,@(map rco-effect effects)
           ,(rco-tail tail))]
-      [`(let ([,alocs ,values] ...) ,tail)
+      [`(let ([,alocs ,values^] ...) ,tail)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `(,aloc ,(rco-value value)))
           ,(rco-tail tail))]
       [`(if ,pred ,tail1 ,tail2)
@@ -67,16 +68,20 @@
     (match effect
       [`(mset! ,value1 ,value2 ,value3)
        (rco-triv value1
-                 (λ (value1^) (rco-triv value2 (λ (value2^) `(mset! ,value1^ ,value2^ ,value3)))))]
+                 (λ (value1^) 
+                    (rco-triv value2 
+                              (λ (value2^) 
+                                 (rco-triv value3 (λ (value3^)   
+                                    `(mset! ,value1^ ,value2^ ,value3^)))))))]
       [`(begin
           ,effects ...
           ,last)
        `(begin
           ,@(map rco-effect effects)
           ,(rco-effect last))]
-      [`(let ([,alocs ,values] ...) ,effect)
+      [`(let ([,alocs ,values^] ...) ,effect)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `[,aloc ,(rco-value value)])
           ,(rco-effect effect))]))
 
@@ -90,9 +95,9 @@
        `(begin
           ,@(map rco-effect effects)
           ,(rco-value value))]
-      [`(let ([,alocs ,values] ...) ,value-body)
+      [`(let ([,alocs ,values^] ...) ,value-body)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `[,aloc ,(rco-value value)])
           ,(rco-value value-body))]
       [`(alloc ,value) (rco-triv value (λ (value^) `(alloc ,value^)))]

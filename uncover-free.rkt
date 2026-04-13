@@ -9,6 +9,8 @@
 ;; Explicitly annotate procedures with their free variable sets.
 (define (uncover-free p)
 
+  ;; set -> set
+  ;; checks is set can be unioned or not
   (define (safe-set-union myset)
     (if (empty? myset)
         (set)

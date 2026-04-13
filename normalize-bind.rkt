@@ -40,13 +40,18 @@
           ,value2)
        (normalize-value value2 (λ (nvalue) (join-begin (map normalize-effect effects) (k nvalue))))]
       [`(if ,pred ,value1 ,value2)
-       (normalize-value value1
-                        (λ (nvalue1)
-                          (normalize-value value2
-                                           (λ (nvalue2)
-                                             `(if ,(normalize-pred pred)
-                                                  ,(k nvalue1)
-                                                  ,(k nvalue2))))))]
+        `(if ,(normalize-pred pred)
+             ,(normalize-value value1 k)
+             ,(normalize-value value2 k))]
+      #;
+      [`(if ,pred ,value1 ,value2) 
+        (normalize-value value1 
+          (λ (nvalue1) 
+            (normalize-value value2 
+              (λ (nvalue2) 
+                (k `(if ,(normalize-pred pred) 
+                        ,nvalue1
+                        ,nvalue2))))))]
       [`(mref ,aloc ,opand) (k `(mref ,aloc ,opand))]
       [`(alloc ,opand) (k `(alloc ,opand))]
       [`(,binop ,triv1 ,triv2)
@@ -120,6 +125,82 @@
 
 (module+ test
   (require rackunit)
+  #;
+  (check-match (normalize-bind `(module (define L.*.16.12 
+  (lambda (c.303 fixnum?0.17 fixnum?1.18) 
+  (if (begin (set! tmp.541 
+  (if (begin (set! tmp.542 
+  (if (begin (set! tmp.543 (bitwise-and fixnum?0.17 7)) 
+  (= tmp.543 0)) 14 6)) (!= tmp.542 6)) 
+  (if (begin (set! tmp.544 (bitwise-and fixnum?1.18 7)) (= tmp.544 0)) 14 6) 6)) 
+  (!= tmp.541 6)) (begin (set! tmp.545 (arithmetic-shift-right fixnum?1.18 3)) 
+  (* fixnum?0.17 tmp.545)) 574))) (begin (set! *.16 (begin (set! tmp.453 
+  (begin (set! tmp.546 (begin (set! tmp.547 (+ 16 0)) (alloc tmp.547))) (+ tmp.546 2))) 
+  (mset! tmp.453 -2 L.*.16.12) (mset! tmp.453 6 16) tmp.453)) 
+  (set! tmp.454 (begin (set! tmp.548 (alloc 16)) (+ tmp.548 1))) 
+  (set! tmp.549 (begin (set! lambda.222 *.16) 
+  (if (begin (set! tmp.550 (if (begin (set! tmp.551 (bitwise-and lambda.222 7)) 
+  (= tmp.551 2)) 14 6)) (!= tmp.550 6)) (if (begin (set! tmp.552 
+  (if (begin (set! tmp.553 (mref lambda.222 6)) (= tmp.553 16)) 14 6)) 
+  (!= tmp.552 6)) (begin (set! tmp.554 (mref lambda.222 -2)) 
+  (call tmp.554 lambda.222 56 64)) 17726) 17214))) (mset! tmp.454 -1 tmp.549) 
+  (mset! tmp.454 7 22) tmp.454)))
+  
+  `(module
+  (define L.*.16.12
+    (lambda (c.303 fixnum?0.17 fixnum?1.18)
+      (if (begin
+            (if (begin
+                  (if (begin
+                        (set! tmp.543 (bitwise-and fixnum?0.17 7))
+                        (= tmp.543 0))
+                    (set! tmp.542 14)
+                    (set! tmp.542 6))
+                  (!= tmp.542 6))
+              (if (begin
+                    (set! tmp.544 (bitwise-and fixnum?1.18 7))
+                    (= tmp.544 0))
+                (set! tmp.541 14)
+                (set! tmp.541 6))
+              (set! tmp.541 6))
+            (!= tmp.541 6))
+        (begin
+          (set! tmp.545 (arithmetic-shift-right fixnum?1.18 3))
+          (* fixnum?0.17 tmp.545))
+        574)))
+  (begin
+    (begin
+      (begin
+        (begin (set! tmp.547 (+ 16 0)) (set! tmp.546 (alloc tmp.547)))
+        (set! tmp.453 (+ tmp.546 2)))
+      (mset! tmp.453 -2 L.*.16.12)
+      (mset! tmp.453 6 16)
+      (set! *.16 tmp.453))
+    (begin (set! tmp.548 (alloc 16)) (set! tmp.454 (+ tmp.548 1)))
+    (begin
+      (set! lambda.222 *.16)
+      (if (begin
+            (if (begin (set! tmp.551 (bitwise-and lambda.222 7)) (= tmp.551 2))
+              (set! tmp.550 14)
+              (set! tmp.550 6))
+            (!= tmp.550 6))
+        (if (begin
+              (if (begin (set! tmp.553 (mref lambda.222 6)) (= tmp.553 16))
+                (set! tmp.552 14)
+                (set! tmp.552 6))
+              (!= tmp.552 6))
+          (begin
+            (set! tmp.554 (mref lambda.222 -2))
+            (set! tmp.549 (call tmp.554 lambda.222 56 64)))
+          (set! tmp.549 17726))
+        (set! tmp.549 17214)))
+    (mset! tmp.454 -1 tmp.549)
+    (mset! tmp.454 7 22)
+    tmp.454))
+  )
+
+
+  #;
   (check-match (normalize-bind `(module 
         (define L.id.157.70 (lambda (c.361 x.158) x.158)) 
           (begin (set! id.157 
@@ -130,10 +211,11 @@
                 (mset! tmp.438 -2 L.id.157.70) 
                 (mset! tmp.438 6 8) tmp.438)) 
                 (set! x.159 
-        (begin (set! lambda.229 id.157) 
+        (begin 
+          (set! lambda.229 id.157) 
           (if (begin (set! tmp.1337 
-          (if (begin (set! tmp.1338 (bitwise-and lambda.229 7)) 
-                (= tmp.1338 2)) 14 6)) (!= tmp.1337 6)) 
+                (if (begin (set! tmp.1338 (bitwise-and lambda.229 7)) 
+                            (= tmp.1338 2)) 14 6)) (!= tmp.1337 6)) 
                   (if (begin (set! tmp.1339 
                     (if (begin (set! tmp.1340 (mref lambda.229 6)) 
                           (= tmp.1340 8)) 14 6)) (!= tmp.1339 6)) 

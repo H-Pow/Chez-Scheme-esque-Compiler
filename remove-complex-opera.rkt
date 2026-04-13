@@ -10,7 +10,7 @@
   (when (not (exprs-bits-lang-v8? p))
     (error
      ("\n is not a semantically valid "
-      "values-bits-lang-v8"
+      "exprs-bits-lang-v8"
       " program")))
   p)
 

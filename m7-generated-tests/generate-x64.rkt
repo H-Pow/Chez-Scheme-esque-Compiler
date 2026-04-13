@@ -1,27 +1,29 @@
 #lang racket
 (require rackunit
-         cpsc411/langs/v7
+         cpsc411/langs/v8
          cpsc411/compiler-lib
          cpsc411/ptr-run-time
          "../test-common.rkt"
          (only-in "../generate-x64.rkt" generate-x64))
 
 (define (check-paren-x64-v7 p)
-  (if (paren-x64-v7? p) p #f))
+  (if (paren-x64-v8? p) p #f))
 
 (define (check-execute p)
   ; (if (execute? p) p #f)
   p)
 
 (define (ptr->v/generate-x64 p)
-  (define v (ptr->v/p3yaz p))
-  (if (equal? v (void)) 
-    eof
-    v))
+;   (define v (ptr->v/p3yaz p))
+;   (if (equal? v (void)) 
+;     eof
+;     v)
+    p
+    )
 
 (define-syntax-rule (check-by-interp p)
   (parameterize ([current-pass-list (list wrap-x64-run-time wrap-x64-boilerplate)])
-    (check-equal? (ptr->v/generate-x64 (interp-paren-x64-v7 (check-paren-x64-v7 p)))
+    (check-equal? (ptr->v/generate-x64 (interp-paren-x64-v8 (check-paren-x64-v8 p)))
        (execute (generate-x64 p)))))
        
 (check-by-interp '(begin

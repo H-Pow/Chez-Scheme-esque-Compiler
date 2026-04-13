@@ -6,17 +6,17 @@
          cpsc411/langs/v9
          cpsc411/langs/v11
          "../generate-x64.rkt")
-(define (fail-if-invalid p)
-  (when (not (#t p))
-    (error
-     (~a (pretty-format p) "\n is not a semantically valid " "#f" " program")))
-  p)
+         (require cpsc411/test-suite/utils)
+
+
 (define-syntax-rule
  (check-by-interp p)
  (check-equal?
-  (interp-paren-x64-v8 p)
-  ((compose nasm-run/print-number wrap-x64-run-time wrap-x64-boilerplate)
-   (fail-if-invalid (generate-x64 p)))))
+  (ptr->v (interp-paren-x64-v8 p))
+  ((compose  nasm-run/print-number wrap-x64-run-time wrap-x64-boilerplate)
+    (generate-x64 p))
+    
+    ))
 
 (check-by-interp
  '(begin (with-label L.__main.10 (set! r15 r15)) (set! rax 22) (jump r15)))

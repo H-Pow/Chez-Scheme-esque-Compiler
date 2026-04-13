@@ -84,7 +84,7 @@
     ; (pretty-write p)
     (when (not (just-exprs-lang-v9? p))
       (error
-       (~a (pretty-format p) "\n is not a semantically valid " "just-exprs-lang-v9" " program")))
+       (~a (pretty-format p) "\n is not a semantically valid just-exprs-lang-v9 program")))
     p)
   (define-syntax-rule (check-by-interp p)
     (check-equal? (interp-just-exprs-lang-v9 p)

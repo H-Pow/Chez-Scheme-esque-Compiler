@@ -9,9 +9,7 @@
 (define (fail-if-invalid p)
   (when (not (exprs-bits-lang-v8? p))
     (error
-     ("\n is not a semantically valid "
-      "exprs-bits-lang-v8"
-      " program")))
+     ("\n is not a semantically valid exprs-bits-lang-v8 program")))
   p)
 
 ;; (Exprs-bits-lang-v8 p) -> (Values-bits-lang-v8 p)

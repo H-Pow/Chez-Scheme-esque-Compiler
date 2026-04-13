@@ -45,7 +45,9 @@
          (if (if (unsafe-fx>= ,off 0)
                  (unsafe-fx< ,off (unsafe-vector-length ,vec))
                  #f)
-             (unsafe-vector-set! ,vec ,off ,val)
+             (begin 
+              (unsafe-vector-set! ,vec ,off ,val)
+              (void))
              ,ERROR-VECTOR-SET-OOB)))))
 
 (define unsafe-vector-ref-label (fresh 'vector-refu))

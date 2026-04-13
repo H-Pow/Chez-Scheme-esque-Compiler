@@ -7,7 +7,7 @@
 (provide remove-complex-opera*)
 
 (define (fail-if-invalid p)
-  (when (not (values-bits-lang-v8? p))
+  (when (not (exprs-bits-lang-v8? p))
     (error
      ("\n is not a semantically valid "
       "values-bits-lang-v8"

@@ -38,7 +38,9 @@
       [`(begin
           ,effects ...
           ,value2)
-       (normalize-value value2 (λ (nvalue) (join-begin (map normalize-effect effects) (k nvalue))))]
+        #;
+       (normalize-value value2 (λ (nvalue) (join-begin (map normalize-effect effects) (k nvalue))))
+       `(begin ,@(map normalize-effect effects) ,(normalize-value value2 k))]
       [`(if ,pred ,value1 ,value2)
         `(if ,(normalize-pred pred)
              ,(normalize-value value1 k)

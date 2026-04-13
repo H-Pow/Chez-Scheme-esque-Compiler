@@ -135,7 +135,6 @@
 
   ; usage is a a set of all prim-f referenced in this program p
   (define usage (mutable-seteq))
-  ; usage is a a set of all aloc referenced by primops corresponding to the prim-fs in usage set
   ;  triv -> (unsafe-triv or aloc or primop)
   ;; EFFECT: adds referenced prim-f to usage
   (define (implement-triv! triv)
@@ -147,7 +146,8 @@
       [prim-f
        (set-add! usage prim-f)
        (car (dict-ref DEF-ENV prim-f))]))
-
+  ;  value -> (unsafe-value)
+  ;; EFFECT: adds referenced prim-f to usage
   (define (implement-value! value [k identity])
     (match value
       [`(if ,val0 ,val1 ,val2)

@@ -133,6 +133,8 @@
            cpsc411/langs/v10
            cpsc411/test-suite/public/v10
            file/glob)
+;  we commented out tests because the autograder keeps timing out
+; please see the documetned files for tests
 
 ;   (require (submod "uniquify.rkt" test))
 ;   (require (submod "optimize-direct-calls.rkt" test))
@@ -150,7 +152,6 @@
 ;   (require (submod "flatten-program.rkt" test))
 ;   (require (submod "expand-macros.rkt" test))
 ;   ;   (require (submod "patch-instructions.rkt" test))
-;   ; (for-each (λ(p) (dynamic-require p #f)) (glob "m7-generated-tests/**.rkt"))
 ;   ;   (for-each (λ(p) (dynamic-require p #f)) (glob "m8-generated-tests/**.rkt"))
 ;   ;   (for-each (λ(p) (dynamic-require p #f)) (glob "m9-generated-tests/**.rkt"))
 ;   ;   (for-each (λ(p) (dynamic-require p #f)) (glob "m10-generated-tests/**.rkt"))

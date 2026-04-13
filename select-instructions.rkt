@@ -9,7 +9,7 @@
 ;; the operations of the source language.
 (define (select-instructions p)
 
-  ; (imp-cmf-lang-v8 opand) -> (List-of (asm-alloc-lang-v8 effect)) and (asm-alloc-lang-v8 aloc)
+  ; (imp-cmf-lang-v8 opand) -> (values (listof (asm-alloc-lang-v8 effect)) (asm-alloc-lang-v8 aloc))
   ; Assigns the value v to a fresh temporary, returning two values: the list of
   ; statements that implement the assignment in asm-pred-lang, and the aloc that the
   ; value is stored in.
@@ -17,8 +17,8 @@
     (define tmp (fresh 'tmp))
     (match v
       [`(,binop ,triv1 ,triv2)
-       (list (list `(set! ,tmp ,triv1) `(set! ,tmp (,binop ,tmp ,triv2))) tmp)]
-      [_ (list (list `(set! ,tmp ,v)) tmp)]))
+       (values (list `(set! ,tmp ,triv1) `(set! ,tmp (,binop ,tmp ,triv2))) tmp)]
+      [_ (values (list `(set! ,tmp ,v)) tmp)]))
 
   (define (select-pred pred)
     (match pred
@@ -33,7 +33,7 @@
             ,(select-pred pred3))]
       [`(,relop ,triv1 ,triv2)
        #:when (int64? triv1)
-       (match-let ([`(,fxs ,aloc) (assign-tmp triv1)])
+       (let-values ([(fxs aloc) (assign-tmp triv1)])
          `(begin
             ,@fxs
             (,relop ,aloc ,triv2)))]

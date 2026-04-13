@@ -155,20 +155,20 @@
 ;   ;   (for-each (λ(p) (dynamic-require p #f)) (glob "m9-generated-tests/**.rkt"))
 ;   ;   (for-each (λ(p) (dynamic-require p #f)) (glob "m10-generated-tests/**.rkt"))
 
-;   (run-tests (v10-public-test-suite (current-pass-list) (map cdr pass-map))))
+  (run-tests (v10-public-test-suite (current-pass-list) (map cdr pass-map))))
 
 ; ;; A main module for running the compiler on the command line.
 ; ;; Use like: racket -t compiler.rkt input.411 output.exe
-; (module+ main
-;   (define-values (input output)
-;     (command-line #:program "411 Compiler"
-;                   ;#:once-each
-;                   ;["--O3" "Optimize Harder" (current-pass-list -O3-pass-list)]
-;                   #:args (input-file output-file)
-;                   (values input-file output-file)))
+(module+ main
+  (define-values (input output)
+    (command-line #:program "411 Compiler"
+                  ;#:once-each
+                  ;["--O3" "Optimize Harder" (current-pass-list -O3-pass-list)]
+                  #:args (input-file output-file)
+                  (values input-file output-file)))
 
-;   (with-input-from-file input
-;                         (thunk ((nasm-run/observe (curryr copy-directory/files output))
-;                                 (compile (read)))))
+  (with-input-from-file input
+                        (thunk ((nasm-run/observe (curryr copy-directory/files output))
+                                (compile (read)))))
                                 
                                 )

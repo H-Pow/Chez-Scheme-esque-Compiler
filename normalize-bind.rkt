@@ -120,6 +120,83 @@
 
 (module+ test
   (require rackunit)
+  (check-match (normalize-bind `(module 
+        (define L.id.157.70 (lambda (c.361 x.158) x.158)) 
+          (begin (set! id.157 
+            (begin (set! tmp.438 
+              (begin (set! tmp.1335 
+                (begin (set! tmp.1336 (+ 16 0)) 
+                (alloc tmp.1336))) (+ tmp.1335 2))) 
+                (mset! tmp.438 -2 L.id.157.70) 
+                (mset! tmp.438 6 8) tmp.438)) 
+                (set! x.159 
+        (begin (set! lambda.229 id.157) 
+          (if (begin (set! tmp.1337 
+          (if (begin (set! tmp.1338 (bitwise-and lambda.229 7)) 
+                (= tmp.1338 2)) 14 6)) (!= tmp.1337 6)) 
+                  (if (begin (set! tmp.1339 
+                    (if (begin (set! tmp.1340 (mref lambda.229 6)) 
+                          (= tmp.1340 8)) 14 6)) (!= tmp.1339 6)) 
+                          (begin (set! tmp.1341 (mref lambda.229 -2)) 
+                          (call tmp.1341 lambda.229 40)) 17726) 17214))) 
+                          (set! lambda.230 id.157) 
+                          (if (begin (set! tmp.1342 (if (begin (set! tmp.1343 (bitwise-and lambda.230 7)) 
+                          (= tmp.1343 2)) 14 6)) (!= tmp.1342 6)) 
+                          (if (begin (set! tmp.1344 
+                          (if (begin (set! tmp.1345 (mref lambda.230 6)) 
+                          (= tmp.1345 8)) 14 6)) (!= tmp.1344 6)) 
+                          (begin (set! tmp.1346 (mref lambda.230 -2)) 
+                          (call tmp.1346 lambda.230 x.159)) 17726) 17214))))
+  
+  `(module
+  (define L.id.157.70 (lambda (c.361 x.158) x.158))
+  (begin
+    (begin
+      (begin
+        (begin 
+          (set! tmp.1336 (+ 16 0)) 
+          (set! tmp.1335 (alloc tmp.1336)))
+        (set! tmp.438 (+ tmp.1335 2)))
+      (mset! tmp.438 -2 L.id.157.70)
+      (mset! tmp.438 6 8)
+      (set! id.157 tmp.438))
+    (begin
+      (set! lambda.229 id.157)
+      (if (begin
+            (if (begin
+                  (set! tmp.1338 (bitwise-and lambda.229 7))
+                  (= tmp.1338 2))
+              (set! tmp.1337 14)
+              (set! tmp.1337 6))
+            (!= tmp.1337 6))
+        (if (begin
+              (if (begin (set! tmp.1340 (mref lambda.229 6)) (= tmp.1340 8))
+                (set! tmp.1339 14)
+                (set! tmp.1339 6))
+              (!= tmp.1339 6))
+          (begin
+            (set! tmp.1341 (mref lambda.229 -2))
+            (set! x.159 (call tmp.1341 lambda.229 40)))
+          (set! x.159 17726))
+        (set! x.159 17214)))
+    (set! lambda.230 id.157)
+    (if (begin
+          (if (begin (set! tmp.1343 (bitwise-and lambda.230 7)) (= tmp.1343 2))
+            (set! tmp.1342 14)
+            (set! tmp.1342 6))
+          (!= tmp.1342 6))
+      (if (begin
+            (if (begin (set! tmp.1345 (mref lambda.230 6)) (= tmp.1345 8))
+              (set! tmp.1344 14)
+              (set! tmp.1344 6))
+            (!= tmp.1344 6))
+        (begin
+          (set! tmp.1346 (mref lambda.230 -2))
+          (call tmp.1346 lambda.230 x.159))
+        17726)
+      17214))))
+
+
   (check-match (normalize-bind '(module (begin
                                           (mset! x.1
                                                  y.1

@@ -68,7 +68,11 @@
     (match effect
       [`(mset! ,value1 ,value2 ,value3)
        (rco-triv value1
-                 (λ (value1^) (rco-triv value2 (λ (value2^) `(mset! ,value1^ ,value2^ ,value3)))))]
+                 (λ (value1^) 
+                    (rco-triv value2 
+                              (λ (value2^) 
+                                 (rco-triv value3 (λ (value3^)   
+                                    `(mset! ,value1^ ,value2^ ,value3^)))))))]
       [`(begin
           ,effects ...
           ,last)

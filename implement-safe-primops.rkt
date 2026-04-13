@@ -21,7 +21,7 @@
     `(define ,fill0-lab
        (lambda (,vec ,off ,len)
          (if (unsafe-fx< ,off ,len)
-             (let ([,(fresh 'ignored) (unsafe-vector-set! ,vec ,off 0)])
+             (begin (unsafe-vector-set! ,vec ,off 0)
                (call ,fill0-lab ,vec (unsafe-fx+ ,off 1) ,len))
              (void))))))
 (define make-init-vector-label (fresh 'make-init-vector))

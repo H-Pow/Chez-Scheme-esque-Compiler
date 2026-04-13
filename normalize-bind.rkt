@@ -10,7 +10,11 @@
 ;; under begin and if so that the right-hand-side of each set!
 ;;is a simple value-producing operation.
 (define (normalize-bind mf)
-  ;; let nvalue represent value in Proc-imp-cmf-lang-v8
+  (define opand? (or/c int64? aloc?) )
+  (define triv? (or/c opand? label?))
+  ;; let nvalue represent a value in Proc-imp-cmf-lang-v8
+  ;; let ntail represent a tail in Proc-imp-cmf-lang-v8
+
   ;; join-begin so that the effects take place after the given tail's effect
   ;; this is necessary due to the use of continuations
   ;; (listof effect) tail -> tail
@@ -28,7 +32,7 @@
 
   (define (normalize-triv triv)
     triv)
-  ;; value (nvalue -> nvalue) -> nvalue
+  ;; value (nvalue -> ntail) -> ntail
   (define (normalize-value value [k identity])
     (match value
       [`(begin
@@ -47,7 +51,9 @@
       [`(alloc ,opand) (k `(alloc ,opand))]
       [`(,binop ,triv1 ,triv2)
        (k `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2)))]
-      [triv (k (normalize-triv triv))]))
+      [`(call ,_ ,_ ...) (k value)]
+      [triv
+       (k (normalize-triv triv))]))
   (define (normalize-pred pred)
     (match pred
       [`(not ,pred) `(not ,(normalize-pred pred))]
@@ -73,7 +79,13 @@
           ,@(map normalize-effect effects)
           ,(normalize-effect effect2))]
       [`(mset! ,aloc ,opand ,value)
-       (normalize-value value (λ (nvalue) `(mset! ,aloc ,opand ,nvalue)))]
+       (normalize-value value (λ (nvalue)
+                                (if (not (triv? nvalue))
+                                    (let ([ntriv (fresh 'mset-tmp)])
+                                      (make-begin-effect
+                                       `((set! ,ntriv ,nvalue)
+                                         (mset! ,aloc ,opand ,ntriv))))
+                                    `(mset! ,aloc ,opand ,nvalue))))]
       [`(if ,pred ,effect1 ,effect2)
        `(if ,(normalize-pred pred)
             ,(normalize-effect effect1)
@@ -94,9 +106,9 @@
       ;; nothing special happens
       [`(call ,_ ,_ ...) tail]
       [`(,binop ,triv1 ,triv2)
-       #:when (binop/ptr? binop)
+       ;  #:when (binop/ptr? binop)
        `(,binop ,(normalize-triv triv1) ,(normalize-triv triv2))]
-      [triv (normalize-triv triv)]))
+      [value (normalize-value value)]))
   (define (normalize-p p)
     (match p
       [`(module ,definitions ...

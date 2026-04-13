@@ -6,12 +6,6 @@
 
 (provide remove-complex-opera*)
 
-(define (fail-if-invalid p)
-  (when (not (exprs-bits-lang-v8? p))
-    (error
-     ("\n is not a semantically valid exprs-bits-lang-v8 program")))
-  p)
-
 ;; (Exprs-bits-lang-v8 p) -> (Values-bits-lang-v8 p)
 ;; Performs the monadic form transformation,
 ;; unnesting all non-trivial operators and operands to binops,
@@ -31,9 +25,9 @@
       [`(true) pred]
       [`(false) pred]
       [`(not ,pred) `(not ,(rco-pred pred))]
-      [`(let ([,alocs ,values] ...) ,pred)
+      [`(let ([,alocs ,values^] ...) ,pred)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `(,aloc ,(rco-value value)))
           ,(rco-pred pred))]
       [`(if ,pred1 ,pred2 ,pred3)
@@ -59,9 +53,9 @@
        `(begin
           ,@(map rco-effect effects)
           ,(rco-tail tail))]
-      [`(let ([,alocs ,values] ...) ,tail)
+      [`(let ([,alocs ,values^] ...) ,tail)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `(,aloc ,(rco-value value)))
           ,(rco-tail tail))]
       [`(if ,pred ,tail1 ,tail2)
@@ -81,9 +75,9 @@
        `(begin
           ,@(map rco-effect effects)
           ,(rco-effect last))]
-      [`(let ([,alocs ,values] ...) ,effect)
+      [`(let ([,alocs ,values^] ...) ,effect)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `[,aloc ,(rco-value value)])
           ,(rco-effect effect))]))
 
@@ -97,9 +91,9 @@
        `(begin
           ,@(map rco-effect effects)
           ,(rco-value value))]
-      [`(let ([,alocs ,values] ...) ,value-body)
+      [`(let ([,alocs ,values^] ...) ,value-body)
        `(let ,(for/list ([aloc alocs]
-                         [value values])
+                         [value values^])
                 `[,aloc ,(rco-value value)])
           ,(rco-value value-body))]
       [`(alloc ,value) (rco-triv value (λ (value^) `(alloc ,value^)))]
@@ -126,7 +120,7 @@
       [(? label?) (k triv)]
       [_ (let ([fresh-aloc (fresh)]) `(let ([,fresh-aloc ,(rco-value triv)]) ,(k fresh-aloc)))]))
 
-  (match (fail-if-invalid p)
+  (match p
     [`(module ,defs ...
         ,tail)
      `(module ,@(map rco-def defs) ,(rco-tail tail)

@@ -174,7 +174,6 @@
       [`(,primop ,values^ ...)
        #:when (primop? primop)
        (specify-primop primop values^)]
-
       [_ (specify-triv value)]))
 
   (define (specify-definition def)

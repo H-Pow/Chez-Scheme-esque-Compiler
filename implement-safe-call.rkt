@@ -31,24 +31,16 @@
   ;  	 	|	 	(lambda (aloc ...) value)
   (define (implement-triv triv)
     (match triv
-      [(? (or/c aloc? fixnum? #t #f 'empty ascii-char-literal?)) triv]
-      ['(void) triv]
-      [`(error ,(? uint8?)) triv]
-      [`(lambda ,aloc* ,val) `(lambda ,aloc* ,(implement-value val))]))
-  ;   effect	 	::=	 	(primop value ...)
-  ;  	 	|	 	(begin effect ... effect)
+      [`(lambda ,aloc* ,val) `(lambda ,aloc* ,(implement-value val))]
+      [_ triv]))
+
   (define (implement-effect fx)
     (match fx
-      [`(,(? primop? pop) ,val* ...) `(,pop ,@(map implement-value val*))]
       [`(begin
           ,fx* ...)
-       (make-begin-effect (map implement-effect fx*))]))
-  ;   value	 	::=	 	triv
-  ;  	 	|	 	(primop value ...)
-  ;  	 	|	 	(call value value ...)
-  ;  	 	|	 	(let ([aloc value] ...) value)
-  ;  	 	|	 	(if value value value)
-  ;  	 	|	 	(begin effect ... value)
+       (make-begin-effect (map implement-effect fx*))]
+      [`(,(? primop? pop) ,val* ...) `(,pop ,@(map implement-value val*))]))
+
   (define (implement-value value)
     (match value
       [`(begin
@@ -72,7 +64,7 @@
                       BAD-PROC-ERROR)))]
       [`(,(? primop? pop) ,val* ...) `(,pop ,@(map implement-value val*))]
       [_ (implement-triv value)]))
-  ;  p	 	::=	 	(module (define aloc (lambda (aloc ...) value)) ... value)
+
   (define (implement-def def)
     (match def
       [`(define ,aloc* ,value) `(define ,aloc* ,(implement-value value))]))
